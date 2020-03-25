@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SkiaSharp" Version="1.68.1.1" />
+    <PackageReference Include="SkiaSharp.HarfBuzz" Version="1.68.1.1" />
+    <PackageReference Include="SkiaSharp.TextBlocks" Version="1.0.2-alpha" />
+  </ItemGroup>
+
+</Project>
