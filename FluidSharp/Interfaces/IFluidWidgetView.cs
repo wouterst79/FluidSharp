@@ -8,15 +8,13 @@ using System.Text;
 namespace FluidSharp
 {
 
-    public interface IFluidWidgetView
+    public interface IFluidWidgetView : IWidgetSource
     {
 
-        bool AutoSizeHeight { get;  }
+        bool AutoSizeHeight { get; }
         void SetHeight(float Height);
 
         INativeViewManager GetNativeViewManager();
-
-        Widget MakeWidget(VisualState visualState);
 
     }
 
