@@ -30,14 +30,32 @@ namespace FluidSharp.Views.UWP
         public FluidWidgetViewImplementation Implementation;
         public NativeViewManager NativeViewManager;
 
+        /// <summary>
+        /// Set AutoSizeHeight to true if the view should be sized by the (painted) height of the widgets.
+        /// The default is false.
+        /// </summary>
+        public bool AutoSizeHeight { get; set; }
+        private float LastPaintWidth = -1;
+        private float LastHeightRequest = -1;
+
+
         public FluidWidgetView()
         {
+
             var device = new Device();
+
+#if __FORMS__
+            device.FlowDirection = Xamarin.Forms.Device.FlowDirection == Xamarin.Forms.FlowDirection.RightToLeft ? SkiaSharp.TextBlocks.Enum.FlowDirection.RightToLeft : SkiaSharp.TextBlocks.Enum.FlowDirection.LeftToRight;
+#endif
+
             NativeViewManager = new NativeViewManager(this);
             Implementation = new FluidWidgetViewImplementation(this, this, device);
         }
 
-        public bool AutoSizeHeight { get; set; }
+        protected FluidWidgetView(bool CreatesOwnImplementation)
+        {
+            if (!CreatesOwnImplementation) throw new ArgumentOutOfRangeException(nameof(CreatesOwnImplementation));
+        }
 
         public INativeViewManager GetNativeViewManager() => NativeViewManager;
 
@@ -68,6 +86,7 @@ namespace FluidSharp.Views.UWP
 
             // Apply height
 #if __FORMS__
+            if (this.Height < height - 5 || this.Height > height + 5) InvalidateMeasure();
 #elif __WINDOWSFORMS__
             this.Height = (int)height;
 #elif __ANDROID__
@@ -75,6 +94,46 @@ namespace FluidSharp.Views.UWP
 #elif __UWP__
 #endif
         }
+
+
+#if __FORMS__
+
+        protected override void OnSizeAllocated(double width, double height)
+        {
+            base.OnSizeAllocated(width, height);
+            LastPaintWidth = (float)Width;
+        }
+
+        protected override void InvalidateMeasure()
+        {
+            base.InvalidateMeasure();
+            InvalidatePaint();
+        }
+
+        protected override void OnBindingContextChanged()
+        {
+            base.OnBindingContextChanged();
+            if (BindingContext == null)
+                Implementation.Dispose();
+        }
+
+        protected override Xamarin.Forms.SizeRequest OnMeasure(double widthConstraint, double heightConstraint)
+        {
+
+            if (Width == LastPaintWidth && LastHeightRequest > -1)
+                return new Xamarin.Forms.SizeRequest(new Xamarin.Forms.Size(LastPaintWidth, LastHeightRequest));
+
+            var request = Implementation.Measure(new SKSize((float)widthConstraint, (float)heightConstraint));
+            System.Diagnostics.Debug.WriteLine($"LinkTileView Measured: {request} ({widthConstraint}, {heightConstraint}) ");
+
+            if (float.IsInfinity(request.Width) || float.IsInfinity(request.Height))
+                return base.OnMeasure(widthConstraint, heightConstraint);
+
+            return new Xamarin.Forms.SizeRequest(new Xamarin.Forms.Size(request.Width, request.Height));
+
+        }
+
+#endif
 
 #if __WINDOWSFORMS__
         protected override void Dispose(bool disposing)

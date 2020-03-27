@@ -14,6 +14,8 @@ namespace FluidSharp.Widgets
     public abstract class GestureDetector : Widget
     {
 
+        public object Context;
+
         public bool IsMultiTouch;
         public Func<SKPoint, Task> OnTouchDown;
         public Func<Task> OnWin;
@@ -84,6 +86,7 @@ namespace FluidSharp.Widgets
 
         public GestureDetector(VisualState visualState, object context, Widget child)
         {
+            Context = context;
             Child = child ?? throw new ArgumentNullException(nameof(child));
         }
 

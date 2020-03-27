@@ -54,7 +54,7 @@ namespace FluidSharp.Widgets
             var childrect = new SKRect(rect.Left, rect.Top + top, rect.Right, rect.Top + top + childsize.Height);
             layoutsurface.Paint(ChildTree, childrect);
 
-            layoutsurface.ResetClip();
+            layoutsurface.ResetRectClip();
 
             //layoutsurface.DebugRect(childrect, SKColors.Purple);
 

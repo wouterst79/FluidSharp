@@ -1,4 +1,5 @@
 ﻿using FluidSharp.Interop;
+using FluidSharp.Paint.Images;
 using SkiaSharp.TextBlocks;
 using System;
 using System.Collections.Generic;
@@ -14,11 +15,14 @@ namespace FluidSharp.Layouts
     {
 
         public TextShaper TextShaper;
+        public ImageCache ImageCache;
+
         public INativeViewManager NativeViewManager;
 
-        public MeasureCache(Device device, INativeViewManager nativeViewManager)
+        public MeasureCache(Device device, Action onDataAvailable, INativeViewManager nativeViewManager)
         {
             TextShaper = new TextShaper(true, device.FontSizeScale);
+            ImageCache = new ImageCache(onDataAvailable);
             NativeViewManager = nativeViewManager;
         }
 

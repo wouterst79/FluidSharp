@@ -47,20 +47,20 @@ namespace FluidSharp.Widgets
             Child = child ?? throw new ArgumentNullException(nameof(child));
         }
 
-        public static Align TopNear(Text child) => new Align(HorizontalAlignment.Near, VerticalAlignment.Top, child);
-        public static Align CenterNear(Text child) => new Align(HorizontalAlignment.Near, VerticalAlignment.Center, child);
-        public static Align BaselineNear(Text child) => new Align(HorizontalAlignment.Near, VerticalAlignment.Baseline, child);
-        public static Align BottomNear(Widget child) => new Align(HorizontalAlignment.Near, VerticalAlignment.Bottom, child);
+        public static Align TopNear(Text child, SKSize margins = default) => new Align(HorizontalAlignment.Near, VerticalAlignment.Top, margins, child);
+        public static Align CenterNear(Text child, SKSize margins = default) => new Align(HorizontalAlignment.Near, VerticalAlignment.Center, margins, child);
+        public static Align BaselineNear(Text child, SKSize margins = default) => new Align(HorizontalAlignment.Near, VerticalAlignment.Baseline, margins, child);
+        public static Align BottomNear(Widget child, SKSize margins = default) => new Align(HorizontalAlignment.Near, VerticalAlignment.Bottom, margins, child);
 
-        public static Align TopCenter(Widget child) => new Align(HorizontalAlignment.Center, VerticalAlignment.Top, child);
+        public static Align TopCenter(Widget child, SKSize margins = default) => new Align(HorizontalAlignment.Center, VerticalAlignment.Top, margins, child);
         public static Align Center(Widget child) => new Align(HorizontalAlignment.Center, VerticalAlignment.Center, child);
-        public static Align BaselineCenter(Widget child) => new Align(HorizontalAlignment.Center, VerticalAlignment.Baseline, child);
-        public static Align BottomCenter(Widget child) => new Align(HorizontalAlignment.Center, VerticalAlignment.Bottom, child);
+        public static Align BaselineCenter(Widget child, SKSize margins = default) => new Align(HorizontalAlignment.Center, VerticalAlignment.Baseline, margins, child);
+        public static Align BottomCenter(Widget child, SKSize margins = default) => new Align(HorizontalAlignment.Center, VerticalAlignment.Bottom, margins, child);
 
-        public static Align TopFar(Widget child) => new Align(HorizontalAlignment.Far, VerticalAlignment.Top, child);
-        public static Align CenterFar(Text child) => new Align(HorizontalAlignment.Far, VerticalAlignment.Center, child);
-        public static Align BaselineFar(Text child) => new Align(HorizontalAlignment.Far, VerticalAlignment.Baseline, child);
-        public static Align BottomFar(Widget child) => new Align(HorizontalAlignment.Far, VerticalAlignment.Bottom, child);
+        public static Align TopFar(Widget child, SKSize margins = default) => new Align(HorizontalAlignment.Far, VerticalAlignment.Top, margins, child);
+        public static Align CenterFar(Text child, SKSize margins = default) => new Align(HorizontalAlignment.Far, VerticalAlignment.Center, margins, child);
+        public static Align BaselineFar(Text child, SKSize margins = default) => new Align(HorizontalAlignment.Far, VerticalAlignment.Baseline, margins, child);
+        public static Align BottomFar(Widget child, SKSize margins = default) => new Align(HorizontalAlignment.Far, VerticalAlignment.Bottom, margins, child);
 
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)

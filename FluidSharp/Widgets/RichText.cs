@@ -21,7 +21,8 @@ namespace FluidSharp.Widgets
             if (RichTextBlock != null) return;
             RichTextBlock = new RichTextBlock();
             foreach (var text in Text)
-                RichTextBlock.Spans.Add(text.TextBlock);
+                if (text != null)
+                    RichTextBlock.Spans.Add(text.TextBlock);
         }
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)

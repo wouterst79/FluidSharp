@@ -53,39 +53,41 @@ namespace FluidSharp.Engine
         public void ResetMeasureContext()
         {
             MeasureCache.Dispose();
-            MeasureCache = new MeasureCache(Device, WidgetView.GetNativeViewManager());
+            MeasureCache = new MeasureCache(Device, null, WidgetView.GetNativeViewManager());
             View.InvalidatePaint();
         }
 #endif
 
-        public FluidWidgetViewImplementation(ISkiaView control, IFluidWidgetView widgetControl, Device device)
+        public FluidWidgetViewImplementation(ISkiaView skiaView, IFluidWidgetView widgetView, Device device)
         {
 
             Device = new Device();
 
-            View = control;
-            WidgetView = widgetControl;
+            View = skiaView;
+            WidgetView = widgetView;
             VisualState = new VisualState(async () => View.InvalidatePaint());
 
-            MeasureCache = new MeasureCache(Device, WidgetView.GetNativeViewManager());
+            MeasureCache = new MeasureCache(Device, View.InvalidatePaint, WidgetView.GetNativeViewManager());
 
-            control.PaintViewSurface += Control_PaintControlSurface;
-            control.Touch += Control_Touch;
+            skiaView.PaintViewSurface += View_PaintControlSurface;
+            skiaView.Touch += View_Touch;
+
         }
 
-        public FluidWidgetViewImplementation(ISkiaView control, IFluidWidgetView widgetControl, VisualState visualState, Device device)
+        public FluidWidgetViewImplementation(ISkiaView skiaView, IFluidWidgetView widgetView, VisualState visualState, Device device)
         {
 
             Device = device;
 
-            View = control;
-            WidgetView = widgetControl;
+            View = skiaView;
+            WidgetView = widgetView;
             VisualState = visualState;
 
-            MeasureCache = new MeasureCache(Device, WidgetView.GetNativeViewManager());
+            MeasureCache = new MeasureCache(Device, View.InvalidatePaint, WidgetView.GetNativeViewManager());
 
-            control.PaintViewSurface += Control_PaintControlSurface;
-            control.Touch += Control_Touch;
+            skiaView.PaintViewSurface += View_PaintControlSurface;
+            skiaView.Touch += View_Touch;
+
         }
 
         #region IDisposable
@@ -137,7 +139,7 @@ namespace FluidSharp.Engine
             return controlwidget;
         }
 
-        private void Control_PaintControlSurface(object sender, PaintSurfaceEventArgs e)
+        private void View_PaintControlSurface(object sender, PaintSurfaceEventArgs e)
         {
 
 #if DEBUGPERF
@@ -211,11 +213,11 @@ namespace FluidSharp.Engine
 
         }
 
-        private void Control_Touch(object sender, TouchActionEventArgs e)
+        private void View_Touch(object sender, TouchActionEventArgs e)
         {
 
 #if DEBUG
-            //Debug.WriteLine($"TOUCH: {e.Id}, {e.Type}: d={e.LocationOnDevice}, v={e.LocationInView}, {e.IsInContact}");
+            //Debug.WriteLine($"TOUCH: {e.PointerId}, {e.Type}: d={e.LocationOnDevice}, v={e.LocationInView}, {e.IsInContact}");
 #endif
 
             if (e.IsInContact && GestureArena == null)

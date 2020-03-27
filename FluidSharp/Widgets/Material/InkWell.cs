@@ -15,10 +15,10 @@ namespace FluidSharp.Widgets.Material
         public Widget ChildTree;
         public Animation Animation;
 
-        public InkWell(VisualState visualState, object context, SKColor inkWellColor, Func<Task> onTapped, Widget child)
-            : this(visualState, context, inkWellColor, onTapped, null, child) { }
+        public InkWell(ContainerLayout containerLayout, VisualState visualState, object context, SKColor inkWellColor, Func<Task> onTapped, Widget child)
+            : this(containerLayout, visualState, context, inkWellColor, onTapped, null, child) { }
 
-        public InkWell(VisualState visualState, object context, SKColor inkWellColor, Func<Task> onTapped, Func<Task> onLongTapped, Widget child)
+        public InkWell(ContainerLayout containerLayout, VisualState visualState, object context, SKColor inkWellColor, Func<Task> onTapped, Func<Task> onLongTapped, Widget child)
         {
 
             InkWellColor = inkWellColor;
@@ -35,6 +35,9 @@ namespace FluidSharp.Widgets.Material
             }
 
             ChildTree = GestureDetector.TapDetector(visualState, context, onTapped, onLongTapped, innerwidget);
+
+            if (containerLayout != ContainerLayout.Wrap)
+                ChildTree = new Container(containerLayout, ChildTree);
 
         }
 
@@ -53,7 +56,6 @@ namespace FluidSharp.Widgets.Material
                 var canvas = layoutsurface.Canvas;
                 if (canvas != null)
                 {
-
 
                     var childsize = ChildTree.Measure(layoutsurface.MeasureCache, rect.Size);
                     var childrect = new SKRect(rect.Left, rect.Top, rect.Right, rect.Top + childsize.Height);
@@ -78,7 +80,7 @@ namespace FluidSharp.Widgets.Material
 
                     var result = layoutsurface.Paint(ChildTree, childrect);
 
-                    layoutsurface.ResetClip();
+                    layoutsurface.ResetRectClip();
 
                     return childrect;
 

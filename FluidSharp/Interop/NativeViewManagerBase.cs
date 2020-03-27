@@ -8,6 +8,7 @@ using SkiaSharp;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using FluidSharp.Engine;
 
 namespace FluidSharp.Interop
 {
@@ -50,6 +51,10 @@ namespace FluidSharp.Interop
         public TNativeControlBaseType MakeControlForWidget(NativeViewWidget nativeViewWidget)
         {
             var type = nativeViewWidget.GetType();
+
+            if (!Makes.ContainsKey(type))
+                throw new EngineException($"NativeView not registered for type {type.Name}");
+
             var make = Makes[type];
             var newchild = make(nativeViewWidget);
 

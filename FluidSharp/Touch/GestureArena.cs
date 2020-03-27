@@ -29,11 +29,25 @@ namespace FluidSharp.Touch
 
             InitialPointerId = pointerId;
 
+            hits.Reverse();
+
+            var hastap = false;
             foreach (var hit in hits)
                 if (hit.Widget is GestureDetector gestureDetector)
                 {
-                    DetectorOrder.Add(gestureDetector);
-                    Detectors.TryAdd(gestureDetector, hit);
+                    if (gestureDetector is GestureDetector.TapGestureDetector)
+                    {
+                        // only register the first tap gesture detector in hit test
+                        if (hastap)
+                            gestureDetector = null;
+                        else
+                            hastap = true;
+                    } 
+                    if (gestureDetector != null)
+                    {
+                        DetectorOrder.Add(gestureDetector);
+                        Detectors.TryAdd(gestureDetector, hit);
+                    }
                 }
 
             if (Detectors.Count == 1)
@@ -128,6 +142,7 @@ namespace FluidSharp.Touch
                     }
                     break;
 
+                case TouchActionType.Exited:
                 case TouchActionType.Cancelled:
                     {
 

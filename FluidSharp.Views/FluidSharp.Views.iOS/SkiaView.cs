@@ -31,8 +31,6 @@ namespace FluidSharp.Views.iOS
         public SkiaView()
         {
 
-            this.IgnorePixelScaling = true;
-
             var touchrecognizer = new TouchRecognizer(this);
             GestureRecognizers = new UIGestureRecognizer[] { touchrecognizer };
             touchrecognizer.Touch += Touchrecognizer_Touch;
@@ -42,7 +40,16 @@ namespace FluidSharp.Views.iOS
 
         private void SkiaControl_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
-            PaintViewSurface?.Invoke(this, new PaintSurfaceEventArgs(e.Surface.Canvas, Width, Height, e.Surface, e.Info));
+
+            var canvas = e.Surface.Canvas;
+
+            // Make sure the canvas is drawn using pixel coordinates (but still high res):
+            var factor = (float)Math.Round(e.Info.Width / Width * 4) / 4;
+            var platformzoom = SKMatrix.MakeScale(factor, factor);
+            canvas.Concat(ref platformzoom);
+
+            PaintViewSurface?.Invoke(this, new PaintSurfaceEventArgs(canvas, Width, Height, e.Surface, e.Info));
+
         }
 
         private void Touchrecognizer_Touch(object sender, TouchActionEventArgs e)
@@ -50,6 +57,28 @@ namespace FluidSharp.Views.iOS
             //System.Diagnostics.Debug.WriteLine("touch");
             Touch?.Invoke(this, e);
         }
+
+        //protected override void Dispose(bool disposing)
+        //{
+        //    // detach all events before disposing
+        //    var controller = (ISKCanvasViewController)Element;
+        //    if (controller != null)
+        //    {
+        //        controller.SurfaceInvalidated -= OnSurfaceInvalidated;
+        //        controller.GetCanvasSize -= OnGetCanvasSize;
+        //    }
+
+        //    var control = Control;
+        //    if (control != null)
+        //    {
+        //        control.PaintSurface -= OnPaintSurface;
+        //    }
+
+        //    // detach, regardless of state
+        //    touchHandler.Detach(control);
+
+        //    base.Dispose(disposing);
+        //}
 
 
     }

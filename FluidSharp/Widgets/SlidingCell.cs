@@ -108,7 +108,7 @@ namespace FluidSharp.Widgets
             appearingRect.Bottom = rect.Top + maincontentrect.Height;
             layoutsurface.Paint(AppearingContent, appearingRect);
 
-            layoutsurface.ResetClip();
+            layoutsurface.ResetRectClip();
 
             if (IsAnimating)
                 layoutsurface.SetHasActiveAnimations();

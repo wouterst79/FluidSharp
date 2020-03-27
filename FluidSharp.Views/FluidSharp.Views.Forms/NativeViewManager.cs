@@ -21,7 +21,7 @@ namespace FluidSharp.Views.Forms
             View = view;
         }
 
-        public override IEnumerable<View> GetChildren() => View.Children.Cast<View>();
+        public override IEnumerable<View> GetChildren() => View.GetViews();
 
         public override SKSize GetControlSize(View control) => new SKSize((float)control.Bounds.Width, (float)control.Bounds.Height);
 

@@ -21,7 +21,7 @@ namespace FluidSharp.Widgets.CrossPlatform
             if (child == null) return null;
 
             if (platformStyle == PlatformStyle.Material)
-                return new InkWell(visualState, context, platformStyle.InkWellColor, onTapped, child);
+                return new InkWell(ContainerLayout.FillHorizontal, visualState, context, platformStyle.InkWellColor, onTapped, child);
 
             if (platformStyle == PlatformStyle.Cupertino)
                 return FlatButton.FillHorizontal(visualState, context, platformStyle.FlatButtonSelectedBackgroundColor, onTapped, child);

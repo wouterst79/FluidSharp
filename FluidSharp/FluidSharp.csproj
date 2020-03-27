@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Wouter Steenbergen</Authors>
+    <Company>My Daily Bits LLC</Company>
+    <Description>FluidSharp is a high performance mobile first multi-platform UI layout framework based on Skia.</Description>
+    <Copyright>2020 Wouter Steenbergen</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Version>1.0.1-alpha</Version>
   </PropertyGroup>
 
   <ItemGroup>

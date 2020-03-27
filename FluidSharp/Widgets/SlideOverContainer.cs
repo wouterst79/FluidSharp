@@ -129,11 +129,11 @@ namespace FluidSharp.Widgets
 
             layoutsurface.ClipRect(mainContentClipRect);
             layoutsurface.Paint(MainContent, mainContentDrawRect);
-            layoutsurface.ResetClip();
+            layoutsurface.ResetRectClip();
 
             layoutsurface.ClipRect(appearingClipRect);
             layoutsurface.Paint(AppearingContent, appearingDrawRect);
-            layoutsurface.ResetClip();
+            layoutsurface.ResetRectClip();
 
             if (IsAnimating)
                 layoutsurface.SetHasActiveAnimations();

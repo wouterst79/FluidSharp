@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FluidSharp.Paint
 {
-   public class FlutteryStyle
+   public class FluidSharpStyle
     {
         public static SKColor TapStartBackgroundColor = SKColors.LightGray.WithAlpha(128);
     }

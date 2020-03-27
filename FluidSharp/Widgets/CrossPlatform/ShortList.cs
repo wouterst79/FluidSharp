@@ -11,13 +11,13 @@ namespace FluidSharp.Widgets.CrossPlatform
     public class ShortList
     {
 
-        public static Widget Make<T>(PlatformStyle platformStyle, VisualState visualState, IEnumerable<T> items, Func<T, bool> isItemSelected, SKColor selectedColor, Func<T, Task> onItemSelected, Func<T,Widget> makeItemWidget)
+        public static Widget Make<T>(PlatformStyle platformStyle, VisualState visualState, IEnumerable<T> items, Func<T, bool> isItemSelected, SKColor selectedColor, Func<T, Task> onItemSelected, Func<T, Widget> makeItemWidget)
         {
             return new Scrollable(visualState, items, platformStyle.DefaultOverscrollBehavior,
                 new Column()
                 {
                     Children = items.Select(
-                        item => MakeSelectableButton(platformStyle, visualState, item, 
+                        item => MakeSelectableButton(platformStyle, visualState, item,
                                         makeItemWidget(item), isItemSelected(item), selectedColor, () => onItemSelected(item))
                     ).ToList()
                 }
@@ -27,30 +27,21 @@ namespace FluidSharp.Widgets.CrossPlatform
         private static Widget MakeSelectableButton(PlatformStyle platformStyle, VisualState visualState, object context, Widget contents, bool ischecked, SKColor selectedcolor, Func<Task> onTapped)
         {
 
-            Widget innerwidget = Align.Center(contents);
+            var istouchtarget = visualState.TouchTarget.IsContext<TapContext>(context, false);
+            var hasbackground = istouchtarget || ischecked;
+            var backgroundcolor = hasbackground ?
+                                  (istouchtarget ? platformStyle.FlatButtonSelectedBackgroundColor : selectedcolor)
+                                  : default;
 
-            if (visualState.TouchTarget.IsContext<TapContext>(context, false))
+            var innerwidget = new Container(ContainerLayout.FillHorizontal)
             {
-                innerwidget = new Container(ContainerLayout.Fill)
+                MinimumSize = new SKSize(0, 60),
+                Children =
                 {
-                    Children =
-                    {
-                        Rectangle.Fill(platformStyle.FlatButtonSelectedBackgroundColor),
-                        innerwidget
-                    }
-                };
-            }
-            else if (ischecked)
-            {
-                innerwidget = new Container(ContainerLayout.Fill)
-                {
-                    Children =
-                    {
-                        Rectangle.Fill(selectedcolor),
-                        innerwidget
-                    }
-                };
-            }
+                    hasbackground ? Rectangle.Fill(backgroundcolor) : null,
+                    Align.Center(contents)
+                }
+            };
 
             return GestureDetector.TapDetector(visualState, context, onTapped, null, innerwidget);
         }

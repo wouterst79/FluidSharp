@@ -11,6 +11,11 @@ namespace FluidSharp.Widgets.Native
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {
+            if (measureCache.NativeViewManager == null)
+            {
+                Console.WriteLine($"Warning: NativeViewManager is null measuring NativeViewWidget {this.GetType().Name}");
+                return new SKSize();
+            }
             var childsize = measureCache.NativeViewManager.Measure(this, boundaries);
             return childsize;
         }
@@ -19,7 +24,14 @@ namespace FluidSharp.Widgets.Native
         {
             if (layoutsurface.Canvas != null)
             {
-                layoutsurface.MeasureCache.NativeViewManager.UpdateNativeView(this, rect);
+                if (layoutsurface.MeasureCache.NativeViewManager == null)
+                {
+                    Console.WriteLine($"Warning: NativeViewManager is null updating NativeViewWidget {this.GetType().Name}");
+                }
+                else
+                {
+                    layoutsurface.MeasureCache.NativeViewManager.UpdateNativeView(this, rect);
+                }
             }
             return rect;
         }

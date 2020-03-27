@@ -67,7 +67,7 @@ namespace FluidSharp.Widgets
             layoutsurface.Paint(Child, childrect);
 
             // reset clip
-            layoutsurface.ResetClip();
+            layoutsurface.ResetRectClip();
 
             return cliprect;
 

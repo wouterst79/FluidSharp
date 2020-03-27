@@ -1,6 +1,7 @@
 ﻿#if DEBUG
 //#define DEBUGCONTAINER
 #endif
+using FluidSharp.Engine;
 using FluidSharp.Layouts;
 using FluidSharp.State;
 using FluidSharp.Widgets;
@@ -33,17 +34,24 @@ namespace FluidSharp
         public virtual SKRect Paint(Widget widget, SKRect rect)
         {
 
-            var result = widget.PaintInternal(this, rect);
+            try
+            {
+                var result = widget.PaintInternal(this, rect);
 
 #if DEBUGCONTAINER
             DebugRect(rect, SKColors.Gray.WithAlpha(64));
 #endif
 
-            if (widget is Animation animation)
-                if (!animation.Completed)
-                    HasActiveAnimations = true;
+                if (widget is Animation animation)
+                    if (!animation.Completed)
+                        HasActiveAnimations = true;
 
-            return result;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new PaintException($"Unable to paint {widget}", ex);
+            }
         }
 
         public virtual void ClipRect(SKRect cliprect)
@@ -53,7 +61,20 @@ namespace FluidSharp
             Canvas.ClipRect(cliprect);
         }
 
-        public virtual void ResetClip()
+        public virtual void ResetRectClip()
+        {
+            if (Canvas == null) return;
+            Canvas.Restore();
+        }
+
+        public virtual void ClipPath(SKPath clipPath)
+        {
+            if (Canvas == null) return;
+            Canvas.Save();
+            Canvas.ClipPath(clipPath);
+        }
+
+        public virtual void ResetPathClip()
         {
             if (Canvas == null) return;
             Canvas.Restore();

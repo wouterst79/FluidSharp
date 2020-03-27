@@ -20,7 +20,7 @@ namespace FluidSharp.Widgets.CrossPlatform
             if (child == null) return null;
 
             child = HeightTransition.Make(created, deleted, Animation.DefaultAnimationDuration, child);
- 
+
             // deleting completed
             if (child == null) return null;
 
@@ -33,7 +33,7 @@ namespace FluidSharp.Widgets.CrossPlatform
                 );
 
             // others: inkwell
-            return new InkWell(visualState, context, platformStyle.InkWellColor, onTapped, onDelete, child);
+            return new InkWell(ContainerLayout.ExpandHorizontal, visualState, context, platformStyle.InkWellColor, onTapped, onDelete, child);
 
         }
 
@@ -74,9 +74,7 @@ namespace FluidSharp.Widgets.CrossPlatform
                     new LayoutCell(0,0, Rectangle.Fill(SKColors.Red)),
                     new LayoutCell(0,0,
                             Button.Make(platformStyle, visualState, new ChildContext(context, "delete"), onDelete,
-                                Container.Make(ContainerLayout.Expand, default,
-                                    Align.Center(new Text(new Font(14), SKColors.White, deletetext))
-                                )
+                                Align.Center(new Text(new Font(14), SKColors.White, deletetext))
                             )
                         ),
                 }

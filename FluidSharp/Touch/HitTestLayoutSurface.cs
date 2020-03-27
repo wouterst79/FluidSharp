@@ -1,5 +1,5 @@
 ﻿#if DEBUG
-//#define DEBUGHITTEST
+#define DEBUGHITTEST
 #endif
 using FluidSharp.Layouts;
 using FluidSharp.State;
@@ -19,7 +19,8 @@ namespace FluidSharp.Touch
 
         public List<HitTestHit> Hits = new List<HitTestHit>();
 
-        private Stack<SKRect> ClipRectStack = new Stack<SKRect>();
+        private Stack<SKRect> ClipRectStack;
+        private Stack<SKPath> ClipPathStack;
 
         public HitTestLayoutSurface(Device device, MeasureCache measureCache, SKPoint location, VisualState visualState) : base(device, measureCache, null, visualState)
         {
@@ -29,13 +30,27 @@ namespace FluidSharp.Touch
         public override void ClipRect(SKRect cliprect)
         {
             base.ClipRect(cliprect);
+            if (ClipRectStack == null) ClipRectStack = new Stack<SKRect>();
             ClipRectStack.Push(cliprect);
         }
 
-        public override void ResetClip()
+        public override void ResetRectClip()
         {
-            base.ResetClip();
+            base.ResetRectClip();
             ClipRectStack.Pop();
+        }
+
+        public override void ClipPath(SKPath clipPath)
+        {
+            base.ClipPath(clipPath);
+            if (ClipPathStack == null) ClipPathStack = new Stack<SKPath>();
+            ClipPathStack.Push(clipPath);
+        }
+
+        public override void ResetPathClip()
+        {
+            base.ResetPathClip();
+            ClipPathStack.Pop().Dispose();
         }
 
         public override SKRect Paint(Widget widget, SKRect rect)
@@ -51,6 +66,8 @@ namespace FluidSharp.Touch
                 Scale = new SKPoint(Scale.X * scale.Factor.X, Scale.Y * scale.Factor.Y);
             }
 
+            var hitlocation = Hits.Count;
+
             // paint the widget tree
             var painted = base.Paint(widget, rect);
 
@@ -59,10 +76,19 @@ namespace FluidSharp.Touch
             {
 
                 var inclip = true;
-                if (ClipRectStack.Count > 0)
+                if (ClipRectStack != null)
                 {
                     foreach (var cliprect in ClipRectStack)
                         if (!cliprect.Contains(Location))
+                        {
+                            inclip = false;
+                            break;
+                        }
+                }
+                if (ClipPathStack != null && inclip)
+                {
+                    foreach (var clippath in ClipPathStack)
+                        if (!clippath.Contains(Location.X, Location.Y))
                         {
                             inclip = false;
                             break;
@@ -74,12 +100,14 @@ namespace FluidSharp.Touch
 
 #if DEBUGHITTEST
                     if (widget != null)
-//                        if (widget is GestureDetector)
-                            System.Diagnostics.Debug.WriteLine($"hit test hit: {widget.GetType().Name}: {rect} ({Location})");
+                        if (widget is GestureDetector gd)
+                            System.Diagnostics.Debug.WriteLine($"hit test hit ({hitlocation} / {Hits.Count}): {widget.GetType().Name}: {rect} ({Location}) {{{gd.Context}}}");
+//                        else
+  //                          System.Diagnostics.Debug.WriteLine($"hit test hit: {widget.GetType().Name}: {rect} ({Location})");
 #endif
 
                     var locationInWidget = new SKPoint(Location.X - rect.Left, Location.Y - rect.Top);
-                    Hits.Add(new HitTestHit(Device, widget, locationInWidget, rect, Scale));
+                    Hits.Insert(hitlocation, new HitTestHit(Device, widget, locationInWidget, rect, Scale));
 
                 }
             }

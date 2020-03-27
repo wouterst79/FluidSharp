@@ -4,6 +4,7 @@ using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Xamarin.Forms;
 
@@ -17,6 +18,8 @@ namespace FluidSharp.Views.Forms
 
         float ISkiaView.Width => (float)Width;
         float ISkiaView.Height => (float)Height;
+
+        float ScaleFactor;
 
         public event EventHandler<PaintSurfaceEventArgs> PaintViewSurface;
         public event EventHandler<TouchActionEventArgs> Touch;
@@ -36,20 +39,38 @@ namespace FluidSharp.Views.Forms
             canvasView.Touch += CanvasView_Touch;
 
             canvasView.EnableTouchEvents = true;
-            canvasView.IgnorePixelScaling = true;
 
             Children.Add(canvasView);
 
         }
 
+        public IEnumerable<View> GetViews() => Children.Where(c => c != canvasView);
+
         private void CanvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
-            PaintViewSurface?.Invoke(this, new PaintSurfaceEventArgs(e.Surface.Canvas, (float)Width, (float)Height, e.Surface, e.Info));
+            var canvas = e.Surface.Canvas;
+
+            // Make sure the canvas is drawn using pixel coordinates (but still high res):
+            var factor = (float)Math.Round(e.Info.Width / Width * 4) / 4;
+            var platformzoom = SKMatrix.MakeScale(factor, factor);
+            canvas.Concat(ref platformzoom);
+
+            // use the scale factor for xamarin form touch event transformation as well
+            ScaleFactor = factor;
+
+            PaintViewSurface?.Invoke(this, new PaintSurfaceEventArgs(canvas, (float)Width, (float)Height, e.Surface, e.Info));
         }
 
         private void CanvasView_Touch(object sender, SKTouchEventArgs e)
         {
-            Touch?.Invoke(this, new TouchActionEventArgs(e.Id, (TouchActionType)e.ActionType, e.Location, e.Location, e.InContact));
+
+            // request additional events
+            e.Handled = true;
+
+            // TODO: Location On Device for Xamarin Forms (if this turns out to be needed)
+            var locationondevice = new SKPoint(e.Location.X / ScaleFactor, e.Location.Y / ScaleFactor);
+            var locationinview = new SKPoint(e.Location.X / ScaleFactor, e.Location.Y / ScaleFactor);
+            Touch?.Invoke(this, new TouchActionEventArgs(e.Id, (TouchActionType)e.ActionType, locationondevice, locationinview, e.InContact));
         }
 
         protected override void OnSizeAllocated(double width, double height)

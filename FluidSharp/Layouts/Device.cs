@@ -17,12 +17,6 @@ namespace FluidSharp
 
         public bool PixelRounding = false;
 
-        private ImagePainter imagePainter;
-        public ImagePainter ImagePainter => imagePainter ?? (imagePainter = new ImagePainter(this));
-
-        public static IImageSource SharedImageSource;
-        public IImageSource ImageSource => SharedImageSource;
-
     }
 
 }
