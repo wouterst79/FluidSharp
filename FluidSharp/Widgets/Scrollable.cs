@@ -1,5 +1,6 @@
 ﻿using FluidSharp.Layouts;
 using FluidSharp.State;
+using FluidSharp.Widgets.CrossPlatform;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,10 @@ namespace FluidSharp.Widgets
         public ScrollState ScrollState;
         public OverscrollBehavior Overscroll;
         public Widget ChildTree;
+
+        public Scrollable(VisualState visualState, object context, PlatformStyle platformStyle, Widget child) :
+            this(visualState, context, platformStyle.DefaultOverscrollBehavior, child)
+        { }
 
         public Scrollable(VisualState visualState, object context, OverscrollBehavior overscrollBehavior, Widget child)
         {

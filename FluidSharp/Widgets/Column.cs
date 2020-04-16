@@ -73,7 +73,6 @@ namespace FluidSharp.Widgets
             var r = rect.Right;
             var b = rect.Bottom;
 
-            var any = false;
             if (Children != null)
                 foreach (var child in Children)
                     if (child != null)
@@ -84,17 +83,17 @@ namespace FluidSharp.Widgets
 
                         y += painted.Height;
 
-                        if (Separator != null && child != lastchild)
+                        if (child != lastchild)
                         {
-                            layoutsurface.Paint(Separator, new SKRect(l, y, r, y + Spacing));
+                            if (Separator != null && child != lastchild)
+                            {
+                                layoutsurface.Paint(Separator, new SKRect(l, y, r, y + Spacing));
+                            }
                             y += Spacing;
                         }
 
-                        any = true;
                     }
 
-            if (any)
-                y -= Spacing;
 
 #if DEBUGCONTAINER
             if (Debug)

@@ -24,6 +24,10 @@ namespace FluidSharp.Views.Forms
         public event EventHandler<PaintSurfaceEventArgs> PaintViewSurface;
         public event EventHandler<TouchActionEventArgs> Touch;
 
+        public virtual void OnPaintException(Exception exception) => throw exception;
+        public virtual void OnTouchException(Exception exception) => throw exception;
+
+
         public void InvalidatePaint()
         {
             Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
@@ -48,29 +52,50 @@ namespace FluidSharp.Views.Forms
 
         private void CanvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
-            var canvas = e.Surface.Canvas;
 
-            // Make sure the canvas is drawn using pixel coordinates (but still high res):
-            var factor = (float)Math.Round(e.Info.Width / Width * 4) / 4;
-            var platformzoom = SKMatrix.MakeScale(factor, factor);
-            canvas.Concat(ref platformzoom);
+            try
+            {
 
-            // use the scale factor for xamarin form touch event transformation as well
-            ScaleFactor = factor;
+                var canvas = e.Surface.Canvas;
 
-            PaintViewSurface?.Invoke(this, new PaintSurfaceEventArgs(canvas, (float)Width, (float)Height, e.Surface, e.Info));
+                // Make sure the canvas is drawn using pixel coordinates (but still high res):
+                var factor = (float)(e.Info.Width / Width);
+                var platformzoom = SKMatrix.MakeScale(factor, factor);
+                canvas.Concat(ref platformzoom);
+
+                // use the scale factor for xamarin form touch event transformation as well
+                ScaleFactor = factor;
+
+                PaintViewSurface?.Invoke(this, new PaintSurfaceEventArgs(canvas, (float)Width, (float)Height, e.Surface, e.Info));
+
+            }
+            catch (Exception ex)
+            {
+                OnPaintException(ex);
+            }
         }
 
         private void CanvasView_Touch(object sender, SKTouchEventArgs e)
         {
 
-            // request additional events
-            e.Handled = true;
+            try
+            {
 
-            // TODO: Location On Device for Xamarin Forms (if this turns out to be needed)
-            var locationondevice = new SKPoint(e.Location.X / ScaleFactor, e.Location.Y / ScaleFactor);
-            var locationinview = new SKPoint(e.Location.X / ScaleFactor, e.Location.Y / ScaleFactor);
-            Touch?.Invoke(this, new TouchActionEventArgs(e.Id, (TouchActionType)e.ActionType, locationondevice, locationinview, e.InContact));
+                //// request additional events
+                if (e.ActionType != SKTouchAction.Exited && e.ActionType != SKTouchAction.Cancelled && e.ActionType != SKTouchAction.Released)
+                    e.Handled = true;
+
+                // TODO: Location On Device for Xamarin Forms (if this turns out to be needed)
+                var locationondevice = new SKPoint(e.Location.X / ScaleFactor, e.Location.Y / ScaleFactor);
+                var locationinview = new SKPoint(e.Location.X / ScaleFactor, e.Location.Y / ScaleFactor);
+                Touch?.Invoke(this, new TouchActionEventArgs(e.Id, (TouchActionType)e.ActionType, locationondevice, locationinview, e.InContact));
+
+            }
+            catch (Exception ex)
+            {
+                OnTouchException(ex);
+            }
+
         }
 
         protected override void OnSizeAllocated(double width, double height)

@@ -16,6 +16,14 @@ namespace FluidSharp.Widgets
 
         private RichTextBlock RichTextBlock;
 
+        public float GetMarginY()
+        {
+            var max = 0f;
+            foreach (var text in Text)
+                if (text != null && text.MarginY > max) max = text.MarginY;
+            return max;
+        }
+
         private void LoadRichTextBlock()
         {
             if (RichTextBlock != null) return;
@@ -34,7 +42,17 @@ namespace FluidSharp.Widgets
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
             LoadRichTextBlock();
-            return RichTextBlock.Paint(layoutsurface.Canvas, rect, layoutsurface.Device.FlowDirection, layoutsurface.MeasureCache.TextShaper);
+            var result = RichTextBlock.Paint(layoutsurface.Canvas, rect, layoutsurface.Device.FlowDirection, layoutsurface.MeasureCache.TextShaper);
+
+//#if DEBUG
+//            var measured = Measure(layoutsurface.MeasureCache, rect.Size);
+//            if (result.Height > measured.Height)
+//            {
+//                System.Diagnostics.Debug.WriteLine($"warning: Paint resulted in larger rect {result} than measured rect {measured}");
+//            }
+//#endif
+
+            return result;
         }
 
     }

@@ -3,7 +3,6 @@ using SkiaSharp;
 using SkiaSharp.TextBlocks.Enum;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace FluidSharp.Widgets
@@ -70,7 +69,7 @@ namespace FluidSharp.Widgets
 
             if (Justify)
                 return new SKRect(rect.Left, rect.Top, rect.Left + width, y);
-            else if (layoutsurface.Device.FlowDirection == FlowDirection.LeftToRight)
+            else if (layoutsurface == null || layoutsurface.Device.FlowDirection == FlowDirection.LeftToRight)
                 return new SKRect(rect.Left, rect.Top, rect.Left + maxlinewidth, y);
             else
                 return new SKRect(rect.Right - maxlinewidth, rect.Top, rect.Right, y);
@@ -82,7 +81,11 @@ namespace FluidSharp.Widgets
 
                 if (Justify)
                 {
-                    var totalreqwidth = line.Sum(l => l.size.Width);
+                    var totalreqwidth = 0f;
+
+                    for (int i = 0; i < line.Count; i++)
+                        totalreqwidth += line[i].size.Width;
+
                     //if (double.IsInfinity(width)) width = totalreqwidth + (line.Count - 1) * ButtonMargin;
                     widthfactor = (width - (line.Count - 1) * Spacing) / totalreqwidth;
 
@@ -95,7 +98,12 @@ namespace FluidSharp.Widgets
                     }
                 }
 
-                var h = line.Max(l => l.size.Height);
+                var h = 0f;
+                for (int i = 0; i < line.Count; i++)
+                {
+                    var height = line[i].size.Height;
+                    if (h < height) h = height;
+                }
 
                 if (layoutsurface != null)
                 {

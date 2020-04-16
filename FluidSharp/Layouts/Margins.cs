@@ -1,4 +1,5 @@
-﻿using SkiaSharp;
+﻿using FluidSharp.Widgets;
+using SkiaSharp;
 using SkiaSharp.TextBlocks.Enum;
 using System;
 using System.Collections.Generic;
@@ -41,13 +42,23 @@ namespace FluidSharp.Layouts
             Bottom = y;
         }
 
-        public SKRect Apply(SKRect original, FlowDirection flowDirection)
+        public SKRect Shrink(SKRect original, FlowDirection flowDirection)
         {
             if (flowDirection == FlowDirection.LeftToRight)
                 return new SKRect(original.Left + Near, original.Top + Top, original.Right - Far, original.Bottom - Bottom);
             else
                 return new SKRect(original.Left + Far, original.Top + Top, original.Right - Near, original.Bottom - Bottom);
         }
+
+        public SKRect Grow(SKRect original, FlowDirection flowDirection)
+        {
+            if (flowDirection == FlowDirection.LeftToRight)
+                return new SKRect(original.Left - Near, original.Top - Top, original.Right + Far, original.Bottom + Bottom);
+            else
+                return new SKRect(original.Left - Far, original.Top - Top, original.Right + Near, original.Bottom + Bottom);
+        }
+
+        public Widget ExpandHorizontal(Widget widget) => new Container(ContainerLayout.ExpandHorizontal, this, widget);
 
     }
 }

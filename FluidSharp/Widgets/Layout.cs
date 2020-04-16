@@ -99,6 +99,10 @@ namespace FluidSharp.Widgets
             float h;
             if (rows.fit)
             {
+
+                available.Width -= (Columns.Count - 1) * ColumnSpacing;
+                available.Height -= (Rows.Count - 1) * RowSpacing;
+
                 var columnsizes = GetSizes(measureCache, Columns, available.Width, null);
                 var rowsizes = GetSizes(measureCache, Rows, available.Height, columnsizes);
                 h = Margin.TotalY;

@@ -30,8 +30,10 @@ namespace FluidSharp.Engine
         private Device Device;
         private MeasureCache MeasureCache;
 
-        private VisualState VisualState;
+        public VisualState VisualState;
         private GestureArena GestureArena;
+
+        public bool IsTransparent;
 
         private bool animationRunning;
         private bool painting;
@@ -152,9 +154,17 @@ namespace FluidSharp.Engine
             MeasureCache.NativeViewManager?.PaintStarted();
 
             var canvas = e.Canvas;
-            canvas.Clear(SKColors.White);
+            canvas.Clear(IsTransparent ? SKColors.Transparent : SKColors.White);
 
-            var widget = MakeWidget();
+            Widget widget;
+            try
+            {
+                widget = MakeWidget();
+            }
+            catch (Exception ex)
+            {
+                throw new MakeWidgetException("unable to make widget", ex);
+            }
 
 #if DEBUGPERF
             Debug.WriteLine($"widget assembled in {stopwatch.ElapsedMilliseconds}ms");
@@ -224,6 +234,9 @@ namespace FluidSharp.Engine
             {
 
                 var widget = MakeWidget();
+
+                if (widget == null)
+                    return;
 
                 var width = View.Width;
                 var height = View.Height;

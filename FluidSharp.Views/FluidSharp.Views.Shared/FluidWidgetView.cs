@@ -30,6 +30,8 @@ namespace FluidSharp.Views.UWP
         public FluidWidgetViewImplementation Implementation;
         public NativeViewManager NativeViewManager;
 
+        public VisualState VisualState => Implementation.VisualState;
+
         /// <summary>
         /// Set AutoSizeHeight to true if the view should be sized by the (painted) height of the widgets.
         /// The default is false.

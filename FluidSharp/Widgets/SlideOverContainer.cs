@@ -49,14 +49,14 @@ namespace FluidSharp.Widgets
             var (openratio, isanimating) = SlideOverState.GetRatio(visualState, context);
 
             if (openratio == 0)
-                return makechild();
+                return makechild == null ? null : makechild();
 
             if (openratio == 1 && maxopen >= 1)
                 return makeappearing();
 
 
 
-            var container = new SlideOverContainer(makechild(), makeappearing(), direction, pushMainContent, maxopen, openratio, isanimating);
+            var container = new SlideOverContainer(makechild == null ? null : makechild(), makeappearing(), direction, pushMainContent, maxopen, openratio, isanimating);
 
             if (direction == SlideOverDirection.NearToFar || direction == SlideOverDirection.FarToNear)
                 return new GestureDetector.HorizontalPanGestureDetector(visualState, context, false, null, velocity => SlideOverState.GetState(visualState).EndPan(velocity, visualState), container);
@@ -67,6 +67,7 @@ namespace FluidSharp.Widgets
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {
+            if (MainContent == null) return new SKSize();
             return MainContent.Measure(measureCache, boundaries);
         }
 
@@ -127,9 +128,12 @@ namespace FluidSharp.Widgets
 
             }
 
-            layoutsurface.ClipRect(mainContentClipRect);
-            layoutsurface.Paint(MainContent, mainContentDrawRect);
-            layoutsurface.ResetRectClip();
+            if (MainContent != null)
+            {
+                layoutsurface.ClipRect(mainContentClipRect);
+                layoutsurface.Paint(MainContent, mainContentDrawRect);
+                layoutsurface.ResetRectClip();
+            }
 
             layoutsurface.ClipRect(appearingClipRect);
             layoutsurface.Paint(AppearingContent, appearingDrawRect);

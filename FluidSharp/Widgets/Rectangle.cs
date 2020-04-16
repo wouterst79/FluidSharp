@@ -56,7 +56,7 @@ namespace FluidSharp.Widgets
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
 
-            var withmargin = Margin.Apply(rect, layoutsurface.Device.FlowDirection);
+            var withmargin = Margin.Shrink(rect, layoutsurface.Device.FlowDirection);
 
             // tight is default;
             var drawrect = new SKRect();
@@ -103,7 +103,7 @@ namespace FluidSharp.Widgets
 
             }
 
-            return drawrect;
+            return Margin.Grow(drawrect, layoutsurface.Device.FlowDirection);
         }
 
     }

@@ -1,7 +1,10 @@
-﻿using FluidSharp.Layouts;
+﻿using FluidSharp.Engine;
+using FluidSharp.Layouts;
 using SkiaSharp;
 using SkiaSharp.TextBlocks;
 using SkiaSharp.TextBlocks.Enum;
+using System;
+using System.Collections.Generic;
 
 namespace FluidSharp.Widgets
 {
@@ -19,7 +22,7 @@ namespace FluidSharp.Widgets
             TextBlock = new TextBlock(font, color, text);
         }
 
-        public Text(Font font, SKColor color, string text, LineBreakMode lineBreakMode) 
+        public Text(Font font, SKColor color, string text, LineBreakMode lineBreakMode)
         {
             TextBlock = new TextBlock(font, color, text, lineBreakMode);
         }
@@ -27,12 +30,26 @@ namespace FluidSharp.Widgets
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {
-            return TextBlock.Measure(boundaries.Width, measureCache.TextShaper);
+            try
+            {
+                return TextBlock.Measure(boundaries.Width, measureCache.TextShaper);
+            }
+            catch (Exception ex)
+            {
+                throw new MeasureException($"unable to measure text: {TextBlock.Text}", ex, new Dictionary<string, string>() { { "Text", TextBlock.Text } });
+            }
         }
 
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
-            return layoutsurface.Canvas.DrawTextBlock(TextBlock, rect, layoutsurface.MeasureCache.TextShaper, layoutsurface.Device.FlowDirection);
+            try
+            {
+                return layoutsurface.Canvas.DrawTextBlock(TextBlock, rect, layoutsurface.MeasureCache.TextShaper, layoutsurface.Device.FlowDirection);
+            }
+            catch (Exception ex)
+            {
+                throw new PaintException($"unable to paint text: {TextBlock.Text}", ex, new Dictionary<string, string>() { { "Text", TextBlock.Text } });
+            }
         }
 
 

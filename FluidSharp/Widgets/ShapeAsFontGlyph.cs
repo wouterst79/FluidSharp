@@ -51,7 +51,7 @@ namespace FluidSharp.Widgets
         private (float width, SKFontMetrics fontmetrics) GetMetrics(MeasureCache measureCache)
         {
             var shape = measureCache.TextShaper.GetGlyphSpan(Font, "a");
-            return (shape.Measure(0, 0).width, shape.Paint.FontMetrics);
+            return (shape.Measure(0, 0).width, shape.Paints[0].FontMetrics);
         }
 
 

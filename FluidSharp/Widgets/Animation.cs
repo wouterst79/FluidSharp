@@ -24,8 +24,8 @@ namespace FluidSharp.Widgets
         {
         }
 
-        public override SKSize Measure(MeasureCache measureCache, SKSize boundaries) => Child.Measure(measureCache, boundaries);
-        public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect) => layoutsurface.Paint(Child, rect);
+        public override SKSize Measure(MeasureCache measureCache, SKSize boundaries) => Child?.Measure(measureCache, boundaries) ?? new SKSize();
+        public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect) => Child == null ? rect : layoutsurface.Paint(Child, rect);
 
         public abstract float GetValue();
 

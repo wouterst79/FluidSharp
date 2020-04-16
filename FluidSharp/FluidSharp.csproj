@@ -14,7 +14,10 @@
   <ItemGroup>
     <PackageReference Include="SkiaSharp" Version="1.68.1.1" />
     <PackageReference Include="SkiaSharp.HarfBuzz" Version="1.68.1.1" />
-    <PackageReference Include="SkiaSharp.TextBlocks" Version="1.0.2-alpha" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\SkiaSharp.TextBlocks\source\SkiaSharp.TextBlocks\SkiaSharp.TextBlocks.csproj" />
   </ItemGroup>
 
 </Project>

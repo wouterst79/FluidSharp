@@ -23,7 +23,7 @@ namespace FluidSharp.Paint.Images
         public SKImage GetImage(ImageSource source)
         {
 
-            if (source?.Name == null) 
+            if (source?.Name == null)
                 return null;
 
             // try the cache first
@@ -56,7 +56,8 @@ namespace FluidSharp.Paint.Images
                 loadtasks.TryRemove(source.Name, out _);
 
                 // request repaint
-                Task.Run(OnImageLoaded);
+                if (OnImageLoaded != null)
+                    Task.Run(OnImageLoaded);
 
             });
             loadtasks.TryAdd(source.Name, loadtask);

@@ -184,6 +184,49 @@ namespace FluidSharp.Widgets
             }
         }
 
+        // Detectors
+        public class TouchLocationDetector : GestureDetector
+        {
+
+            public Func<SKPoint, Task> OnTouch;
+
+            public TouchLocationDetector(VisualState visualState, object context, Func<SKPoint, Task> onTouch, Widget child) : base(visualState, context, child)
+            {
+                OnWin = async () => visualState.TouchTarget = new TouchTarget(new TapContext(context), default);
+                OnTouchUp = async () => visualState.TouchTarget = new TouchTarget();
+                OnTouch = onTouch;
+            }
+
+            public override void Pressed(SKPoint locationOnWidget)
+            {
+                base.Pressed(locationOnWidget);
+
+                var move = new SKPoint(locationOnWidget.X, locationOnWidget.Y);
+                if (OnTouch != null)
+                    Task.Run(() => OnTouch(move));
+
+                Task.Run(OnWin);
+
+            }
+
+            public override (bool win, bool loose) Move(Movement movement)
+            {
+
+                var hitlocation = movement.Hit.LocationInWidget;
+                var scale = movement.Hit.Scale;
+                var location = new SKPoint(hitlocation.X + movement.DeltaLocationInView.X / scale.X, hitlocation.Y + movement.DeltaLocationInView.Y / scale.Y);
+
+                // invoke move
+                var move = new SKPoint(location.X, location.Y);
+                if (OnTouch != null)
+                    Task.Run(() => OnTouch(move));
+
+                return (true, false);
+            }
+
+        }
+
+
         public class HorizontalPanGestureDetector : PanGestureDetector
         {
 

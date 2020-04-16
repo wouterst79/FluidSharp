@@ -86,8 +86,13 @@ namespace FluidSharp.State
         public (float scroll, float overscroll, bool hasactiveanimations) GetScroll()
         {
 
+            var pan = Pan;
+            var lastPanEnd = LastPanEnd;
+            var boundaryHit = BoundaryHit;
+
+
             var scroll = Scroll;
-            if (Pan.HasValue) scroll += Pan.Value;
+            if (pan.HasValue) scroll += pan.Value;
 
             // calculate partial pan for overscroll panning
             if (scroll < Minimum)
@@ -107,9 +112,9 @@ namespace FluidSharp.State
 
             // add fling extra
             var hasactiveanimations = false;
-            if (LastPanEnd.HasValue && Math.Abs(EndVelocity) > FlingingVelocity)
+            if (lastPanEnd.HasValue && Math.Abs(EndVelocity) > FlingingVelocity)
             {
-                var seconds = DateTime.Now.Subtract(LastPanEnd.Value).TotalMilliseconds / 1000;
+                var seconds = DateTime.Now.Subtract(lastPanEnd.Value).TotalMilliseconds / 1000;
                 var factor = 1 - Math.Exp(-1.5 * seconds);
                 var extra = (float)(-EndVelocity / 2 * factor);
                 //System.Diagnostics.Debug.WriteLine($"time factor: {factor}, extra: {extra}, fling: {FlingingVelocity}");
@@ -134,15 +139,15 @@ namespace FluidSharp.State
             }
 
             // start overscroll bounce
-            if (overscroll != 0 && LastPanEnd.HasValue && !BoundaryHit.HasValue)
-                BoundaryHit = DateTime.Now;
+            if (overscroll != 0 && lastPanEnd.HasValue && !boundaryHit.HasValue)
+                BoundaryHit = boundaryHit = DateTime.Now;
 
             //System.Diagnostics.Debug.WriteLine($"Scroll: {Scroll} sc: {scroll} os:{overscroll}");
 
-            if (BoundaryHit.HasValue)
+            if (boundaryHit.HasValue)
             {
 
-                var dt = 1 - (DateTime.Now.Subtract(BoundaryHit.Value).TotalMilliseconds / OverscrollDuration.TotalMilliseconds);
+                var dt = 1 - (DateTime.Now.Subtract(boundaryHit.Value).TotalMilliseconds / OverscrollDuration.TotalMilliseconds);
                 dt = Easing.CubicIn.Ease(dt);
                 if (dt < 0) dt = 0;
 
@@ -156,7 +161,7 @@ namespace FluidSharp.State
             if (OverscrollBehavior == OverscrollBehavior.Stretch)
                 scroll += overscroll;
 
-            if (!Pan.HasValue && !hasactiveanimations)
+            if (!pan.HasValue && !hasactiveanimations)
             {
 
                 //System.Diagnostics.Debug.WriteLine("ending animations");

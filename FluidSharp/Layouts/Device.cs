@@ -13,6 +13,7 @@ namespace FluidSharp
         public FlowDirection FlowDirection = FlowDirection.LeftToRight;
 
         public float FontSizeScale = 1f;
+        public float LineSpacing = 1f;
         public float DefaultScale = 1f;
 
         public bool PixelRounding = false;

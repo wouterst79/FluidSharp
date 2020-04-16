@@ -140,7 +140,7 @@ namespace FluidSharp.Widgets
             }
 
             // apply margins
-            var childrect = Margin.Apply(drawrect, layoutsurface.Device.FlowDirection);
+            var childrect = Margin.Shrink(drawrect, layoutsurface.Device.FlowDirection);
 
             // paint children
             if (Children != null)
