@@ -33,7 +33,7 @@ namespace FluidSharp.Widgets
             var boundaries = new SKSize(rect.Width, 0);
 
             var width = rect.Width;
-            var threshold = width * .9f;
+            var threshold = width;// * .9f;
 
             var line = new List<(Widget view, SKSize size)>();
             var linewidth = -Spacing;

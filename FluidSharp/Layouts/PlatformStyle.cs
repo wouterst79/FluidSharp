@@ -18,6 +18,9 @@ namespace FluidSharp.Widgets.CrossPlatform
         public SKColor InkWellColor = SKColors.Black.WithAlpha(64);
         public SKColor FlatButtonSelectedBackgroundColor = SKColors.Black.WithAlpha(32);
 
+        public SKColor CheckboxColor = new SKColor(59, 153, 252);
+        public SKColor DisabledColor = SKColors.Gray;
+
         public Widget Separator;
         public Widget OptionalSeparator;
         public Widget InsideListSeparator;

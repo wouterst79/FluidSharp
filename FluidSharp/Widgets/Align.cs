@@ -49,32 +49,32 @@ namespace FluidSharp.Widgets
 
         public static Align TopNear(Widget child, SKSize margins = default) => new Align(HorizontalAlignment.Near, VerticalAlignment.Top, margins, child);
         public static Align CenterNear(Widget child, SKSize margins = default) => new Align(HorizontalAlignment.Near, VerticalAlignment.Center, margins, child);
-        public static Align BaselineNear(Text child, SKSize margins = default) => new Align(HorizontalAlignment.Near, VerticalAlignment.Baseline, margins, child);
-        public static Align BaselineNear(RichText child, SKSize margins = default) => new Align(HorizontalAlignment.Near, VerticalAlignment.Baseline, margins, child);
+        public static Align BaselineNear(ITextWidget child, SKSize margins = default) => new Align(HorizontalAlignment.Near, VerticalAlignment.Baseline, margins, (Widget)child);
         public static Align BottomNear(Widget child, SKSize margins = default) => new Align(HorizontalAlignment.Near, VerticalAlignment.Bottom, margins, child);
 
         public static Align TopCenter(Widget child, SKSize margins = default) => new Align(HorizontalAlignment.Center, VerticalAlignment.Top, margins, child);
         public static Align Center(Widget child) => new Align(HorizontalAlignment.Center, VerticalAlignment.Center, child);
-        public static Align BaselineCenter(Text child, SKSize margins = default) => new Align(HorizontalAlignment.Center, VerticalAlignment.Baseline, margins, child);
-        public static Align BaselineCenter(RichText child, SKSize margins = default) => new Align(HorizontalAlignment.Center, VerticalAlignment.Baseline, margins, child);
+        public static Align BaselineCenter(ITextWidget child, SKSize margins = default) => new Align(HorizontalAlignment.Center, VerticalAlignment.Baseline, margins, (Widget)child);
         public static Align BottomCenter(Widget child, SKSize margins = default) => new Align(HorizontalAlignment.Center, VerticalAlignment.Bottom, margins, child);
 
         public static Align TopFar(Widget child, SKSize margins = default) => new Align(HorizontalAlignment.Far, VerticalAlignment.Top, margins, child);
         public static Align CenterFar(Widget child, SKSize margins = default) => new Align(HorizontalAlignment.Far, VerticalAlignment.Center, margins, child);
-        public static Align BaselineFar(Text child, SKSize margins = default) => new Align(HorizontalAlignment.Far, VerticalAlignment.Baseline, margins, child);
-        public static Align BaselineFar(RichText child, SKSize margins = default) => new Align(HorizontalAlignment.Far, VerticalAlignment.Baseline, margins, child);
+        public static Align BaselineFar(ITextWidget child, SKSize margins = default) => new Align(HorizontalAlignment.Far, VerticalAlignment.Baseline, margins, (Widget)child);
         public static Align BottomFar(Widget child, SKSize margins = default) => new Align(HorizontalAlignment.Far, VerticalAlignment.Bottom, margins, child);
 
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {
-            return Child.Measure(measureCache, boundaries);
+            var available = boundaries - Margin;
+            var childsize = Child.Measure(measureCache, available);
+            return new SKSize(childsize.Width + Margin.Width, childsize.Height + Margin.Height);
         }
 
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
 
-            var childsize = Child.Measure(layoutsurface.MeasureCache, new SKSize(rect.Width, rect.Height));
+            var available = rect.Size - Margin;
+            var childsize = Child.Measure(layoutsurface.MeasureCache, available);
 
             var w = childsize.Width;
             var h = childsize.Height;
@@ -107,10 +107,8 @@ namespace FluidSharp.Widgets
                 y = rect.Top + (rect.Height - h) / 2;
             else
             {
-                if (Vertical == VerticalAlignment.Baseline && Child is Text t)
-                    y = rect.Bottom - h + t.MarginY - Margin.Height;
-                else if (Vertical == VerticalAlignment.Baseline && Child is RichText rt)
-                    y = rect.Bottom - h + rt.GetMarginY() - Margin.Height;
+                if (Vertical == VerticalAlignment.Baseline && Child is ITextWidget t)
+                    y = rect.Bottom - h + t.GetMarginY() - Margin.Height;
                 else
                     y = rect.Bottom - h - Margin.Height;
             }

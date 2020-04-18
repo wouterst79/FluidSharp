@@ -9,7 +9,7 @@ using System.Text;
 
 namespace FluidSharp.Widgets
 {
-    public class RichText : Widget
+    public class RichText : Widget, ITextWidget
     {
 
         public List<Text> Text = new List<Text>();
@@ -20,7 +20,7 @@ namespace FluidSharp.Widgets
         {
             var max = 0f;
             foreach (var text in Text)
-                if (text != null && text.MarginY > max) max = text.MarginY;
+                if (text != null && text.GetMarginY() > max) max = text.GetMarginY();
             return max;
         }
 

@@ -9,12 +9,17 @@ using System.Collections.Generic;
 namespace FluidSharp.Widgets
 {
 
-    public class Text : Widget
+    public interface ITextWidget
+    {
+        float GetMarginY();
+    }
+
+    public class Text : Widget, ITextWidget
     {
 
         public TextBlock TextBlock;
 
-        public float MarginY => TextBlock.MarginY;
+        public float GetMarginY() => TextBlock.MarginY;
         public int MaxLines { get => TextBlock.MaxLines; set => TextBlock.MaxLines = value; }
 
         public Text(Font font, SKColor color, string text)
@@ -52,6 +57,17 @@ namespace FluidSharp.Widgets
             }
         }
 
+        public SKRect Paint(LayoutSurface layoutsurface, SKRect rect, FlowDirection flowDirection)
+        {
+            try
+            {
+                return layoutsurface.Canvas.DrawTextBlock(TextBlock, rect, layoutsurface.MeasureCache.TextShaper, flowDirection);
+            }
+            catch (Exception ex)
+            {
+                throw new PaintException($"unable to paint text: {TextBlock.Text}", ex, new Dictionary<string, string>() { { "Text", TextBlock.Text } });
+            }
+        }
 
     }
 }
