@@ -10,6 +10,7 @@ namespace FluidSharp.Widgets.Debugging
     public class FrameCounter : Widget
     {
 
+
         private static int framecount = 0;
         private static LinkedList<DateTime> tracker = new LinkedList<DateTime>();
         private static LinkedList<long> tracker2 = new LinkedList<long>();
@@ -58,6 +59,7 @@ namespace FluidSharp.Widgets.Debugging
                     canvas.DrawRect(0, 10, (float)fps, 10, framepaint);
                     canvas.DrawRect(0, 20, 60, 5, framepaint);
 
+                    // draw frame lines
                     var x = 0f;
                     var node = tracker.First;
                     var firsttime = node.Value;
@@ -81,6 +83,7 @@ namespace FluidSharp.Widgets.Debugging
 
                 }
 
+                // draw text
                 using (var textpaint = new SKPaint() { Color = SKColors.White, TextSize = 14 })
                 {
                     var text = $"{fps} / {framecount}";

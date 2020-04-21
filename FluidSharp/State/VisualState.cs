@@ -1,4 +1,5 @@
-﻿using FluidSharp.Touch;
+﻿using FluidSharp.Engine;
+using FluidSharp.Touch;
 using SkiaSharp;
 using System;
 using System.Collections.Concurrent;
@@ -14,16 +15,21 @@ namespace FluidSharp.State
 
         private ConcurrentDictionary<object, object> values = new ConcurrentDictionary<object, object>();
 
+        public PerformanceTracker PerformanceTracker;
+
         private Func<Task> OnStateChanged;
 
-        public VisualState(Func<Task> onStateChanged)
+
+        public VisualState(Func<Task> onStateChanged, PerformanceTracker performanceTracker)
         {
             OnStateChanged = onStateChanged;
+            PerformanceTracker = performanceTracker;
         }
 
 
         public Task RequestRedraw()
         {
+            PerformanceTracker?.Request();
             if (OnStateChanged == null) 
                 return Task.CompletedTask;
             else

@@ -1,4 +1,5 @@
 ﻿using FluidSharp.Animations;
+using FluidSharp.Engine;
 using FluidSharp.Widgets;
 using SkiaSharp;
 using System;
@@ -39,7 +40,7 @@ namespace FluidSharp.State
 
             if (!Pan.HasValue)
             {
-                var current = GetScroll();
+                var current = GetScroll(null);
                 //System.Diagnostics.Debug.WriteLine($"SetPan restart: {pan} ({current})");
                 Scroll = current.scroll;
             }
@@ -83,7 +84,7 @@ namespace FluidSharp.State
 
         }
 
-        public (float scroll, float overscroll, bool hasactiveanimations) GetScroll()
+        public (float scroll, float overscroll, bool hasactiveanimations) GetScroll(PerformanceTracker performanceTracker)
         {
 
             var pan = Pan;
@@ -114,13 +115,14 @@ namespace FluidSharp.State
             var hasactiveanimations = false;
             if (lastPanEnd.HasValue && Math.Abs(EndVelocity) > FlingingVelocity)
             {
-                var seconds = DateTime.Now.Subtract(lastPanEnd.Value).TotalMilliseconds / 1000;
+                var timespan = DateTime.Now.Subtract(lastPanEnd.Value);
+                if (performanceTracker != null) performanceTracker.SetAnimatedScrollTime(timespan);
+                var seconds = timespan.TotalMilliseconds / 1000;
                 var factor = 1 - Math.Exp(-1.5 * seconds);
                 var extra = (float)(-EndVelocity / 2 * factor);
                 //System.Diagnostics.Debug.WriteLine($"time factor: {factor}, extra: {extra}, fling: {FlingingVelocity}");
                 scroll -= extra;
                 hasactiveanimations = factor < .98;
-
             }
 
             // separate out scroll, and overscroll

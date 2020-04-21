@@ -47,7 +47,7 @@ namespace FluidSharp.Widgets
             var state = ScrollState;
             state.SetRange(rect.Height, childsize.Height);
 
-            var (scroll, overscroll, hasactiveanimations) = state.GetScroll();
+            var (scroll, overscroll, hasactiveanimations) = state.GetScroll(layoutsurface.VisualState.PerformanceTracker);
 
             var top = scroll;
 

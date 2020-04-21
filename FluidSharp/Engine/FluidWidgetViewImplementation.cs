@@ -1,9 +1,8 @@
 ﻿#if DEBUG
-//#define DEBUGPERF
-#define ENSUREPAINTED
 #endif
 
 //#define PAINTFPS
+//#define PAINTPERF
 
 using FluidSharp.Layouts;
 using FluidSharp.State;
@@ -34,6 +33,8 @@ namespace FluidSharp.Engine
         private GestureArena GestureArena;
 
         public bool IsTransparent;
+
+        public PerformanceTracker PerformanceTracker;
 
         private bool animationRunning;
         private bool painting;
@@ -67,7 +68,8 @@ namespace FluidSharp.Engine
 
             View = skiaView;
             WidgetView = widgetView;
-            VisualState = new VisualState(async () => View.InvalidatePaint());
+            PerformanceTracker = new PerformanceTracker();
+            VisualState = new VisualState(async () => View.InvalidatePaint(), PerformanceTracker);
 
             MeasureCache = new MeasureCache(Device, View.InvalidatePaint, WidgetView.GetNativeViewManager());
 
@@ -84,6 +86,7 @@ namespace FluidSharp.Engine
             View = skiaView;
             WidgetView = widgetView;
             VisualState = visualState;
+            PerformanceTracker = visualState.PerformanceTracker;
 
             MeasureCache = new MeasureCache(Device, View.InvalidatePaint, WidgetView.GetNativeViewManager());
 
@@ -126,14 +129,18 @@ namespace FluidSharp.Engine
             if (Device.DefaultScale != 1)
                 controlwidget = new Scale(Device.DefaultScale, controlwidget);
 
-#if PAINTFPS
+#if PAINTFPS || PAINTPERF
 
-            controlwidget = new Column()
+            controlwidget = new Container(ContainerLayout.Expand)
             {
                 Children =
                 {
                     controlwidget,
+#if PAINTPERF
+                    new PerformanceChart(),
+#elif PAINTFPS
                     new FrameCounter(),
+#endif
                 }
             };
 #endif
@@ -144,12 +151,9 @@ namespace FluidSharp.Engine
         private void View_PaintControlSurface(object sender, PaintSurfaceEventArgs e)
         {
 
-#if DEBUGPERF
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-#endif
-
             painting = true;
+
+            PerformanceTracker.PaintStart();
 
             MeasureCache.NativeViewManager?.PaintStarted();
 
@@ -166,9 +170,7 @@ namespace FluidSharp.Engine
                 throw new MakeWidgetException("unable to make widget", ex);
             }
 
-#if DEBUGPERF
-            Debug.WriteLine($"widget assembled in {stopwatch.ElapsedMilliseconds}ms");
-#endif
+            PerformanceTracker.WidgetsCreated();
 
             if (widget != null)
             {
@@ -184,9 +186,7 @@ namespace FluidSharp.Engine
 
             }
 
-#if DEBUGPERF
-            Debug.WriteLine($"paint completed in {stopwatch.ElapsedMilliseconds}ms");
-#endif
+            PerformanceTracker.PaintFinished();
 
             MeasureCache.NativeViewManager?.PaintCompleted();
 
@@ -210,7 +210,7 @@ namespace FluidSharp.Engine
             }
             AnimationDriverTask = null;
 
-            //System.Diagnostics.Debug.WriteLine($"animation driver terminated");
+            PerformanceTracker.AnimationFinished();
 
         }
 
@@ -241,7 +241,7 @@ namespace FluidSharp.Engine
                 var width = View.Width;
                 var height = View.Height;
 
-                var vs = new VisualState(async () => { });
+                var vs = new VisualState(async () => { }, null);
                 var hittestlayout = new HitTestLayoutSurface(Device, MeasureCache, e.LocationInView, vs);
                 hittestlayout.Paint(widget, new SKRect(0, 0, width, height));
 
