@@ -20,6 +20,7 @@ namespace FluidSharp.Widgets.CrossPlatform
 
         public SKColor CheckboxColor = new SKColor(59, 153, 252);
         public SKColor DisabledColor = SKColors.Gray;
+        public SKColor SelectedColor = SKColors.Black.WithAlpha(32);
 
         public Widget Separator;
         public Widget OptionalSeparator;

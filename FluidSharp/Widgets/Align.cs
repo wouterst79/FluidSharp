@@ -11,21 +11,6 @@ namespace FluidSharp.Widgets
     public class Align : Widget
     {
 
-        public enum HorizontalAlignment
-        {
-            Near,
-            Center,
-            Far
-        }
-
-        public enum VerticalAlignment
-        {
-            Top,
-            Center,
-            Baseline, // Direct Text children only
-            Bottom
-        }
-
         public HorizontalAlignment Horizontal;
         public VerticalAlignment Vertical;
 

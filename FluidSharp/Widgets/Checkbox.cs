@@ -21,8 +21,10 @@ namespace FluidSharp.Widgets
 
         public CheckedState State;
         public bool Enabled;
+        public bool Selected;
         public SKColor ThemeColor;
         public SKColor DisabledColor;
+        public SKColor SelectedColor;
 
         // styling
         private static float CornerRadius = 3;
@@ -31,26 +33,33 @@ namespace FluidSharp.Widgets
         private static float BorderWidth = 1f;
         private static float StrokeWidth = 2;
         private static float LabelSpacing = 7;
+        public static float LabelXPosition = Size + LabelSpacing;
 
-        private Checkbox(CheckedState state, bool enabled, SKColor themeColor, SKColor disabledColor)
+        private Checkbox(CheckedState state, bool enabled, bool selected, SKColor themeColor, SKColor disabledColor, SKColor selectedColor)
         {
             State = state;
             Enabled = enabled;
+            Selected = selected;
             ThemeColor = themeColor;
             DisabledColor = disabledColor;
+            SelectedColor = selectedColor;
         }
 
-        public static Widget Make(VisualState visualState, object context, CheckedState state, bool enabled, PlatformStyle platformStyle, Func<CheckedState, Task> onSetState, Widget label)
+        public static Widget Make(VisualState visualState, object context, CheckedState state, bool enabled, Margins margins, PlatformStyle platformStyle, Func<CheckedState, Task> onSetState, Widget label)
         {
 
-            var checkbox = new Checkbox(state, enabled, platformStyle.CheckboxColor, platformStyle.DisabledColor);
+            var selected = visualState.TouchTarget.IsContext(context);
+            var checkbox = new Checkbox(state, enabled, selected, platformStyle.CheckboxColor, platformStyle.DisabledColor, platformStyle.SelectedColor);
 
-            var contents = new Flow()
+            var contents = new Row()
             {
                 Spacing = LabelSpacing,
+                Margin = margins,
+                VerticalChildAlignment = VerticalAlignment.Center,
+                ExpandHorizontal = true,
                 Children =
                 {
-                    new Center(checkbox),
+                    checkbox,
                     label
                 }
             };
@@ -116,7 +125,12 @@ namespace FluidSharp.Widgets
                             canvas.DrawPath(drawpath, paint);
                     }
 
+                }
 
+                if (Selected)
+                {
+                    using (var paint = new SKPaint() { Color = SelectedColor })
+                        canvas.DrawRoundRect(rrect, paint);
                 }
 
             }
