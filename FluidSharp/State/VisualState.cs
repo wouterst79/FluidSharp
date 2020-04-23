@@ -19,6 +19,7 @@ namespace FluidSharp.State
 
         private Func<Task> OnStateChanged;
 
+        public bool ShowTouchRegions;
 
         public VisualState(Func<Task> onStateChanged, PerformanceTracker performanceTracker)
         {

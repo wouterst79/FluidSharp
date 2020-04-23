@@ -19,8 +19,10 @@ namespace FluidSharp.Widgets.CrossPlatform
         public SKColor FlatButtonSelectedBackgroundColor = SKColors.Black.WithAlpha(32);
 
         public SKColor CheckboxColor = new SKColor(59, 153, 252);
+        public SKColor CheckboxStrokeColor = SKColors.Gray;
         public SKColor DisabledColor = SKColors.Gray;
         public SKColor SelectedColor = SKColors.Black.WithAlpha(32);
+        public SKColor FieldBorderColor = SKColors.Gray;
 
         public Widget Separator;
         public Widget OptionalSeparator;
@@ -30,7 +32,8 @@ namespace FluidSharp.Widgets.CrossPlatform
         public bool UseFakeBoldText { get => Font.UseFakeBoldText; set => Font.UseFakeBoldText = value; }
 
         public float LineSpacing { get => TextBlock.DefaultLineSpacing; set => TextBlock.DefaultLineSpacing = value; }
-
+        public float FieldCornerRadius = 3;
+        public SKSize FieldPadding = new SKSize(5,3);
 
         public OverscrollBehavior DefaultOverscrollBehavior = OverscrollBehavior.Stretch;
 

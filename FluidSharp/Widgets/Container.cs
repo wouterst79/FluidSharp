@@ -82,7 +82,7 @@ namespace FluidSharp.Widgets
                                                 boundaries.Height - Margin.TotalY
                                             );
 
-            var result = MinimumSize;
+            var result = new SKSize();
             if (Children != null)
                 foreach (var child in Children)
                     if (child != null)
@@ -96,6 +96,9 @@ namespace FluidSharp.Widgets
 
             result.Width += Margin.TotalX;
             result.Height += Margin.TotalY;
+
+            if (result.Width < MinimumSize.Width) result.Width = MinimumSize.Width;
+            if (result.Height < MinimumSize.Height) result.Height = MinimumSize.Height;
 
             if (ExpandHorizontal) result.Width = boundaries.Width;
             if (ExpandVertical) result.Height = boundaries.Height;

@@ -89,6 +89,16 @@ namespace FluidSharp
 #endif
         }
 
+        public void DebugGestureRect(SKRect rect, SKColor color)
+        {
+            if (Canvas == null) return;
+#if DEBUG
+            if (VisualState.ShowTouchRegions)
+                using (var paint = new SKPaint() { Color = color })
+                    Canvas.DrawRect(rect, paint);
+#endif
+        }
+
         public void DebugLine(float x1, float y1, float x2, float y2, SKColor color)
         {
             if (Canvas == null) return;

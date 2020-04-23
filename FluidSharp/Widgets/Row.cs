@@ -111,7 +111,7 @@ namespace FluidSharp.Widgets
             var measures = new List<(Widget widget, SKSize size)>();
 
             var w = 0f;
-            var h = MinimumHeight;
+            var h = MinimumHeight - Margin.TotalY;
 
             if (Children != null)
                 foreach (var child in Children)

@@ -14,7 +14,7 @@ namespace FluidSharp.Widgets
 
         public List<Text> Text = new List<Text>();
 
-        private RichTextBlock RichTextBlock;
+        protected RichTextBlock RichTextBlock;
 
         public float GetMarginY()
         {
@@ -30,7 +30,7 @@ namespace FluidSharp.Widgets
             RichTextBlock = new RichTextBlock();
             foreach (var text in Text)
                 if (text != null)
-                    RichTextBlock.Spans.Add(text.TextBlock);
+                    RichTextBlock.Spans.Add(new RichTextSpan() { TextBlock = text.TextBlock });
         }
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)

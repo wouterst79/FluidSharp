@@ -142,7 +142,12 @@ namespace FluidSharp.Widgets
 
         // Widget Implementation
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries) => Child.Measure(measureCache, boundaries);
-        public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect) => layoutsurface.Paint(Child, rect);
+        public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
+        {
+            var childrect = layoutsurface.Paint(Child, rect);
+            layoutsurface.DebugGestureRect(childrect, SKColors.MediumPurple.WithAlpha(16));
+            return childrect;
+        }
 
         // Detectors
         public class TapGestureDetector : GestureDetector

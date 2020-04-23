@@ -39,8 +39,10 @@ namespace FluidSharp.Widgets
 
         public static Align TopCenter(Widget child, SKSize margins = default) => new Align(HorizontalAlignment.Center, VerticalAlignment.Top, margins, child);
         public static Align Center(Widget child) => new Align(HorizontalAlignment.Center, VerticalAlignment.Center, child);
+        public static Align Center(Widget child, SKSize allmargins) => new Align(HorizontalAlignment.Center, VerticalAlignment.Center, new SKSize(allmargins.Width * 2, allmargins.Height * 2), child);
         public static Align BaselineCenter(ITextWidget child, SKSize margins = default) => new Align(HorizontalAlignment.Center, VerticalAlignment.Baseline, margins, (Widget)child);
         public static Align BottomCenter(Widget child, SKSize margins = default) => new Align(HorizontalAlignment.Center, VerticalAlignment.Bottom, margins, child);
+        public static Align Bottom(Widget child, SKSize margins = default) => new Align(HorizontalAlignment.Expand, VerticalAlignment.Bottom, margins, child);
 
         public static Align TopFar(Widget child, SKSize margins = default) => new Align(HorizontalAlignment.Far, VerticalAlignment.Top, margins, child);
         public static Align CenterFar(Widget child, SKSize margins = default) => new Align(HorizontalAlignment.Far, VerticalAlignment.Center, margins, child);
@@ -71,8 +73,14 @@ namespace FluidSharp.Widgets
                     x = rect.Left + Margin.Width;
                 else if (Horizontal == HorizontalAlignment.Center)
                     x = rect.Left + (rect.Width - w) / 2;
-                else //if (Horizontal == HorizontalAlignment.Far)
+                else if (Horizontal == HorizontalAlignment.Far)
                     x = rect.Right - w - Margin.Width;
+                else if (Horizontal == HorizontalAlignment.Expand)
+                {
+                    x = rect.Left;
+                    w = rect.Width;
+                }
+                else throw new ArgumentOutOfRangeException(nameof(Horizontal));
             }
             else
             {
@@ -98,7 +106,7 @@ namespace FluidSharp.Widgets
                     y = rect.Bottom - h - Margin.Height;
             }
 
-            var childrect = new SKRect(x, y, x + w, y + w);
+            var childrect = new SKRect(x, y, x + w, y + h);
             layoutsurface.Paint(Child, childrect);
 
             return rect;

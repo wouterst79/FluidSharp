@@ -13,6 +13,7 @@ namespace FluidSharp.Widgets
         public SKColor BackgroundColor;
         public SKColor BorderColor;
 
+        public Func<SKImageFilter> ImageFilter;
 
         public RoundedRectangle(float cornerRadius, SKColor backgroundColor, SKColor borderColor)
         {
@@ -34,7 +35,10 @@ namespace FluidSharp.Widgets
                 {
                     if (BackgroundColor != null && BackgroundColor.Alpha != 0)
                         using (var paint = new SKPaint() { Color = BackgroundColor, IsAntialias = true })
+                        {
+                            if (ImageFilter != null) paint.ImageFilter = ImageFilter();
                             layoutsurface.Canvas.DrawRoundRect(rrect, paint);
+                        }
 
                     if (BorderColor != null && BorderColor.Alpha != 0)
                         using (var paint = new SKPaint() { Color = BorderColor, IsStroke = true, IsAntialias = true })

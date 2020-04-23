@@ -58,7 +58,7 @@ namespace FluidSharp.Layouts
                 return new SKRect(original.Left - Far, original.Top - Top, original.Right + Near, original.Bottom + Bottom);
         }
 
-        public Widget ExpandHorizontal(Widget widget) => new Container(ContainerLayout.ExpandHorizontal, this, widget);
+        //public Widget ExpandHorizontal(Widget widget) => new Container(ContainerLayout.ExpandHorizontal, this, widget);
 
     }
 }

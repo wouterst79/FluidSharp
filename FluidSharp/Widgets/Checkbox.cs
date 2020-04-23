@@ -23,6 +23,7 @@ namespace FluidSharp.Widgets
         public bool Enabled;
         public bool Selected;
         public SKColor ThemeColor;
+        public SKColor StrokeColor;
         public SKColor DisabledColor;
         public SKColor SelectedColor;
 
@@ -35,25 +36,27 @@ namespace FluidSharp.Widgets
         private static float LabelSpacing = 7;
         public static float LabelXPosition = Size + LabelSpacing;
 
-        private Checkbox(CheckedState state, bool enabled, bool selected, SKColor themeColor, SKColor disabledColor, SKColor selectedColor)
+        private Checkbox(CheckedState state, bool enabled, bool selected, SKColor themeColor, SKColor strokeColor, SKColor disabledColor, SKColor selectedColor)
         {
             State = state;
             Enabled = enabled;
             Selected = selected;
             ThemeColor = themeColor;
+            StrokeColor = strokeColor;
             DisabledColor = disabledColor;
             SelectedColor = selectedColor;
         }
 
-        public static Widget Make(VisualState visualState, object context, CheckedState state, bool enabled, Margins margins, PlatformStyle platformStyle, Func<CheckedState, Task> onSetState, Widget label)
+        public static Widget Make(VisualState visualState, object context, CheckedState state, bool enabled, float minimumHeight, Margins margins, PlatformStyle platformStyle, Func<CheckedState, Task> onSetState, Widget label)
         {
 
             var selected = visualState.TouchTarget.IsContext(context);
-            var checkbox = new Checkbox(state, enabled, selected, platformStyle.CheckboxColor, platformStyle.DisabledColor, platformStyle.SelectedColor);
+            var checkbox = new Checkbox(state, enabled, selected, platformStyle.CheckboxColor, platformStyle.CheckboxStrokeColor, platformStyle.DisabledColor, platformStyle.SelectedColor);
 
             var contents = new Row()
             {
                 Spacing = LabelSpacing,
+                MinimumHeight = minimumHeight,
                 Margin = margins,
                 VerticalChildAlignment = VerticalAlignment.Center,
                 ExpandHorizontal = true,
@@ -92,12 +95,14 @@ namespace FluidSharp.Widgets
                 if (State == CheckedState.Unchecked)
                 {
 
+                    // unchecked
+
                     // solid rrect
                     if (!Enabled)
                         using (var paint = new SKPaint() { Color = DisabledColor.WithAlpha(64) })
                             canvas.DrawRoundRect(rrect, paint);
 
-                    using (var paint = new SKPaint() { Color = rrectcolor, IsAntialias = true })
+                    using (var paint = new SKPaint() { Color = StrokeColor, IsAntialias = true })
                     {
                         paint.IsStroke = true;
                         paint.StrokeWidth = BorderWidth;
@@ -107,6 +112,8 @@ namespace FluidSharp.Widgets
                 }
                 else
                 {
+
+                    // checked, mixed
 
                     // solid rrect
                     using (var paint = new SKPaint() { Color = rrectcolor, IsAntialias = true })

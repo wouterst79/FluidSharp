@@ -4,7 +4,8 @@
     {
         Near,
         Center,
-        Far
+        Far,
+        Expand
     }
 
 }
