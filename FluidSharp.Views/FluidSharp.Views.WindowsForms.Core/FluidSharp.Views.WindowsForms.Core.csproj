@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;__WINDOWSFORMS__</DefineConstants>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;__WINDOWSFORMS__</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\FluidSharp.Views.Shared\FluidWidgetView.cs" Link="FluidWidgetView.cs" />
+    <Compile Include="..\FluidSharp.Views.WindowsForms\NativeViewManager.cs" Link="NativeViewManager.cs" />
+    <Compile Include="..\FluidSharp.Views.WindowsForms\SkiaView.cs" Link="SkiaView.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SkiaSharp.Views.WindowsForms" Version="1.68.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\FluidSharp\FluidSharp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="NativeViews\NativeTextboxImpl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+
+</Project>

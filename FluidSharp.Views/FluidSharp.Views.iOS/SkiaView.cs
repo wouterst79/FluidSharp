@@ -10,7 +10,7 @@ using UIKit;
 
 namespace FluidSharp.Views.iOS
 {
-    public class SkiaView : SKCanvasView, ISkiaView
+    public class SkiaView : SKGLView, ISkiaView
     {
 
 
@@ -35,20 +35,25 @@ namespace FluidSharp.Views.iOS
             GestureRecognizers = new UIGestureRecognizer[] { touchrecognizer };
             touchrecognizer.Touch += Touchrecognizer_Touch;
 
-            this.PaintSurface += SkiaControl_PaintSurface;
+            //this.PaintSurface += SkiaControl_PaintSurface;
         }
 
-        private void SkiaControl_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
+        protected override void OnPaintSurface(SKPaintGLSurfaceEventArgs e)
         {
+//            base.OnPaintSurface(e);
+//        }
+
+//        private void SkiaControl_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
+  //      {
 
             var canvas = e.Surface.Canvas;
 
             // Make sure the canvas is drawn using pixel coordinates (but still high res):
-            var factor = (float)Math.Round(e.Info.Width / Width * 4) / 4;
+            var factor = (float)Math.Round(e.BackendRenderTarget.Width / Width * 4) / 4;
             var platformzoom = SKMatrix.MakeScale(factor, factor);
             canvas.Concat(ref platformzoom);
 
-            PaintViewSurface?.Invoke(this, new PaintSurfaceEventArgs(canvas, Width, Height, e.Surface, e.Info));
+            PaintViewSurface?.Invoke(this, new PaintSurfaceEventArgs(canvas, Width, Height, e.Surface, default));
 
         }
 

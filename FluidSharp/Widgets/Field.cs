@@ -10,18 +10,20 @@ namespace FluidSharp.Widgets
     public class Field : Widget
     {
 
+        public bool Material;
         public SKColor BorderColor;
         public float CornerRadius;
         public SKSize Padding;
 
         public Widget Child;
 
-        public Field(PlatformStyle platformStyle, Widget child) : this(platformStyle.FieldBorderColor, platformStyle.FieldCornerRadius, platformStyle.FieldPadding, child)
+        public Field(PlatformStyle platformStyle, Widget child) : this(platformStyle == PlatformStyle.Material, platformStyle.FieldBorderColor, platformStyle.FieldCornerRadius, platformStyle.FieldPadding, child)
         {
         }
 
-        public Field(SKColor borderColor, float cornerRadius, SKSize padding, Widget child)
+        public Field(bool material, SKColor borderColor, float cornerRadius, SKSize padding, Widget child)
         {
+            Material = material;
             BorderColor = borderColor;
             CornerRadius = cornerRadius;
             Padding = padding;
@@ -55,14 +57,25 @@ namespace FluidSharp.Widgets
                 if (BorderColor != null && BorderColor.Alpha != 0)
                     using (var rrect = new SKRoundRect(actual, CornerRadius, CornerRadius))
                     {
-                        //using (var paint = new SKPaint() { Color = BorderColor, IsStroke = true, IsAntialias = true })
-                        //    layoutsurface.Canvas.DrawRoundRect(rrect, paint);
 
-                        using (var paint = new SKPaint() { Color = SKColors.Gray.WithAlpha(32), IsAntialias = true })
-                            layoutsurface.Canvas.DrawRoundRect(rrect, paint);
+                        if (Material)
+                        {
 
-                        using (var paint = new SKPaint() { Color = SKColors.Gray})
-                            layoutsurface.Canvas.DrawRect(new SKRect(actual.Left, actual.Bottom -2, actual.Right, actual.Bottom), paint);
+                            using (var paint = new SKPaint() { Color = SKColors.Gray.WithAlpha(32), IsAntialias = true })
+                                layoutsurface.Canvas.DrawRoundRect(rrect, paint);
+
+                            using (var paint = new SKPaint() { Color = SKColors.Gray })
+                                layoutsurface.Canvas.DrawRect(new SKRect(actual.Left, actual.Bottom - 2, actual.Right, actual.Bottom), paint);
+
+                        }
+                        else
+                        {
+
+                            using (var paint = new SKPaint() { Color = BorderColor, IsStroke = true, IsAntialias = true })
+                                layoutsurface.Canvas.DrawRoundRect(rrect, paint);
+
+                        }
+
 
                     }
 

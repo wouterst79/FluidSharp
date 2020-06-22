@@ -1,8 +1,8 @@
 ﻿#if DEBUG
 #endif
 
-//#define PAINTFPS
 //#define PAINTPERF
+//#define PAINTFPS
 
 using FluidSharp.Layouts;
 using FluidSharp.State;

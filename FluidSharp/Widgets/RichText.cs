@@ -16,6 +16,10 @@ namespace FluidSharp.Widgets
 
         protected RichTextBlock RichTextBlock;
 
+        public RichText() { }
+
+        public RichText(params Text[] texts) { Text.AddRange(texts); } 
+
         public float GetMarginY()
         {
             var max = 0f;

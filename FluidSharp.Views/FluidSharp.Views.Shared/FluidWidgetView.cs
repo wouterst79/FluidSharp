@@ -2,17 +2,21 @@
 using FluidSharp.Interop;
 using FluidSharp.State;
 using FluidSharp.Widgets;
+using FluidSharp.Widgets.Native;
 using SkiaSharp;
 using System;
 
 #if __FORMS__
+using FluidSharp.Views.Forms.NativeViews;
 namespace FluidSharp.Views.Forms
 #elif __WINDOWSFORMS__
+using FluidSharp.Views.WindowsForms.NativeViews;
 using System.Windows.Forms;
 namespace FluidSharp.Views.WindowsForms
 #elif __ANDROID__
 namespace FluidSharp.Views.Android
 #elif __IOS__
+using FluidSharp.Views.iOS.NativeViews;
 namespace FluidSharp.Views.iOS
 #elif __UWP__
 namespace FluidSharp.Views.UWP
@@ -51,12 +55,24 @@ namespace FluidSharp.Views.UWP
 #endif
 
             NativeViewManager = new NativeViewManager(this);
+
             Implementation = new FluidWidgetViewImplementation(this, this, device);
+
+            RegisterNativeViews();
+
         }
 
         protected FluidWidgetView(bool CreatesOwnImplementation)
         {
             if (!CreatesOwnImplementation) throw new ArgumentOutOfRangeException(nameof(CreatesOwnImplementation));
+        }
+
+        protected void RegisterNativeViews()
+        {
+            NativeViewManager.RegisterNativeView<NativeTextboxWidget, NativeTextboxImpl>(
+                (w, c) => c.Context.Equals(w.Context),
+                (w) => new NativeTextboxImpl(VisualState.RequestRedraw) { Context = w.Context }
+            );
         }
 
         public INativeViewManager GetNativeViewManager() => NativeViewManager;

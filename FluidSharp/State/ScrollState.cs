@@ -40,7 +40,7 @@ namespace FluidSharp.State
 
             if (!Pan.HasValue)
             {
-                var current = GetScroll(null);
+                var current = GetScroll();
                 //System.Diagnostics.Debug.WriteLine($"SetPan restart: {pan} ({current})");
                 Scroll = current.scroll;
             }
@@ -84,7 +84,7 @@ namespace FluidSharp.State
 
         }
 
-        public (float scroll, float overscroll, bool hasactiveanimations) GetScroll(PerformanceTracker performanceTracker)
+        public (float scroll, float overscroll, bool hasactiveanimations) GetScroll()
         {
 
             var pan = Pan;
@@ -116,7 +116,6 @@ namespace FluidSharp.State
             if (lastPanEnd.HasValue && Math.Abs(EndVelocity) > FlingingVelocity)
             {
                 var timespan = DateTime.Now.Subtract(lastPanEnd.Value);
-                if (performanceTracker != null) performanceTracker.SetAnimatedScrollTime(timespan);
                 var seconds = timespan.TotalMilliseconds / 1000;
                 var factor = 1 - Math.Exp(-1.5 * seconds);
                 var extra = (float)(-EndVelocity / 2 * factor);

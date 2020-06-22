@@ -25,6 +25,49 @@ namespace FluidSharp.Widgets
 
         public List<LayoutCell> Cells = new List<LayoutCell>();
 
+        public Layout()
+        {
+        }
+
+        public static Layout Row(params Widget[] widgets)
+        {
+            var cells = new List<LayoutCell>();
+            foreach (var widget in widgets)
+                if (widget != null)
+                    cells.Add(new LayoutCell(cells.Count, 0, widget));
+            return new Layout() { Cells = cells, Rows = { new LayoutSize.Fit() } };
+        }
+
+        public static Layout Row(Margins margins, float spacing, params Widget[] widgets)
+        {
+            var cells = new List<LayoutCell>();
+            foreach (var widget in widgets)
+                if (widget != null)
+                    cells.Add(new LayoutCell(cells.Count, 0, widget));
+            return new Layout() { Margin = margins, ColumnSpacing = spacing, Cells = cells, Rows = { new LayoutSize.Fit() } };
+        }
+
+        public static Layout Row(Margins margins, Widget separator, float spacing, params Widget[] widgets)
+        {
+            var cells = new List<LayoutCell>();
+            var columns = new List<LayoutSize>();
+            var wasnotnull = false;
+            foreach (var widget in widgets)
+            {
+                if (wasnotnull)
+                {
+                    columns.Add(new LayoutSize.Absolute(spacing));
+                    cells.Add(new LayoutCell(cells.Count, 0, separator));
+                }
+                if (wasnotnull = (widget != null))
+                {
+                    columns.Add(new LayoutSize.Remaining());
+                    cells.Add(new LayoutCell(cells.Count, 0, widget));
+                }
+            }
+            return new Layout() { Margin = margins, ColumnSpacing = spacing, Cells = cells, Columns = columns, Rows = { new LayoutSize.Fit() } };
+        }
+
 #if DEBUG
 
         public static void TestMeasure()

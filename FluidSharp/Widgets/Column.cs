@@ -22,6 +22,9 @@ namespace FluidSharp.Widgets
 
         public List<Widget> Children = new List<Widget>();
 
+        public Column() { }
+        public Column(params Widget[] widgets) { Children.AddRange(widgets); }
+
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {
 

@@ -49,6 +49,25 @@ namespace FluidSharp.Widgets
 
         }
 
+        public static Widget Wrap(VisualState visualState, object context, SKColor selectedBackgroundColor, Func<Task> onTapped, Widget child)
+        {
+
+            var innerwidget = child;
+
+            if (visualState.TouchTarget.IsContext<TapContext>(context, false))
+                innerwidget = new Container(ContainerLayout.Wrap)
+                {
+                    Children =
+                    {
+                        Rectangle.Fill(selectedBackgroundColor),
+                        innerwidget
+                    }
+                };
+
+            return GestureDetector.TapDetector(visualState, context, onTapped, null, innerwidget);
+
+        }
+
 
     }
 }

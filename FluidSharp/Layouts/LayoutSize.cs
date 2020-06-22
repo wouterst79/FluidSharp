@@ -10,6 +10,10 @@ namespace FluidSharp.Layouts
         public class Available : LayoutSize
         {
             public float Part;
+            /// <param name="part">
+            /// Percentage.
+            /// Note: parts < 1f (100%) are most likely use case
+            /// </param>
             public Available(float part) => Part = part;
         }
 

@@ -9,18 +9,28 @@ using System.Text;
 
 namespace FluidSharp.Widgets
 {
+
+    public enum ScaleMode
+    {
+        Strech,
+        Fit,
+        Fill
+    }
+
     public class Image : Widget
     {
 
         private readonly ImageSource Source;
         private readonly int Width;
         private readonly int Height;
+        private readonly ScaleMode ScaleMode;
 
-        public Image(ImageSource source, int width, int height)
+        public Image(ImageSource source, int width, int height, ScaleMode scaleMode = ScaleMode.Strech)
         {
             Source = source;
             Width = width;
             Height = height;
+            ScaleMode = scaleMode;
         }
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
@@ -45,13 +55,14 @@ namespace FluidSharp.Widgets
             if (image == null)
                 return dest;
 
-            var paintrect = rect;
+            var paintrect = dest.Scale(ScaleMode, new SKSize(image.Width, image.Height));
+
             if (layoutsurface.Device.PixelRounding)
             {
-                var l = (float)Math.Round(rect.Left);
-                var t = (float)Math.Round(rect.Top);
-                var w = (float)Math.Round(rect.Width);
-                var h = (float)Math.Round(rect.Height);
+                var l = (float)Math.Round(paintrect.Left);
+                var t = (float)Math.Round(paintrect.Top);
+                var w = (float)Math.Round(paintrect.Width);
+                var h = (float)Math.Round(paintrect.Height);
                 paintrect = new SKRect(l, t, l + w, t + h);
             }
 

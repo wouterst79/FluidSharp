@@ -16,9 +16,6 @@ namespace FluidSharp.Engine
             public double paintstart;
             public double widgetscreated;
             public double paintfinished;
-
-            public TimeSpan scrolltime;
-
         }
 
         private FrameInfo CurrentFrame;
@@ -64,8 +61,6 @@ namespace FluidSharp.Engine
         {
             Restart = true;
         }
-
-        public void SetAnimatedScrollTime(TimeSpan scrollTime) => CurrentFrame.scrolltime = scrollTime;
 
         public List<FrameInfo> GetFrames() => Frames;
 

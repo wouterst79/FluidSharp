@@ -70,15 +70,6 @@ namespace FluidSharp.Widgets.Debugging
                     canvas.DrawRect(new SKRect(x, y, x + 1, y += t2), paint2);
                     canvas.DrawRect(new SKRect(x, y, x + 1, y += t3), paint3);
 
-                    if (frame.scrolltime.TotalMilliseconds > 0)
-                    {
-                        if (!scroll0.HasValue) scroll0 = frame.scrolltime;
-
-                        y = (float)((frame.scrolltime - scroll0.Value).TotalMilliseconds * animyfactor);
-                        canvas.DrawLine(x, y, x+1, y + 3, scrollpaint);
-
-                    }
-
                     x++;
 
                 }

@@ -1,13 +1,20 @@
-﻿using System;
+﻿#define USEGL
+using System;
 using FluidSharp.Touch;
 using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 using System.Drawing;
+using OpenTK;
+
 
 namespace FluidSharp.Views.WindowsForms
 {
 
+#if USEGL
+    public class SkiaView : SKGLControl, ISkiaView
+#else
     public class SkiaView : SKControl, ISkiaView
+#endif
     {
 
         float ISkiaView.Width => Width;
@@ -26,13 +33,23 @@ namespace FluidSharp.Views.WindowsForms
 
             //this.IgnorePixelScaling = true; <== not supported on windows form
 
+#if !USEGL
             this.PaintSurface += CanvasView_PaintSurface;
+#endif
 
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(SkiaControl_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(SkiaControl_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(SkiaControl_MouseUp);
 
         }
+
+#if USEGL
+        protected override void OnPaintSurface(SKPaintGLSurfaceEventArgs e)
+        {
+            base.OnPaintSurface(e);
+            PaintViewSurface?.Invoke(this, new PaintSurfaceEventArgs(e.Surface.Canvas, Width, Height, e.Surface, default));
+        }
+#endif
 
         private void CanvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {

@@ -26,6 +26,8 @@ namespace FluidSharp.Paint.Images
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static implicit operator ImageSource(string resource) => new ResourceImageSource(resource, Assembly.GetCallingAssembly());
 
+        //public static implicit operator ImageSource(string resource) => new FileImageSource(resource);
+        
     }
 
 }

@@ -45,20 +45,27 @@ namespace FluidSharp.Views.WindowsForms
             // set child bounds
             var targetbounds = new Rectangle((int)rect.Left, (int)rect.Top, (int)rect.Width, (int)rect.Height);
             if (control.Bounds != targetbounds)
+            {
 #if PRINTEVENTS
                 Debug.WriteLine($"setting bounds: {targetbounds}");
 #endif
                 control.SetBounds(targetbounds.X, targetbounds.Y, targetbounds.Width, targetbounds.Height);
 
+            }
+
+            if (control is INativeViewImpl nativeImpl)
+                nativeImpl.UpdateControl(nativeViewWidget);
         }
 
         public override void SetControlVisible(Control control, bool visible)
         {
             if (control.Visible != visible)
+            {
 #if PRINTEVENTS
                     Debug.WriteLine($"setting visible");
 #endif
                 control.Visible = visible;
+            }
         }
 
     }
