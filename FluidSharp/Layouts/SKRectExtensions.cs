@@ -1,5 +1,6 @@
 ﻿using FluidSharp.Widgets;
 using SkiaSharp;
+using SkiaSharp.TextBlocks.Enum;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,6 +25,14 @@ namespace FluidSharp.Layouts
                 return new SKRect(rect.MidX - wfromh / 2, rect.Top, rect.MidX + wfromh / 2, rect.Bottom);
             else
                 return new SKRect(rect.Left, rect.MidY - hfromw / 2, rect.Right, rect.MidY + hfromw / 2);
+        }
+
+        public static SKRect Fit(this SKRect rect, SKSize size, FlowDirection flowDirection)
+        {
+            if (flowDirection != FlowDirection.RightToLeft)
+                return new SKRect(rect.Left, rect.Top, rect.Left + size.Width, rect.Top + size.Height);
+            else
+                return new SKRect(rect.Right - size.Width, rect.Top, rect.Right, rect.Top + size.Height);
         }
 
     }

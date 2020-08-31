@@ -333,10 +333,10 @@ namespace FluidSharp.Widgets
         }
 
 
-        private float GetRowSize(MeasureCache measureCache, int row, float[] columns, float availableheight)
+        private float GetRowSize(MeasureCache measureCache, int row, float[] columns, float availableheight, float minheight)
         {
 
-            var height = 0f;
+            var height = minheight;
             foreach (var cell in Cells)
                 if (cell != null)
                 {
@@ -390,7 +390,7 @@ namespace FluidSharp.Widgets
                 else if (size is LayoutSize.Fit sf)
                 {
                     if (columns == null) throw new Exception("fit is not yet supported for columns");
-                    var s = GetRowSize(measureCache, i, columns, remaining);
+                    var s = GetRowSize(measureCache, i, columns, remaining, sf.MinSize);
                     result[i] = s;
                     remaining -= s;
                 }

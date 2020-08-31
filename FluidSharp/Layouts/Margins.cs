@@ -58,6 +58,11 @@ namespace FluidSharp.Layouts
                 return new SKRect(original.Left - Far, original.Top - Top, original.Right + Near, original.Bottom + Bottom);
         }
 
+        public SKSize Grow(SKSize original)
+        {
+            return new SKSize(original.Width + TotalX, original.Height + TotalY);
+        }
+
         //public Widget ExpandHorizontal(Widget widget) => new Container(ContainerLayout.ExpandHorizontal, this, widget);
 
     }

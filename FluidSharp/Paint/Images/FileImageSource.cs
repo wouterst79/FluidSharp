@@ -23,11 +23,14 @@ namespace FluidSharp.Paint.Images
 
         public override SKImage GetImage()
         {
-            using (var stream = File.OpenRead(Path))
-            {
-                var image = SKImage.FromBitmap(SKBitmap.Decode(stream));
-                return image;
-            }
+            if (File.Exists(Path))
+                using (var stream = File.OpenRead(Path))
+                {
+                    var image = SKImage.FromBitmap(SKBitmap.Decode(stream));
+                    return image;
+                }
+
+            return null;
 
         }
 

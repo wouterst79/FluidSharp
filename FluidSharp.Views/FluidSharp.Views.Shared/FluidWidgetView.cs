@@ -31,6 +31,7 @@ namespace FluidSharp.Views.UWP
         public IWidgetSource WidgetSource { get => widgetSource; set { widgetSource = value; InvalidatePaint(); } }
         private IWidgetSource widgetSource;
 
+        public Device Device;
         public FluidWidgetViewImplementation Implementation;
         public NativeViewManager NativeViewManager;
 
@@ -48,7 +49,7 @@ namespace FluidSharp.Views.UWP
         public FluidWidgetView()
         {
 
-            var device = new Device();
+            Device = new Device();
 
 #if __FORMS__
             device.FlowDirection = Xamarin.Forms.Device.FlowDirection == Xamarin.Forms.FlowDirection.RightToLeft ? SkiaSharp.TextBlocks.Enum.FlowDirection.RightToLeft : SkiaSharp.TextBlocks.Enum.FlowDirection.LeftToRight;
@@ -56,7 +57,7 @@ namespace FluidSharp.Views.UWP
 
             NativeViewManager = new NativeViewManager(this);
 
-            Implementation = new FluidWidgetViewImplementation(this, this, device);
+            Implementation = new FluidWidgetViewImplementation(this, this, Device);
 
             RegisterNativeViews();
 

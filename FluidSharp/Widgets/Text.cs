@@ -32,6 +32,15 @@ namespace FluidSharp.Widgets
             TextBlock = new TextBlock(font, color, text, lineBreakMode);
         }
 
+        public Text(Font font, SKColor color, string text, float linespacing)
+        {
+            TextBlock = new TextBlock(font, color, text) { LineSpacing = linespacing };
+        }
+
+        public Text(TextBlock textBlock)
+        {
+            TextBlock = textBlock;
+        }
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {

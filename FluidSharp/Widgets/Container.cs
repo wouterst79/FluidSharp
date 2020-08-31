@@ -65,10 +65,10 @@ namespace FluidSharp.Widgets
             Children = new List<Widget>() { child };
         }
 
-        public Container(ContainerLayout layout, Margins margins, Widget child) : this(layout)
+        public Container(ContainerLayout layout, Margins margins, params Widget[] children) : this(layout)
         {
             Margin = margins;
-            Children = new List<Widget>() { child };
+            Children = new List<Widget>(children);
         }
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)

@@ -15,6 +15,15 @@ namespace FluidSharp.Widgets
 
         public List<Widget> Children = new List<Widget>();
 
+        public Flow()
+        {
+        }
+
+        public Flow(float spacing, params Widget[] widgets)
+        {
+            Spacing = spacing;
+            Children = new List<Widget>(widgets);
+        }
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {

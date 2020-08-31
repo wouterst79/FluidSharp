@@ -31,6 +31,8 @@ namespace FluidSharp.Layouts
 
         public class Fit : LayoutSize
         {
+            public float MinSize;
+            public Fit(float minSize = 0) { MinSize = minSize; }
         }
 
         public class Hidden : LayoutSize

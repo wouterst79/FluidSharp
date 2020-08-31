@@ -13,13 +13,16 @@ namespace FluidSharp.Widgets
         public SKColor BackgroundColor;
         public SKColor BorderColor;
 
-        public Func<SKImageFilter> ImageFilter;
+        public Func<SKImageFilter>? ImageFilter;
 
-        public RoundedRectangle(float cornerRadius, SKColor backgroundColor, SKColor borderColor)
+        public Widget? ClippedContents;
+
+        public RoundedRectangle(float cornerRadius, SKColor backgroundColor, SKColor borderColor, Widget clippedContents = null)
         {
             CornerRadius = cornerRadius;
             BackgroundColor = backgroundColor;
             BorderColor = borderColor;
+            ClippedContents = clippedContents;
         }
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
@@ -30,8 +33,10 @@ namespace FluidSharp.Widgets
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
 
-            if (layoutsurface.Canvas != null)
-                using (var rrect = new SKRoundRect(rect, CornerRadius, CornerRadius))
+            using (var rrect = new SKRoundRect(rect, CornerRadius, CornerRadius))
+            {
+
+                if (layoutsurface.Canvas != null)
                 {
                     if (BackgroundColor != null && BackgroundColor.Alpha != 0)
                         using (var paint = new SKPaint() { Color = BackgroundColor, IsAntialias = true })
@@ -44,6 +49,20 @@ namespace FluidSharp.Widgets
                         using (var paint = new SKPaint() { Color = BorderColor, IsStroke = true, IsAntialias = true })
                             layoutsurface.Canvas.DrawRoundRect(rrect, paint);
                 }
+
+                if (ClippedContents != null)
+                {
+
+                    var clippath = new SKPath();
+                    clippath.AddRoundRect(rrect);
+                    layoutsurface.ClipPath(clippath);
+
+                    layoutsurface.Paint(ClippedContents, rect);
+
+                    layoutsurface.ResetPathClip();
+
+                }
+            }
 
             return rect;
         }

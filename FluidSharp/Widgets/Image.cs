@@ -10,22 +10,15 @@ using System.Text;
 namespace FluidSharp.Widgets
 {
 
-    public enum ScaleMode
-    {
-        Strech,
-        Fit,
-        Fill
-    }
-
     public class Image : Widget
     {
 
-        private readonly ImageSource Source;
-        private readonly int Width;
-        private readonly int Height;
-        private readonly ScaleMode ScaleMode;
+        public ImageSource Source;
+        public float Width;
+        public float Height;
+        public ScaleMode ScaleMode;
 
-        public Image(ImageSource source, int width, int height, ScaleMode scaleMode = ScaleMode.Strech)
+        public Image(ImageSource source, float width, float height, ScaleMode scaleMode = ScaleMode.Strech)
         {
             Source = source;
             Width = width;

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Wouter Steenbergen</Authors>
     <Company>My Daily Bits LLC</Company>
@@ -9,11 +9,13 @@
     <Copyright>2020 Wouter Steenbergen</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Version>1.0.1-alpha</Version>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SkiaSharp" Version="1.68.3" />
-    <PackageReference Include="SkiaSharp.HarfBuzz" Version="1.68.3" />
+    <PackageReference Include="SkiaSharp" Version="2.80.1" />
+    <PackageReference Include="SkiaSharp.HarfBuzz" Version="2.80.1" />
+    <PackageReference Include="Svg.Skia" Version="0.4.1" />
   </ItemGroup>
 
   <ItemGroup>

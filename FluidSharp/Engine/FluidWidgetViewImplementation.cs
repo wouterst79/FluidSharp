@@ -64,7 +64,7 @@ namespace FluidSharp.Engine
         public FluidWidgetViewImplementation(ISkiaView skiaView, IFluidWidgetView widgetView, Device device)
         {
 
-            Device = new Device();
+            Device = device;
 
             View = skiaView;
             WidgetView = widgetView;

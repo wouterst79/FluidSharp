@@ -30,10 +30,11 @@ namespace FluidSharp.Widgets.CrossPlatform
 
         public bool DeletableCellIsSliding;
         public bool UseFakeBoldText { get => Font.UseFakeBoldText; set => Font.UseFakeBoldText = value; }
+        public string DefaultFontName { get => Font.DefaultFontName; set => Font.DefaultFontName = value; }
 
         public float LineSpacing { get => TextBlock.DefaultLineSpacing; set => TextBlock.DefaultLineSpacing = value; }
         public float FieldCornerRadius = 3;
-        public SKSize FieldPadding = new SKSize(5,3);
+        public SKSize FieldPadding = new SKSize(5, 3);
 
         public OverscrollBehavior DefaultOverscrollBehavior = OverscrollBehavior.Stretch;
 
@@ -55,7 +56,7 @@ namespace FluidSharp.Widgets.CrossPlatform
         public static PlatformStyle Material = new PlatformStyle("Material")
         {
             DefaultOverscrollBehavior = OverscrollBehavior.Invert,
-            UseFakeBoldText = true,
+            DefaultFontName = "Roboto",
         };
 
         private static PlatformStyle cupertino;
@@ -69,7 +70,9 @@ namespace FluidSharp.Widgets.CrossPlatform
                     cupertino.OptionalSeparator = cupertino.Separator;
                     cupertino.InsideListSeparator = Rectangle.Horizontal(1, cupertino.SeparatorGrey, new Layouts.Margins(15, 0, 0, 0));
                     cupertino.DeletableCellIsSliding = true;
-                    cupertino.UseFakeBoldText = true;
+#if DEBUG
+                    cupertino.DefaultFontName = "Roboto";
+#endif
                     cupertino.LineSpacing = 1.16f;
                 }
                 return cupertino;

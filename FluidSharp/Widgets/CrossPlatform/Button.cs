@@ -23,13 +23,13 @@ namespace FluidSharp.Widgets.CrossPlatform
             if (platformStyle == PlatformStyle.Material)
                 return new InkWell(ContainerLayout.FillHorizontal, visualState, context, platformStyle.InkWellColor, onTapped, child);
 
-            if (platformStyle == PlatformStyle.Cupertino)
+            //if (platformStyle == PlatformStyle.Cupertino)
                 return FlatButton.FillHorizontal(visualState, context, platformStyle.FlatButtonSelectedBackgroundColor, onTapped, child);
 
-            if (platformStyle == PlatformStyle.UWP)
-                return FlatButton.FillHorizontal(visualState, context, platformStyle.FlatButtonSelectedBackgroundColor, onTapped, child);
+            //if (platformStyle == PlatformStyle.UWP)
+                //return FlatButton.FillHorizontal(visualState, context, platformStyle.FlatButtonSelectedBackgroundColor, onTapped, child);
 
-            throw new ArgumentOutOfRangeException();
+            //throw new ArgumentOutOfRangeException();
         }
 
     }

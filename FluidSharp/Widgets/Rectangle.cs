@@ -34,6 +34,8 @@ namespace FluidSharp.Widgets
             Antialias = antialias;
         }
 
+        public static Rectangle Sized(float width, float height, SKColor backgroundcolor, Margins margin = new Margins()) => new Rectangle(false, false, backgroundcolor, default, margin, new SKSize(width, height), width <= 2 || height <= 2);
+
         public static Rectangle Horizontal(float height, SKColor backgroundcolor, Margins margin = new Margins()) => new Rectangle(true, false, backgroundcolor, default, margin, new SKSize(0, height), height <= 2);
 
         public static Rectangle Vertical(float width, SKColor backgroundcolor, Margins margin = new Margins()) => new Rectangle(false, true, backgroundcolor, default, margin, new SKSize(width, 0), width <= 2);

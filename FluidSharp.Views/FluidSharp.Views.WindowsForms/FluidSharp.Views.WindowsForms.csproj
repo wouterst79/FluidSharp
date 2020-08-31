@@ -40,14 +40,14 @@
       <HintPath>..\..\packages\OpenTK.GLControl.3.1.0\lib\net20\OpenTK.GLControl.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SkiaSharp, Version=1.68.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\fj\v8\Tools\Food.Source.USDA\Food.Source.USDA.LoadFoodData\packages\SkiaSharp.1.68.3\lib\net462\SkiaSharp.dll</HintPath>
+    <Reference Include="SkiaSharp, Version=2.80.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\fj\v8\MyDailyBits.UI\Test\packages\SkiaSharp.2.80.1\lib\net462\SkiaSharp.dll</HintPath>
     </Reference>
-    <Reference Include="SkiaSharp.Views.Desktop.Common, Version=1.68.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\fj\v8\Tools\Food.Source.USDA\Food.Source.USDA.LoadFoodData\packages\SkiaSharp.Views.Desktop.Common.1.68.3\lib\net45\SkiaSharp.Views.Desktop.Common.dll</HintPath>
+    <Reference Include="SkiaSharp.Views.Desktop.Common, Version=2.80.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\fj\v8\MyDailyBits.UI\Test\packages\SkiaSharp.Views.Desktop.Common.2.80.1\lib\net462\SkiaSharp.Views.Desktop.Common.dll</HintPath>
     </Reference>
-    <Reference Include="SkiaSharp.Views.WindowsForms, Version=1.68.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\fj\v8\Tools\Food.Source.USDA\Food.Source.USDA.LoadFoodData\packages\SkiaSharp.Views.WindowsForms.1.68.3\lib\net45\SkiaSharp.Views.WindowsForms.dll</HintPath>
+    <Reference Include="SkiaSharp.Views.WindowsForms, Version=2.80.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\fj\v8\MyDailyBits.UI\Test\packages\SkiaSharp.Views.WindowsForms.2.80.1\lib\net462\SkiaSharp.Views.WindowsForms.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -72,15 +72,10 @@
   <ItemGroup>
     <Compile Include="..\FluidSharp.Views.Shared\FluidWidgetView.cs">
       <Link>FluidWidgetView.cs</Link>
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="NativeViewManager.cs" />
-    <Compile Include="NativeViews\NativeTextboxImpl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="SkiaView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="NativeViews\NativeTextboxImpl.cs" />
+    <Compile Include="SkiaView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -107,7 +102,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\..\packages\SkiaSharp.1.68.1.1\build\net45\SkiaSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SkiaSharp.1.68.1.1\build\net45\SkiaSharp.targets'))" />
     <Error Condition="!Exists('..\..\..\..\..\fj\v8\Tools\Food.Source.USDA\Food.Source.USDA.LoadFoodData\packages\SkiaSharp.1.68.3\build\net462\SkiaSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\fj\v8\Tools\Food.Source.USDA\Food.Source.USDA.LoadFoodData\packages\SkiaSharp.1.68.3\build\net462\SkiaSharp.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\..\fj\v8\MyDailyBits.UI\Test\packages\SkiaSharp.2.80.1\build\net462\SkiaSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\..\fj\v8\MyDailyBits.UI\Test\packages\SkiaSharp.2.80.1\build\net462\SkiaSharp.targets'))" />
   </Target>
   <Import Project="..\..\packages\SkiaSharp.1.68.1.1\build\net45\SkiaSharp.targets" Condition="Exists('..\..\packages\SkiaSharp.1.68.1.1\build\net45\SkiaSharp.targets')" />
   <Import Project="..\..\..\..\..\fj\v8\Tools\Food.Source.USDA\Food.Source.USDA.LoadFoodData\packages\SkiaSharp.1.68.3\build\net462\SkiaSharp.targets" Condition="Exists('..\..\..\..\..\fj\v8\Tools\Food.Source.USDA\Food.Source.USDA.LoadFoodData\packages\SkiaSharp.1.68.3\build\net462\SkiaSharp.targets')" />
+  <Import Project="..\..\..\..\..\fj\v8\MyDailyBits.UI\Test\packages\SkiaSharp.2.80.1\build\net462\SkiaSharp.targets" Condition="Exists('..\..\..\..\..\fj\v8\MyDailyBits.UI\Test\packages\SkiaSharp.2.80.1\build\net462\SkiaSharp.targets')" />
 </Project>

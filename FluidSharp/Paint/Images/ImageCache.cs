@@ -1,8 +1,10 @@
-﻿using SkiaSharp;
+﻿using FluidSharp.Widgets;
+using SkiaSharp;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FluidSharp.Paint.Images
@@ -20,7 +22,7 @@ namespace FluidSharp.Paint.Images
             OnImageLoaded = onImageLoaded;
         }
 
-        public SKImage GetImage(ImageSource source)
+        public SKImage? GetImage(ImageSource source)
         {
 
             if (source?.Name == null)
@@ -42,9 +44,12 @@ namespace FluidSharp.Paint.Images
 
             }
 
-            // start a load task
-            loadtask = Task.Run(() =>
+            System.Diagnostics.Debug.WriteLine($"scheduling image load: {source.Name}");
+
+            async Task LoadImage(ImageSource image)
             {
+
+                System.Diagnostics.Debug.WriteLine($"loading image: {source.Name}");
 
                 // load the image
                 var loadedimage = source.GetImage();
@@ -57,9 +62,11 @@ namespace FluidSharp.Paint.Images
 
                 // request repaint
                 if (OnImageLoaded != null)
-                    Task.Run(OnImageLoaded);
+                    await Task.Run(OnImageLoaded);
 
-            });
+            }
+
+            loadtask = Task.Run(() => LoadImage(source));
             loadtasks.TryAdd(source.Name, loadtask);
 
             // return null image while image is loading

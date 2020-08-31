@@ -3,6 +3,7 @@ using FluidSharp.Layouts;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,6 +29,69 @@ namespace FluidSharp.Widgets
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect) => Child == null ? rect : layoutsurface.Paint(Child, rect);
 
         public abstract float GetValue();
+
+
+        public static void TestStagger()
+        {
+
+
+            for (var c = 2; c < 20; c++)
+            {
+
+                Debug.Assert(Stagger(0, c, c / 3 + 1, 0) == 0);
+                Debug.Assert(Stagger(1, c, c / 3 + 1, 0) == 0);
+
+                Debug.Assert(Stagger(0, c, c / 3 + 1, 1) == 1);
+                Debug.Assert(Stagger(1, c, c / 3 + 1, 1) > .999f);
+                Debug.Assert(Stagger(c - 1, c, c / 3 + 1, 1) > .999f);
+
+            }
+        }
+
+        public static float Stagger(int part, int partcount, int overlappingpartcount, float pct)
+        {
+
+            if (overlappingpartcount < 0) throw new ArgumentOutOfRangeException(nameof(overlappingpartcount));
+            if (part > partcount - 1) throw new ArgumentOutOfRangeException(nameof(part));
+
+            // 0               1
+            // partcount: 2, overlappingpartcount: 1
+            // --------- 
+            //          --------
+
+            // partcount: 2, overlappingpartcount: 2
+            // ----------
+            //      ------------
+
+            // partcount: 2, overlappingpartcount: 3
+            // -----------
+            //     -------------
+
+            // partcount: 3, overlappingpartcount: 2
+            // --------
+            //      --------
+            //          --------
+
+
+            // partcount: 7, overlappingpartcount: 3
+            // ------
+            //   ------
+            //     ------
+            //       ------
+            //         ------
+            //           ------
+            //             ------
+
+            var totalsegments = 1f + ((float)(partcount - 1)) / overlappingpartcount;
+            var segmentlength = 1f / totalsegments;
+            var delta = segmentlength / overlappingpartcount;
+
+            var position = (pct - (delta * part)) / segmentlength;
+            if (position < 0) return 0;
+            if (position > 1) return 1;
+            return position;
+
+        }
 
         public class TimeBased : Animation
         {
