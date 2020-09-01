@@ -42,8 +42,8 @@ namespace FluidSharp
             DebugRect(rect, SKColors.Gray.WithAlpha(64));
 #endif
 
-                if (widget is Animation animation)
-                    if (!animation.Completed)
+                if (widget is AnimatedWidget animation)
+                    if (!animation.Animation.Completed)
                         HasActiveAnimations = true;
 
                 return result;

@@ -1,4 +1,5 @@
-﻿using FluidSharp.Layouts;
+﻿using FluidSharp.Animations;
+using FluidSharp.Layouts;
 using FluidSharp.State;
 using SkiaSharp;
 using System;
@@ -29,8 +30,8 @@ namespace FluidSharp.Widgets.Material
             {
 
                 var started = visualState.TouchTarget.Started;
-                Animation = new Animation.TimeBased(started, Animation.DefaultAnimationDuration, .3f, .7f, (s) => innerwidget);
-                innerwidget = Animation;
+                Animation = new Animation(started, Animation.DefaultDuration, .3f, 1);
+                innerwidget = new AnimatedWidget(Animation, (s) => innerwidget);
 
             }
 

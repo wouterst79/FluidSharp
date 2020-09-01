@@ -44,12 +44,12 @@ namespace FluidSharp.Paint.Images
 
             }
 
-            System.Diagnostics.Debug.WriteLine($"scheduling image load: {source.Name}");
+            //System.Diagnostics.Debug.WriteLine($"scheduling image load: {source.Name}");
 
             async Task LoadImage(ImageSource image)
             {
 
-                System.Diagnostics.Debug.WriteLine($"loading image: {source.Name}");
+                //System.Diagnostics.Debug.WriteLine($"loading image: {source.Name}");
 
                 // load the image
                 var loadedimage = source.GetImage();

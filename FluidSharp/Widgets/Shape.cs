@@ -12,6 +12,7 @@ namespace FluidSharp.Widgets
         public SKPath Path;
         public SKColor BackgroundColor;
         public SKColor BorderColor;
+        public float StrokeWidth = 1f;
 
         public Shape(SKPath path, SKColor backgroundColor, SKColor borderColor)
         {
@@ -44,7 +45,7 @@ namespace FluidSharp.Widgets
                             canvas.DrawPath(drawpath, paint);
 
                     if (BorderColor != null && BorderColor.Alpha != 0)
-                        using (var paint = new SKPaint() { Color = BorderColor, IsStroke = true, IsAntialias = true })
+                        using (var paint = new SKPaint() { Color = BorderColor, IsStroke = true, IsAntialias = true, StrokeWidth = StrokeWidth })
                             canvas.DrawPath(drawpath, paint);
 
                 }

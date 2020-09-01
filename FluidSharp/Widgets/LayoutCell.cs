@@ -17,13 +17,13 @@ namespace FluidSharp.Widgets
         public int ColumnSpan;
         public int RowSpan;
 
-        public Widget Child;
+        public Widget? Child;
 
-        public LayoutCell(int column, int row, Widget child) : this(column, row, 1, 1, child)
+        public LayoutCell(int column, int row, Widget? child) : this(column, row, 1, 1, child)
         {
         }
 
-        public LayoutCell(int column, int row, int columnSpan, int rowSpan, Widget child)
+        public LayoutCell(int column, int row, int columnSpan, int rowSpan, Widget? child)
         {
             Column = column;
             Row = row;
@@ -32,7 +32,7 @@ namespace FluidSharp.Widgets
             Child = child;
         }
 
-        public override SKSize Measure(MeasureCache measureCache, SKSize boundaries) => Child.Measure(measureCache, boundaries);
+        public override SKSize Measure(MeasureCache measureCache, SKSize boundaries) => Child?.Measure(measureCache, boundaries) ?? new SKSize();
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
             if (Child == null)

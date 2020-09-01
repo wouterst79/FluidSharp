@@ -145,7 +145,7 @@ namespace FluidSharp.Widgets
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
             var childrect = layoutsurface.Paint(Child, rect);
-            layoutsurface.DebugGestureRect(childrect, SKColors.MediumPurple.WithAlpha(16));
+            layoutsurface.DebugGestureRect(childrect, SKColors.Red.WithAlpha(32));
             return childrect;
         }
 

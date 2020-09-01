@@ -1,4 +1,5 @@
-﻿using FluidSharp.Layouts;
+﻿using FluidSharp.Animations;
+using FluidSharp.Layouts;
 using FluidSharp.Paint;
 using FluidSharp.State;
 using FluidSharp.Widgets.Material;
@@ -14,12 +15,12 @@ namespace FluidSharp.Widgets.CrossPlatform
     public class DeletableCell
     {
 
-        public static Widget Make(PlatformStyle platformStyle, VisualState visualState, object context, string deletetext, DateTime created, DateTime? deleted, Func<Task> onTapped, Func<Task> onDelete, Widget child)
+        public static Widget? Make(PlatformStyle platformStyle, VisualState visualState, object context, string deletetext, DateTime created, DateTime? deleted, Func<Task> onTapped, Func<Task> onDelete, Widget? child)
         {
 
             if (child == null) return null;
 
-            child = HeightTransition.Make(created, deleted, Animation.DefaultAnimationDuration, child);
+            child = HeightTransition.Make(created, deleted, Animation.DefaultDuration, child);
 
             // deleting completed
             if (child == null) return null;
@@ -44,7 +45,7 @@ namespace FluidSharp.Widgets.CrossPlatform
         {
 
             var lasttapped = LastTapped.ForContext(visualState, context);
-            if (lasttapped.HasValue && lasttapped.Value.Add(Animation.DefaultAnimationDuration) > DateTime.Now)
+            if (lasttapped.HasValue && lasttapped.Value.Add(Animation.DefaultDuration) > DateTime.Now)
             {
                 child = new Container(ContainerLayout.FillHorizontal)
                 {
