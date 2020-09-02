@@ -12,6 +12,8 @@ namespace FluidSharp.Widgets
         public SKPicture SKPicture;
         public float Opacity;
 
+        public SKSize Size => SKPicture.CullRect.Size;
+
         public Picture(SKPicture skpicture, float opacity = 1f)
         {
             SKPicture = skpicture;
@@ -20,13 +22,13 @@ namespace FluidSharp.Widgets
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {
-            return SKPicture.CullRect.Size;
+            return Size;
         }
 
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
 
-            var picturesize = SKPicture.CullRect.Size;
+            var picturesize = Size;
 
             float x;
             if (layoutsurface.Device.FlowDirection == SkiaSharp.TextBlocks.Enum.FlowDirection.LeftToRight)
@@ -37,11 +39,15 @@ namespace FluidSharp.Widgets
             var canvas = layoutsurface.Canvas;
             if (canvas != null)
             {
-                if (Opacity == 1)
+                if (Opacity == 0)
+                { }
+                else if (Opacity == 1)
                     canvas.DrawPicture(SKPicture, x, rect.Top);
                 else
-                    using (var paint = new SKPaint() { Color = SKColors.Black.WithAlpha((byte)(255 * Opacity)) })
+                {
+                    using (var paint = new SKPaint() { Color = SKColors.Black.WithOpacity(Opacity) })
                         canvas.DrawPicture(SKPicture, x, rect.Top, paint);
+                }
             }
 
             return new SKRect(x, rect.Top, x + picturesize.Width, rect.Top + picturesize.Height);

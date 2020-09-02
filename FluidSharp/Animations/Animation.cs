@@ -1,4 +1,5 @@
 ﻿using FluidSharp.Layouts;
+using FluidSharp.Widgets;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -46,12 +47,13 @@ namespace FluidSharp.Animations
             return this;
         }
 
-        public Frame StartEnd(float start, float end)
+        public Frame SetStartEnd(float start, float end)
         {
             Start = start;
             End = end;
             return this;
         }
+
     }
 
     public class Animation
@@ -86,6 +88,11 @@ namespace FluidSharp.Animations
             OnCompleted = onCompleted;
         }
 
+        public Animation MakeOffset(float pct)
+        {
+            return new Animation(StartTime + Duration * pct, Duration, Start, End, Easing);
+        }
+
         private double GetPctComplete()
         {
             var pct = DateTime.Now.Subtract(StartTime).TotalMilliseconds / Duration.TotalMilliseconds;
@@ -107,6 +114,24 @@ namespace FluidSharp.Animations
             var value = (float)(Start + GetPctComplete() * Delta);
             if (Easing != null) value = Easing.Ease(value);
             return value;
+        }
+
+        public static Widget Wrap<T>(Animation? animation, Func<Animation, T, Widget> wrap, T contents)
+            where T : Widget
+        {
+            if (animation == null) return contents;
+            return wrap(animation, contents);
+        }
+
+        public static Widget Wrap<T>(Animation? animation1, Func<Animation, T, Widget> wrap1, Animation? animation2, Func<Animation, T, Widget> wrap2, T contents)
+            where T : Widget
+        {
+            if (animation1 != null)
+                return wrap1(animation1, contents);
+            else if (animation2 != null)
+                return wrap2(animation2, contents);
+            else
+                return contents;
         }
 
         #region Stagger calculation
@@ -172,7 +197,8 @@ namespace FluidSharp.Animations
 
             public Frame AddFrame(Frame frame)
             {
-                frame.FrameStart = frame.FrameStart + Duration;
+                if (frame.FrameStart == TimeSpan.Zero)
+                    frame.FrameStart = frame.FrameStart + Duration;
                 return NewFrame(frame);
             }
 
@@ -194,6 +220,8 @@ namespace FluidSharp.Animations
 
             public Frame this[string name] => Frames[name];
 
+            public bool TryGetFrame(string name, out Frame frame) => Frames.TryGetValue(name, out frame);
+
             public void ScaleTo(TimeSpan duration)
             {
                 var scale = duration / Duration;
@@ -204,6 +232,13 @@ namespace FluidSharp.Animations
                     frame.StartTime = StartTime.Add(frame.FrameStart);
                 }
                 Duration = duration;
+            }
+
+            public void Stop()
+            {
+                StartTime = DateTime.Now.AddHours(-1);
+                foreach (var frame in Frames.Values)
+                    frame.StartTime = StartTime;
             }
 
         }

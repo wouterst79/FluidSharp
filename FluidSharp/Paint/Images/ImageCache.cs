@@ -13,15 +13,19 @@ namespace FluidSharp.Paint.Images
     {
 
         private ConcurrentDictionary<string, SKImage> imagecache = new ConcurrentDictionary<string, SKImage>();
-        private ConcurrentDictionary<string, Task> loadtasks = new ConcurrentDictionary<string, Task>();
+
+        private ConcurrentBag<ImageSource> loadqueue = new ConcurrentBag<ImageSource>();
 
         public Action OnImageLoaded;
+
+        private Task? LoadTask;
 
         public ImageCache(Action onImageLoaded)
         {
             OnImageLoaded = onImageLoaded;
         }
 
+        static bool inhere;
         public SKImage? GetImage(ImageSource source)
         {
 
@@ -32,45 +36,54 @@ namespace FluidSharp.Paint.Images
             if (imagecache.TryGetValue(source.Name, out var image))
                 return image;
 
-            // escape if an existing load task is running
-            if (loadtasks.TryGetValue(source.Name, out var loadtask))
-            {
-                if (!loadtask.IsCompleted)
-                    return null;
+            var loadedimage = source.GetImage();
+            imagecache.AddOrUpdate(source.Name, loadedimage, (l, i) => loadedimage);
 
-                loadtasks.TryRemove(source.Name, out _);
-                if (imagecache.TryGetValue(source.Name, out image))
-                    return image;
+            return loadedimage;
+            //if (inhere)
+            //    return null;
+            //inhere = true;
+
+            //// add item to queue
+            //loadqueue.Add(source);
+
+            //// make sure working process is running
+            //if (LoadTask == null)
+            //    LoadTask = Task.Run(ProcessQueue);
+
+            //// return null image while image is loading
+            //return null;
+
+        }
+
+        async void ProcessQueue()
+        {
+
+            await Task.Delay(1).ConfigureAwait(false);
+
+            if (LoadTask == null)
+                throw new ArgumentOutOfRangeException();
+
+            while (loadqueue.TryTake(out var source))
+            {
+
+                Thread.Sleep(10000);
+
+                if (!imagecache.TryGetValue(source.Name, out var current))
+                {
+
+                    var loadedimage = source.GetImage();
+                    imagecache.AddOrUpdate(source.Name, loadedimage, (l, i) => loadedimage);
+
+                }
 
             }
 
-            //System.Diagnostics.Debug.WriteLine($"scheduling image load: {source.Name}");
+            // request repaint
+            if (OnImageLoaded != null)
+                await Task.Run(OnImageLoaded);
 
-            async Task LoadImage(ImageSource image)
-            {
-
-                //System.Diagnostics.Debug.WriteLine($"loading image: {source.Name}");
-
-                // load the image
-                var loadedimage = source.GetImage();
-
-                // store in cache
-                imagecache.AddOrUpdate(source.Name, loadedimage, (l, i) => loadedimage);
-
-                // dequeue load task
-                loadtasks.TryRemove(source.Name, out _);
-
-                // request repaint
-                if (OnImageLoaded != null)
-                    await Task.Run(OnImageLoaded);
-
-            }
-
-            loadtask = Task.Run(() => LoadImage(source));
-            loadtasks.TryAdd(source.Name, loadtask);
-
-            // return null image while image is loading
-            return null;
+            LoadTask = null;
 
         }
 
