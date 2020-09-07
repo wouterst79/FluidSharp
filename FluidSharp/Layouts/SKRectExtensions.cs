@@ -10,6 +10,15 @@ namespace FluidSharp.Layouts
     public static class SKRectExtensions
     {
 
+        public static SKRect Move(this SKRect rect, SKPoint delta, bool minusx)
+        {
+            if (minusx)
+                return new SKRect(rect.Left - delta.X, rect.Top + delta.Y, rect.Right - delta.X, rect.Bottom + delta.Y);
+            else
+                return new SKRect(rect.Left + delta.X, rect.Top + delta.Y, rect.Right + delta.X, rect.Bottom + delta.Y);
+        }
+
+
         public static SKRect Scale(this SKRect rect, ScaleMode scaleMode, SKSize aspect)
         {
 

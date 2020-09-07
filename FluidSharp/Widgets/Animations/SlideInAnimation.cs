@@ -16,7 +16,7 @@ namespace FluidSharp.Widgets
         {
         }
 
-        public static Widget? Make(Animation appearingStarted, Animation? disappearingStarted, Widget child)
+        public static Widget? Make(Animation? appearingStarted, Animation? disappearingStarted, Widget child)
         {
 
             if (disappearingStarted != null)
@@ -28,7 +28,7 @@ namespace FluidSharp.Widgets
             }
             else
             {
-                if (appearingStarted.Completed)
+                if (appearingStarted == null || appearingStarted.Completed)
                     return child;
                 else
                     return new SlideInAnimation(appearingStarted.StartTime, appearingStarted.Duration, 0, 1, child);

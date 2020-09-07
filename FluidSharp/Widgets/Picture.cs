@@ -11,12 +11,14 @@ namespace FluidSharp.Widgets
 
         public SKPicture SKPicture;
         public float Opacity;
+        public bool AutoFlipRTL;
 
         public SKSize Size => SKPicture.CullRect.Size;
 
-        public Picture(SKPicture skpicture, float opacity = 1f)
+        public Picture(SKPicture skpicture, bool autoFlipRtl, float opacity = 1f)
         {
             SKPicture = skpicture;
+            AutoFlipRTL = autoFlipRtl;
             Opacity = opacity;
         }
 
@@ -35,22 +37,32 @@ namespace FluidSharp.Widgets
                 x = rect.Left;
             else
                 x = rect.Right - picturesize.Width;
+            var y = rect.Top;
 
             var canvas = layoutsurface.Canvas;
-            if (canvas != null)
+            if (canvas != null && Opacity>0)
             {
-                if (Opacity == 0)
-                { }
-                else if (Opacity == 1)
-                    canvas.DrawPicture(SKPicture, x, rect.Top);
+
+                var flip = AutoFlipRTL && layoutsurface.Device.FlowDirection == SkiaSharp.TextBlocks.Enum.FlowDirection.RightToLeft;
+                var matrix = flip ?
+                    SKMatrix.CreateScale(-1, 1).PostConcat(SKMatrix.CreateTranslation(x + picturesize.Width, y)) :
+                    SKMatrix.CreateTranslation(x, y);
+
+                if (Opacity == 1)
+                {
+                    canvas.DrawPicture(SKPicture, ref matrix);
+                }
                 else
                 {
                     using (var paint = new SKPaint() { Color = SKColors.Black.WithOpacity(Opacity) })
-                        canvas.DrawPicture(SKPicture, x, rect.Top, paint);
+                    {
+                        canvas.DrawPicture(SKPicture, ref matrix, paint);
+                    }
+
                 }
             }
 
-            return new SKRect(x, rect.Top, x + picturesize.Width, rect.Top + picturesize.Height);
+            return new SKRect(x, y, x + picturesize.Width, y + picturesize.Height);
         }
 
 

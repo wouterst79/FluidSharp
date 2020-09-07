@@ -20,10 +20,10 @@ namespace FluidSharp.Widgets
         public float ColumnSpacing;
         public float RowSpacing;
 
-        public List<LayoutSize> Columns = new List<LayoutSize>();
-        public List<LayoutSize> Rows = new List<LayoutSize>();
+        public List<LayoutSize?> Columns = new List<LayoutSize?>();
+        public List<LayoutSize?> Rows = new List<LayoutSize?>();
 
-        public List<LayoutCell> Cells = new List<LayoutCell>();
+        public List<LayoutCell?> Cells = new List<LayoutCell?>();
 
         public Layout()
         {

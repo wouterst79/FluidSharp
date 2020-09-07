@@ -15,7 +15,8 @@ namespace FluidSharp.Widgets.CrossPlatform
 
         public SKColor SeparatorGrey = SKColor.Parse("#E4E3E5");// SKColors.LightGray;
 
-        public SKColor InkWellColor = SKColors.Black.WithAlpha(64);
+        //public SKColor InkWellColor = SKColors.Black.WithAlpha(64);
+        public SKColor InkWellColor = new SKColor(96, 96, 96, 96);//.Black.WithAlpha(64);
         public SKColor FlatButtonSelectedBackgroundColor = SKColors.Black.WithAlpha(32);
 
         public SKColor CheckboxColor = new SKColor(59, 153, 252);
@@ -29,7 +30,6 @@ namespace FluidSharp.Widgets.CrossPlatform
         public Widget InsideListSeparator;
 
         public bool DeletableCellIsSliding;
-        public bool UseFakeBoldText { get => Font.UseFakeBoldText; set => Font.UseFakeBoldText = value; }
         public string DefaultFontName { get => Font.DefaultFontName; set => Font.DefaultFontName = value; }
 
         public float LineSpacing { get => TextBlock.DefaultLineSpacing; set => TextBlock.DefaultLineSpacing = value; }
@@ -70,9 +70,6 @@ namespace FluidSharp.Widgets.CrossPlatform
                     cupertino.OptionalSeparator = cupertino.Separator;
                     cupertino.InsideListSeparator = Rectangle.Horizontal(1, cupertino.SeparatorGrey, new Layouts.Margins(15, 0, 0, 0));
                     cupertino.DeletableCellIsSliding = true;
-#if DEBUG
-                    cupertino.DefaultFontName = "Roboto";
-#endif
                     cupertino.LineSpacing = 1.16f;
                 }
                 return cupertino;

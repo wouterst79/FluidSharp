@@ -57,7 +57,7 @@ namespace FluidSharp.Widgets
             return new SKSize(childsize.Width + Margin.Width, childsize.Height + Margin.Height);
         }
 
-        public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
+        public SKRect GetChildRect(LayoutSurface layoutsurface, SKRect rect)
         {
 
             var available = rect.Size - Margin;
@@ -106,9 +106,14 @@ namespace FluidSharp.Widgets
                     y = rect.Bottom - h - Margin.Height;
             }
 
-            var childrect = new SKRect(x, y, x + w, y + h);
-            layoutsurface.Paint(Child, childrect);
+            return new SKRect(x, y, x + w, y + h);
 
+        }
+
+        public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
+        {
+            var childrect = GetChildRect(layoutsurface, rect);
+            layoutsurface.Paint(Child, childrect);
             return rect;
         }
 

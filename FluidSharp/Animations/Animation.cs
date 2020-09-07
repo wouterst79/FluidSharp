@@ -4,6 +4,7 @@ using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -43,18 +44,61 @@ namespace FluidSharp.Animations
 
         public Frame Reverse()
         {
-            Start = 1; End = 0;
+            StartValue = 1; EndValue = 0;
             return this;
         }
 
         public Frame SetStartEnd(float start, float end)
         {
-            Start = start;
-            End = end;
+            StartValue = start;
+            EndValue = end;
             return this;
         }
 
     }
+
+    public class State
+    {
+
+        public string Name { get; set; }
+
+        public Animation.Coordinated Animation = new Animation.Coordinated(DateTime.Now);
+
+        public State(string name) => Name = name;
+
+        public bool Started { get; set; }
+        public bool Completed => Started && Animation.Completed;
+
+        public void Reset()
+        {
+            Started = false;
+        }
+
+    }
+
+    public class StateAnimation : Animation
+    {
+
+        public List<State> States { get; set; } = new List<State>();
+
+        public State? CurrentState { get; private set; }
+
+        public State Add(State state)
+        {
+            States.Add(state);
+            return state;
+        }
+
+        public void StartState(State state)
+        {
+            state.Animation.Start();
+            CurrentState = state;
+            state.Started = true;
+        }
+
+    }
+
+
 
     public class Animation
     {
@@ -63,34 +107,46 @@ namespace FluidSharp.Animations
         public static float Speed = 1f;
 
         public DateTime StartTime { get; set; }
+        public DateTime EndTime => StartTime + Duration;
 
         public TimeSpan Duration { get; set; }
 
-        public float Start { get; set; } = 0;
-        public float End { get; set; } = 1;
-        public float Delta => End - Start;
+        public float StartValue { get; set; } = 0;
+        public float EndValue { get; set; } = 1;
+        public float Delta => EndValue - StartValue;
 
         public Easing? Easing { get; set; }
 
+        public bool Started => GetPctComplete() > 0;
         private bool completedfired;
-        public bool Completed { get => GetPctComplete() >= 1; }
+        public bool Completed => GetPctComplete() >= 1;
         public Func<Task>? OnCompleted;
 
         protected Animation() { }
+
+        public virtual void Start()
+        {
+            StartTime = DateTime.Now;
+        }
+
+        public virtual void Stop()
+        {
+            StartTime = DateTime.Now.Add(-Duration * 2);
+        }
 
         public Animation(DateTime startTime, TimeSpan duration, float start = 0, float end = 1, Easing? easing = null, Func<Task>? onCompleted = null)
         {
             StartTime = startTime;
             Duration = duration;
-            Start = start;
-            End = end;
+            StartValue = start;
+            EndValue = end;
             Easing = easing;
             OnCompleted = onCompleted;
         }
 
         public Animation MakeOffset(float pct)
         {
-            return new Animation(StartTime + Duration * pct, Duration, Start, End, Easing);
+            return new Animation(StartTime + Duration * pct, Duration, StartValue, EndValue, Easing);
         }
 
         private double GetPctComplete()
@@ -111,7 +167,7 @@ namespace FluidSharp.Animations
 
         public float GetValue()
         {
-            var value = (float)(Start + GetPctComplete() * Delta);
+            var value = (float)(StartValue + GetPctComplete() * Delta);
             if (Easing != null) value = Easing.Ease(value);
             return value;
         }
@@ -197,8 +253,8 @@ namespace FluidSharp.Animations
 
             public Frame AddFrame(Frame frame)
             {
-                if (frame.FrameStart == TimeSpan.Zero)
-                    frame.FrameStart = frame.FrameStart + Duration;
+                //                if (frame.FrameStart == TimeSpan.Zero)
+                frame.FrameStart = frame.FrameStart + Duration;
                 return NewFrame(frame);
             }
 
@@ -234,11 +290,38 @@ namespace FluidSharp.Animations
                 Duration = duration;
             }
 
-            public void Stop()
+            public void AddFrames(TimeSpan start, Coordinated coordinated)
+            {
+                foreach (var frame in coordinated.Frames.Values)
+                {
+                    frame.FrameStart += start;
+                    NewFrame(frame);
+                }
+            }
+
+            public override void Start()
+            {
+                StartTime = DateTime.Now;
+                foreach (var frame in Frames.Values)
+                    frame.StartTime = StartTime.Add(frame.FrameStart);
+            }
+
+            public override void Stop()
             {
                 StartTime = DateTime.Now.AddHours(-1);
                 foreach (var frame in Frames.Values)
                     frame.StartTime = StartTime;
+            }
+
+            public void MoveTo(string name, bool allowmoveback)
+            {
+                var framestart = Frames[name].FrameStart;
+                var time = DateTime.Now.Add(-framestart);
+                if (!allowmoveback && time > StartTime) return;
+
+                StartTime = time;
+                foreach (var frame in Frames.Values)
+                    frame.StartTime = StartTime.Add(frame.FrameStart);
             }
 
         }
