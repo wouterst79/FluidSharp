@@ -12,46 +12,35 @@ namespace FluidSharp.Widgets
     public class RichText : Widget, ITextWidget
     {
 
-        public List<Text> Text = new List<Text>();
-
-        protected RichTextBlock RichTextBlock;
+        public float MarginY;
+        public RichTextBlock RichTextBlock = new RichTextBlock();
 
         public RichText() { }
 
-        public RichText(params Text[] texts) { Text.AddRange(texts); }
+        public RichText(params Text[] texts)
+        {
+            foreach (var text in texts)
+                AddText(text);
+        }
 
         public RichText(RichTextBlock richTextBlock) { RichTextBlock = richTextBlock; }
 
-        public float GetMarginY()
+        public void AddText(Text text)
         {
-            var max = 0f;
-            foreach (var text in Text)
-                if (text != null)
-                {
-                    var my = text.GetMarginY();
-                    if (my > max) max = my;
-                }
-            return max;
+            var my = text.GetMarginY();
+            if (MarginY < my) MarginY = my;
+            RichTextBlock.Add(text.TextBlock);
         }
 
-        private void LoadRichTextBlock()
-        {
-            if (RichTextBlock != null) return;
-            RichTextBlock = new RichTextBlock();
-            foreach (var text in Text)
-                if (text != null)
-                    RichTextBlock.Spans.Add(new TextBlockSpan(text.TextBlock));
-        }
+        public float GetMarginY() => MarginY;
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {
-            LoadRichTextBlock();
             return RichTextBlock.Measure(boundaries.Width, measureCache.TextShaper);
         }
 
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
-            LoadRichTextBlock();
             var result = RichTextBlock.Paint(layoutsurface.Canvas, rect, layoutsurface.Device.FlowDirection, layoutsurface.MeasureCache.TextShaper);
 
             //#if DEBUG
