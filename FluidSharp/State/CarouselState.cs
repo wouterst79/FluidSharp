@@ -20,12 +20,15 @@ namespace FluidSharp.State
         public int Direction;
         public T Next;
 
-        public TransitionFrame(float ratio, T current, int direction, T next)
+        public Func<TransitionFrame<T>, VisualState, Task>? OnCompleted;
+
+        public TransitionFrame(float ratio, T current, int direction, T next, Func<TransitionFrame<T>, VisualState, Task>? onCompleted)
         {
             Ratio = ratio;
             Current = current;
             Direction = direction;
             Next = next;
+            OnCompleted = onCompleted;
         }
 
     }
@@ -80,7 +83,7 @@ namespace FluidSharp.State
                 next = GetNextValue(current, direction);
             }
 
-            return new TransitionFrame<T>(ratio, current, direction, next);
+            return new TransitionFrame<T>(ratio, current, direction, next, Progress);
         }
 
         private (float ratio, int direction) GetFrameRatios()
@@ -209,7 +212,7 @@ namespace FluidSharp.State
 
         }
 
-        public async Task Progress(TransitionFrame<T> frame, VisualState visualState)
+        private async Task Progress(TransitionFrame<T> frame, VisualState visualState)
         {
 
             var NextStep = frame.Next;
@@ -227,6 +230,25 @@ namespace FluidSharp.State
             }
 
         }
+
+        //public async Task Progress(TransitionFrame<T> frame, VisualState visualState)
+        //{
+
+        //    var NextStep = frame.Next;
+        //    if (NextStep == null) return;
+        //    if (GetDirection(Current, Target) == GetDirection(Current, NextStep)) // make sure the transition is still valid
+        //    {
+
+        //        //System.Diagnostics.Debug.WriteLine($"current StateTransition set to {NextStep} from {Current} (target = {Target})");
+
+        //        Current = NextStep;
+        //        SetAnimationStart(0, false);
+
+        //        await visualState.RequestRedraw();
+
+        //    }
+
+        //}
 
     }
 }

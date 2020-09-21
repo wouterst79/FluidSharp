@@ -15,13 +15,13 @@ namespace FluidSharp.Widgets
 
         public Widget? Child;
 
-        public AnimatedWidget(Animation animation, Widget child)
+        public AnimatedWidget(Animation animation, Widget? child)
         {
             Animation = animation;
             Child = child;
         }
 
-        public AnimatedWidget(Animation animation, Func<float, Widget> makechild)
+        public AnimatedWidget(Animation animation, Func<float, Widget?> makechild)
         {
             Animation = animation;
             var value = animation.GetValue();

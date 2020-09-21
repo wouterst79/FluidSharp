@@ -27,7 +27,11 @@ namespace FluidSharp.Widgets
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {
-            return new SKSize(CornerRadius * 3, CornerRadius * 3);
+
+            if (ClippedContents == null)
+                return new SKSize(CornerRadius * 3, CornerRadius * 3);
+            else
+                return ClippedContents.Measure(measureCache, boundaries);
         }
 
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)

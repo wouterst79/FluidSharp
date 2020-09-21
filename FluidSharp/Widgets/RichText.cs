@@ -18,13 +18,19 @@ namespace FluidSharp.Widgets
 
         public RichText() { }
 
-        public RichText(params Text[] texts) { Text.AddRange(texts); } 
+        public RichText(params Text[] texts) { Text.AddRange(texts); }
+
+        public RichText(RichTextBlock richTextBlock) { RichTextBlock = richTextBlock; }
 
         public float GetMarginY()
         {
             var max = 0f;
             foreach (var text in Text)
-                if (text != null && text.GetMarginY() > max) max = text.GetMarginY();
+                if (text != null)
+                {
+                    var my = text.GetMarginY();
+                    if (my > max) max = my;
+                }
             return max;
         }
 
@@ -34,7 +40,7 @@ namespace FluidSharp.Widgets
             RichTextBlock = new RichTextBlock();
             foreach (var text in Text)
                 if (text != null)
-                    RichTextBlock.Spans.Add(new RichTextSpan() { TextBlock = text.TextBlock });
+                    RichTextBlock.Spans.Add(new TextBlockSpan(text.TextBlock));
         }
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
@@ -48,13 +54,13 @@ namespace FluidSharp.Widgets
             LoadRichTextBlock();
             var result = RichTextBlock.Paint(layoutsurface.Canvas, rect, layoutsurface.Device.FlowDirection, layoutsurface.MeasureCache.TextShaper);
 
-//#if DEBUG
-//            var measured = Measure(layoutsurface.MeasureCache, rect.Size);
-//            if (result.Height > measured.Height)
-//            {
-//                System.Diagnostics.Debug.WriteLine($"warning: Paint resulted in larger rect {result} than measured rect {measured}");
-//            }
-//#endif
+            //#if DEBUG
+            //            var measured = Measure(layoutsurface.MeasureCache, rect.Size);
+            //            if (result.Height > measured.Height)
+            //            {
+            //                System.Diagnostics.Debug.WriteLine($"warning: Paint resulted in larger rect {result} than measured rect {measured}");
+            //            }
+            //#endif
 
             return result;
         }

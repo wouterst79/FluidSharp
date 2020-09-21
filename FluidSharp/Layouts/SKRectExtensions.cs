@@ -44,5 +44,36 @@ namespace FluidSharp.Layouts
                 return new SKRect(rect.Right - size.Width, rect.Top, rect.Right, rect.Top + size.Height);
         }
 
+        public static SKRect Center(this SKRect rect, SKSize size)
+        {
+            return new SKRect(rect.MidX - size.Width / 2,
+                              rect.MidY - size.Height / 2,
+                              rect.MidX + size.Width / 2,
+                              rect.MidY + size.Height / 2);
+        }
+
+        public static SKRect HorizontalAlign(this SKRect rect, SKSize size, HorizontalAlignment horizontalAlignment, FlowDirection flowDirection)
+        {
+            if (horizontalAlignment == HorizontalAlignment.Center)
+            {
+                return new SKRect(rect.MidX - size.Width / 2,
+                                  rect.Top,
+                                  rect.MidX + size.Width / 2,
+                                  rect.Top + size.Height);
+            }
+
+            if ((horizontalAlignment == HorizontalAlignment.Near && flowDirection == FlowDirection.LeftToRight)
+              || (horizontalAlignment == HorizontalAlignment.Far && flowDirection == FlowDirection.RightToLeft))
+            {
+                // left
+                return new SKRect(rect.Left, rect.Top, rect.Left + size.Width, rect.Top + size.Height);
+            }
+            else
+            {
+                // right
+                return new SKRect(rect.Right - size.Width, rect.Top, rect.Right, rect.Top + size.Height);
+            }
+        }
+
     }
 }

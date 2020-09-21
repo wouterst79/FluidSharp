@@ -1,4 +1,4 @@
-﻿#define USEGL
+﻿//#define USEGL
 using System;
 using FluidSharp.Touch;
 using SkiaSharp;
@@ -19,6 +19,11 @@ namespace FluidSharp.Views.WindowsForms
 
         float ISkiaView.Width => Width;
         float ISkiaView.Height => Height;
+
+
+#if !USEGL
+        public bool VSync;
+#endif
 
         public event EventHandler<PaintSurfaceEventArgs> PaintViewSurface;
         public event EventHandler<TouchActionEventArgs> Touch;

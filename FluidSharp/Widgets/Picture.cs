@@ -15,7 +15,7 @@ namespace FluidSharp.Widgets
 
         public SKSize Size => SKPicture.CullRect.Size;
 
-        public Picture(SKPicture skpicture, bool autoFlipRtl, float opacity = 1f)
+        public Picture(SKPicture skpicture, bool autoFlipRtl = true, float opacity = 1f)
         {
             SKPicture = skpicture;
             AutoFlipRTL = autoFlipRtl;

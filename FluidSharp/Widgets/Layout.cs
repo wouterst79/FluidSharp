@@ -148,7 +148,7 @@ namespace FluidSharp.Widgets
 
                 var columnsizes = GetSizes(measureCache, Columns, available.Width, null);
                 var rowsizes = GetSizes(measureCache, Rows, available.Height, columnsizes);
-                h = Margin.TotalY;
+                h = Margin.TotalY + (rows.count - 1) * RowSpacing;
                 for (int i = 0; i < rowsizes.Length; i++)
                     h += rowsizes[i];
             }
@@ -189,7 +189,7 @@ namespace FluidSharp.Widgets
             var columns = GetSizes(layoutsurface.MeasureCache, Columns, w, null);
             var rows = GetSizes(layoutsurface.MeasureCache, Rows, availableh, columns);
 
-            var h = 0f;
+            var h = (rows.Length - 1) * RowSpacing;
             for (int i = 0; i < rows.Length; i++)
                 h += rows[i];
 

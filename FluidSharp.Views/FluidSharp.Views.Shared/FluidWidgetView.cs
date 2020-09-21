@@ -32,7 +32,17 @@ namespace FluidSharp.Views.UWP
         private IWidgetSource widgetSource;
 
         public Device Device;
-        public FluidWidgetViewImplementation Implementation;
+
+        private FluidWidgetViewImplementation implementation;
+        public FluidWidgetViewImplementation Implementation
+        {
+            get => implementation;
+            set
+            {
+                if (implementation != null) implementation.Dispose();
+                implementation = value;
+            }
+        }
         public NativeViewManager NativeViewManager;
 
         public VisualState VisualState => Implementation.VisualState;

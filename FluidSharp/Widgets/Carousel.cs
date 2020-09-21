@@ -9,10 +9,17 @@ namespace FluidSharp.Widgets
     public class Carousel
     {
 
-        public static Widget Make<T>(VisualState visualState, CarouselState<T> stateTransition, TransitionFrame<T> frame, float spacing, Widget separator, Func<T, Widget> makevaluewidget, Func<Task> onCompleted)
+        //public static Widget Make<T>(VisualState visualState, CarouselState<T> stateTransition, Func<VisualState, T, Widget> makevaluewidget)
+        //{
+        //    return GestureDetector.HorizontalPanDetector(visualState, stateTransition,
+        //                SlideTransition.MakeWidget(visualState, stateTransition.GetFrame(), makevaluewidget)
+        //           );
+        //}
+
+        public static Widget Make<T>(VisualState visualState, CarouselState<T> stateTransition, TransitionFrame<T> frame, float spacing, Widget separator, Func<VisualState, T, Widget> makevaluewidget)
         {
             return GestureDetector.HorizontalPanDetector(visualState, stateTransition,
-                        SlideTransition.MakeWidget(frame, spacing, separator, makevaluewidget, onCompleted)
+                        SlideTransition.MakeWidget(visualState, frame, spacing, separator, makevaluewidget)
                    );
         }
 

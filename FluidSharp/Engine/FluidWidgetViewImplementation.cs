@@ -23,6 +23,10 @@ namespace FluidSharp.Engine
     public class FluidWidgetViewImplementation : IDisposable
     {
 
+#if DEBUG
+        public string Name { get; set; }
+#endif
+
         public ISkiaView View;
         public IFluidWidgetView WidgetView;
 
@@ -100,6 +104,10 @@ namespace FluidSharp.Engine
 
         public void Dispose()
         {
+
+            View.PaintViewSurface -= View_PaintControlSurface;
+            View.Touch -= View_Touch;
+
             Dispose(true);
         }
         ~FluidWidgetViewImplementation()
@@ -183,6 +191,8 @@ namespace FluidSharp.Engine
                     WidgetView.SetHeight(actual.Height);
 
                 AnimationRunning = layoutsurface.HasActiveAnimations;
+
+                //System.Diagnostics.Debug.WriteLine($"{Name} - {layoutsurface.HasActiveAnimations}");
 
             }
 

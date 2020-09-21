@@ -15,10 +15,10 @@ namespace FluidSharp.Widgets
 
         public Widget Child;
 
-        public static Widget MakeWidget<T>(TransitionFrame<T> frame, float spacing, Func<T, Widget> makevaluewidget, Func<Task> onCompleted)
-            => MakeWidget(frame, spacing, null, makevaluewidget, onCompleted);
+        public static Widget MakeWidget<T>(VisualState visualState, TransitionFrame<T> frame, Func<VisualState, T, Widget> makevaluewidget)
+            => MakeWidget(visualState, frame, 0, null, makevaluewidget);
 
-        public static Widget MakeWidget<T>(TransitionFrame<T> frame, float spacing, Widget separator, Func<T, Widget> makevaluewidget, Func<Task> onCompleted)
+        public static Widget MakeWidget<T>(VisualState visualState, TransitionFrame<T> frame, float spacing, Widget separator, Func<VisualState, T, Widget> makevaluewidget)
         {
 
             var ratio = frame.Ratio;
@@ -26,11 +26,12 @@ namespace FluidSharp.Widgets
             //System.Diagnostics.Debug.WriteLine($"slide transition frame: {frame.Ratio}");
 
             if (ratio == 0)
-                return makevaluewidget(frame.Current);
+                return makevaluewidget(visualState, frame.Current);
             else if (ratio == 1)
             {
-                Task.Run(() => onCompleted());
-                return makevaluewidget(frame.Next);
+                if (frame.OnCompleted != null)
+                    Task.Run(() => frame.OnCompleted(frame, visualState));
+                return makevaluewidget(visualState, frame.Next);
             }
             else
             {
@@ -45,11 +46,13 @@ namespace FluidSharp.Widgets
                 var leftvalue = direction == 1 ? frame.Current : frame.Next;
                 var rightvalue = direction == 1 ? frame.Next : frame.Current;
 
-                return new SlideTransition() {
+                return new SlideTransition()
+                {
                     Child =
                     new Layout()
                     {
 
+                        Rows = { new LayoutSize.Fit() },
                         //Debug = true,
                         Columns =
                         {
@@ -66,8 +69,8 @@ namespace FluidSharp.Widgets
                             separator == null ? null :
                             new LayoutCell(3,0, separator),
 
-                            new LayoutCell(2,0, makevaluewidget(leftvalue)),
-                            new LayoutCell(4,0, makevaluewidget(rightvalue))
+                            new LayoutCell(2,0, makevaluewidget(visualState, leftvalue)),
+                            new LayoutCell(4,0, makevaluewidget(visualState, rightvalue))
                         }
                     }
                 };

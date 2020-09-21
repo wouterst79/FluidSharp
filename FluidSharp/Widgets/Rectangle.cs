@@ -22,6 +22,7 @@ namespace FluidSharp.Widgets
         public bool FillVertical;
         public bool Antialias;
 
+        public Func<SKImageFilter> ImageFilter;
 
         private Rectangle(bool fillHorizontal, bool fillVertical, SKColor backgroundcolor, SKColor bordercolor, Margins margin, SKSize minimumSize, bool antialias)
         {
@@ -40,7 +41,7 @@ namespace FluidSharp.Widgets
 
         public static Rectangle Vertical(float width, SKColor backgroundcolor, Margins margin = new Margins()) => new Rectangle(false, true, backgroundcolor, default, margin, new SKSize(width, 0), width <= 2);
 
-        public static Rectangle Fill(SKColor backgroundcolor, Margins margin = new Margins()) => new Rectangle(true, true, backgroundcolor, default, margin, new SKSize(), false);
+        public static Rectangle Fill(SKColor backgroundcolor, Margins margin = new Margins(), Func<SKImageFilter> imagefilter = default) => new Rectangle(true, true, backgroundcolor, default, margin, new SKSize(), false) { ImageFilter = imagefilter };
 
         public static Rectangle Stroke(SKColor bordercolor, Margins margin = new Margins()) => new Rectangle(true, true, default, bordercolor, margin, new SKSize(), false);
 
@@ -95,7 +96,10 @@ namespace FluidSharp.Widgets
 
                 if (BackgroundColor != null && BackgroundColor.Alpha != 0)
                     using (var paint = new SKPaint() { Color = BackgroundColor, IsAntialias = Antialias })
+                    {
+                        if (ImageFilter != null) paint.ImageFilter = ImageFilter();
                         layoutsurface.Canvas.DrawRect(drawrect, paint);
+                    }
 
                 if (BorderColor != null && BorderColor.Alpha != 0)
                     using (var paint = new SKPaint() { Color = BorderColor, IsAntialias = Antialias, IsStroke = true, FilterQuality = SKFilterQuality.High })
