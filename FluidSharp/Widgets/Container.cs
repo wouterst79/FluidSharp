@@ -60,9 +60,9 @@ namespace FluidSharp.Widgets
 
         }
 
-        public Container(ContainerLayout layout, Widget child) : this(layout)
+        public Container(ContainerLayout layout, params Widget[] children) : this(layout)
         {
-            Children = new List<Widget>() { child };
+            Children = new List<Widget>(children);
         }
 
         public Container(ContainerLayout layout, Margins margins, params Widget[] children) : this(layout)

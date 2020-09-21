@@ -17,16 +17,16 @@ namespace FluidSharp.Widgets
 #endif
 
         public float Spacing;
-        public Widget Separator;
+        public Widget? Separator;
         public bool ExpandHorizontal = true;
         public HorizontalAlignment HorizontalAlignment = HorizontalAlignment.Near;
 
-        public SKColor BackgroundColor;
+        //public SKColor BackgroundColor;
 
-        public List<Widget> Children = new List<Widget>();
+        public List<Widget?> Children = new List<Widget?>();
 
-        public Column() { }
-        public Column(params Widget[] widgets) { Children.AddRange(widgets); }
+        public Column(float spacing, HorizontalAlignment horizontalAlignment = HorizontalAlignment.Near) { Spacing = spacing; HorizontalAlignment = horizontalAlignment; }
+        public Column(float spacing, params Widget?[] widgets) { Spacing = spacing; Children.AddRange(widgets); }
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {
@@ -65,7 +65,7 @@ namespace FluidSharp.Widgets
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
 
-            Widget lastchild = null;
+            Widget? lastchild = null;
             if (Separator != null)
             {
                 Spacing = Separator.Measure(layoutsurface.MeasureCache, rect.Size).Height;
@@ -82,18 +82,18 @@ namespace FluidSharp.Widgets
             if (Children != null)
             {
 
-                if (layoutsurface.Canvas != null)
-                    if (BackgroundColor != null && BackgroundColor.Alpha != 0)
-                    {
+                //if (layoutsurface.Canvas != null)
+                //    if (BackgroundColor != null && BackgroundColor.Alpha != 0)
+                //    {
 
-                        var size = Measure(layoutsurface.MeasureCache, rect.Size);
-                        var drawrect = new SKRect(l, y, r, y + size.Height);
-                        using (var paint = new SKPaint() { Color = BackgroundColor })
-                        {
-                            layoutsurface.Canvas.DrawRect(drawrect, paint);
-                        }
+                //        var size = Measure(layoutsurface.MeasureCache, rect.Size);
+                //        var drawrect = new SKRect(l, y, r, y + size.Height);
+                //        using (var paint = new SKPaint() { Color = BackgroundColor })
+                //        {
+                //            layoutsurface.Canvas.DrawRect(drawrect, paint);
+                //        }
 
-                    }
+                //    }
 
                 foreach (var child in Children)
                 {

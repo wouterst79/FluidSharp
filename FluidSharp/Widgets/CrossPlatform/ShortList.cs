@@ -14,7 +14,7 @@ namespace FluidSharp.Widgets.CrossPlatform
         public static Widget Make<T>(PlatformStyle platformStyle, VisualState visualState, IEnumerable<T> items, Func<T, bool> isItemSelected, SKColor selectedColor, Func<T, Task> onItemSelected, Func<T, Widget> makeItemWidget)
         {
             return new Scrollable(visualState, items, platformStyle.DefaultOverscrollBehavior,
-                new Column()
+                new Column(0)
                 {
                     Separator = platformStyle.Separator,
                     Children = items.Select(

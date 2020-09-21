@@ -12,10 +12,12 @@ namespace FluidSharp.Widgets
         public Picture Picture;
         public float Opacity = 1;
 
-        public PictureRichTextSpan(Picture picture) : base(picture.Size.Width, picture.Size.Height)
+        public PictureRichTextSpan(Picture picture) 
         {
             Picture = picture ?? throw new ArgumentNullException(nameof(picture));
         }
+
+        public override SKSize GetSize(TextShaper textShaper) => Picture.Size;
 
         public override void DrawMeasuredSpan(SKCanvas canvas, float x, float y, float fontheight, float marginy, MeasuredSpan measuredSpan, bool isrtl)
         {
