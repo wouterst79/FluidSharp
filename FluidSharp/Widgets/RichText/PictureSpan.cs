@@ -6,13 +6,13 @@ using System.Text;
 
 namespace FluidSharp.Widgets
 {
-    public class PictureRichTextSpan : OwnerDrawnRichTextSpan
+    public class PictureSpan : OwnerDrawnRichTextSpan
     {
 
         public Picture Picture;
         public float Opacity = 1;
 
-        public PictureRichTextSpan(Picture picture) 
+        public PictureSpan(Picture picture) 
         {
             Picture = picture ?? throw new ArgumentNullException(nameof(picture));
         }

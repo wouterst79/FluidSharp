@@ -26,7 +26,7 @@ namespace FluidSharp.Paint.Images
         }
 
         static bool inhere;
-        public SKImage? GetImage(ImageSource source)
+        public SKImage? GetImage(ImageSource? source)
         {
 
             if (source?.Name == null)

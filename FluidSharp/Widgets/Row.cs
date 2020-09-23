@@ -17,13 +17,12 @@ namespace FluidSharp.Widgets
         public Margins Margin;
         public float MinimumHeight;
         public float Spacing;
-        public bool ExpandHorizontal = true;
-        public VerticalAlignment VerticalChildAlignment;
+        public bool ExpandHorizontal = false;
+        public VerticalAlignment VerticalChildAlignment = VerticalAlignment.Top;
 
         public List<Widget> Children = new List<Widget>();
 
-        public Row() { }
-        public Row(params Widget[] widgets) { Children.AddRange(widgets); }
+        public Row(float spacing, VerticalAlignment verticalChildAlignment, params Widget[] widgets) { Spacing = spacing; VerticalChildAlignment = verticalChildAlignment; Children.AddRange(widgets); }
         public Row(float spacing, params Widget[] widgets) { Spacing = spacing; Children.AddRange(widgets); }
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
@@ -131,62 +130,6 @@ namespace FluidSharp.Widgets
                     }
 
             if (w > 0) w -= Spacing;
-
-
-            if (w > boundaries.Width)
-            {
-
-                // overflow, take the widest widget, and supply only available width (IE boundary - total width of other children)
-                // problem: this may make the large widget align to 3 lines, while a wider widget now is only 1 line.
-                // maybe this is ok. So, just trying it out for now. if it's funky, do something about it.
-
-                // another problem may be that the widest widget has fixed dimensions. 
-
-                // another problem is that with this algorithm, available can be <=0
-
-                // determine widest child
-                Widget widest = null;
-                float maxw = 0;
-                int widestid = -1;
-                for (int i = 0; i < measures.Count; i++)
-                {
-                    var (c, s) = measures[i];
-                    if (s.Width > maxw)
-                    {
-                        widest = c;
-                        maxw = s.Width;
-                        widestid = i;
-                    }
-                }
-
-                // determine available width
-                var available = boundaries.Width - Spacing * (measures.Count - 1);
-                for (int i = 0; i < measures.Count; i++)
-                {
-                    var (c, s) = measures[i];
-                    if (c != widest)
-                        available -= s.Width;
-                }
-
-                if (available < 0)
-                {
-
-                }
-                else
-                {
-
-                }
-
-                if (widest != null)
-                {
-                    var measure = widest.Measure(measureCache, new SKSize(available, boundaries.Height));
-                    measures[widestid] = (widest, measure);
-
-                    if (h < measure.Height) h = measure.Height;
-
-                }
-
-            }
 
             if (ExpandHorizontal)
                 w = boundaries.Width;

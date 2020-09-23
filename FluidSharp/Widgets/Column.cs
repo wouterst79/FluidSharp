@@ -21,8 +21,6 @@ namespace FluidSharp.Widgets
         public bool ExpandHorizontal = true;
         public HorizontalAlignment HorizontalAlignment = HorizontalAlignment.Near;
 
-        //public SKColor BackgroundColor;
-
         public List<Widget?> Children = new List<Widget?>();
 
         public Column(float spacing, HorizontalAlignment horizontalAlignment = HorizontalAlignment.Near) { Spacing = spacing; HorizontalAlignment = horizontalAlignment; }
@@ -81,19 +79,6 @@ namespace FluidSharp.Widgets
 
             if (Children != null)
             {
-
-                //if (layoutsurface.Canvas != null)
-                //    if (BackgroundColor != null && BackgroundColor.Alpha != 0)
-                //    {
-
-                //        var size = Measure(layoutsurface.MeasureCache, rect.Size);
-                //        var drawrect = new SKRect(l, y, r, y + size.Height);
-                //        using (var paint = new SKPaint() { Color = BackgroundColor })
-                //        {
-                //            layoutsurface.Canvas.DrawRect(drawrect, paint);
-                //        }
-
-                //    }
 
                 foreach (var child in Children)
                 {

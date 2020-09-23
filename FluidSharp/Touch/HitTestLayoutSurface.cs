@@ -1,5 +1,5 @@
 ﻿#if DEBUG
-#define DEBUGHITTEST
+//#define DEBUGHITTEST
 #endif
 using FluidSharp.Layouts;
 using FluidSharp.State;

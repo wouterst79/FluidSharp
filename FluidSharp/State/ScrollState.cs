@@ -26,6 +26,8 @@ namespace FluidSharp.State
 
         public const float FlingingVelocity = 200; // pixels per seconds
 
+        public float Size;
+        public float ContentSize;
         public float Minimum;
 
         //private const float 
@@ -73,14 +75,16 @@ namespace FluidSharp.State
 
         }
 
-        public void SetRange(float height, float contentsheight)
+        public void SetRange(float size, float contentssize)
         {
 
-            var min = height - contentsheight;
+            Size = size;
+            ContentSize = contentssize;
+            var min = size - contentssize;
             if (min > 0) min = 0;
             Minimum = min;
 
-            //System.Diagnostics.Debug.WriteLine($"minimum set: {Minimum} ({contentsheight} / {height})");
+            //System.Diagnostics.Debug.WriteLine($"minimum set: {Minimum} ({contentssize} / {size})");
 
         }
 

@@ -13,13 +13,13 @@ namespace FluidSharp.Widgets
     public class Image : Widget
     {
 
-        public ImageSource Source;
+        public ImageSource? Source;
         public float Width;
         public float Height;
         public ScaleMode ScaleMode;
         public float Opacity = 1;
 
-        public Image(ImageSource source, float width, float height, ScaleMode scaleMode = ScaleMode.Strech)
+        public Image(ImageSource? source, float width, float height, ScaleMode scaleMode = ScaleMode.Strech)
         {
             Source = source;
             Width = width;

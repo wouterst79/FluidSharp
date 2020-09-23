@@ -11,16 +11,12 @@ namespace FluidSharp.Widgets
     public class Scrollable : Widget
     {
 
-        public enum OverscrollBehavior
-        {
-            None,
-            Stretch,
-            Invert
-        }
-
         public ScrollState ScrollState;
         public OverscrollBehavior Overscroll;
         public Widget ChildTree;
+
+        public bool ClipContents = false;
+        public Margins ClipMargins;
 
         public Scrollable(VisualState visualState, object context, PlatformStyle platformStyle, Widget child) :
             this(visualState, context, platformStyle.DefaultOverscrollBehavior, child)
@@ -53,20 +49,25 @@ namespace FluidSharp.Widgets
 
             //System.Diagnostics.Debug.WriteLine($"top {top}, over {overscroll}");
 
-            var cliprect = rect;
-            layoutsurface.ClipRect(cliprect);
+            if (ClipContents)
+            {
+                var cliprect = rect;
+                cliprect = ClipMargins.Grow(cliprect, layoutsurface.Device.FlowDirection);
+                layoutsurface.ClipRect(cliprect);
+            }
 
             var childrect = new SKRect(rect.Left, rect.Top + top, rect.Right, rect.Top + top + childsize.Height);
             layoutsurface.Paint(ChildTree, childrect);
 
-            layoutsurface.ResetRectClip();
+            if (ClipContents)
+                layoutsurface.ResetRectClip();
 
             //layoutsurface.DebugRect(childrect, SKColors.Purple);
 
             if (hasactiveanimations)
                 layoutsurface.SetHasActiveAnimations();
 
-            return cliprect;
+            return rect;
 
         }
 

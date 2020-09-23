@@ -44,6 +44,11 @@ namespace FluidSharp.Layouts
                 return new SKRect(rect.Right - size.Width, rect.Top, rect.Right, rect.Top + size.Height);
         }
 
+        public static SKRect WithHeight(this SKRect rect, float height)
+        {
+            return new SKRect(rect.Left, rect.Top, rect.Right, rect.Top + height);
+        }
+
         public static SKRect Center(this SKRect rect, SKSize size)
         {
             return new SKRect(rect.MidX - size.Width / 2,

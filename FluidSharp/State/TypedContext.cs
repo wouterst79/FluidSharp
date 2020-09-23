@@ -30,6 +30,7 @@ namespace FluidSharp.State
                 if (obj.GetType() != GetType()) return false;
                 return InnerContext.Equals(context.InnerContext);
             }
+            if (InnerContext == null) return false;
             return InnerContext.Equals(obj);
         }
 

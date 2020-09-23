@@ -53,12 +53,10 @@ namespace FluidSharp.Widgets
             var selected = visualState.TouchTarget.IsContext(context);
             var checkbox = new Checkbox(state, enabled, selected, platformStyle.CheckboxColor, platformStyle.CheckboxStrokeColor, platformStyle.DisabledColor, platformStyle.SelectedColor);
 
-            var contents = new Row()
+            var contents = new Row(LabelSpacing, VerticalAlignment.Center)
             {
-                Spacing = LabelSpacing,
                 MinimumHeight = minimumHeight,
                 Margin = margins,
-                VerticalChildAlignment = VerticalAlignment.Center,
                 ExpandHorizontal = true,
                 Children =
                 {
