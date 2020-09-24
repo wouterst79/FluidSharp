@@ -1,4 +1,7 @@
-﻿using FluidSharp.Layouts;
+﻿#if DEBUG
+#define SHOWSPACING
+#endif
+using FluidSharp.Layouts;
 using SkiaSharp;
 using SkiaSharp.TextBlocks.Enum;
 using System;
@@ -30,6 +33,10 @@ namespace FluidSharp.Widgets
 
             var y = rect.Top;
             var dest = new SKRect(x, y, x + Size.Width, y + Size.Height);
+
+#if SHOWSPACING
+            layoutsurface.DebugSpacing(dest, $"{Size.Width}x{Size.Height}", SKColors.Blue);
+#endif
 
             return dest;
         }

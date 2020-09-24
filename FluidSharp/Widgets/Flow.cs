@@ -1,4 +1,7 @@
-﻿using FluidSharp.Layouts;
+﻿#if DEBUG
+#define DEBUGCONTAINER
+#endif
+using FluidSharp.Layouts;
 using SkiaSharp;
 using SkiaSharp.TextBlocks.Enum;
 using System;
@@ -12,6 +15,7 @@ namespace FluidSharp.Widgets
 
         public bool Justify;
         public float Spacing;
+        public Margins Margin;
 
         public List<Widget> Children = new List<Widget>();
 
@@ -27,18 +31,19 @@ namespace FluidSharp.Widgets
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {
-            var calculated = Layout(new SKRect(0, 0, boundaries.Width, boundaries.Height), null, measureCache);
+            var calculated = Layout(new SKRect(0, 0, boundaries.Width, boundaries.Height), null, measureCache, FlowDirection.Unknown);
             return new SKSize(calculated.Width, calculated.Height);
         }
 
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
-            return Layout(rect, layoutsurface, layoutsurface.MeasureCache);
+            return Layout(rect, layoutsurface, layoutsurface.MeasureCache, layoutsurface.FlowDirection);
         }
 
-        private SKRect Layout(SKRect rect, LayoutSurface layoutsurface, MeasureCache measureCache)
+        private SKRect Layout(SKRect rect, LayoutSurface? layoutsurface, MeasureCache measureCache, FlowDirection flowdirection)
         {
 
+            rect = Margin.Shrink(rect, flowdirection);
             var boundaries = new SKSize(rect.Width, 0);
 
             var width = rect.Width;
@@ -76,12 +81,21 @@ namespace FluidSharp.Widgets
             if (any)
                 y -= Spacing;
 
+            SKRect result;
             if (Justify)
-                return new SKRect(rect.Left, rect.Top, rect.Left + width, y);
-            else if (layoutsurface == null || layoutsurface.Device.FlowDirection == FlowDirection.LeftToRight)
-                return new SKRect(rect.Left, rect.Top, rect.Left + maxlinewidth, y);
+                result = new SKRect(rect.Left, rect.Top, rect.Left + width, y);
+            else if (flowdirection == FlowDirection.LeftToRight)
+                result = new SKRect(rect.Left, rect.Top, rect.Left + maxlinewidth, y);
             else
-                return new SKRect(rect.Right - maxlinewidth, rect.Top, rect.Right, y);
+                result = new SKRect(rect.Right - maxlinewidth, rect.Top, rect.Right, y);
+
+
+#if DEBUGCONTAINER
+            if (layoutsurface != null)
+                layoutsurface.DebugMargin(result, Margin, SKColors.YellowGreen);
+#endif
+
+            return Margin.Grow(result, flowdirection);
 
             void LayoutLine()
             {

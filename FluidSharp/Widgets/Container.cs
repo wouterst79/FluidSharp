@@ -1,5 +1,5 @@
 ﻿#if DEBUG
-//#define DEBUGCONTAINER
+#define DEBUGCONTAINER
 #endif
 
 using FluidSharp.Layouts;
@@ -152,7 +152,8 @@ namespace FluidSharp.Widgets
                         layoutsurface.Paint(child, childrect);
 
 #if DEBUGCONTAINER
-            layoutsurface.DebugRect(drawrect, SKColors.Blue.WithAlpha(128));
+            layoutsurface.DebugMargin(childrect, Margin, SKColors.YellowGreen);
+            //layoutsurface.DebugRect(drawrect, SKColors.Blue.WithAlpha(128));
 #endif
 
             return drawrect;

@@ -1,4 +1,7 @@
-﻿using FluidSharp.Layouts;
+﻿#if DEBUG
+#define SHOWMARGIN
+#endif
+using FluidSharp.Layouts;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -63,7 +66,13 @@ namespace FluidSharp.Widgets
                 layoutsurface.Paint(rightwidget, rightrect);
             }
 
-            return Margin.Grow(new SKRect(childrect.Left, childrect.Top, childrect.Right, childrect.Top + sizes.height), layoutsurface.Device.FlowDirection);
+            rect = childrect.WithHeight(sizes.height);
+
+#if SHOWMARGIN
+            layoutsurface.DebugMargin(rect, Margin, SKColors.Red);
+#endif
+
+            return Margin.Grow(rect, layoutsurface.Device.FlowDirection);
         }
 
         private (float nearwidth, float neartop, float farwidth, float fartop, float height) Layout(MeasureCache measureCache, SKSize boundaries)

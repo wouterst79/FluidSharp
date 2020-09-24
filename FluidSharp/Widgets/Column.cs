@@ -1,5 +1,6 @@
 ﻿#if DEBUG
 //#define DEBUGCONTAINER
+#define SHOWSPACING
 #endif
 using FluidSharp.Layouts;
 using SkiaSharp;
@@ -15,6 +16,11 @@ namespace FluidSharp.Widgets
 #if DEBUGCONTAINER
         public bool Debug;
 #endif
+#if SHOWSPACING
+        public SKColor SpacingColor = SKColors.Purple;
+#endif
+
+        public Margins Margin;
 
         public float Spacing;
         public Widget? Separator;
@@ -29,6 +35,11 @@ namespace FluidSharp.Widgets
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {
 
+            if (SpacingColor == SKColors.Red)
+                Console.WriteLine("red");
+
+            boundaries = Margin.Shrink(boundaries);
+
             var w = 0f;
             var h = 0f;
 
@@ -42,6 +53,13 @@ namespace FluidSharp.Widgets
             var any = false;
             if (Children != null)
                 foreach (var child in Children)
+                    if (child is Spacing s)
+                    {
+                        if (any)
+                            h = h - Spacing;
+                        h += s.Size.Height;
+                    }
+                    else
                     if (child != null)
                     {
                         var childsize = child.Measure(measureCache, boundaries);
@@ -56,21 +74,22 @@ namespace FluidSharp.Widgets
             if (ExpandHorizontal)
                 w = boundaries.Width;
 
-            return new SKSize(w, h);
+            return Margin.Grow(new SKSize(w, h));
 
         }
 
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
 
+            rect = Margin.Shrink(rect, layoutsurface.FlowDirection);
+
             Widget? lastchild = null;
             if (Separator != null)
-            {
                 Spacing = Separator.Measure(layoutsurface.MeasureCache, rect.Size).Height;
-                foreach (var child in Children)
-                    if (child != null)
-                        lastchild = child;
-            }
+
+            foreach (var child in Children)
+                if (child != null)
+                    lastchild = child;
 
             var l = rect.Left;
             var y = rect.Top;
@@ -80,8 +99,26 @@ namespace FluidSharp.Widgets
             if (Children != null)
             {
 
+                if (SpacingColor == SKColors.Red)
+                    Console.WriteLine("red");
+
+                var hadchild = false;
                 foreach (var child in Children)
                 {
+                    if (child is Spacing s)
+                    {
+
+                        if (hadchild)
+                            y = y - Spacing;
+
+#if SHOWSPACING
+                        layoutsurface.DebugSpacing(new SKRect(l, y, r, y + s.Size.Height), s.Size.Height.ToString(), SKColors.Blue);
+#endif
+
+                        y += s.Size.Height;
+
+                    }
+                    else
                     if (child != null)
                     {
 
@@ -104,8 +141,17 @@ namespace FluidSharp.Widgets
                             {
                                 layoutsurface.Paint(Separator, new SKRect(l, y, r, y + Spacing));
                             }
+
+#if SHOWSPACING
+                            var idx = Children.IndexOf(child);
+                            if (!(Children[idx + 1] is Spacing))
+                                layoutsurface.DebugSpacing(new SKRect(l, y, r, y + Spacing), Spacing.ToString(), SpacingColor);
+#endif
+
                             y += Spacing;
                         }
+
+                        hadchild = true;
 
                     }
                 }
@@ -120,7 +166,11 @@ namespace FluidSharp.Widgets
             }
 #endif
 
-            return new SKRect(l, rect.Top, r, y);
+#if SHOWSPACING
+            layoutsurface.DebugMargin(new SKRect(l, rect.Top, r, y), Margin, SKColors.DarkCyan);
+#endif
+
+            return Margin.Grow(new SKRect(l, rect.Top, r, y), layoutsurface.FlowDirection);
 
         }
 
