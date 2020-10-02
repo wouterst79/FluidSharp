@@ -15,6 +15,7 @@ namespace FluidSharp.Widgets
         public float MarginY;
         public RichTextBlock RichTextBlock = new RichTextBlock();
         public bool Any() => RichTextBlock.Spans.Count > 0;
+        public int MaxLines { get => RichTextBlock.MaxLines; set => RichTextBlock.MaxLines = value; }
 
         public RichText() { }
 

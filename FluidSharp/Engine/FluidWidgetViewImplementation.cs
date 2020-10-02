@@ -165,8 +165,15 @@ namespace FluidSharp.Engine
 
             MeasureCache.NativeViewManager?.PaintStarted();
 
+            var backgroundcolor = IsTransparent ? SKColors.Transparent : SKColors.White;
+            if (WidgetView is IBackgroundColorSource backgroundColorSource)
+            {
+                var bg = backgroundColorSource.GetBackgroundColor(VisualState);
+                if (bg != default) backgroundcolor = bg;
+            }
             var canvas = e.Canvas;
-            canvas.Clear(IsTransparent ? SKColors.Transparent : SKColors.White);
+            canvas.Clear(backgroundcolor);
+
 
             Widget widget;
             try
@@ -179,6 +186,7 @@ namespace FluidSharp.Engine
             }
 
             PerformanceTracker.WidgetsCreated();
+
 
             if (widget != null)
             {

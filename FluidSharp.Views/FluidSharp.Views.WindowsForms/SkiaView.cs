@@ -1,4 +1,4 @@
-﻿#define USEGL
+﻿//#define USEGL
 using System;
 using FluidSharp.Touch;
 using SkiaSharp;

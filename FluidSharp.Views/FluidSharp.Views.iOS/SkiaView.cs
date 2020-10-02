@@ -1,4 +1,5 @@
-﻿using FluidSharp.Touch;
+﻿#define USEGL
+using FluidSharp.Touch;
 using SkiaSharp;
 using SkiaSharp.Views.iOS;
 using System;
@@ -10,7 +11,11 @@ using UIKit;
 
 namespace FluidSharp.Views.iOS
 {
+#if USEGL
     public class SkiaView : SKGLView, ISkiaView
+#else
+    public class SkiaView : SKCanvasView, ISkiaView
+#endif
     {
 
 
@@ -35,21 +40,25 @@ namespace FluidSharp.Views.iOS
             GestureRecognizers = new UIGestureRecognizer[] { touchrecognizer };
             touchrecognizer.Touch += Touchrecognizer_Touch;
 
-            //this.PaintSurface += SkiaControl_PaintSurface;
+#if !USEGL
+            this.PaintSurface += SkiaControl_PaintSurface;
+#endif
         }
 
+#if USEGL
         protected override void OnPaintSurface(SKPaintGLSurfaceEventArgs e)
+#else
+        private void SkiaControl_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
+#endif
         {
-//            base.OnPaintSurface(e);
-//        }
-
-//        private void SkiaControl_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
-  //      {
 
             var canvas = e.Surface.Canvas;
-
             // Make sure the canvas is drawn using pixel coordinates (but still high res):
+#if USEGL
             var factor = (float)Math.Round(e.BackendRenderTarget.Width / Width * 4) / 4;
+#else
+            var factor = (float)Math.Round(e.Info.Width / Width * 4) / 4;
+#endif
             var platformzoom = SKMatrix.MakeScale(factor, factor);
             canvas.Concat(ref platformzoom);
 

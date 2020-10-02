@@ -8,7 +8,7 @@ using System.Text;
 namespace FluidSharp
 {
 
-    public interface IFluidWidgetView : IWidgetSource
+    public interface IFluidWidgetView : IWidgetSource, IBackgroundColorSource
     {
 
         bool AutoSizeHeight { get; }

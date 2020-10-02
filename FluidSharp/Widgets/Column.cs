@@ -35,9 +35,6 @@ namespace FluidSharp.Widgets
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {
 
-            if (SpacingColor == SKColors.Red)
-                Console.WriteLine("red");
-
             boundaries = Margin.Shrink(boundaries);
 
             var w = 0f;
@@ -98,9 +95,6 @@ namespace FluidSharp.Widgets
 
             if (Children != null)
             {
-
-                if (SpacingColor == SKColors.Red)
-                    Console.WriteLine("red");
 
                 var hadchild = false;
                 foreach (var child in Children)

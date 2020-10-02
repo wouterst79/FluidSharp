@@ -20,6 +20,8 @@ namespace FluidSharp.State
 
         public TimeSpan TransitionDuration;
 
+        public Func<Task>? OnCompleted;
+
         public const int MillisecondsForFinishedAnimation = -50000;
 
         public TransitionState(T InitialValue)
@@ -61,7 +63,7 @@ namespace FluidSharp.State
 
         }
 
-        public virtual async Task SetTarget(T target, VisualState visualState, float velocity = 1f)
+        public virtual async Task SetTarget(T target, VisualState? visualState, float velocity = 1f)
         {
 
             var currentdirection = GetDirection(Current, Target);
@@ -98,7 +100,8 @@ namespace FluidSharp.State
 #endif
 
             Target = target;
-            await visualState.RequestRedraw();
+            if (visualState != null)
+                await visualState.RequestRedraw();
 
         }
 
@@ -110,6 +113,8 @@ namespace FluidSharp.State
         public async Task Progress(TransitionFrame<T> frame, VisualState visualState)
         {
             Current = frame.Next;
+            if (OnCompleted != null)
+                await OnCompleted();
         }
 
     }
