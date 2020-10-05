@@ -47,6 +47,8 @@ namespace FluidSharp.State
         public TimeSpan TransitionDuration;
 
 
+        public Func<Task>? OnCompleted;
+
         public const float SnapThreshold = .6f;
         public const float FlingingVelocity = 200; // pixels per seconds
         public const int MillisecondsForFinishedAnimation = -50000;
@@ -227,28 +229,12 @@ namespace FluidSharp.State
 
                 await visualState.RequestRedraw();
 
+                if (OnCompleted != null)
+                    await OnCompleted();
+                
             }
 
         }
-
-        //public async Task Progress(TransitionFrame<T> frame, VisualState visualState)
-        //{
-
-        //    var NextStep = frame.Next;
-        //    if (NextStep == null) return;
-        //    if (GetDirection(Current, Target) == GetDirection(Current, NextStep)) // make sure the transition is still valid
-        //    {
-
-        //        //System.Diagnostics.Debug.WriteLine($"current StateTransition set to {NextStep} from {Current} (target = {Target})");
-
-        //        Current = NextStep;
-        //        SetAnimationStart(0, false);
-
-        //        await visualState.RequestRedraw();
-
-        //    }
-
-        //}
 
     }
 }

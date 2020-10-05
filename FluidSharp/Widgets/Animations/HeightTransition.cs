@@ -16,6 +16,8 @@ namespace FluidSharp.Widgets
         {
         }
 
+        public HeightTransition(Animation animation, Widget widget) : base(animation, widget) { }
+
         public static Widget? Make(DateTime appearingStarted, DateTime? disappearingStarted, TimeSpan duration, Widget child)
         {
 
@@ -51,7 +53,7 @@ namespace FluidSharp.Widgets
             var pct = Animation.GetValue();
 
             var height = childsize.Height * pct;
-            var hidden = childsize.Height - height;
+            var hidden = 0;// childsize.Height - height;
 
             var cliprect = new SKRect(rect.Left, rect.Top, rect.Right, rect.Top + height);
 

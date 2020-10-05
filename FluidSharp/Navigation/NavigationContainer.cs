@@ -4,18 +4,19 @@ using FluidSharp.Widgets;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FluidSharp.Navigation
 {
 
-    public class NavigationTransitionState : TransitionState<bool>
+    public class SlideBackState : CarouselState<bool>
     {
-        public NavigationTransitionState(bool startingstate, Func<Task> onTransitionCompleted) : base(startingstate)
+        public SlideBackState(Func<Task> onSlideBackCompleted) : base(true)
         {
-            TransitionDuration = HeroTransition.DefaultDuration;
-            OnCompleted = onTransitionCompleted;
+            OnCompleted = onSlideBackCompleted;
         }
 
         public override int GetDirection(bool from, bool to)
@@ -23,19 +24,34 @@ namespace FluidSharp.Navigation
             if (from == to) return 0;
             return from ? -1 : 1;
         }
+
+        public override bool GetNextValue(bool from, int direction)
+        {
+            return !from;
+        }
+
     }
 
-    public class NavigationContainer : IWidgetSource
+    public abstract class NavigationContainer : IWidgetSource
     {
 
         public Stack<IWidgetSource> Stack = new Stack<IWidgetSource>();
 
         public Func<Task> OnNavigationStarted;
 
-        public NavigationTransitionState? TransitionState;
+        // transition
+        public IPageTransition? Transition;
         public IWidgetSource? TransitionTarget;
 
+        // slide back
+        public CarouselState<bool>? SlideBackState;
+
+        // current frame
         private IWidgetSource CurrentFrame => Stack.Peek();
+        private IWidgetSource PreviousFrame => Stack.TakeLast(2).Last();
+
+
+        protected abstract float GetBackPanDetectorWidth();
 
         public NavigationContainer(IWidgetSource rootframe, Func<Task> onnavigationstarted)
         {
@@ -57,12 +73,17 @@ namespace FluidSharp.Navigation
         public async Task Push(IWidgetSource Next)
         {
 
+            if (Transition is null)
+            {
+                if (Next is IPage page)
+                    Transition = page.GetPageTransition(OnTransitionCompleted);
+                if (Transition is null)
+                    Transition = new PushTransition(false, OnTransitionCompleted);
+            }
 
-            if (TransitionState == null)
-                TransitionState = new NavigationTransitionState(false, OnTransitionCompleted);
             TransitionTarget = Next;
 
-            await TransitionState.SetTarget(true, null);
+            await Transition.Start();
             await OnNavigationStarted();
 
         }
@@ -70,50 +91,91 @@ namespace FluidSharp.Navigation
         public async Task Pop()
         {
 
-            if (Stack.Count <= 1)
-                throw new Exception("nothing to pop");
+            if (Transition == null)
+            {
 
-            if (TransitionState == null)
-                TransitionState = new NavigationTransitionState(true, OnTransitionCompleted);
+                if (Stack.Count <= 1)
+                    throw new Exception("nothing to pop");
 
-            TransitionTarget = Stack.Pop();
+                if (Transition is null)
+                {
+                    if (CurrentFrame is IPage page)
+                        Transition = page.GetPageTransition(OnTransitionCompleted);
 
-            await TransitionState.SetTarget(false, null);
+                    if (Transition is null)
+                        Transition = new PushTransition(true, OnTransitionCompleted);
+
+                }
+
+                TransitionTarget = Stack.Pop();
+
+            }
+
+            await Transition.Reverse();
             await OnNavigationStarted();
 
         }
 
-        public async Task OnTransitionCompleted()
+        public async Task OnTransitionCompleted(bool open)
         {
-            if (TransitionState != null && TransitionTarget != null)
+            if (open)
             {
-                if (TransitionState.Current == true)
-                    Stack.Push(TransitionTarget);
+                Stack.Push(TransitionTarget ?? throw new ArgumentNullException());
             }
-            TransitionState = null;
+            Transition = null;
             TransitionTarget = null;
         }
 
-        public Widget MakeTransitionWidget(VisualState visualState, bool istarget)
+        public async Task OnSlideBackCompleted()
+        {
+            if (SlideBackState != null)
+            {
+                if (SlideBackState.Current == false)
+                {
+                    Stack.Pop();
+                    SlideBackState = null;
+                }
+            }
+        }
+
+        public Widget MakeSlideBackWidget(VisualState visualState, bool istarget)
         {
             if (istarget)
-                return TransitionTarget!.MakeWidget(visualState);
-            else
                 return CurrentFrame.MakeWidget(visualState);
+            else
+                return PreviousFrame.MakeWidget(visualState);
         }
 
         public Widget MakeWidget(VisualState visualState)
         {
 
-            if (TransitionState != null)
+            if (Transition != null)
             {
-                var frame = TransitionState.GetFrame();
-                return SlideTransition.MakeWidget(visualState, frame, MakeTransitionWidget);
+                return Transition.MakeWidget(visualState, CurrentFrame, TransitionTarget!);
             }
 
             if (Stack == null) throw new Exception("No root frame supplied");
 
-            return CurrentFrame.MakeWidget(visualState);
+            var currentframe = CurrentFrame;
+
+            if (currentframe is IPage page)
+            {
+                var canslideback = Stack.Count > 1 && page.CanSlideBack;
+                if (canslideback)
+                {
+                    if (SlideBackState == null) SlideBackState = new SlideBackState(OnSlideBackCompleted);
+                    return SlideBackNavigation.Make(visualState, SlideBackState, SlideBackState.GetFrame(), GetBackPanDetectorWidth(), 0, null, MakeSlideBackWidget);
+                }
+
+                var transition = page.GetPageTransition(OnTransitionCompleted);
+                if (transition != null)
+                {
+                    return transition.MakeWidget(visualState, PreviousFrame, currentframe);
+                }
+
+            }
+
+            return currentframe.MakeWidget(visualState);
 
         }
 

@@ -44,6 +44,8 @@ namespace FluidSharp.Widgets
             public SKPoint CurrentLocationInView;
             public SKPoint DeltaLocationInView;
 
+            public SKSize ViewSize;
+
             public DateTime StartTime;
             public DateTime CurrentTime;
             public TimeSpan DeltaTime;
@@ -52,7 +54,7 @@ namespace FluidSharp.Widgets
 
             public bool IsInitialPointer;
 
-            public Movement(HitTestHit hit, SKPoint startLocationOnDevice, SKPoint currentLocationOnDevice, SKPoint startLocationInView, SKPoint currentLocationInView, DateTime startTime, DateTime currentTime, bool hasWon, bool isInitialPointer) : this()
+            public Movement(HitTestHit hit, SKPoint startLocationOnDevice, SKPoint currentLocationOnDevice, SKPoint startLocationInView, SKPoint currentLocationInView, SKSize viewSize, DateTime startTime, DateTime currentTime, bool hasWon, bool isInitialPointer) : this()
             {
 
                 Hit = hit;
@@ -64,6 +66,8 @@ namespace FluidSharp.Widgets
                 StartLocationInView = startLocationInView;
                 CurrentLocationInView = currentLocationInView;
                 DeltaLocationInView = currentLocationInView - startLocationInView;
+
+                ViewSize = viewSize;
 
                 StartTime = startTime;
                 CurrentTime = currentTime;
@@ -109,6 +113,11 @@ namespace FluidSharp.Widgets
         public static PanGestureDetector HorizontalPanDetector<T>(VisualState visualState, CarouselState<T> stateTransition, Widget child)
         {
             return new HorizontalPanGestureDetector(visualState, stateTransition, true, pan => stateTransition.SetRelativePan(pan.X, visualState), velocity => stateTransition.EndPan(velocity, visualState), child);
+        }
+
+        public static PanGestureDetector HorizontalPanDetector<T>(VisualState visualState, CarouselState<T> stateTransition, float pandetectorwidth, Widget child)
+        {
+            return new HorizontalPanEdgeGestureDetector(visualState, pandetectorwidth, stateTransition, true, pan => stateTransition.SetRelativePan(pan.X, visualState), velocity => stateTransition.EndPan(velocity, visualState), child);
         }
 
         public static PanGestureDetector HorizontalPanDetector(VisualState visualState, ScrollState scrollState, Widget child)
@@ -245,6 +254,46 @@ namespace FluidSharp.Widgets
 
             public override (bool win, bool loose) Move(Movement movement)
             {
+                if (movement.HasWon)
+                    return base.Move(movement);
+                else
+                {
+                    //base.Move(movement.MakeIdentity()); // stop any animations that may be in progress (now doing that in onpressed instead)
+                    var haswon = Math.Abs(movement.DeltaLocationInView.X) > PanWinThreshold;
+                    return (haswon, false);
+                }
+            }
+        }
+
+        public class HorizontalPanEdgeGestureDetector : HorizontalPanGestureDetector
+        {
+
+            public float Width;
+
+            public HorizontalPanEdgeGestureDetector(VisualState visualState, float width, object context, bool relativeMove, Func<SKPoint, Task> onPanMove, Func<SKPoint, Task> onPanEnd, Widget child) : base(visualState, context, relativeMove, onPanMove, onPanEnd, child)
+            {
+                Width = width;
+            }
+
+            public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
+            {
+                var childrect = layoutsurface.Paint(Child, rect);
+                var detectorrect = rect.HorizontalAlign(new SKSize(Width, rect.Height), HorizontalAlignment.Near, layoutsurface.FlowDirection);
+                layoutsurface.DebugGestureRect(detectorrect, SKColors.Purple.WithAlpha(32));
+                return childrect;
+            }
+
+            public override (bool win, bool loose) Move(Movement movement)
+            {
+                var device = movement.Hit.Device;
+                if (device.FlowDirection == FlowDirection.LeftToRight)
+                    if (movement.StartLocationInView.X > Width)
+                        return (false, true);
+
+                if (device.FlowDirection == FlowDirection.RightToLeft)
+                    if (movement.StartLocationInView.X < movement.ViewSize.Width - Width)
+                        return (false, true);
+
                 if (movement.HasWon)
                     return base.Move(movement);
                 else

@@ -16,14 +16,16 @@ namespace FluidSharp.Touch
         public TouchActionType Type;
         public SKPoint LocationOnDevice;
         public SKPoint LocationInView;
+        public SKSize ViewSize;
         public bool IsInContact;
 
-        public TouchActionEventArgs(long id, TouchActionType type, SKPoint locationOnDevice, SKPoint locationInView, bool isInContact)
+        public TouchActionEventArgs(long id, TouchActionType type, SKPoint locationOnDevice, SKPoint locationInView, SKSize viewSize, bool isInContact)
         {
             PointerId = id;
             Type = type;
             LocationOnDevice = locationOnDevice;
             LocationInView = locationInView;
+            ViewSize = viewSize;
             IsInContact = isInContact;
         }
     }

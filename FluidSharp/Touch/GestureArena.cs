@@ -58,7 +58,7 @@ namespace FluidSharp.Touch
 
         }
 
-        public void Touch(long pointerId, TouchActionType type, SKPoint locationOnDevice, SKPoint locationInView, bool isInContact, out bool isCompleted)
+        public void Touch(long pointerId, TouchActionType type, SKPoint locationOnDevice, SKPoint locationInView, SKSize viewSize, bool isInContact, out bool isCompleted)
         {
 
             var time = DateTime.Now;
@@ -95,7 +95,7 @@ namespace FluidSharp.Touch
                             if (Detectors.TryGetValue(detector, out var hit))
                             {
 
-                                var movement = new GestureDetector.Movement(hit, startlocationOnDevice, locationOnDevice, startlocationInView, locationInView, starttime, time, haswon, isinitialpointer);
+                                var movement = new GestureDetector.Movement(hit, startlocationOnDevice, locationOnDevice, startlocationInView, locationInView, viewSize, starttime, time, haswon, isinitialpointer);
 
                                 //System.Diagnostics.Debug.WriteLine($"{detector}");
 

@@ -20,6 +20,7 @@ namespace FluidSharp.Views.WindowsForms
         float ISkiaView.Width => Width;
         float ISkiaView.Height => Height;
 
+        SKSize GetSize() => new SKSize(Width, Height);
 
 #if !USEGL
         public bool VSync;
@@ -64,19 +65,19 @@ namespace FluidSharp.Views.WindowsForms
         private void SkiaControl_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             var onscreen = PointToScreen(new Point(e.X, e.Y));
-            Touch.Invoke(this, new TouchActionEventArgs(0, TouchActionType.Pressed, new SKPoint(onscreen.X, onscreen.Y), new SKPoint(e.X, e.Y), true));
+            Touch.Invoke(this, new TouchActionEventArgs(0, TouchActionType.Pressed, new SKPoint(onscreen.X, onscreen.Y), new SKPoint(e.X, e.Y), GetSize(), true));
         }
 
         private void SkiaControl_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             var onscreen = PointToScreen(new Point(e.X, e.Y));
-            Touch.Invoke(this, new TouchActionEventArgs(0, TouchActionType.Released, new SKPoint(onscreen.X, onscreen.Y), new SKPoint(e.X, e.Y), false));
+            Touch.Invoke(this, new TouchActionEventArgs(0, TouchActionType.Released, new SKPoint(onscreen.X, onscreen.Y), new SKPoint(e.X, e.Y), GetSize(), false));
         }
 
         private void SkiaControl_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             var onscreen = PointToScreen(new Point(e.X, e.Y));
-            Touch.Invoke(this, new TouchActionEventArgs(0, TouchActionType.Moved, new SKPoint(onscreen.X, onscreen.Y), new SKPoint(e.X, e.Y), e.Button != System.Windows.Forms.MouseButtons.None));
+            Touch.Invoke(this, new TouchActionEventArgs(0, TouchActionType.Moved, new SKPoint(onscreen.X, onscreen.Y), new SKPoint(e.X, e.Y), GetSize(), e.Button != System.Windows.Forms.MouseButtons.None));
         }
 
     }

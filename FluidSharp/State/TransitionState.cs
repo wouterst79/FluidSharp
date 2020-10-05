@@ -1,6 +1,7 @@
 ﻿#if DEBUG
 //#define DEBUGSETTARGET
 #endif
+using FluidSharp.Animations;
 using FluidSharp.Widgets;
 using SkiaSharp;
 using System;
@@ -45,6 +46,20 @@ namespace FluidSharp.State
             var next = Target;
 
             return new TransitionFrame<T>(ratio, current, direction, next, Progress);
+        }
+
+        public Animation GetAnimation(Easing easing)
+        {
+
+            var current = Current;
+            var target = Target;
+
+            var direction = GetDirection(current, target);
+            var min = direction >= 0 ? 0 : 1;
+            var delta = direction >= 0 ? 1 : -1;
+
+            return new Animation(AnimationStart, TransitionDuration, min, min + delta, easing, () => Progress(GetFrame(), null));
+
         }
 
         private (float ratio, int direction) GetFrameRatios()

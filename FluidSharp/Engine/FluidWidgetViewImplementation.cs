@@ -269,7 +269,7 @@ namespace FluidSharp.Engine
 
             if (GestureArena != null)
             {
-                GestureArena.Touch(e.PointerId, e.Type, e.LocationOnDevice, e.LocationInView, e.IsInContact, out var iscompleted);
+                GestureArena.Touch(e.PointerId, e.Type, e.LocationOnDevice, e.LocationInView, e.ViewSize, e.IsInContact, out var iscompleted);
                 if (iscompleted) GestureArena = null;
             }
 

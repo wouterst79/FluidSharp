@@ -10,6 +10,7 @@ namespace FluidSharp.Widgets
     {
 
         public SKPicture SKPicture;
+        public SKColor Color;
         public float Opacity;
         public bool AutoFlipRTL;
 
@@ -48,17 +49,25 @@ namespace FluidSharp.Widgets
                     SKMatrix.CreateScale(-1, 1).PostConcat(SKMatrix.CreateTranslation(x + picturesize.Width, y)) :
                     SKMatrix.CreateTranslation(x, y);
 
-                if (Opacity == 1)
+                if (Opacity == 1 && Color == default)
                 {
                     canvas.DrawPicture(SKPicture, ref matrix);
                 }
-                else
+                else if (Color == default)
                 {
                     using (var paint = new SKPaint() { Color = SKColors.Black.WithOpacity(Opacity) })
                     {
                         canvas.DrawPicture(SKPicture, ref matrix, paint);
                     }
 
+                }
+                else
+                {
+                    using (var paint = new SKPaint())
+                    {
+                        paint.ColorFilter = SKColorFilter.CreateBlendMode(Color.WithOpacity(Opacity), SKBlendMode.SrcIn);
+                        canvas.DrawPicture(SKPicture, ref matrix, paint);
+                    }
                 }
             }
 

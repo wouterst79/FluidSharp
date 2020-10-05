@@ -1,4 +1,5 @@
-﻿using FluidSharp.Layouts;
+﻿using FluidSharp.Animations;
+using FluidSharp.Layouts;
 using FluidSharp.State;
 using SkiaSharp;
 using SkiaSharp.TextBlocks.Enum;
@@ -41,6 +42,29 @@ namespace FluidSharp.Widgets
             MaxOpen = maxopen;
             OpenRatio = openratio;
             IsAnimating = isAnimating;
+        }
+
+        public static Widget MakeWidget(VisualState visualState, TransitionFrame<bool> frame, object context, SlideOverDirection direction, bool pushMainContent, float maxopen, Func<Widget> makechild, Func<Widget> makeappearing)
+        {
+
+            var openratio = frame.Ratio;
+            var isanimating = frame.Ratio < 1;
+
+            if (openratio == 0)
+                return makechild == null ? null : makechild();
+
+            if (openratio == 1 && maxopen >= 1)
+                return makeappearing();
+
+
+
+            var container = new SlideOverContainer(makechild == null ? null : makechild(), makeappearing(), direction, pushMainContent, maxopen, openratio, isanimating);
+
+            if (direction == SlideOverDirection.NearToFar || direction == SlideOverDirection.FarToNear)
+                return new GestureDetector.HorizontalPanGestureDetector(visualState, context, false, null, velocity => SlideOverState.GetState(visualState).EndPan(velocity, visualState), container);
+            else
+                return new GestureDetector.VerticalPanGestureDetector(visualState, context, false, null, velocity => SlideOverState.GetState(visualState).EndPan(velocity, visualState), container);
+
         }
 
         public static Widget MakeWidget(VisualState visualState, object context, SlideOverDirection direction, bool pushMainContent, float maxopen, Func<Widget> makechild, Func<Widget> makeappearing)
