@@ -51,7 +51,7 @@ namespace FluidSharp.Widgets
         }
 
 
-        public static TimeSpan DefaultDuration = TimeSpan.FromMilliseconds(2500);
+        public static TimeSpan DefaultDuration = TimeSpan.FromMilliseconds(250);
 
         public Widget ChildA;
         public Widget ChildB;

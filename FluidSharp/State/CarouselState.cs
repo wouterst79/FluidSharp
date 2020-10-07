@@ -117,6 +117,9 @@ namespace FluidSharp.State
         public virtual async Task SetTarget(T target, VisualState visualState, float velocity)
         {
 
+            if (velocity < 0) velocity = -velocity;
+            if (velocity == 0) velocity = 1;
+
             var currentdirection = GetDirection(Current, Target);
             var targetdirection = GetDirection(Current, target);
 
@@ -232,7 +235,7 @@ namespace FluidSharp.State
 
                 if (OnCompleted != null)
                     await OnCompleted();
-                
+
             }
 
         }

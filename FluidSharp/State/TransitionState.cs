@@ -19,6 +19,7 @@ namespace FluidSharp.State
         public T Target { get; protected set; }
         public DateTime AnimationStart;
 
+        public TimeSpan StandardDuration = TimeSpan.FromMilliseconds(250);
         public TimeSpan TransitionDuration;
 
         public Func<Task>? OnCompleted;
@@ -81,10 +82,13 @@ namespace FluidSharp.State
         public virtual async Task SetTarget(T target, VisualState? visualState, float velocity = 1f)
         {
 
+            if (velocity < 0) velocity = -velocity;
+            if (velocity == 0) velocity = 1;
+
             var currentdirection = GetDirection(Current, Target);
             var targetdirection = GetDirection(Current, target);
 
-            var newduration = TimeSpan.FromMilliseconds(SlideTransition.DefaultDuration.TotalMilliseconds / velocity);
+            var newduration = TimeSpan.FromMilliseconds(StandardDuration.TotalMilliseconds / velocity);
 
             if (currentdirection == 0)
             {

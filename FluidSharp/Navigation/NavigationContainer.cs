@@ -95,7 +95,8 @@ namespace FluidSharp.Navigation
             {
 
                 if (Stack.Count <= 1)
-                    throw new Exception("nothing to pop");
+                    return;
+                    //throw new Exception("nothing to pop");
 
                 if (Transition is null)
                 {
