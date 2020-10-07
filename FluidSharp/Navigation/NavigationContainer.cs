@@ -151,7 +151,7 @@ namespace FluidSharp.Navigation
 
             if (Transition != null)
             {
-                return Transition.MakeWidget(visualState, CurrentFrame, TransitionTarget!);
+                return Transition.MakeWidget(visualState, CurrentFrame, TransitionTarget!, Pop);
             }
 
             if (Stack == null) throw new Exception("No root frame supplied");
@@ -170,7 +170,7 @@ namespace FluidSharp.Navigation
                 var transition = page.GetPageTransition(OnTransitionCompleted);
                 if (transition != null)
                 {
-                    return transition.MakeWidget(visualState, PreviousFrame, currentframe);
+                    return transition.MakeWidget(visualState, PreviousFrame, currentframe, Pop);
                 }
 
             }

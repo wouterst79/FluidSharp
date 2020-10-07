@@ -1,6 +1,7 @@
 ﻿using FluidSharp.Animations;
 using FluidSharp.Layouts;
 using FluidSharp.State;
+using FluidSharp.Touch;
 using FluidSharp.Widgets;
 using SkiaSharp;
 using System;
@@ -35,7 +36,7 @@ namespace FluidSharp.Navigation
 
         public Task OnTransitionCompleted(bool open) => !open ? OnTransitionCompleted2(open) : Task.CompletedTask;
 
-        public Widget MakeWidget(VisualState visualState, IWidgetSource from, IWidgetSource to)
+        public Widget MakeWidget(VisualState visualState, IWidgetSource from, IWidgetSource to, Func<Task> dismiss)
         {
 
             var animation = TransitionState.GetAnimation(Easing.CubicOut);
@@ -45,7 +46,9 @@ namespace FluidSharp.Navigation
 
                 from.MakeWidget(visualState),
 
-                Rectangle.Fill(MaskColor.WithOpacity(animation.GetValue())),
+                new HitTestStop(),
+
+                GestureDetector.TapDetector(visualState, "overlay", dismiss, Rectangle.Fill(MaskColor.WithOpacity(animation.GetValue()))),
 
                 Align.Center(
                     new RoundedRectangle(CornerRadius, BackgroundColor, default,

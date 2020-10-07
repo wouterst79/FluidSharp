@@ -22,7 +22,7 @@ namespace FluidSharp.Navigation
             TransitionState = new NavigationTransitionState(start, OnTransitionCompleted);
         }
 
-        public Widget MakeWidget(VisualState visualState, IWidgetSource from, IWidgetSource to)
+        public Widget MakeWidget(VisualState visualState, IWidgetSource from, IWidgetSource to, Func<Task> dismiss)
         {
             var frame = TransitionState.GetFrame();
             return SlideTransition.MakeWidget(visualState, frame, (vs, istarget) => !istarget ? from.MakeWidget(vs) : to.MakeWidget(vs));

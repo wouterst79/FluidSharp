@@ -119,6 +119,12 @@ namespace FluidSharp.Touch
                 Scale = originalScale;
             }
 
+            // hide earlier hits
+            if (widget is HitTestStop)
+            {
+                Hits.Clear();
+            }
+
             return painted;
         }
     }

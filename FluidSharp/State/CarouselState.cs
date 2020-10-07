@@ -91,11 +91,12 @@ namespace FluidSharp.State
         private (float ratio, int direction) GetFrameRatios()
         {
             var current = Current;
-            if (PanRatio.HasValue)
-                if (PanRatio > 0)
-                    return (PanRatio.Value, -1);
+            var panratio = PanRatio;
+            if (panratio.HasValue)
+                if (panratio > 0)
+                    return (panratio.Value, -1);
                 else
-                    return (-PanRatio.Value, 1);
+                    return (-panratio.Value, 1);
             else
             {
 

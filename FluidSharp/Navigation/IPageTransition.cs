@@ -10,7 +10,7 @@ namespace FluidSharp.Navigation
     public interface IPageTransition
     {
 
-        public Widget MakeWidget(VisualState visualState, IWidgetSource from, IWidgetSource to);
+        public Widget MakeWidget(VisualState visualState, IWidgetSource from, IWidgetSource to, Func<Task> dismiss);
 
         public Task Start();
         public Task Reverse();
