@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FluidSharp.Navigation
 {
-    public class PopupTransition : IPageTransition
+    public class OverlayPageTransition : IPageTransition
     {
 
         public SKColor MaskColor;
@@ -21,7 +21,7 @@ namespace FluidSharp.Navigation
         public Task Start() => TransitionState.SetTarget(true, null);
         public Task Reverse() => TransitionState.SetTarget(false, null);
 
-        public PopupTransition(SKColor maskColor, Func<bool, Task> onTransitionCompleted)
+        public OverlayPageTransition(SKColor maskColor, Func<bool, Task> onTransitionCompleted)
         {
             MaskColor = maskColor;
             OnTransitionCompleted2 = onTransitionCompleted;

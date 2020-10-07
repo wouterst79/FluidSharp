@@ -58,6 +58,7 @@ namespace FluidSharp.Widgets
                 {
 
                     var clippath = new SKPath();
+
                     clippath.AddRoundRect(rrect);
                     layoutsurface.ClipPath(clippath);
 

@@ -78,7 +78,7 @@ namespace FluidSharp.Navigation
                 if (Next is IPage page)
                     Transition = page.GetPageTransition(OnTransitionCompleted);
                 if (Transition is null)
-                    Transition = new PushTransition(false, OnTransitionCompleted);
+                    Transition = new PushPageTransition(false, OnTransitionCompleted);
             }
 
             TransitionTarget = Next;
@@ -103,7 +103,7 @@ namespace FluidSharp.Navigation
                         Transition = page.GetPageTransition(OnTransitionCompleted);
 
                     if (Transition is null)
-                        Transition = new PushTransition(true, OnTransitionCompleted);
+                        Transition = new PushPageTransition(true, OnTransitionCompleted);
 
                 }
 

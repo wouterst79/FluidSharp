@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FluidSharp.Navigation
 {
-    public class PushTransition : IPageTransition
+    public class PushPageTransition : IPageTransition
     {
 
         public NavigationTransitionState TransitionState;
@@ -16,7 +16,7 @@ namespace FluidSharp.Navigation
         public Task Start() => TransitionState.SetTarget(true, null);
         public Task Reverse() => TransitionState.SetTarget(false, null);
 
-        public PushTransition(bool start, Func<bool, Task> onTransitionCompleted)
+        public PushPageTransition(bool start, Func<bool, Task> onTransitionCompleted)
         {
             OnTransitionCompleted = onTransitionCompleted;
             TransitionState = new NavigationTransitionState(start, OnTransitionCompleted);
