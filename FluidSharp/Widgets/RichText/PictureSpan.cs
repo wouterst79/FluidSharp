@@ -11,6 +11,7 @@ namespace FluidSharp.Widgets
 
         public Picture Picture;
         public float Opacity = 1;
+        public SKPoint Translate;
 
         public PictureSpan(Picture picture) 
         {
@@ -27,8 +28,8 @@ namespace FluidSharp.Widgets
 
             var flip = Picture.AutoFlipRTL && isrtl;
             var matrix = flip ?
-                SKMatrix.CreateScale(-1, 1).PostConcat(SKMatrix.CreateTranslation(x + size.Width, y)) :
-                SKMatrix.CreateTranslation(x, y);
+                SKMatrix.CreateScale(-1, 1).PostConcat(SKMatrix.CreateTranslation(x + size.Width - Translate.X, y + Translate.Y)) :
+                SKMatrix.CreateTranslation(x + Translate.X, y + Translate.Y);
 
             if (Opacity == 1)
             {

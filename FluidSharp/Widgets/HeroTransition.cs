@@ -12,6 +12,8 @@ namespace FluidSharp.Widgets
     public class HeroTransition : Widget
     {
 
+        //public static TimeSpan DefaultDuration = TimeSpan.FromMilliseconds(250);
+        public static TimeSpan DefaultDuration = TimeSpan.FromMilliseconds(1500);
 
         private class HeroLocator : LayoutSurface
         {
@@ -44,14 +46,13 @@ namespace FluidSharp.Widgets
                     if (HeroLocations.TryGetValue(hero.Tag, out var target))
                     {
                         rect = target;
-                        return base.Paint(new Container(ContainerLayout.Fill, new Margins(16,0), new RoundedRectangle(8, SKColors.White, default)), rect);
+                        if (hero.Tag == "card")
+                            return base.Paint(new Container(ContainerLayout.Fill, new Margins(16, 0), new RoundedRectangle(8, SKColors.White, default)), rect);
                     }
                 return base.Paint(widget, rect);
             }
         }
 
-
-        public static TimeSpan DefaultDuration = TimeSpan.FromMilliseconds(250);
 
         public Widget ChildA;
         public Widget ChildB;
@@ -128,19 +129,29 @@ namespace FluidSharp.Widgets
             foreach (var location in locatorA.HeroLocations)
             {
                 var source = location.Value;
-                var target = locatorB.HeroLocations[location.Key];
+                if (locatorB.HeroLocations.TryGetValue(location.Key, out var target))
+                {
 
-                var herorect = new SKRect(source.Left * pctA + target.Left * pctB,
-                    source.Top * pctA + target.Top * pctB,
-                    source.Right * pctA + target.Right * pctB,
-                    source.Bottom * pctA + target.Bottom * pctB
-                    );
 
-                locations.Add(location.Key, herorect);
+                    var herorect = new SKRect(source.Left * pctA + target.Left * pctB,
+                        source.Top * pctA + target.Top * pctB,
+                        source.Right * pctA + target.Right * pctB,
+                        source.Bottom * pctA + target.Bottom * pctB
+                        );
+
+                    locations.Add(location.Key, herorect);
+                }
             }
 
             var positioner = new HeroPositioner(layoutsurface.Device, layoutsurface.MeasureCache, layoutsurface.Canvas, layoutsurface.VisualState) { HeroLocations = locations };
-            return positioner.Paint(ChildA, rect);
+            var result = positioner.Paint(ChildA, rect);
+
+            if (pctB > .8)
+            {
+                layoutsurface.Paint(ChildB, rect);
+            }
+
+            return result;
         }
 
     }

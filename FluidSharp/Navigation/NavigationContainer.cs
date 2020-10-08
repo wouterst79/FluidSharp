@@ -32,7 +32,7 @@ namespace FluidSharp.Navigation
 
     }
 
-    public abstract class NavigationContainer : IWidgetSource
+    public abstract class NavigationContainer : IWidgetSource, IBackgroundColorSource
     {
 
         public Stack<IWidgetSource> Stack = new Stack<IWidgetSource>();
@@ -96,7 +96,7 @@ namespace FluidSharp.Navigation
 
                 if (Stack.Count <= 1)
                     return;
-                    //throw new Exception("nothing to pop");
+                //throw new Exception("nothing to pop");
 
                 if (Transition is null)
                 {
@@ -180,5 +180,19 @@ namespace FluidSharp.Navigation
 
         }
 
+        public SKColor GetBackgroundColor(VisualState visualState)
+        {
+            SKColor result = default;
+            foreach (var item in Stack)
+            {
+                if (item is IBackgroundColorSource backgroundColorSource)
+                {
+                    result = backgroundColorSource.GetBackgroundColor(visualState);
+                    if (result != default)
+                        return result;
+                }
+            }
+            return result;
+        }
     }
 }

@@ -2,6 +2,7 @@
 using FluidSharp.Views.iOS;
 using Foundation;
 using System;
+using System.Threading.Tasks;
 using UIKit;
 
 namespace FluidSharp.Views.iOS
@@ -20,6 +21,8 @@ namespace FluidSharp.Views.iOS
         //public FluidUIViewController(IntPtr handle) : base(handle)
         //{
         //}
+
+        public Task RequestRedraw() => FluidWidgetView.VisualState.RequestRedraw();
 
         public override void LoadView()
         {

@@ -143,7 +143,11 @@ namespace FluidSharp.Views.iOS
             var cgPoint = touch.LocationInView(recognizer.View);
             var xfPoint = new SKPoint((float)cgPoint.X, (float)cgPoint.Y);
 
-            Touch?.Invoke(this, new TouchActionEventArgs(id, actionType, pointondevice, xfPoint, isInContact));
+            var viewsize = recognizer.View.Bounds.Size;
+//            var cgsize = touch.LocationInView(recognizer.View);
+            var size = new SKSize((float)viewsize.Width, (float)viewsize.Height);
+
+            Touch?.Invoke(this, new TouchActionEventArgs(id, actionType, pointondevice, xfPoint, size, isInContact));
 
         }
     }
