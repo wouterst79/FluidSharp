@@ -8,17 +8,32 @@ using System.Threading.Tasks;
 
 namespace FluidSharp.Widgets
 {
-    public class SlideTransition : Widget
+    public class SlideTransition : AnimatedWidget
     {
 
         public static TimeSpan DefaultDuration = TimeSpan.FromMilliseconds(250);
 
-        public Widget Child;
+        public Widget ChildA;
+        public Widget ChildB;
 
-        public static Widget MakeWidget<T>(VisualState visualState, TransitionFrame<T> frame, Func<VisualState, T, Widget> makevaluewidget)
-            => MakeWidget(visualState, frame, 0, null, makevaluewidget);
+        public float PctOutA;
+        public float PctInB;
 
-        public static Widget MakeWidget<T>(VisualState visualState, TransitionFrame<T> frame, float spacing, Widget separator, Func<VisualState, T, Widget> makevaluewidget)
+
+#if DEBUG
+        public SlideTransition(Widget childA, Widget childB, float pctOutA, float pctInB) : base(new Animations.Animation(DateTime.Now, TimeSpan.FromSeconds(1)), (Widget)null)
+#endif
+        {
+            ChildA = childA ?? throw new ArgumentNullException(nameof(childA));
+            ChildB = childB ?? throw new ArgumentNullException(nameof(childB));
+            PctOutA = pctOutA;
+            PctInB = pctInB;
+        }
+
+        public static Widget MakeWidget<T>(VisualState visualState, TransitionFrame<T> frame, float overlap, Func<VisualState, T, Widget> makevaluewidget)
+            => MakeWidget(visualState, frame, 0, overlap, null, makevaluewidget);
+
+        public static Widget MakeWidget<T>(VisualState visualState, TransitionFrame<T> frame, float spacing, float overlap, Widget separator, Func<VisualState, T, Widget> makevaluewidget)
         {
 
             var ratio = frame.Ratio;
@@ -38,52 +53,58 @@ namespace FluidSharp.Widgets
 
                 var direction = frame.Direction;
 
-                var min = direction == 1 ? 1 : 0;
-                var delta = direction == 1 ? -1 : 1;
+                if (direction == -1) ratio = 1 - ratio;
 
-                var amount = min + ratio * delta;
+                var extend = 1 - overlap;
+
+                var pctOutA = ratio * extend;
+                var pctInB = ratio;
+
+                //System.Diagnostics.Debug.WriteLine($"{direction}  {pctOutA} {pctInB} ");
 
                 var leftvalue = direction == 1 ? frame.Current : frame.Next;
                 var rightvalue = direction == 1 ? frame.Next : frame.Current;
 
-                return new SlideTransition()
-                {
-                    Child =
-                    new Layout()
-                    {
+                var leftchild = makevaluewidget(visualState, leftvalue);
+                var rightchild = makevaluewidget(visualState, rightvalue);
 
-                        Rows = { new LayoutSize.Fit() },
-                        //Debug = true,
-                        Columns =
-                        {
-                            new LayoutSize.Available(amount - 1),
-                            new LayoutSize.Absolute(-spacing / 2),
-                            new LayoutSize.Available(1),
-                            new LayoutSize.Absolute(spacing),
-                            new LayoutSize.Available(1)
-                        },
+                return new SlideTransition(leftchild, rightchild, pctOutA, pctInB);
 
-                        Cells =
-                        {
-
-                            separator == null ? null :
-                            new LayoutCell(3,0, separator),
-
-                            new LayoutCell(2,0, makevaluewidget(visualState, leftvalue)),
-                            new LayoutCell(4,0, makevaluewidget(visualState, rightvalue))
-                        }
-                    }
-                };
             }
 
         }
 
-        public override SKSize Measure(MeasureCache measureCache, SKSize boundaries) => Child.Measure(measureCache,
+        public override SKSize Measure(MeasureCache measureCache, SKSize boundaries) => ChildA.Measure(measureCache,
             boundaries);
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
+#if !DEBUG
+may not be needed anumore
+#endif
+
             layoutsurface.SetHasActiveAnimations();
-            return layoutsurface.Paint(Child, rect);
+
+            var isrtl = layoutsurface.IsRtl;
+
+            var deltaA = (isrtl ? 1 : -1) * rect.Width * PctOutA;
+            var rectA = new SKRect(rect.Left + deltaA, rect.Top, rect.Right + deltaA, rect.Bottom);
+
+            var deltaB = (isrtl ? -1 : 1) * rect.Width * (1 - PctInB);
+            var rectB = new SKRect(rect.Left + deltaB, rect.Top, rect.Right + deltaB, rect.Bottom);
+
+            var cliprectA = isrtl ?
+                            new SKRect(rectB.Right, rect.Top, rectA.Right, rect.Bottom) :
+                            new SKRect(rectA.Left, rect.Top, rectB.Left, rect.Bottom);
+
+            layoutsurface.ClipRect(cliprectA);
+            layoutsurface.Paint(ChildA, rectA);
+            layoutsurface.ResetRectClip();
+
+            layoutsurface.Paint(ChildB, rectB);
+
+            return rect;
+
+//            void PaintBackground(Widget widget, )
         }
 
     }

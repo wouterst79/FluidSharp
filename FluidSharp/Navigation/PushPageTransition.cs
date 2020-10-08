@@ -10,6 +10,8 @@ namespace FluidSharp.Navigation
     public class PushPageTransition : IPageTransition
     {
 
+        public const float PushOverlap = .5f;
+
         public NavigationTransitionState TransitionState;
         public Func<bool, Task> OnTransitionCompleted;
 
@@ -25,7 +27,7 @@ namespace FluidSharp.Navigation
         public Widget MakeWidget(VisualState visualState, IWidgetSource from, IWidgetSource to, Func<Task> dismiss)
         {
             var frame = TransitionState.GetFrame();
-            return SlideTransition.MakeWidget(visualState, frame, (vs, istarget) => !istarget ? from.MakeWidget(vs) : to.MakeWidget(vs));
+            return SlideTransition.MakeWidget(visualState, frame, PushOverlap, (vs, istarget) => !istarget ? from.MakeWidget(vs) : to.MakeWidget(vs));
         }
 
 

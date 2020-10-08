@@ -1,4 +1,5 @@
-﻿using FluidSharp.State;
+﻿using FluidSharp.Navigation;
+using FluidSharp.State;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,7 +13,7 @@ namespace FluidSharp.Widgets
         public static Widget Make<T>(VisualState visualState, CarouselState<T> stateTransition, TransitionFrame<T> frame, float pandetectorwidth, float spacing, Widget? separator, Func<VisualState, T, Widget> makevaluewidget)
         {
             return GestureDetector.HorizontalPanDetector(visualState, stateTransition, pandetectorwidth,
-                        SlideTransition.MakeWidget(visualState, frame, spacing, separator, makevaluewidget)
+                        SlideTransition.MakeWidget(visualState, frame, spacing, PushPageTransition.PushOverlap, separator, makevaluewidget)
                    );
         }
 
