@@ -9,18 +9,20 @@ namespace FluidSharp.Widgets
     public class Picture : Widget
     {
 
-        public SKPicture SKPicture;
-        public SKColor Color;
+        public static float ScreenScale;
+
+        public SKImage SKImage;
         public float Opacity;
         public bool AutoFlipRTL;
 
-        public SKSize Size => SKPicture.CullRect.Size;
+        public SKSize Size;
 
-        public Picture(SKPicture skpicture, bool autoFlipRtl = true, float opacity = 1f)
+        public Picture(SKImage image, bool autoFlipRtl = true, float opacity = 1f)
         {
-            SKPicture = skpicture;
+            SKImage = image;
             AutoFlipRTL = autoFlipRtl;
             Opacity = opacity;
+            Size = new SKSize(image.Width / ScreenScale, image.Height / ScreenScale);
         }
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
@@ -30,50 +32,34 @@ namespace FluidSharp.Widgets
 
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
-
-            var picturesize = Size;
-
-            float x;
-            if (layoutsurface.Device.FlowDirection == SkiaSharp.TextBlocks.Enum.FlowDirection.LeftToRight)
-                x = rect.Left;
-            else
-                x = rect.Right - picturesize.Width;
-            var y = rect.Top;
-
-            var canvas = layoutsurface.Canvas;
-            if (canvas != null && Opacity>0)
-            {
-
-                var flip = AutoFlipRTL && layoutsurface.Device.FlowDirection == SkiaSharp.TextBlocks.Enum.FlowDirection.RightToLeft;
-                var matrix = flip ?
-                    SKMatrix.CreateScale(-1, 1).PostConcat(SKMatrix.CreateTranslation(x + picturesize.Width, y)) :
-                    SKMatrix.CreateTranslation(x, y);
-
-                if (Opacity == 1 && Color == default)
-                {
-                    canvas.DrawPicture(SKPicture, ref matrix);
-                }
-                else if (Color == default)
-                {
-                    using (var paint = new SKPaint() { Color = SKColors.Black.WithOpacity(Opacity) })
-                    {
-                        canvas.DrawPicture(SKPicture, ref matrix, paint);
-                    }
-
-                }
-                else
-                {
-                    using (var paint = new SKPaint())
-                    {
-                        paint.ColorFilter = SKColorFilter.CreateBlendMode(Color.WithOpacity(Opacity), SKBlendMode.SrcIn);
-                        canvas.DrawPicture(SKPicture, ref matrix, paint);
-                    }
-                }
-            }
-
-            return new SKRect(x, y, x + picturesize.Width, y + picturesize.Height);
+            Paint(layoutsurface.Canvas, rect, layoutsurface.IsRtl);
+            return rect;
         }
 
+        public void Paint(SKCanvas canvas, SKRect rect, bool isrtl)
+        {
+
+            if (canvas != null && Opacity > 0)
+            {
+
+                var flip = AutoFlipRTL && isrtl;
+                if (flip)
+                {
+                    var matrix = SKMatrix.CreateScale(-1, 1);
+                    canvas.Save();
+                    canvas.Concat(ref matrix);
+                    rect = new SKRect(-rect.Right, rect.Top, -rect.Left, rect.Bottom);
+                }
+
+                using (var paint = new SKPaint() { Color = SKColors.Black.WithOpacity(Opacity), FilterQuality = SKFilterQuality.High })
+                    canvas.DrawImage(SKImage, rect, paint);
+
+                if (flip)
+                    canvas.Restore();
+
+            }
+
+        }
 
     }
 }

@@ -20,9 +20,7 @@ namespace FluidSharp.Widgets
         public float PctInB;
 
 
-#if DEBUG
         public SlideTransition(Widget childA, Widget childB, float pctOutA, float pctInB) : base(new Animations.Animation(DateTime.Now, TimeSpan.FromSeconds(1)), (Widget)null)
-#endif
         {
             ChildA = childA ?? throw new ArgumentNullException(nameof(childA));
             ChildB = childB ?? throw new ArgumentNullException(nameof(childB));
@@ -78,9 +76,6 @@ namespace FluidSharp.Widgets
             boundaries);
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
-#if !DEBUG
-may not be needed anumore
-#endif
 
             layoutsurface.SetHasActiveAnimations();
 
@@ -96,15 +91,34 @@ may not be needed anumore
                             new SKRect(rectB.Right, rect.Top, rectA.Right, rect.Bottom) :
                             new SKRect(rectA.Left, rect.Top, rectB.Left, rect.Bottom);
 
+            // paint child B
             layoutsurface.ClipRect(cliprectA);
+            PaintBackground(ChildA, cliprectA);
             layoutsurface.Paint(ChildA, rectA);
             layoutsurface.ResetRectClip();
 
+            // paint child B
+            PaintBackground(ChildB, rectB);
             layoutsurface.Paint(ChildB, rectB);
 
             return rect;
 
-//            void PaintBackground(Widget widget, )
+            void PaintBackground(Widget widget, SKRect rect)
+            {
+                if (layoutsurface.Canvas == null) return;
+                if (widget is IBackgroundColorSource backgroundColorSource)
+                {
+                    var color = backgroundColorSource.GetBackgroundColor(layoutsurface.VisualState);
+                    if (color != default)
+                    {
+                        using(var paint = new SKPaint() { Color = color })
+                        {
+                            layoutsurface.Canvas.DrawRect(rect, paint);
+                        }
+                    }
+                }
+            }
+
         }
 
     }

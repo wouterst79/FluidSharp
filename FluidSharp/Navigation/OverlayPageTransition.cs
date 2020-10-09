@@ -51,6 +51,7 @@ namespace FluidSharp.Navigation
                     new LayoutCell(0,0,1,2, from.MakeWidget(visualState)),
                     new LayoutCell(0,0, new HitTestStop()),
                     new LayoutCell(0,0, GestureDetector.TapDetector(visualState, "overlay", dismiss, Rectangle.Fill(MaskColor.WithOpacity(animation.GetValue())))),
+                    new LayoutCell(0,1, Rectangle.Fill(MaskColor.WithOpacity(animation.GetValue()))),
                     new LayoutCell(0,1, popup),
                 }
             };

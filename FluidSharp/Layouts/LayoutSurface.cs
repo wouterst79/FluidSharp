@@ -19,7 +19,7 @@ namespace FluidSharp
 
         public Device Device;
         public MeasureCache MeasureCache;
-        public SKCanvas Canvas;
+        public SKCanvas Canvas { get; private set; }
         public VisualState VisualState;
 
         public FlowDirection FlowDirection => Device.FlowDirection;
@@ -27,6 +27,9 @@ namespace FluidSharp
 
         public bool HasActiveAnimations { get; private set; }
         public void SetHasActiveAnimations() => HasActiveAnimations = true;
+
+        public virtual void SetCanvas(SKCanvas canvas) { Canvas = canvas; }
+        protected void SetThisCanvas(SKCanvas canvas) { Canvas = canvas; }
 
         public LayoutSurface(Device device, MeasureCache measureCache, SKCanvas canvas, VisualState visualState)
         {

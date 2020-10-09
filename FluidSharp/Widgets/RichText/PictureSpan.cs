@@ -13,7 +13,7 @@ namespace FluidSharp.Widgets
         public float Opacity = 1;
         public SKPoint Translate;
 
-        public PictureSpan(Picture picture) 
+        public PictureSpan(Picture picture)
         {
             Picture = picture ?? throw new ArgumentNullException(nameof(picture));
         }
@@ -26,23 +26,8 @@ namespace FluidSharp.Widgets
             var size = Picture.Size;
             y -= (fontheight + size.Height) / 2;// align center of picture to center of font
 
-            var flip = Picture.AutoFlipRTL && isrtl;
-            var matrix = flip ?
-                SKMatrix.CreateScale(-1, 1).PostConcat(SKMatrix.CreateTranslation(x + size.Width - Translate.X, y + Translate.Y)) :
-                SKMatrix.CreateTranslation(x + Translate.X, y + Translate.Y);
-
-            if (Opacity == 1)
-            {
-                canvas.DrawPicture(Picture.SKPicture, ref matrix);
-            }
-            else
-            {
-                using (var paint = new SKPaint() { Color = SKColors.Black.WithOpacity(Opacity) })
-                {
-                    canvas.DrawPicture(Picture.SKPicture, ref matrix, paint);
-                }
-
-            }
+            var rect = new SKRect(x, y, x + size.Width, y + size.Height);
+            Picture.Paint(canvas, rect, isrtl);
 
         }
 
