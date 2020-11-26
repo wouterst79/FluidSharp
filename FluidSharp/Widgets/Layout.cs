@@ -16,6 +16,7 @@ namespace FluidSharp.Widgets
         public bool Debug;
 
         public Margins Margin;
+        public SKSize MinimumSize;
 
         public float ColumnSpacing;
         public float RowSpacing;
@@ -121,6 +122,7 @@ namespace FluidSharp.Widgets
             EnsureColumns();
 
             var available = new SKSize(boundaries.Width - Margin.TotalX, boundaries.Height - Margin.TotalY);
+            available = new SKSize(MathF.Max(available.Width, MinimumSize.Width), MathF.Max(available.Height, MinimumSize.Height));
 
             // calculate width
             var columns = GetSizes(Columns);
@@ -159,6 +161,9 @@ namespace FluidSharp.Widgets
                     + (rows.count - 1) * RowSpacing
                     + Margin.TotalY;
             }
+
+            if (w < MinimumSize.Width) w = MinimumSize.Width;
+            if (h < MinimumSize.Height) h = MinimumSize.Height;
 
             return new SKSize(w, h);
 

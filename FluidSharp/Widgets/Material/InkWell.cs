@@ -63,6 +63,8 @@ namespace FluidSharp.Widgets.Material
 
                     layoutsurface.ClipRect(childrect);
 
+                    var result = layoutsurface.Paint(ChildTree, childrect);
+
                     var sizefactor = Animation.GetValue();
 
                     using (var paint = new SKPaint() { Color = InkWellColor, IsAntialias = true })
@@ -78,8 +80,6 @@ namespace FluidSharp.Widgets.Material
                         var radius = longsize * sizefactor;
                         layoutsurface.Canvas.DrawCircle(center, radius, paint);
                     }
-
-                    var result = layoutsurface.Paint(ChildTree, childrect);
 
                     layoutsurface.ResetRectClip();
 

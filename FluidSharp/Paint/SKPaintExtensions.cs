@@ -17,5 +17,10 @@ namespace FluidSharp
 
         public static SKColor WithOpacity(this SKColor color, float opacity) => opacity == 1 ? color : color.WithAlpha((byte)(opacity * color.Alpha));
 
+        public static bool IsLight(this SKColor color)
+        {
+            color.ToHsl(out var h, out var s, out var l);
+            return l > 60f;
+        }
     }
 }

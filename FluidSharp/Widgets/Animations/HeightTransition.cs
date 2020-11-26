@@ -11,14 +11,20 @@ namespace FluidSharp.Widgets
     public class HeightTransition : AnimatedWidget
     {
 
-        private HeightTransition(DateTime startTime, TimeSpan duration, float start, float end, Widget child)
+        public bool ScaleOnPaint { get; set; }
+
+        private HeightTransition(DateTime startTime, TimeSpan duration, float start, float end, Widget child, bool scaleOnPaint)
             : base(new Animation(startTime, duration, start, end, Easing.CubicInOut), child)
         {
+            ScaleOnPaint = scaleOnPaint;
         }
 
-        public HeightTransition(Animation animation, Widget widget) : base(animation, widget) { }
+        public HeightTransition(Animation animation, Widget widget, bool scaleOnPaint) : base(animation, widget)
+        {
+            ScaleOnPaint = scaleOnPaint;
+        }
 
-        public static Widget? Make(DateTime appearingStarted, DateTime? disappearingStarted, TimeSpan duration, Widget child)
+        public static Widget? Make(DateTime appearingStarted, DateTime? disappearingStarted, TimeSpan duration, Widget child, bool scaleOnPaint)
         {
 
             if (disappearingStarted.HasValue)
@@ -26,14 +32,14 @@ namespace FluidSharp.Widgets
                 if (disappearingStarted.Value + duration < DateTime.Now)
                     return null;
                 else
-                    return new HeightTransition(disappearingStarted.Value, duration, 1, 0, child);
+                    return new HeightTransition(disappearingStarted.Value, duration, 1, 0, child, scaleOnPaint);
             }
             else
             {
                 if (appearingStarted + duration < DateTime.Now)
                     return child;
                 else
-                    return new HeightTransition(appearingStarted, duration, 0, 1, child);
+                    return new HeightTransition(appearingStarted, duration, 0, 1, child, scaleOnPaint);
             }
 
         }
@@ -50,7 +56,7 @@ namespace FluidSharp.Widgets
 
             var childsize = base.Measure(layoutsurface.MeasureCache, rect.Size);
 
-            var pct = Animation.GetValue();
+            var pct = ScaleOnPaint ? Animation.GetValue() : 1;
 
             var height = childsize.Height * pct;
             var hidden = 0;// childsize.Height - height;

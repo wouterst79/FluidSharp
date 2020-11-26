@@ -13,11 +13,15 @@ namespace FluidSharp.Widgets.Native
         public string Text;
         public Func<string, Task> SetText;
 
-        public NativeTextboxWidget(object context, string text, Func<string, Task> settext)
+        public bool HasFocus;
+
+        public NativeTextboxWidget(object context, string? text, Func<string, Task> settext, bool hasFocus)
         {
             Context = context;
             Text = text ?? "";
             SetText = settext;
+            HasFocus = hasFocus;
+            ExpandHorizontal = true;
         }
 
     }

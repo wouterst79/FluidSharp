@@ -20,7 +20,7 @@ namespace FluidSharp.Widgets
         public float PctInB;
 
 
-        public SlideTransition(Widget childA, Widget childB, float pctOutA, float pctInB) : base(new Animations.Animation(DateTime.Now, TimeSpan.FromSeconds(1)), (Widget)null)
+        public SlideTransition(Widget childA, Widget childB, float pctOutA, float pctInB) : base(new FluidSharp.Animations.Animation(DateTime.Now, TimeSpan.FromSeconds(1)), (Widget)null)
         {
             ChildA = childA ?? throw new ArgumentNullException(nameof(childA));
             ChildB = childB ?? throw new ArgumentNullException(nameof(childB));

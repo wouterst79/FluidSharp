@@ -19,8 +19,8 @@ namespace FluidSharp.State
         public T Target { get; protected set; }
         public DateTime AnimationStart;
 
-        public TimeSpan StandardDuration = TimeSpan.FromMilliseconds(250);
-        public TimeSpan TransitionDuration;
+        public TimeSpan TransitionDuration = TimeSpan.FromMilliseconds(250);
+        protected TimeSpan CurrentDuration;
 
         public Func<Task>? OnCompleted;
 
@@ -49,7 +49,7 @@ namespace FluidSharp.State
             return new TransitionFrame<T>(ratio, current, direction, next, Progress);
         }
 
-        public Animation GetAnimation(Easing easing)
+        public virtual Animation GetAnimation(Easing easing)
         {
 
             var current = Current;
@@ -59,7 +59,7 @@ namespace FluidSharp.State
             var min = direction >= 0 ? 0 : 1;
             var delta = direction >= 0 ? 1 : -1;
 
-            return new Animation(AnimationStart, TransitionDuration, min, min + delta, easing, () => Progress(GetFrame(), null));
+            return new Animation(AnimationStart, CurrentDuration, min, min + delta, easing, () => Progress(GetFrame(), null));
 
         }
 
@@ -69,7 +69,7 @@ namespace FluidSharp.State
             var target = Target;
             var started = AnimationStart;
 
-            var ratio = (float)(DateTime.Now.Subtract(started).TotalMilliseconds / TransitionDuration.TotalMilliseconds);
+            var ratio = (float)(DateTime.Now.Subtract(started).TotalMilliseconds / CurrentDuration.TotalMilliseconds);
             if (ratio > 1) ratio = 1;
 
             var direction = GetDirection(current, target);
@@ -88,11 +88,11 @@ namespace FluidSharp.State
             var currentdirection = GetDirection(Current, Target);
             var targetdirection = GetDirection(Current, target);
 
-            var newduration = TimeSpan.FromMilliseconds(StandardDuration.TotalMilliseconds / velocity);
+            var newduration = TimeSpan.FromMilliseconds(TransitionDuration.TotalMilliseconds / velocity);
 
             if (currentdirection == 0)
             {
-                TransitionDuration = newduration;
+                CurrentDuration = newduration;
                 SetAnimationStart(0);
             }
             else if (currentdirection != targetdirection)
@@ -104,14 +104,14 @@ namespace FluidSharp.State
                 // changing direction on an in-progress animation
                 var frame = GetFrame();
                 var ratio = frame.Ratio;
-                TransitionDuration = newduration;
+                CurrentDuration = newduration;
                 Current = Target;
-                var completed = (ratio - 1) * TransitionDuration.TotalMilliseconds;
+                var completed = (ratio - 1) * CurrentDuration.TotalMilliseconds;
                 SetAnimationStart(completed);
             }
             else
             {
-                TransitionDuration = newduration;
+                CurrentDuration = newduration;
             }
 
 #if DEBUGSETTARGET

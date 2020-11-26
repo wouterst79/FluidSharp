@@ -19,11 +19,15 @@ namespace FluidSharp.Paint.Images
         [MethodImpl(MethodImplOptions.NoInlining)]
         public ResourceImageSource(string name) : base(name)
         {
+            if (name == "-1932644951.553218622")
+                throw new Exception();
             Assembly = Assembly.GetCallingAssembly();
         }
 
         public ResourceImageSource(string name, Assembly assembly) : base(name)
         {
+            if (name == "-1932644951.553218622")
+                throw new Exception();
             Assembly = assembly;
         }
 

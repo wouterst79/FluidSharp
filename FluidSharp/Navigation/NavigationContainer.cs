@@ -48,7 +48,7 @@ namespace FluidSharp.Navigation
 
         // current frame
         private IWidgetSource CurrentFrame => Stack.Peek();
-        private IWidgetSource PreviousFrame => Stack.TakeLast(2).Last();
+        private IWidgetSource PreviousFrame => Stack.Take(2).Last();
 
 
         protected abstract float GetBackPanDetectorWidth();
@@ -73,10 +73,11 @@ namespace FluidSharp.Navigation
         public async Task Push(IWidgetSource Next)
         {
 
-            if (Transition is null)
+            Transition = null;
+            if (Transition is null) // not sure why this was here, but it breaks multi-popup (choose meals from meal details)
             {
                 if (Next is IPage page)
-                    Transition = page.GetPageTransition(OnTransitionCompleted);
+                    Transition = page.GetPageTransition(false, OnTransitionCompleted);
                 if (Transition is null)
                     Transition = new PushPageTransition(false, OnTransitionCompleted);
             }
@@ -101,7 +102,7 @@ namespace FluidSharp.Navigation
                 if (Transition is null)
                 {
                     if (CurrentFrame is IPage page)
-                        Transition = page.GetPageTransition(OnTransitionCompleted);
+                        Transition = page.GetPageTransition(true, OnTransitionCompleted);
 
                     if (Transition is null)
                         Transition = new PushPageTransition(true, OnTransitionCompleted);
@@ -119,9 +120,9 @@ namespace FluidSharp.Navigation
 
         public async Task OnTransitionCompleted(bool open)
         {
-            if (open)
+            if (open && TransitionTarget != null)
             {
-                Stack.Push(TransitionTarget ?? throw new ArgumentNullException());
+                Stack.Push(TransitionTarget);
             }
             Transition = null;
             TransitionTarget = null;
@@ -152,6 +153,8 @@ namespace FluidSharp.Navigation
 
             if (Transition != null)
             {
+                if (!visualState.NavigationTop.IsContext(TransitionTarget))
+                    visualState.NavigationTop = new NavigationTop(TransitionTarget!);
                 return Transition.MakeWidget(visualState, CurrentFrame, TransitionTarget!, Pop);
             }
 
@@ -168,11 +171,11 @@ namespace FluidSharp.Navigation
                     return SlideBackNavigation.Make(visualState, SlideBackState, SlideBackState.GetFrame(), GetBackPanDetectorWidth(), 0, null, MakeSlideBackWidget);
                 }
 
-                var transition = page.GetPageTransition(OnTransitionCompleted);
-                if (transition != null)
-                {
-                    return transition.MakeWidget(visualState, PreviousFrame, currentframe, Pop);
-                }
+                //var transition = page.GetPageTransition(OnTransitionCompleted);
+                //if (transition != null)
+                //{
+                //    return transition.MakeWidget(visualState, PreviousFrame, currentframe, Pop);
+                //}
 
             }
 

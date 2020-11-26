@@ -1,4 +1,5 @@
 ﻿using FluidSharp.Engine;
+using FluidSharp.Navigation;
 using FluidSharp.Touch;
 using SkiaSharp;
 using System;
@@ -68,6 +69,12 @@ namespace FluidSharp.State
         {
             get => GetOrMake("touchtarget", () => new TouchTarget());
             set => this["touchtarget"] = value;
+        }
+
+        public NavigationTop NavigationTop
+        {
+            get => GetOrMake("navigationtop", () => new NavigationTop());
+            set => this["navigationtop"] = value;
         }
 
     }

@@ -23,6 +23,7 @@ namespace FluidSharp.Interop
         public abstract IEnumerable<TNativeControlBaseType> GetChildren();
         public abstract void RegisterNewControl(TNativeControlBaseType newControl);
         public abstract SKSize GetControlSize(TNativeControlBaseType control);
+        
         public abstract void UpdateControl(TNativeControlBaseType control, NativeViewWidget nativeViewWidget, SKRect rect);
         public abstract void SetControlVisible(TNativeControlBaseType control, bool visible);
 
@@ -122,7 +123,7 @@ namespace FluidSharp.Interop
 
             UpdateControl(control, nativeViewWidget, rect);
 
-            SetControlVisible(control, true);
+            //SetControlVisible(control, true);
 
         }
 
@@ -130,8 +131,8 @@ namespace FluidSharp.Interop
         {
             // hide all children that weren't "painted" in this layout run
             foreach (var child in Children)
-                if (!Touched.Contains(child))
-                    SetControlVisible(child, false);
+                SetControlVisible(child, Touched.Contains(child));
+//            if (!Touched.Contains(child))
         }
 
     }

@@ -1,5 +1,7 @@
-﻿using FluidSharp.State;
+﻿using FluidSharp.Animations;
+using FluidSharp.State;
 using FluidSharp.Widgets;
+using FluidSharp.Widgets.Animations;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,14 +22,17 @@ namespace FluidSharp.Navigation
         {
             OnTransitionCompleted = onTransitionCompleted;
             TransitionState = new NavigationTransitionState(start, OnTransitionCompleted);
-            TransitionState.StandardDuration = TimeSpan.FromSeconds(1);
             TransitionState.TransitionDuration = TimeSpan.FromSeconds(1);
         }
 
         public Widget MakeWidget(VisualState visualState, IWidgetSource from, IWidgetSource to, Func<Task> dismiss)
         {
             var frame = TransitionState.GetFrame();
-            return HeroTransition.MakeWidget(visualState, frame, (vs, istarget) => !istarget ? from.MakeWidget(vs) : to.MakeWidget(vs));
+
+            var transition = HeroTransition.MakeWidget(visualState, frame, (vs, istarget) => !istarget ? from.MakeWidget(vs) : to.MakeWidget(vs));
+            //var transition = SlideTransition.MakeWidget(visualState, frame, 0.5f, (vs, istarget) => !istarget ? from.MakeWidget(vs) : to.MakeWidget(vs));
+
+            return transition;
         }
 
 

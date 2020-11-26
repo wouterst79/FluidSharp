@@ -22,7 +22,8 @@ namespace FluidSharp.Widgets.CrossPlatform
                                         makeItemWidget(item), isItemSelected(item), selectedColor, () => onItemSelected(item))
                     ).ToList()
                 }
-            );
+            )
+            { ClipContents = true };
         }
 
         public static Widget Make<T>(PlatformStyle platformStyle, VisualState visualState, object context, IEnumerable<T> items, Func<T, bool> isItemSelected, SKColor selectedColor, Func<T, Task> onItemSelected, Func<T, Widget> makeItemWidget, Widget? header, Widget? footer)
@@ -38,7 +39,8 @@ namespace FluidSharp.Widgets.CrossPlatform
                 };
             if (header != null) column.Children.Insert(0, header);
             if (footer != null) column.Children.Add(footer);
-            return new Scrollable(visualState, context, platformStyle.DefaultOverscrollBehavior, column);
+            return new Scrollable(visualState, context, platformStyle.DefaultOverscrollBehavior, column)
+            { ClipContents = true };
         }
 
     }

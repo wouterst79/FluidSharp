@@ -20,7 +20,7 @@ namespace FluidSharp.Widgets.CrossPlatform
 
             if (child == null) return null;
 
-            child = HeightTransition.Make(created, deleted, Animation.DefaultDuration, child);
+            child = HeightTransition.Make(created, deleted, Animation.DefaultDuration, child, true);
 
             // deleting completed
             if (child == null) return null;

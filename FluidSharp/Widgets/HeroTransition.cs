@@ -146,7 +146,7 @@ namespace FluidSharp.Widgets
             var positioner = new HeroPositioner(layoutsurface.Device, layoutsurface.MeasureCache, layoutsurface.Canvas, layoutsurface.VisualState) { HeroLocations = locations };
             var result = positioner.Paint(ChildA, rect);
 
-            if (pctB > .8)
+            if (pctB > .2)
             {
                 layoutsurface.Paint(ChildB, rect);
             }

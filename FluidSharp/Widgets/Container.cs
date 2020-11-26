@@ -46,7 +46,7 @@ namespace FluidSharp.Widgets
         public bool ExpandHorizontal;
         public bool ExpandVertical;
 
-        public List<Widget> Children = new List<Widget>();
+        public List<Widget?> Children = new List<Widget?>();
 
 
         public Container(ContainerLayout layout)
@@ -60,15 +60,15 @@ namespace FluidSharp.Widgets
 
         }
 
-        public Container(ContainerLayout layout, params Widget[] children) : this(layout)
+        public Container(ContainerLayout layout, params Widget?[] children) : this(layout)
         {
-            Children = new List<Widget>(children);
+            Children = new List<Widget?>(children);
         }
 
-        public Container(ContainerLayout layout, Margins margins, params Widget[] children) : this(layout)
+        public Container(ContainerLayout layout, Margins margins, params Widget?[] children) : this(layout)
         {
             Margin = margins;
-            Children = new List<Widget>(children);
+            Children = new List<Widget?>(children);
         }
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)

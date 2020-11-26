@@ -29,7 +29,11 @@ namespace FluidSharp.Widgets
         }
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries) => Child?.Measure(measureCache, boundaries) ?? new SKSize();
-        public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect) => Child == null ? rect : layoutsurface.Paint(Child, rect);
-
+        public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
+        {
+            // don't do it here, because this class may be inherited
+            //if (!Animation.Completed) layoutsurface.SetHasActiveAnimations();
+            return Child == null ? rect : layoutsurface.Paint(Child, rect);
+        }
     }
 }

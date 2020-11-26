@@ -24,12 +24,23 @@ namespace FluidSharp.Widgets.CrossPlatform
                 return new InkWell(ContainerLayout.FillHorizontal, visualState, context, platformStyle.InkWellColor, onTapped, child);
 
             //if (platformStyle == PlatformStyle.Cupertino)
-                return FlatButton.FillHorizontal(visualState, context, platformStyle.FlatButtonSelectedBackgroundColor, onTapped, child);
+            return FlatButton.FillHorizontal(visualState, context, platformStyle.FlatButtonSelectedBackgroundColor, onTapped, child);
 
             //if (platformStyle == PlatformStyle.UWP)
-                //return FlatButton.FillHorizontal(visualState, context, platformStyle.FlatButtonSelectedBackgroundColor, onTapped, child);
+            //return FlatButton.FillHorizontal(visualState, context, platformStyle.FlatButtonSelectedBackgroundColor, onTapped, child);
 
             //throw new ArgumentOutOfRangeException();
+        }
+
+        public static Widget MakeWithLongTapped(PlatformStyle platformStyle, VisualState visualState, object context, Func<Task> onTapped, Func<Task>? onLongTapped, Widget child)
+        {
+            if (child == null) return null;
+
+            if (platformStyle == PlatformStyle.Material)
+                return new InkWell(ContainerLayout.FillHorizontal, visualState, context, platformStyle.InkWellColor, onTapped, onLongTapped, child);
+
+            return FlatButton.FillHorizontal(visualState, context, platformStyle.FlatButtonSelectedBackgroundColor, onTapped, child, onLongTapped);
+
         }
 
     }

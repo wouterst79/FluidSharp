@@ -1,9 +1,13 @@
-﻿using CoreGraphics;
+﻿#if DEBUG
+#define PRINTEVENTS
+#endif
+using CoreGraphics;
 using FluidSharp.Interop;
 using FluidSharp.Widgets.Native;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +34,18 @@ namespace FluidSharp.Views.iOS
 
         public override void SetControlVisible(UIView control, bool visible)
         {
-            if (control.Hidden == visible) control.Hidden = !visible;
+            if (control.Hidden == visible)
+            {
+#if PRINTEVENTS
+                Debug.WriteLine($"setting hidden: {!visible}");
+#endif
+
+                if (control.IsFirstResponder)
+                    control.ResignFirstResponder();
+
+                control.Hidden = !visible;
+
+            }
         }
 
         public override void UpdateControl(UIView control, NativeViewWidget nativeViewWidget, SKRect rect)
@@ -39,8 +54,14 @@ namespace FluidSharp.Views.iOS
             if (control.Frame != bounds)
             {
                 control.Frame = bounds;
-                System.Diagnostics.Debug.WriteLine("setting frame");
+#if PRINTEVENTS
+                Debug.WriteLine($"setting frame: {bounds} ({control.Bounds}) {control.Tag}");
+#endif
             }
+
+            if (control is INativeViewImpl nativeImpl)
+                nativeImpl.UpdateControl(nativeViewWidget);
+
         }
     }
 

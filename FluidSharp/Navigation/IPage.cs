@@ -10,7 +10,7 @@ namespace FluidSharp.Navigation
 
         public bool CanSlideBack { get; }
 
-        public IPageTransition? GetPageTransition(Func<bool, Task> onTransitionCompleted);
+        public IPageTransition? GetPageTransition(bool startingstate, Func<bool, Task> onTransitionCompleted);
 
     }
 }

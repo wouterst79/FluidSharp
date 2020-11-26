@@ -9,7 +9,7 @@ namespace FluidSharp.Navigation
     {
         public NavigationTransitionState(bool startingstate, Func<bool, Task>? onTransitionCompleted) : base(startingstate)
         {
-            TransitionDuration = HeroTransition.DefaultDuration;
+            CurrentDuration = HeroTransition.DefaultDuration;
             if (onTransitionCompleted != null)
                 OnCompleted = () => onTransitionCompleted(Current);
         }

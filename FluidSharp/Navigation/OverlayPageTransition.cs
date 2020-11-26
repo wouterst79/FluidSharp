@@ -1,4 +1,5 @@
-﻿using FluidSharp.Animations;
+﻿#if false
+using FluidSharp.Animations;
 using FluidSharp.Layouts;
 using FluidSharp.State;
 using FluidSharp.Touch;
@@ -23,11 +24,12 @@ namespace FluidSharp.Navigation
         public Task Start() => TransitionState.SetTarget(true, null);
         public Task Reverse() => TransitionState.SetTarget(false, null);
 
-        public OverlayPageTransition(SKColor maskColor, Func<bool, Task> onTransitionCompleted)
+        public OverlayPageTransition(bool startingstate, SKColor maskColor, Func<bool, Task> onTransitionCompleted)
         {
             MaskColor = maskColor;
             OnTransitionCompleted2 = onTransitionCompleted;
-            TransitionState = new NavigationTransitionState(false, OnTransitionCompleted);
+            TransitionState = new NavigationTransitionState(startingstate, onTransitionCompleted);
+            //TransitionState.TransitionDuration = TimeSpan.FromSeconds(2);
         }
 
         public Task OnTransitionCompleted(bool open) => !open ? OnTransitionCompleted2(open) : Task.CompletedTask;
@@ -36,28 +38,26 @@ namespace FluidSharp.Navigation
         {
 
             var animation = TransitionState.GetAnimation(Easing.CubicOut);
-            var popup = new HeightTransition(animation, to.MakeWidget(visualState));
+            var popup = to.MakeWidget(visualState);
+            popup = new HeightTransition(animation, popup, false);
+            popup = new Opacity(animation.GetValue(), popup);
 
-            return new Layout()
-            {
+            return new Container(ContainerLayout.Expand, 
 
-                Rows =
-                {
-                    new LayoutSize.Remaining(),
-                    new LayoutSize.Fit()
-                },
-                Cells =
-                {
-                    new LayoutCell(0,0,1,2, from.MakeWidget(visualState)),
-                    new LayoutCell(0,0, new HitTestStop()),
-                    new LayoutCell(0,0, GestureDetector.TapDetector(visualState, "overlay", dismiss, Rectangle.Fill(MaskColor.WithOpacity(animation.GetValue())))),
-                    new LayoutCell(0,1, Rectangle.Fill(MaskColor.WithOpacity(animation.GetValue()))),
-                    new LayoutCell(0,1, popup),
-                }
-            };
+                from.MakeWidget(visualState),
+                new HitTestStop(),
+                Rectangle.Fill(MaskColor.WithOpacity(animation.GetValue())),
+
+                new SplitContainer(
+                    popup,
+                    GestureDetector.TapDetector(visualState, "overlay", dismiss, new Container(ContainerLayout.Expand))
+                )
+
+            );
 
         }
 
 
     }
 }
+#endif

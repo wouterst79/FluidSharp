@@ -49,6 +49,11 @@ namespace FluidSharp.Layouts
             return new SKRect(rect.Left, rect.Top, rect.Right, rect.Top + height);
         }
 
+        public static SKRect FromBottomHeight(this SKRect rect, float height)
+        {
+            return new SKRect(rect.Left, rect.Bottom - height, rect.Right, rect.Bottom);
+        }
+
         public static SKRect Center(this SKRect rect, SKSize size)
         {
             return new SKRect(rect.MidX - size.Width / 2,
@@ -77,6 +82,29 @@ namespace FluidSharp.Layouts
             {
                 // right
                 return new SKRect(rect.Right - size.Width, rect.Top, rect.Right, rect.Top + size.Height);
+            }
+        }
+
+        public static SKRect HorizontalAlign(this SKRect rect, SKSize size, HorizontalAlignment horizontalAlignment, FlowDirection flowDirection, float XMargin, float YMargin)
+        {
+            if (horizontalAlignment == HorizontalAlignment.Center)
+            {
+                return new SKRect(rect.MidX - size.Width / 2,
+                                  rect.Top,
+                                  rect.MidX + size.Width / 2,
+                                  rect.Top + size.Height);
+            }
+
+            if ((horizontalAlignment == HorizontalAlignment.Near && flowDirection == FlowDirection.LeftToRight)
+              || (horizontalAlignment == HorizontalAlignment.Far && flowDirection == FlowDirection.RightToLeft))
+            {
+                // left
+                return new SKRect(rect.Left + XMargin, rect.Top + YMargin, rect.Left + size.Width + XMargin, rect.Top + size.Height + YMargin);
+            }
+            else
+            {
+                // right
+                return new SKRect(rect.Right - size.Width - XMargin, rect.Top + YMargin, rect.Right - XMargin, rect.Top + size.Height + YMargin);
             }
         }
 

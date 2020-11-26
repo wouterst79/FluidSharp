@@ -16,6 +16,7 @@ namespace FluidSharp.Views.WindowsForms
 #elif __ANDROID__
 namespace FluidSharp.Views.Android
 #elif __IOS__
+using UIKit;
 using FluidSharp.Views.iOS.NativeViews;
 namespace FluidSharp.Views.iOS
 #elif __UWP__
@@ -55,6 +56,14 @@ namespace FluidSharp.Views.UWP
         private float LastPaintWidth = -1;
         private float LastHeightRequest = -1;
 
+#if __IOS__
+        public override void SafeAreaInsetsDidChange() 
+        {
+            System.Diagnostics.Debug.WriteLine($"View's   SafeAreaInsets: {SafeAreaInsets}");
+            System.Diagnostics.Debug.WriteLine($"View's   SafeAreaLayoutGuide: {SafeAreaLayoutGuide}");
+            base.SafeAreaInsetsDidChange();
+        }
+#endif
 
         public FluidWidgetView()
         {

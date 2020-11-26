@@ -30,7 +30,7 @@ namespace FluidSharp.Widgets
 
         }
 
-        public static Widget FillHorizontal(VisualState visualState, object context, SKColor selectedBackgroundColor, Func<Task> onTapped, Widget child)
+        public static Widget FillHorizontal(VisualState visualState, object context, SKColor selectedBackgroundColor, Func<Task> onTapped, Widget child, Func<Task>? onLongTapped = null)
         {
 
             var innerwidget = child;
@@ -45,7 +45,7 @@ namespace FluidSharp.Widgets
                     }
                 };
 
-            return GestureDetector.TapDetector(visualState, context, onTapped, null, innerwidget);
+            return GestureDetector.TapDetector(visualState, context, onTapped, onLongTapped, innerwidget);
 
         }
 

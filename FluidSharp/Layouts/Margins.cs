@@ -42,6 +42,8 @@ namespace FluidSharp.Layouts
             Bottom = y;
         }
 
+        public Margins WithBottom(float bottom) => new Margins(Near, Top, Far, bottom);
+
         public SKRect Shrink(SKRect original, FlowDirection flowDirection)
         {
             if (flowDirection == FlowDirection.LeftToRight)

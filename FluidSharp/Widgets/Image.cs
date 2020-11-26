@@ -17,7 +17,10 @@ namespace FluidSharp.Widgets
         public float Width;
         public float Height;
         public ScaleMode ScaleMode;
+
+#if DEBUG
         public float Opacity = 1;
+#endif
 
         public Image(ImageSource? source, float width, float height, ScaleMode scaleMode = ScaleMode.Strech)
         {
@@ -60,18 +63,19 @@ namespace FluidSharp.Widgets
                 paintrect = new SKRect(l, t, l + w, t + h);
             }
 
-            if (Opacity == 0)
+            var opacity = Opacity;
+            if (opacity <= 0)
             {
 
             }
-            else if (Opacity == 1)
+            else if (opacity >= 1)
             {
                 using (var paint = new SKPaint() { FilterQuality = SKFilterQuality.High })
                     layoutsurface.Canvas.DrawImage(image, paintrect, paint);
             }
             else
             {
-                using (var paint = new SKPaint() { FilterQuality = SKFilterQuality.High, Color = SKColors.White.WithOpacity(Opacity) })
+                using (var paint = new SKPaint() { FilterQuality = SKFilterQuality.High, Color = SKColors.White.WithOpacity(opacity) })
                     layoutsurface.Canvas.DrawImage(image, paintrect, paint);
 
             }

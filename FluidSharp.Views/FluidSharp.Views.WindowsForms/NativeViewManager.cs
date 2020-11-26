@@ -1,10 +1,11 @@
 ﻿#if DEBUG
-//#define PRINTEVENTS
+#define PRINTEVENTS
 #endif
 using FluidSharp.Interop;
 using FluidSharp.Widgets.Native;
 using SkiaSharp;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -20,6 +21,8 @@ namespace FluidSharp.Views.WindowsForms
     {
 
         public Control Control;
+
+        private ConcurrentDictionary<Control, Rectangle> LastBounds = new ConcurrentDictionary<Control, Rectangle>();
 
         public NativeViewManager(Control control)
         {
@@ -44,13 +47,14 @@ namespace FluidSharp.Views.WindowsForms
 
             // set child bounds
             var targetbounds = new Rectangle((int)rect.Left, (int)rect.Top, (int)rect.Width, (int)rect.Height);
-            if (control.Bounds != targetbounds)
+            if (!LastBounds.TryGetValue(control, out var currentbounds) || currentbounds != targetbounds)
+            //if (control.Bounds != targetbounds && LastBounds != targetbounds)
             {
 #if PRINTEVENTS
-                Debug.WriteLine($"setting bounds: {targetbounds}");
+                Debug.WriteLine($"setting bounds: {targetbounds} ({control.Bounds}) {control.Tag}");
 #endif
                 control.SetBounds(targetbounds.X, targetbounds.Y, targetbounds.Width, targetbounds.Height);
-
+                LastBounds[control] = targetbounds;
             }
 
             if (control is INativeViewImpl nativeImpl)
@@ -62,7 +66,7 @@ namespace FluidSharp.Views.WindowsForms
             if (control.Visible != visible)
             {
 #if PRINTEVENTS
-                    Debug.WriteLine($"setting visible");
+                    Debug.WriteLine($"setting visible {visible}");
 #endif
                 control.Visible = visible;
             }

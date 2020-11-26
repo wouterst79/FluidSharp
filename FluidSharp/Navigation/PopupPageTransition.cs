@@ -21,11 +21,12 @@ namespace FluidSharp.Navigation
         public Task Start() => TransitionState.SetTarget(true, null);
         public Task Reverse() => TransitionState.SetTarget(false, null);
 
-        public PopupPageTransition(SKColor maskColor, Func<bool, Task> onTransitionCompleted)
+        public PopupPageTransition(bool startingstate, SKColor maskColor, Func<bool, Task> onTransitionCompleted)
         {
             MaskColor = maskColor;
             OnTransitionCompleted2 = onTransitionCompleted;
-            TransitionState = new NavigationTransitionState(false, OnTransitionCompleted);
+            TransitionState = new NavigationTransitionState(startingstate, OnTransitionCompleted);
+            //TransitionState.StandardDuration = TimeSpan.FromSeconds(2);
         }
 
         public Task OnTransitionCompleted(bool open) => !open ? OnTransitionCompleted2(open) : Task.CompletedTask;
@@ -34,7 +35,10 @@ namespace FluidSharp.Navigation
         {
 
             var animation = TransitionState.GetAnimation(Easing.CubicOut);
-            var contents = new HeightTransition(animation, to.MakeWidget(visualState));
+            var contents = to.MakeWidget(visualState);
+            contents = new HeightTransition(animation, contents, true);
+            //if (!animation.Completed) contents = new AnimatedWidget(animation, contents);
+            contents = new Opacity(animation.GetValue(), contents);
 
             return new Container(ContainerLayout.Expand,
 

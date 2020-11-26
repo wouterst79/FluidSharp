@@ -9,6 +9,9 @@ namespace FluidSharp.Widgets.Native
     public abstract class NativeViewWidget : Widget
     {
 
+        public bool ExpandHorizontal { get; set; }
+        public bool ExpandVertical { get; set; }
+
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {
             if (measureCache.NativeViewManager == null)
@@ -17,6 +20,8 @@ namespace FluidSharp.Widgets.Native
                 return new SKSize();
             }
             var childsize = measureCache.NativeViewManager.Measure(this, boundaries);
+            if (ExpandHorizontal) childsize = new SKSize(boundaries.Width, childsize.Height);
+            if (ExpandVertical) childsize = new SKSize(childsize.Width, boundaries.Height);
             return childsize;
         }
 
@@ -30,7 +35,8 @@ namespace FluidSharp.Widgets.Native
                 }
                 else
                 {
-                    layoutsurface.MeasureCache.NativeViewManager.UpdateNativeView(this, rect);
+                    if (!layoutsurface.HasActiveAnimations)
+                        layoutsurface.MeasureCache.NativeViewManager.UpdateNativeView(this, rect);
                 }
             }
             return rect;
