@@ -56,15 +56,6 @@ namespace FluidSharp.Views.UWP
         private float LastPaintWidth = -1;
         private float LastHeightRequest = -1;
 
-#if __IOS__
-        public override void SafeAreaInsetsDidChange() 
-        {
-            System.Diagnostics.Debug.WriteLine($"View's   SafeAreaInsets: {SafeAreaInsets}");
-            System.Diagnostics.Debug.WriteLine($"View's   SafeAreaLayoutGuide: {SafeAreaLayoutGuide}");
-            base.SafeAreaInsetsDidChange();
-        }
-#endif
-
         public FluidWidgetView()
         {
 

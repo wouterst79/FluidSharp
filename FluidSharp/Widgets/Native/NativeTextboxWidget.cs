@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace FluidSharp.Widgets.Native
 {
+
     public class NativeTextboxWidget : NativeViewWidget
     {
 
@@ -14,13 +15,15 @@ namespace FluidSharp.Widgets.Native
         public Func<string, Task> SetText;
 
         public bool HasFocus;
+        public Keyboard Keyboard;
 
-        public NativeTextboxWidget(object context, string? text, Func<string, Task> settext, bool hasFocus)
+        public NativeTextboxWidget(object context, string? text, Func<string, Task> settext, bool hasFocus, Keyboard keyboard)
         {
             Context = context;
             Text = text ?? "";
             SetText = settext;
             HasFocus = hasFocus;
+            Keyboard = keyboard;
             ExpandHorizontal = true;
         }
 

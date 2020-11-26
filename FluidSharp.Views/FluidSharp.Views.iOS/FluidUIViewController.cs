@@ -68,12 +68,8 @@ namespace FluidSharp.Views.iOS
 
         public override void ViewSafeAreaInsetsDidChange()
         {
-
             var sai = View.SafeAreaInsets;
             OnDeviceMarginsChanged(new Margins((float)sai.Left, (float)sai.Top, (float)sai.Right, (float)sai.Bottom));
-            System.Diagnostics.Debug.WriteLine($"Additional: {AdditionalSafeAreaInsets}");
-            System.Diagnostics.Debug.WriteLine($"View SafeAreaInsets: {View.SafeAreaInsets}");
-
             base.ViewSafeAreaInsetsDidChange();
         }
 
