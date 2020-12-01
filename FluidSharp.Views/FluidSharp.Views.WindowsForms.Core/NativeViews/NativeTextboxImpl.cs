@@ -1,5 +1,7 @@
-﻿using FluidSharp.Widgets.Native;
+﻿using FluidSharp.Views.WindowsForms.Core.NativeViews;
+using FluidSharp.Widgets.Native;
 using SkiaSharp;
+using SkiaSharp.TextBlocks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +20,16 @@ namespace FluidSharp.Views.WindowsForms.NativeViews
         private Func<string, Task> SetText;
         private bool settingText;
 
+        private Font LastFont;
+        private SKColor LastTextColor;
+
         public NativeTextboxImpl(Func<Task> requestRedraw)
         {
             RequestRedraw = requestRedraw;
             BorderStyle = BorderStyle.None;
         }
 
-        public void UpdateControl(NativeViewWidget nativeViewWidget)
+        public void UpdateControl(NativeViewWidget nativeViewWidget, SKRect rect, SKRect original)
         {
             var widget = (NativeTextboxWidget)nativeViewWidget;
             SetText = null;
@@ -37,7 +42,23 @@ namespace FluidSharp.Views.WindowsForms.NativeViews
                 if (widget.HasFocus && CanFocus)
                     Focus();
             }
+            SetFont(widget.Font.WithTextSize(widget.Font.TextSize * rect.Width / original.Width));
+            SetTextColor(widget.TextColor);
             SetText = widget.SetText;
+        }
+
+        protected void SetFont(Font font)
+        {
+            if (LastFont == font) return;
+            Font = font.ToUWPFont();
+            LastFont = font;
+        }
+
+        protected void SetTextColor(SKColor textColor)
+        {
+            if (LastTextColor == textColor) return;
+            ForeColor = textColor.ToUWPColor();
+            LastTextColor = textColor;
         }
 
         protected override void OnTextChanged(EventArgs e)

@@ -6,14 +6,14 @@ using System.Text;
 
 namespace FluidSharp.Widgets
 {
-    public class SplitContainer : Widget
+
+    public class SplitContainerBottom : Widget
     {
-        //        public SlideOverDirection Direction = ;
 
         public Widget MainContents { get; set; }
         public Widget RemainingContents { get; set; }
 
-        public SplitContainer(Widget mainContents, Widget remainingContents)
+        public SplitContainerBottom(Widget mainContents, Widget remainingContents)
         {
             MainContents = mainContents ?? throw new ArgumentNullException(nameof(mainContents));
             RemainingContents = remainingContents ?? throw new ArgumentNullException(nameof(remainingContents));

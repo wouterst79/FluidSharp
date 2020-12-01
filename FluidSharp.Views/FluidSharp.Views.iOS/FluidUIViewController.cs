@@ -40,9 +40,9 @@ namespace FluidSharp.Views.iOS
             });
         }
 
-        public override void ViewDidLayoutSubviews() => Task.Run(RequestRedraw);
+        public override void ViewDidLayoutSubviews() { if (FluidWidgetView != null) Task.Run(RequestRedraw); }
 
-        public Task RequestRedraw() => FluidWidgetView.VisualState.RequestRedraw();
+        public Task RequestRedraw() => FluidWidgetView?.VisualState.RequestRedraw() ?? Task.CompletedTask;
 
         public override void LoadView()
         {

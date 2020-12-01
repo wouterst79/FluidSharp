@@ -24,7 +24,7 @@ namespace FluidSharp.Interop
         public abstract void RegisterNewControl(TNativeControlBaseType newControl);
         public abstract SKSize GetControlSize(TNativeControlBaseType control);
         
-        public abstract void UpdateControl(TNativeControlBaseType control, NativeViewWidget nativeViewWidget, SKRect rect);
+        public abstract void UpdateControl(TNativeControlBaseType control, NativeViewWidget nativeViewWidget, SKRect rect, SKRect original);
         public abstract void SetControlVisible(TNativeControlBaseType control, bool visible);
 
 
@@ -116,12 +116,12 @@ namespace FluidSharp.Interop
             return size;
         }
 
-        public void UpdateNativeView(NativeViewWidget nativeViewWidget, SKRect rect)
+        public void UpdateNativeView(NativeViewWidget nativeViewWidget, SKRect rect, SKRect original)
         {
 
             var control = GetNativeControl(nativeViewWidget, true);
 
-            UpdateControl(control, nativeViewWidget, rect);
+            UpdateControl(control, nativeViewWidget, rect, original);
 
             //SetControlVisible(control, true);
 

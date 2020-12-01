@@ -12,7 +12,7 @@ namespace FluidSharp.Interop
         SKSize Measure(NativeViewWidget nativeViewWidget, SKSize boundaries);
 
         void PaintStarted();
-        void UpdateNativeView(NativeViewWidget nativeViewWidget, SKRect rect);
+        void UpdateNativeView(NativeViewWidget nativeViewWidget, SKRect rect, SKRect original);
         void PaintCompleted();
 
     }

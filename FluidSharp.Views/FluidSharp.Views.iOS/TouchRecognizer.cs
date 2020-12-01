@@ -147,8 +147,33 @@ namespace FluidSharp.Views.iOS
 //            var cgsize = touch.LocationInView(recognizer.View);
             var size = new SKSize((float)viewsize.Width, (float)viewsize.Height);
 
+
+            System.Diagnostics.Debug.WriteLine($"Touch {actionType} {pointondevice}");
+
+
             Touch?.Invoke(this, new TouchActionEventArgs(id, actionType, pointondevice, xfPoint, size, isInContact));
 
+        }
+
+        public override bool ShouldReceive(UIEvent @event)
+        {
+            var basevalue = base.ShouldReceive(@event);
+            System.Diagnostics.Debug.WriteLine($"ShouldReceive {basevalue}");
+            return true;
+        }
+
+        public override bool ShouldRequireFailureOfGestureRecognizer(UIGestureRecognizer otherGestureRecognizer)
+        {
+            var basevalue = base.ShouldRequireFailureOfGestureRecognizer(otherGestureRecognizer);
+            System.Diagnostics.Debug.WriteLine($"ShouldRequireFailureOfGestureRecognizer {basevalue} - {otherGestureRecognizer}");
+            return basevalue;
+        }
+
+        public override bool ShouldBeRequiredToFailByGestureRecognizer(UIGestureRecognizer otherGestureRecognizer)
+        {
+            var basevalue = base.ShouldBeRequiredToFailByGestureRecognizer(otherGestureRecognizer);
+            System.Diagnostics.Debug.WriteLine($"ShouldBeRequiredToFailByGestureRecognizer {basevalue} - {otherGestureRecognizer}");
+            return basevalue;
         }
     }
 }

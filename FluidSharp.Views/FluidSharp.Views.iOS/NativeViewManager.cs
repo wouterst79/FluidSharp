@@ -48,7 +48,7 @@ namespace FluidSharp.Views.iOS
             }
         }
 
-        public override void UpdateControl(UIView control, NativeViewWidget nativeViewWidget, SKRect rect)
+        public override void UpdateControl(UIView control, NativeViewWidget nativeViewWidget, SKRect rect, SKRect original)
         {
             var bounds = new CGRect(rect.Left, rect.Top, rect.Width, rect.Height);
             if (control.Frame != bounds)
@@ -60,7 +60,7 @@ namespace FluidSharp.Views.iOS
             }
 
             if (control is INativeViewImpl nativeImpl)
-                nativeImpl.UpdateControl(nativeViewWidget);
+                nativeImpl.UpdateControl(nativeViewWidget, rect, original);
 
         }
     }

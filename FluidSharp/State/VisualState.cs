@@ -71,6 +71,12 @@ namespace FluidSharp.State
             set => this["touchtarget"] = value;
         }
 
+        public EditTarget EditTarget
+        {
+            get => GetOrMake("edittarget", () => new EditTarget());
+            set => this["edittarget"] = value;
+        }
+
         public NavigationTop NavigationTop
         {
             get => GetOrMake("navigationtop", () => new NavigationTop());

@@ -122,7 +122,8 @@ namespace FluidSharp.State
                 var timespan = DateTime.Now.Subtract(lastPanEnd.Value);
                 var seconds = timespan.TotalMilliseconds / 1000;
                 var factor = 1 - Math.Exp(-1.5 * seconds);
-                var extra = (float)(-EndVelocity / 2 * factor);
+                //var extra = (float)(-EndVelocity / 2 * factor);
+                var extra = (float)(-EndVelocity * factor);
                 //System.Diagnostics.Debug.WriteLine($"time factor: {factor}, extra: {extra}, fling: {FlingingVelocity}");
                 scroll -= extra;
                 hasactiveanimations = factor < .98;

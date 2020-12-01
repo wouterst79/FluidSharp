@@ -3,6 +3,7 @@
     public enum Keyboard
     {
         Default,
+        Name,
         Plain,
         Email,
         Numeric,

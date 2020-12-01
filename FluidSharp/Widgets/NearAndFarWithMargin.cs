@@ -24,6 +24,8 @@ namespace FluidSharp.Widgets
         public Widget? Near;
         public Widget? Far;
 
+        public SKSize MinimumSize;
+
         public NearAndFarWithMargin(Margins margin, Widget? near, Widget? far)
         {
             Margin = margin;
@@ -34,7 +36,10 @@ namespace FluidSharp.Widgets
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {
             var sizes = Layout(measureCache, Margin.Shrink(boundaries));
-            return Margin.Grow(new SKSize(boundaries.Width, sizes.height));
+            var result = Margin.Grow(new SKSize(boundaries.Width, sizes.height));
+            if (result.Width < MinimumSize.Width) result.Width = MinimumSize.Width;
+            if (result.Height < MinimumSize.Height) result.Height = MinimumSize.Height;
+            return result;
         }
 
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)

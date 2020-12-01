@@ -8,7 +8,7 @@ namespace FluidSharp.Widgets.Native
     public interface INativeViewImpl
     {
 
-        void UpdateControl(NativeViewWidget nativeViewWidget);
+        void UpdateControl(NativeViewWidget nativeViewWidget, SKRect rect, SKRect original);
 
     }
 }

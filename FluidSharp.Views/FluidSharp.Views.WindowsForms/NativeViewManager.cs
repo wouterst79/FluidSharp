@@ -42,7 +42,7 @@ namespace FluidSharp.Views.WindowsForms
 
         public override SKSize GetControlSize(Control control) => new SKSize(control.Width, control.Height);
 
-        public override void UpdateControl(Control control, NativeViewWidget nativeViewWidget, SKRect rect)
+        public override void UpdateControl(Control control, NativeViewWidget nativeViewWidget, SKRect rect, SKRect original)
         {
 
             // set child bounds
@@ -58,7 +58,7 @@ namespace FluidSharp.Views.WindowsForms
             }
 
             if (control is INativeViewImpl nativeImpl)
-                nativeImpl.UpdateControl(nativeViewWidget);
+                nativeImpl.UpdateControl(nativeViewWidget, rect, original);
         }
 
         public override void SetControlVisible(Control control, bool visible)

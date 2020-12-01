@@ -36,7 +36,7 @@ namespace FluidSharp.Widgets.Native
                 else
                 {
                     if (!layoutsurface.HasActiveAnimations)
-                        layoutsurface.MeasureCache.NativeViewManager.UpdateNativeView(this, rect);
+                        layoutsurface.MeasureCache.NativeViewManager.UpdateNativeView(this, rect, rect);
                 }
             }
             return rect;

@@ -2,6 +2,8 @@
 #define PRINTEVENTS
 #endif
 using FluidSharp.Widgets.Native;
+using SkiaSharp;
+using SkiaSharp.TextBlocks;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,7 +23,9 @@ namespace FluidSharp.Views.iOS.NativeViews
         private Func<string, Task> SetText;
         private bool settingText;
 
-        private Keyboard? Style;
+        private Font LastFont;
+        private SKColor LastTextColor;
+        private Keyboard? Keyboard;
 
         public NativeTextboxImpl(Func<Task> requestRedraw)
         {
@@ -52,7 +56,7 @@ namespace FluidSharp.Views.iOS.NativeViews
             OnTextChanged();
         }
 
-        public void UpdateControl(NativeViewWidget nativeViewWidget)
+        public void UpdateControl(NativeViewWidget nativeViewWidget, SKRect rect, SKRect original)
         {
             var widget = (NativeTextboxWidget)nativeViewWidget;
             SetText = null;
@@ -75,11 +79,24 @@ namespace FluidSharp.Views.iOS.NativeViews
                     //UpdateFocusIfNeeded();
                 }
             }
-            if (Style != widget.Keyboard)
-            {
-                SetStyle(widget.Keyboard);
-            }
+            SetFont(widget.Font.WithTextSize(widget.Font.TextSize * rect.Width / original.Width));
+            SetTextColor(widget.TextColor);
+            SetKeyboard(widget.Keyboard);
             SetText = widget.SetText;
+        }
+
+        protected void SetFont(Font font)
+        {
+            if (LastFont == font) return;
+            Font = font.ToUIFont();
+            LastFont = font;
+        }
+
+        protected void SetTextColor(SKColor textColor)
+        {
+            if (LastTextColor == textColor) return;
+            TextColor = textColor.ToUIColor();
+            LastTextColor = textColor;
         }
 
         protected void OnTextChanged()
@@ -103,13 +120,18 @@ namespace FluidSharp.Views.iOS.NativeViews
             }
         }
 
-        private void SetStyle(Keyboard style)
+
+
+        private void SetKeyboard(Keyboard keyboard)
         {
+
+            if (Keyboard == keyboard) return;
+
 #if PRINTEVENTS
-            Debug.WriteLine($"setting keyboard: {style}");
+            Debug.WriteLine($"setting keyboard: {keyboard}");
 #endif
-            ApplyKeyboard(this, style);
-            Style = style;
+            ApplyKeyboard(this, keyboard);
+            Keyboard = keyboard;
         }
 
         // https://github.com/xamarin/Xamarin.Forms/blob/f35ae07a0a8471d255f7a1ebdd51499e10e0a4cb/Xamarin.Forms.Platform.iOS/Extensions/Extensions.cs
@@ -120,30 +142,34 @@ namespace FluidSharp.Views.iOS.NativeViews
             textInput.SpellCheckingType = UITextSpellCheckingType.No;
             textInput.KeyboardType = UIKeyboardType.Default;
 
-            if (keyboard == Keyboard.Default)
+            if (keyboard == FluidSharp.Keyboard.Default)
             {
                 textInput.AutocapitalizationType = UITextAutocapitalizationType.Sentences;
                 textInput.AutocorrectionType = UITextAutocorrectionType.Default;
                 textInput.SpellCheckingType = UITextSpellCheckingType.Default;
             }
-            else if (keyboard == Keyboard.Chat)
+            else if (keyboard == FluidSharp.Keyboard.Name)
+            {
+                textInput.AutocapitalizationType = UITextAutocapitalizationType.Words;
+            }
+            else if (keyboard == FluidSharp.Keyboard.Chat)
             {
                 textInput.AutocapitalizationType = UITextAutocapitalizationType.Sentences;
                 textInput.AutocorrectionType = UITextAutocorrectionType.Yes;
             }
-            else if (keyboard == Keyboard.Email)
+            else if (keyboard == FluidSharp.Keyboard.Email)
                 textInput.KeyboardType = UIKeyboardType.EmailAddress;
-            else if (keyboard == Keyboard.Numeric)
+            else if (keyboard == FluidSharp.Keyboard.Numeric)
                 textInput.KeyboardType = UIKeyboardType.DecimalPad;
-            else if (keyboard == Keyboard.Telephone)
+            else if (keyboard == FluidSharp.Keyboard.Telephone)
                 textInput.KeyboardType = UIKeyboardType.PhonePad;
-            else if (keyboard == Keyboard.Text)
+            else if (keyboard == FluidSharp.Keyboard.Text)
             {
                 textInput.AutocapitalizationType = UITextAutocapitalizationType.Sentences;
                 textInput.AutocorrectionType = UITextAutocorrectionType.Yes;
                 textInput.SpellCheckingType = UITextSpellCheckingType.Yes;
             }
-            else if (keyboard == Keyboard.Url)
+            else if (keyboard == FluidSharp.Keyboard.Url)
                 textInput.KeyboardType = UIKeyboardType.Url;
             //else if (keyboard is CustomKeyboard)
             //{
@@ -175,5 +201,6 @@ namespace FluidSharp.Views.iOS.NativeViews
             //    textInput.SpellCheckingType = spellcheckEnabled ? UITextSpellCheckingType.Yes : UITextSpellCheckingType.No;
             //}
         }
+
     }
 }

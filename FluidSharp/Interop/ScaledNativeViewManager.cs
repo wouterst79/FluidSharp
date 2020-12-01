@@ -27,10 +27,10 @@ namespace FluidSharp.Interop
 
         public void PaintStarted() => InnerManager.PaintStarted();
 
-        public void UpdateNativeView(NativeViewWidget nativeViewWidget, SKRect rect)
+        public void UpdateNativeView(NativeViewWidget nativeViewWidget, SKRect rect, SKRect original)
         {
             var scaled = new SKRect(rect.Left * Factor.X, rect.Top * Factor.Y, rect.Right * Factor.X, rect.Bottom * Factor.Y);
-            InnerManager.UpdateNativeView(nativeViewWidget, scaled);
+            InnerManager.UpdateNativeView(nativeViewWidget, scaled, original);
         }
 
         public void PaintCompleted() => InnerManager.PaintCompleted();
