@@ -151,11 +151,12 @@ namespace FluidSharp.Navigation
         public Widget MakeWidget(VisualState visualState)
         {
 
-            if (Transition != null)
+            var transition = Transition;
+            if (transition != null)
             {
                 if (!visualState.NavigationTop.IsContext(TransitionTarget))
                     visualState.NavigationTop = new NavigationTop(TransitionTarget!);
-                return Transition.MakeWidget(visualState, CurrentFrame, TransitionTarget!, Pop);
+                return transition.MakeWidget(visualState, CurrentFrame, TransitionTarget!, Pop);
             }
 
             if (Stack == null) throw new Exception("No root frame supplied");

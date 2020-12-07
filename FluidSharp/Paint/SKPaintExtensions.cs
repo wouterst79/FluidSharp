@@ -10,6 +10,8 @@ namespace FluidSharp
 
         public static SKColor MixColor(this SKColor color1, SKColor color2, float twopct)
         {
+            if (twopct <= 0) return color1;
+            if (twopct >= 1) return color2;
             var onepct = 1 - twopct;
             return new SKColor(Mix(color1.Red, color2.Red), Mix(color1.Green, color2.Green), Mix(color1.Blue, color2.Blue), Mix(color1.Alpha, color2.Alpha));
             byte Mix(byte c1, byte c2) => (byte)(c1 * onepct + c2 * twopct);

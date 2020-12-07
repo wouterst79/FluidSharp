@@ -15,6 +15,8 @@ namespace FluidSharp.Navigation
         public NavigationTransitionState TransitionState;
         public Func<bool, Task> OnTransitionCompleted;
 
+        public static TimeSpan DefaultDuration = TimeSpan.FromMilliseconds(250);
+
         public Task Start() => TransitionState.SetTarget(true, null);
         public Task Reverse() => TransitionState.SetTarget(false, null);
 
