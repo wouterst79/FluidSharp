@@ -73,6 +73,10 @@ namespace FluidSharp.Views.iOS
             base.ViewSafeAreaInsetsDidChange();
         }
 
-
+        public override void TraitCollectionDidChange(UITraitCollection previousTraitCollection)
+        {
+            base.TraitCollectionDidChange(previousTraitCollection);
+//            View.TraitCollection.UserInterfaceStyle == UIUserInterfaceStyle.Dark
+        }
     }
 }

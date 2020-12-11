@@ -114,7 +114,7 @@ namespace FluidSharp.State
 
         }
 
-        public virtual async Task SetTarget(T target, VisualState visualState, float velocity)
+        public virtual async Task SetTarget(T target, VisualState? visualState, float velocity)
         {
 
             if (velocity < 0) velocity = -velocity;
@@ -156,7 +156,9 @@ namespace FluidSharp.State
 #endif
 
             Target = target;
-            await visualState.RequestRedraw();
+
+            if (visualState != null)
+                await visualState.RequestRedraw();
 
         }
 
