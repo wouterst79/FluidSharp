@@ -20,6 +20,7 @@ namespace FluidSharp
         public Device Device;
         public MeasureCache MeasureCache;
         public SKCanvas Canvas { get; private set; }
+        public virtual SKRect GetLocalClipRect() => Canvas.LocalClipBounds;
         public VisualState VisualState;
 
         public FlowDirection FlowDirection => Device.FlowDirection;

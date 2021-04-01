@@ -19,18 +19,20 @@ namespace FluidSharp.Touch
 
         public List<HitTestHit> Hits = new List<HitTestHit>();
 
-        private Stack<SKRect> ClipRectStack;
+        private Stack<SKRect> ClipRectStack = new Stack<SKRect>();
         private Stack<SKPath> ClipPathStack;
 
-        public HitTestLayoutSurface(Device device, MeasureCache measureCache, SKPoint location, VisualState visualState) : base(device, measureCache, null, visualState)
+        public override SKRect GetLocalClipRect() => ClipRectStack.Peek();
+
+        public HitTestLayoutSurface(Device device, MeasureCache measureCache, SKPoint location, VisualState visualState, SKRect cliprect) : base(device, measureCache, null, visualState)
         {
             Location = location;
+            ClipRectStack.Push(cliprect);
         }
 
         public override void ClipRect(SKRect cliprect)
         {
             base.ClipRect(cliprect);
-            if (ClipRectStack == null) ClipRectStack = new Stack<SKRect>();
             ClipRectStack.Push(cliprect);
         }
 

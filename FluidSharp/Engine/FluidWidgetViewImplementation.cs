@@ -260,8 +260,9 @@ namespace FluidSharp.Engine
                 var height = View.Height;
 
                 var vs = new VisualState(async () => { }, null);
-                var hittestlayout = new HitTestLayoutSurface(Device, MeasureCache, e.LocationInView, vs);
-                hittestlayout.Paint(widget, new SKRect(0, 0, width, height));
+                var rect = new SKRect(0, 0, width, height);
+                var hittestlayout = new HitTestLayoutSurface(Device, MeasureCache, e.LocationInView, vs, rect);
+                hittestlayout.Paint(widget, rect);
 
                 GestureArena = new GestureArena(hittestlayout.Hits, e.PointerId);
 

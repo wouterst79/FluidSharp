@@ -17,10 +17,7 @@ namespace FluidSharp.Widgets
         public float Width;
         public float Height;
         public ScaleMode ScaleMode;
-
-#if DEBUG
         public float Opacity = 1;
-#endif
 
         public Image(ImageSource? source, float width, float height, ScaleMode scaleMode = ScaleMode.Strech)
         {
@@ -32,7 +29,14 @@ namespace FluidSharp.Widgets
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {
-            return new SKSize(Width, Height);
+            if (ScaleMode == ScaleMode.Strech)
+                return new SKSize(Width, Height);
+
+            var w = boundaries.Width == 0 ? Width : Math.Min(boundaries.Width, Width);
+            var h = boundaries.Height == 0 ? Height : Math.Min(boundaries.Height, Height);
+
+            return new SKSize(w, h);
+            //                return boundaries;
         }
 
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
@@ -43,7 +47,7 @@ namespace FluidSharp.Widgets
                 x = rect.Right - Width;
 
             var y = rect.Top;
-            var dest = new SKRect(x, y, x + Width, y + Height);
+            var dest = ScaleMode == ScaleMode.Strech ? new SKRect(x, y, x + Width, y + Height) : rect;
 
             if (layoutsurface.Canvas == null || Source == null || Source.Name == null)
                 return dest;

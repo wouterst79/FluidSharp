@@ -24,6 +24,7 @@ namespace FluidSharp.Widgets.Native
 
         public NativeTextboxWidget(object context, string? text, Func<string, Task> settext, Font font, SKColor textcolor, bool hasFocus, Keyboard keyboard)
         {
+            hasFocus = false;
             Context = context;
             Text = text ?? "";
             SetText = settext;

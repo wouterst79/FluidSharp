@@ -104,6 +104,12 @@ namespace FluidSharp.Navigation
                     if (CurrentFrame is IPage page)
                         Transition = page.GetPageTransition(true, OnTransitionCompleted);
 
+                    if (PreviousFrame is IPage previous)
+                    {
+                        var poptask = previous.PrepareForResurface();
+                        if (poptask != null) await poptask();
+                    }
+
                     if (Transition is null)
                         Transition = new PushPageTransition(true, OnTransitionCompleted);
 

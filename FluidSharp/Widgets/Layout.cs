@@ -100,8 +100,8 @@ namespace FluidSharp.Widgets
 
 
             var lc = new Device();
-            var ht = new Touch.HitTestLayoutSurface(lc, null, new SKPoint(75, 75), null);
             var rect = new SKRect(0, 0, 100, 100);
+            var ht = new Touch.HitTestLayoutSurface(lc, null, new SKPoint(75, 75), null, rect);
             ht.Paint(abs, rect);
 
 

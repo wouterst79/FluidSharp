@@ -59,7 +59,7 @@ namespace FluidSharp.Views.iOS
 #else
             var factor = (float)Math.Round(e.Info.Width / Width * 4) / 4;
 #endif
-            var platformzoom = SKMatrix.MakeScale(factor, factor);
+            var platformzoom = SKMatrix.CreateScale(factor, factor);
             canvas.Concat(ref platformzoom);
 
             PaintViewSurface?.Invoke(this, new PaintSurfaceEventArgs(canvas, Width, Height, e.Surface, default));

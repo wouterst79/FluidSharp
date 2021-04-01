@@ -12,9 +12,7 @@ namespace FluidSharp.Widgets
         public static float ScreenScale;
 
         public SKImage SKImage;
-#if DEBUG
         public float Opacity;
-#endif
         public bool AutoFlipRTL;
 
         public SKSize Size;

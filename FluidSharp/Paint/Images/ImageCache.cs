@@ -25,6 +25,16 @@ namespace FluidSharp.Paint.Images
             OnImageLoaded = onImageLoaded;
         }
 
+
+#if DEBUG
+        public void Remove(Predicate<string> keypredicate)
+        {
+            foreach (var key in imagecache.Keys)
+                if (keypredicate(key))
+                    imagecache.Remove(key, out _);
+        }
+#endif
+
         static bool inhere;
         public SKImage? GetImage(ImageSource? source)
         {

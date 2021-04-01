@@ -20,11 +20,11 @@ namespace FluidSharp.Views.WindowsForms
     public class NativeViewManager : NativeViewManagerBase<Control>
     {
 
-        public Control Control;
+        public SkiaView Control;
 
         private ConcurrentDictionary<Control, Rectangle> LastBounds = new ConcurrentDictionary<Control, Rectangle>();
 
-        public NativeViewManager(Control control)
+        public NativeViewManager(SkiaView control)
         {
             Control = control;
         }
@@ -46,7 +46,8 @@ namespace FluidSharp.Views.WindowsForms
         {
 
             // set child bounds
-            var targetbounds = new Rectangle((int)rect.Left, (int)rect.Top, (int)rect.Width, (int)rect.Height);
+            var scale = Control.PlatformScale;
+            var targetbounds = new Rectangle((int)(rect.Left * scale.Width), (int)(rect.Top * scale.Height), (int)(rect.Width * scale.Width), (int)(rect.Height * scale.Height));
             if (!LastBounds.TryGetValue(control, out var currentbounds) || currentbounds != targetbounds)
             //if (control.Bounds != targetbounds && LastBounds != targetbounds)
             {

@@ -1,4 +1,5 @@
-﻿using FluidSharp.Layouts;
+﻿using FluidSharp.Engine;
+using FluidSharp.Layouts;
 using FluidSharp.State;
 using FluidSharp.Touch;
 using SkiaSharp;
@@ -13,6 +14,8 @@ namespace FluidSharp.Widgets
 
     public abstract class GestureDetector : Widget
     {
+
+        public static EventHandler<TapHandlerException>? OnTapException;
 
         public object Context;
 
@@ -99,7 +102,7 @@ namespace FluidSharp.Widgets
             return new TapGestureDetector(visualState, context, OnTapped, null, child);
         }
 
-        public static TapGestureDetector TapDetector(VisualState visualState, object context, Func<Task> OnTapped, Func<Task> OnLongTapped, Widget child)
+        public static TapGestureDetector TapDetector(VisualState visualState, object context, Func<Task> OnTapped, Func<Task>? OnLongTapped, Widget child)
         {
             return new TapGestureDetector(visualState, context, OnTapped, OnLongTapped, child);
         }
@@ -169,16 +172,45 @@ namespace FluidSharp.Widgets
         {
 
             public Func<Task> OnTapped;
-            public Func<Task> OnLongTapped;
+            public Func<Task>? OnLongTapped;
 
             public static TimeSpan LongTapDuration = TimeSpan.FromMilliseconds(500);
 
-            public TapGestureDetector(VisualState visualState, object context, Func<Task> onTapped, Func<Task> onLongTapped, Widget child) : base(visualState, context, child)
+            public TapGestureDetector(VisualState visualState, object context, Func<Task> onTapped, Func<Task>? onLongTapped, Widget child) : base(visualState, context, child)
             {
                 OnTouchDown = async (location) => visualState.TouchTarget = new TouchTarget(new TapContext(context), location);
                 OnTouchUp = async () => visualState.TouchTarget = new TouchTarget();
-                OnTapped = onTapped;
-                OnLongTapped = onLongTapped;
+                OnTapped = async () =>
+                {
+                    try
+                    {
+                        await onTapped();
+                    }
+                    catch (Exception ex)
+                    {
+                        var tapex = new TapHandlerException("tap handler failed", context, ex);
+                        if (OnTapException == null) throw tapex;
+                        else OnTapException(null, tapex);
+                    }
+                    await visualState.RequestRedraw();
+                };
+                if (onLongTapped != null)
+                {
+                    OnLongTapped = async () =>
+                    {
+                        try
+                        {
+                            await onLongTapped();
+                        }
+                        catch (Exception ex)
+                        {
+                            var tapex = new TapHandlerException("long tap handler failed", context, ex);
+                            if (OnTapException == null) throw tapex;
+                            else OnTapException(null, tapex);
+                        }
+                        await visualState.RequestRedraw();
+                    };
+                }
             }
 
             public override (bool win, bool loose) Move(Movement movement)

@@ -132,7 +132,7 @@ namespace FluidSharp.Touch
                         foreach (var detector in DetectorOrder)
                             if (Detectors.TryGetValue(detector, out var hit))
                             {
-                                if (detector.IsMultiTouch || isinitialpointer)
+                                if (detector.IsMultiTouch || isinitialpointer || !isInContact)
                                 {
                                     detector.Released(DateTime.Now.Subtract(Started));
                                     Detectors.TryRemove(detector, out _);
@@ -149,7 +149,7 @@ namespace FluidSharp.Touch
                         foreach (var detector in DetectorOrder)
                             if (Detectors.TryGetValue(detector, out var hit))
                             {
-                                if (detector.IsMultiTouch || isinitialpointer)
+                                if (detector.IsMultiTouch || isinitialpointer || !isInContact)
                                 {
                                     detector.Cancelled();
                                     Detectors.TryRemove(detector, out _);

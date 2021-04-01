@@ -14,6 +14,9 @@ using FluidSharp.Views.WindowsForms.NativeViews;
 using System.Windows.Forms;
 namespace FluidSharp.Views.WindowsForms
 #elif __ANDROID__
+using FluidSharp.Views.Android.NativeViews;
+using Android.Widget;
+using Android.Views;
 namespace FluidSharp.Views.Android
 #elif __IOS__
 using UIKit;
@@ -23,13 +26,18 @@ namespace FluidSharp.Views.iOS
 namespace FluidSharp.Views.UWP
 #endif
 {
+
+#if __ANDROID__
+    public class FluidWidgetView : global::Android.Widget.RelativeLayout, IFluidWidgetView
+#else
     public class FluidWidgetView : SkiaView, IFluidWidgetView
+#endif
     {
 
         /// <summary>
         /// The source of widgets, either overwrite MakeWidget, or set the WidgetSource to implement a custom view
         /// </summary>
-        public IWidgetSource WidgetSource { get => widgetSource; set { widgetSource = value; InvalidatePaint(); } }
+        public IWidgetSource WidgetSource { get => widgetSource; set { widgetSource = value; SkiaView.InvalidatePaint(); } }
         private IWidgetSource widgetSource;
 
         public Device Device;
@@ -56,24 +64,44 @@ namespace FluidSharp.Views.UWP
         private float LastPaintWidth = -1;
         private float LastHeightRequest = -1;
 
+#if __ANDROID__
+
+        private SkiaView SkiaView;
+
+        public FluidWidgetView(global::Android.Content.Context context) : base(context)
+        {
+
+            SkiaView = new SkiaView(context);
+            var fillparams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
+            AddView(SkiaView, fillparams);
+
+#else
+
+        private SkiaView SkiaView => this;
+
         public FluidWidgetView()
         {
+#endif
 
             Device = new Device();
 
 #if __FORMS__
-            device.FlowDirection = Xamarin.Forms.Device.FlowDirection == Xamarin.Forms.FlowDirection.RightToLeft ? SkiaSharp.TextBlocks.Enum.FlowDirection.RightToLeft : SkiaSharp.TextBlocks.Enum.FlowDirection.LeftToRight;
+            Device.FlowDirection = Xamarin.Forms.Device.FlowDirection == Xamarin.Forms.FlowDirection.RightToLeft ? SkiaSharp.TextBlocks.Enum.FlowDirection.RightToLeft : SkiaSharp.TextBlocks.Enum.FlowDirection.LeftToRight;
 #endif
 
             NativeViewManager = new NativeViewManager(this);
 
-            Implementation = new FluidWidgetViewImplementation(this, this, Device);
+            Implementation = new FluidWidgetViewImplementation(SkiaView, this, Device);
 
             RegisterNativeViews();
 
         }
 
+#if __ANDROID__
+        public FluidWidgetView(global::Android.Content.Context context, bool CreatesOwnImplementation) : base(context)
+#else
         protected FluidWidgetView(bool CreatesOwnImplementation)
+#endif
         {
             if (!CreatesOwnImplementation) throw new ArgumentOutOfRangeException(nameof(CreatesOwnImplementation));
         }
@@ -82,7 +110,11 @@ namespace FluidSharp.Views.UWP
         {
             NativeViewManager.RegisterNativeView<NativeTextboxWidget, NativeTextboxImpl>(
                 (w, c) => c.Context.Equals(w.Context),
+#if __ANDROID__
+                (w) => new NativeTextboxImpl(Context, VisualState.RequestRedraw) { Context = w.Context }
+#else
                 (w) => new NativeTextboxImpl(VisualState.RequestRedraw) { Context = w.Context }
+#endif
             );
         }
 

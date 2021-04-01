@@ -43,6 +43,7 @@ namespace FluidSharp.State
         public float? PanRatio;
         public bool IsReverse;
 
+        public bool AllValues = false;
 
         public TimeSpan TransitionDuration;
 
@@ -72,6 +73,7 @@ namespace FluidSharp.State
             var frame = GetFrameRatios();
 
             var current = Current;
+            var target = Target;
 
             var ratio = frame.ratio;
             var direction = frame.direction;
@@ -83,6 +85,21 @@ namespace FluidSharp.State
                 ratio -= 1;
                 current = next;
                 next = GetNextValue(current, direction);
+            }
+
+            if (!AllValues && direction != 0)
+            {
+
+                var i = 100;
+                while (GetDirection(next, target) == direction && i-- > 0)
+                {
+                    var skip = next;
+                    next = GetNextValue(skip, direction);
+                }
+#if DEBUG
+                if (i < 20) throw new Exception();
+#endif
+
             }
 
             return new TransitionFrame<T>(ratio, current, direction, next, Progress);

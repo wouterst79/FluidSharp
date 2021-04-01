@@ -12,5 +12,7 @@ namespace FluidSharp.Navigation
 
         public IPageTransition? GetPageTransition(bool startingstate, Func<bool, Task> onTransitionCompleted);
 
+        public Func<Task>? PrepareForResurface();
+
     }
 }

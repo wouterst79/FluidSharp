@@ -76,11 +76,11 @@ namespace FluidSharp.Widgets
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
 
-            if (layoutsurface.Canvas == null)
-                return rect;
+            //if (layoutsurface.Canvas == null)
+              //  return rect;
 
             var size = Measure(layoutsurface.MeasureCache, rect.Size);
-            var cliprect = layoutsurface.Canvas.LocalClipBounds;
+            var cliprect = layoutsurface.GetLocalClipRect();
 
             var top = cliprect.Top - rect.Top;
             if (top < 0) top = 0;
@@ -121,6 +121,8 @@ namespace FluidSharp.Widgets
 
 
             var height = rect.Height;
+            var clipbottom = cliprect.Bottom - t;
+            if (height > clipbottom) height = clipbottom;
             while (id < ItemCount && y < height)
             {
 

@@ -43,14 +43,16 @@ namespace FluidSharp.Widgets
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {
-            var childsize = ChildTree.Measure(measureCache, boundaries);
+            var available = new SKSize(float.MaxValue, boundaries.Height);
+            var childsize = ChildTree.Measure(measureCache, available);
             return new SKSize(boundaries.Width, childsize.Height);
         }
 
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
 
-            var childsize = ChildTree.Measure(layoutsurface.MeasureCache, rect.Size);
+            var available = new SKSize(float.MaxValue, rect.Height);
+            var childsize = ChildTree.Measure(layoutsurface.MeasureCache, available);
 
 
             var state = ScrollState;

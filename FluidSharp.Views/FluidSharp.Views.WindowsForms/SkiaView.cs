@@ -5,7 +5,7 @@ using SkiaSharp;
 using SkiaSharp.Views.Desktop;
 using System.Drawing;
 using OpenTK;
-
+using System.Windows.Forms;
 
 namespace FluidSharp.Views.WindowsForms
 {
@@ -17,10 +17,11 @@ namespace FluidSharp.Views.WindowsForms
 #endif
     {
 
-        float ISkiaView.Width => Width;
-        float ISkiaView.Height => Height;
+        float ISkiaView.Width => Width / PlatformScale.Width;
+        float ISkiaView.Height => Height / PlatformScale.Height;
+        public SizeF PlatformScale;
 
-        SKSize GetSize() => new SKSize(Width, Height);
+        SKSize GetSize() => new SKSize(Width / PlatformScale.Width, Height / PlatformScale.Height);
 
 #if !USEGL
         public bool VSync;
@@ -49,35 +50,58 @@ namespace FluidSharp.Views.WindowsForms
 
         }
 
+        protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
+        {
+            PlatformScale = new SizeF(factor.Width, factor.Width);
+            base.ScaleControl(factor, specified);
+        }
+
 #if USEGL
         protected override void OnPaintSurface(SKPaintGLSurfaceEventArgs e)
         {
             base.OnPaintSurface(e);
-            PaintViewSurface?.Invoke(this, new PaintSurfaceEventArgs(e.Surface.Canvas, Width, Height, e.Surface, default));
+
+            var canvas = e.Surface.Canvas;
+            // Make sure the canvas is drawn using pixel coordinates (but still high res):
+            //var factor = (float)MathF.Round(e.BackendRenderTarget.Width / Width * 4) / 4;
+            var platformzoom = SKMatrix.MakeScale(PlatformScale.Width, PlatformScale.Height);
+            canvas.Concat(ref platformzoom);
+
+            PaintViewSurface?.Invoke(this, new PaintSurfaceEventArgs(e.Surface.Canvas, Width / PlatformScale.Width, Height / PlatformScale.Height, e.Surface, default));
         }
 #endif
 
         private void CanvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
-            PaintViewSurface?.Invoke(this, new PaintSurfaceEventArgs(e.Surface.Canvas, Width, Height, e.Surface, e.Info));
+
+            var canvas = e.Surface.Canvas;
+            // Make sure the canvas is drawn using pixel coordinates (but still high res):
+            //var factor = (float)MathF.Round(e.Info.Width / Width * 4) / 4;
+            var platformzoom = SKMatrix.MakeScale(PlatformScale.Width, PlatformScale.Height);
+            canvas.Concat(ref platformzoom);
+
+            PaintViewSurface?.Invoke(this, new PaintSurfaceEventArgs(e.Surface.Canvas, Width / PlatformScale.Width, Height / PlatformScale.Height, e.Surface, e.Info));
         }
 
-        private void SkiaControl_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void SkiaControl_MouseDown(object sender, MouseEventArgs e)
         {
-            var onscreen = PointToScreen(new Point(e.X, e.Y));
-            Touch.Invoke(this, new TouchActionEventArgs(0, TouchActionType.Pressed, new SKPoint(onscreen.X, onscreen.Y), new SKPoint(e.X, e.Y), GetSize(), true));
+            var oncontrol = new Point((int)(e.X / PlatformScale.Width), (int)(e.Y / PlatformScale.Height));
+            var onscreen = PointToScreen(oncontrol);
+            Touch.Invoke(this, new TouchActionEventArgs(0, TouchActionType.Pressed, new SKPoint(onscreen.X, onscreen.Y), new SKPoint(oncontrol.X, oncontrol.Y), GetSize(), true));
         }
 
-        private void SkiaControl_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void SkiaControl_MouseUp(object sender, MouseEventArgs e)
         {
-            var onscreen = PointToScreen(new Point(e.X, e.Y));
-            Touch.Invoke(this, new TouchActionEventArgs(0, TouchActionType.Released, new SKPoint(onscreen.X, onscreen.Y), new SKPoint(e.X, e.Y), GetSize(), false));
+            var oncontrol = new Point((int)(e.X / PlatformScale.Width), (int)(e.Y / PlatformScale.Height));
+            var onscreen = PointToScreen(oncontrol);
+            Touch.Invoke(this, new TouchActionEventArgs(0, TouchActionType.Released, new SKPoint(onscreen.X, onscreen.Y), new SKPoint(oncontrol.X, oncontrol.Y), GetSize(), false));
         }
 
-        private void SkiaControl_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void SkiaControl_MouseMove(object sender, MouseEventArgs e)
         {
-            var onscreen = PointToScreen(new Point(e.X, e.Y));
-            Touch.Invoke(this, new TouchActionEventArgs(0, TouchActionType.Moved, new SKPoint(onscreen.X, onscreen.Y), new SKPoint(e.X, e.Y), GetSize(), e.Button != System.Windows.Forms.MouseButtons.None));
+            var oncontrol = new Point((int)(e.X / PlatformScale.Width), (int)(e.Y / PlatformScale.Height));
+            var onscreen = PointToScreen(oncontrol);
+            Touch.Invoke(this, new TouchActionEventArgs(0, TouchActionType.Moved, new SKPoint(onscreen.X, onscreen.Y), new SKPoint(oncontrol.X, oncontrol.Y), GetSize(), e.Button != MouseButtons.None));
         }
 
     }
