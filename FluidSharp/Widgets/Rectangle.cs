@@ -45,7 +45,7 @@ namespace FluidSharp.Widgets
 
         public static Rectangle Fill(SKColor backgroundcolor, Margins margin = new Margins(), Func<SKImageFilter> imagefilter = default) => new Rectangle(true, true, backgroundcolor, default, margin, new SKSize(), false, 0) { ImageFilter = imagefilter };
 
-        public static Rectangle Stroke(SKColor bordercolor, float strokewidth, Margins margin = new Margins()) => new Rectangle(true, true, default, bordercolor, margin, new SKSize(), false, strokewidth);
+        public static Rectangle Stroke(SKColor bordercolor, float strokewidth = 1, Margins margin = new Margins()) => new Rectangle(true, true, default, bordercolor, margin, new SKSize(), false, strokewidth);
 
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)

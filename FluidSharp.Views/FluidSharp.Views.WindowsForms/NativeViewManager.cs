@@ -40,7 +40,11 @@ namespace FluidSharp.Views.WindowsForms
             return Control.Controls.Cast<Control>();
         }
 
-        public override SKSize GetControlSize(Control control) => new SKSize(control.Width, control.Height);
+        public override SKSize GetControlSize(Control control)
+        {
+            var scale = Control.PlatformScale;
+            return new SKSize(control.Width / scale.Width, control.Height / scale.Height);
+        }
 
         public override void UpdateControl(Control control, NativeViewWidget nativeViewWidget, SKRect rect, SKRect original)
         {
@@ -67,7 +71,7 @@ namespace FluidSharp.Views.WindowsForms
             if (control.Visible != visible)
             {
 #if PRINTEVENTS
-                    Debug.WriteLine($"setting visible {visible}");
+                Debug.WriteLine($"setting visible {visible}");
 #endif
                 control.Visible = visible;
             }

@@ -1,5 +1,4 @@
 ﻿#define USEGL
-//using Android.Graphics;
 using Android.App;
 using Android.Views;
 using FluidSharp.Touch;
@@ -15,7 +14,8 @@ using AView = Android.Views.View;
 namespace FluidSharp.Views.Android
 {
 #if USEGL
-    public class SkiaView : SKGLSurfaceView, ISkiaView
+    //public class SkiaView : SKGLSurfaceView, ISkiaView
+    public class SkiaView : SKGLTextureView, ISkiaView
 #else
     public class SkiaView : SKCanvasView, ISkiaView
 #endif
@@ -220,7 +220,7 @@ namespace FluidSharp.Views.Android
 
             }
 
-            return false;
+            return true;
         }
 
         //void CheckForBoundaryHop(int id, Point pointerLocation)

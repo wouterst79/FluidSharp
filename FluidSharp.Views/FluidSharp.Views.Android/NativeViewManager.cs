@@ -21,13 +21,11 @@ namespace FluidSharp.Views.Android
     {
 
         //        public View View;
-        public RelativeLayout ViewGroup;
-        public Activity Activity;
+        public FluidWidgetView ViewGroup;
 
-        public NativeViewManager(RelativeLayout viewGroup)
+        public NativeViewManager(FluidWidgetView viewGroup)
         {
             ViewGroup = viewGroup;
-            Activity = (Activity)viewGroup.Context;
         }
 
         public override IEnumerable<View> GetChildren()
@@ -40,65 +38,34 @@ namespace FluidSharp.Views.Android
                     yield return child;
             }
         }
-        public override SKSize GetControlSize(View control) => new SKSize((float)control.Width, (float)control.Height);
+        public override SKSize GetControlSize(View control)
+        {
+            var scale = ViewGroup.PlatformScale;
+            return new SKSize(control.Width / scale.Width, control.Height / scale.Height);
+        }
 
         public override void RegisterNewControl(View newControl)
         {
-            Activity.RunOnUiThread(() =>
-            {
-                ViewGroup.AddView(newControl);
-            });
+            ViewGroup.AddOnMainThread(newControl);
         }
 
         public override void SetControlVisible(View control, bool visible)
         {
-            Activity.RunOnUiThread(() =>
-            {
-                var visibility = visible ? ViewStates.Visible : ViewStates.Gone;
-                if (control.Visibility != visibility)
-                {
-#if PRINTEVENTS
-                    Debug.WriteLine($"setting hidden: {!visible}");
-#endif
-
-                    control.Visibility = visibility;
-                    //if (control.IsFirstResponder)
-                    //  control.ResignFirstResponder();
-
-                    //                control.Visibility = visibility;
-
-                }
-            });
+            ((INativeViewImpl)control).SetVisible(visible);
         }
 
         public override void UpdateControl(View control, NativeViewWidget nativeViewWidget, SKRect rect, SKRect original)
         {
 
-            Activity.RunOnUiThread(() =>
+            if (control is INativeViewImpl nativeImpl)
             {
+                var scale = ViewGroup.PlatformScale;
+                var targetbounds = new SKRect((int)(rect.Left * scale.Width), (int)(rect.Top * scale.Height), (int)(rect.Width * scale.Width), (int)(rect.Height * scale.Height));
 
-                var l = (int)rect.Left;
-                var w = (int)rect.Width;
-                var t = (int)rect.Top;
-                var h = (int)rect.Height;
-                if (!(control.LayoutParameters is RelativeLayout.LayoutParams existing) || existing.LeftMargin != l && existing.TopMargin != t || existing.Width != w || existing.Height != h)
-                {
+                nativeImpl.SetBounds(targetbounds);
+                nativeImpl.UpdateControl(nativeViewWidget, rect, original);
 
-                    var parameters = new RelativeLayout.LayoutParams(w, h);
-                    parameters.LeftMargin = l;
-                    parameters.TopMargin = t;
-                    control.LayoutParameters = parameters;
-
-#if PRINTEVENTS
-                    Debug.WriteLine($"setting frame: {control.Tag}");
-                    //Debug.WriteLine($"setting frame: {bounds} ({control.Bounds}) {control.Tag}");
-#endif
-                }
-
-                if (control is INativeViewImpl nativeImpl)
-                    nativeImpl.UpdateControl(nativeViewWidget, rect, original);
-            
-            });
+            } 
 
         }
     }

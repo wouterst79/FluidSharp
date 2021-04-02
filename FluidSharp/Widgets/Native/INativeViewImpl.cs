@@ -8,6 +8,9 @@ namespace FluidSharp.Widgets.Native
     public interface INativeViewImpl
     {
 
+        void SetVisible(bool visible);
+        void SetBounds(SKRect nativebounds);
+
         void UpdateControl(NativeViewWidget nativeViewWidget, SKRect rect, SKRect original);
 
     }

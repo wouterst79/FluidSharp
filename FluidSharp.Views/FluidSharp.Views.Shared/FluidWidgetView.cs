@@ -15,7 +15,7 @@ using System.Windows.Forms;
 namespace FluidSharp.Views.WindowsForms
 #elif __ANDROID__
 using FluidSharp.Views.Android.NativeViews;
-using Android.Widget;
+using Android.App;
 using Android.Views;
 namespace FluidSharp.Views.Android
 #elif __IOS__
@@ -67,6 +67,7 @@ namespace FluidSharp.Views.UWP
 #if __ANDROID__
 
         private SkiaView SkiaView;
+        public SKSize PlatformScale => SkiaView.PlatformScale;
 
         public FluidWidgetView(global::Android.Content.Context context) : base(context)
         {
@@ -208,6 +209,15 @@ namespace FluidSharp.Views.UWP
             base.Dispose(disposing);
             if (disposing)
                 Implementation.Dispose();
+        }
+#endif
+
+#if __ANDROID__
+        public void AddOnMainThread(View childview)
+        {
+
+            ((Activity)Context).RunOnUiThread(() => AddView(childview));
+
         }
 #endif
 

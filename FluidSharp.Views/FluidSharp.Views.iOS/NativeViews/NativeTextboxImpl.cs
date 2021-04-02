@@ -202,5 +202,8 @@ namespace FluidSharp.Views.iOS.NativeViews
             //}
         }
 
+        public void SetVisible(bool visible) => throw new NotImplementedException();
+        public void SetBounds(SKRect nativebounds) => throw new NotImplementedException();
+
     }
 }
