@@ -17,6 +17,7 @@ using Android.Util;
 using Android.Content.Res;
 using Android.Runtime;
 using Android.App;
+using Android.Views.InputMethods;
 
 namespace FluidSharp.Views.Android.NativeViews
 {
@@ -88,8 +89,12 @@ namespace FluidSharp.Views.Android.NativeViews
 
             RequestRedraw = requestRedraw;
 
-            Background = null;
+            Focusable = true;
+            FocusableInTouchMode = true;
 
+            Background = null;
+            //SetCursorVisible(true);
+            //SetAutoSizeTextTypeWithDefaults(AutoSizeTextType.Uniform);
             //Delegate = this;
 
             TextChanged += NativeTextboxImpl_TextChanged;
@@ -152,10 +157,12 @@ namespace FluidSharp.Views.Android.NativeViews
         {
             var textbox = (NativeTextboxWidget)nativeViewWidget;
             if (!settingText)
+            {
                 RequestState(new NativeTextboxState(null, null, textbox));
-            else
-                if (textbox.Text == this.Text)
-                    settingText = false;
+                SetText = textbox.SetText;
+            }
+            else if (this.Text == textbox.Text)
+                settingText = false;
         }
 
         private void RequestState(NativeTextboxState state)
@@ -198,7 +205,8 @@ namespace FluidSharp.Views.Android.NativeViews
 #endif
                     CurrentState.Rect = requested.Rect;
                     var nativebounds = requested.Rect.Value;
-                    var parameters = new RelativeLayout.LayoutParams((int)nativebounds.Width, (int)nativebounds.Height);
+                    //var parameters = new RelativeLayout.LayoutParams((int)nativebounds.Width, (int)nativebounds.Height);
+                    var parameters = new RelativeLayout.LayoutParams((int)nativebounds.Width, RelativeLayout.LayoutParams.WrapContent);
                     parameters.LeftMargin = (int)nativebounds.Left;
                     parameters.TopMargin = (int)nativebounds.Top;
                     LayoutParameters = parameters;
@@ -215,7 +223,8 @@ namespace FluidSharp.Views.Android.NativeViews
                     Apply(ref CurrentState.Properties.Text, requested.Properties.Text, text =>
                     {
 #if PRINTEVENTS
-                        System.Diagnostics.Debug.WriteLine($"setting text: {text} ({CurrentState.Properties.Text} => {requested.Properties.Text})");
+                        System.Diagnostics.Debug.WriteLine($"setting text: {text}");
+                        //System.Diagnostics.Debug.WriteLine($"setting text: {text} ({CurrentState.Properties.Text} => {requested.Properties.Text})");
 #endif
                         SetText = null;
                         Text = text;
@@ -232,15 +241,27 @@ namespace FluidSharp.Views.Android.NativeViews
                         int[][] s_colorStates = { new[] { global::Android.Resource.Attribute.StateEnabled }, new[] { -global::Android.Resource.Attribute.StateEnabled } };
                         SetTextColor(new ColorStateList(s_colorStates, new[] { acolor, acolor }));
                     });
-                    Apply(ref CurrentState.Properties.HasFocus, requested.Properties.HasFocus, hasfocus => { if (hasfocus && Focusable) RequestFocus(); });
+                    Apply(ref CurrentState.Properties.HasFocus, requested.Properties.HasFocus, hasfocus =>
+                    {
+                        if (hasfocus && Focusable)
+                        {
+                            CurrentState.Properties.HasFocus = this.RequestFocus();
+                            if (CurrentState.Properties.HasFocus)
+                            {
+                                // show keyboard
+                                InputMethodManager mgr = (InputMethodManager)(((Activity)base.Context).GetSystemService(global::Android.Content.Context.InputMethodService));
+                                mgr.ShowSoftInput(this, ShowFlags.Implicit);
+                            }
+                        }
+                    });
                     Apply(ref CurrentState.Properties.Keyboard, requested.Properties.Keyboard, keyboard => InputType = keyboard.ToInputType());
 
                     void Apply<T>(ref T current, T requested, Action<T> setvalue)
                     {
                         if (requested is null || !current.Equals(requested))
                         {
-                            setvalue(requested);
                             current = requested;
+                            setvalue(requested);
                         }
                     }
 

@@ -103,9 +103,7 @@ namespace FluidSharp.Views.Android
         //    base.Dispose(disposing);
         //}
 
-        AView view;
         bool capture;
-        Func<double, double> fromPixels;
         int[] twoIntArray = new int[2];
 
         const bool Capture = true;
