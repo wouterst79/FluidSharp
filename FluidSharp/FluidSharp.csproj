@@ -7,9 +7,11 @@
     <Company>My Daily Bits LLC</Company>
     <Description>FluidSharp is a high performance mobile first multi-platform UI layout framework based on Skia.</Description>
     <Copyright>2020 Wouter Steenbergen</Copyright>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>1.0.1-alpha</Version>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <Version>1.0.2-alpha</Version>
     <Nullable>enable</Nullable>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>License.txt</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +22,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\SkiaSharp.TextBlocks\source\SkiaSharp.TextBlocks\SkiaSharp.TextBlocks.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="License.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

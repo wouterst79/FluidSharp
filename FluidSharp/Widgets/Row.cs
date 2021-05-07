@@ -20,10 +20,10 @@ namespace FluidSharp.Widgets
         public bool ExpandHorizontal = false;
         public VerticalAlignment VerticalChildAlignment = VerticalAlignment.Top;
 
-        public List<Widget> Children = new List<Widget>();
+        public List<Widget?> Children = new List<Widget?>();
 
-        public Row(float spacing, VerticalAlignment verticalChildAlignment, params Widget[] widgets) { Spacing = spacing; VerticalChildAlignment = verticalChildAlignment; Children.AddRange(widgets); }
-        public Row(float spacing, params Widget[] widgets) { Spacing = spacing; Children.AddRange(widgets); }
+        public Row(float spacing, VerticalAlignment verticalChildAlignment, params Widget?[] widgets) { Spacing = spacing; VerticalChildAlignment = verticalChildAlignment; Children.AddRange(widgets); }
+        public Row(float spacing, params Widget?[] widgets) { Spacing = spacing; Children.AddRange(widgets); }
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {

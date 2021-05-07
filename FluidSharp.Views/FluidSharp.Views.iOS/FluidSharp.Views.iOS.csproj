@@ -66,10 +66,13 @@
       <Project>{bb3a2d85-019d-42a1-9ddf-890d8da5a4ac}</Project>
       <Name>SkiaSharp.TextBlocks</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\FluidSharp\FluidSharp.csproj">
-      <Project>{11AFB8B9-3A37-4005-B897-CE2D363A574D}</Project>
-      <Name>FluidSharp</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="License.txt" />
+    <Content Include="nuget instructions.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FluidSharp.Views.iOS.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

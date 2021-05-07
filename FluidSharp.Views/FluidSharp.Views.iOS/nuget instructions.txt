@@ -1,0 +1,1 @@
+﻿C:\wouterst79\FluidSharp\source\FluidSharp.Views\FluidSharp.Views.iOS>c:\wouterst79\nuget.exe pack FluidSharp.Views.iOS.nuspec

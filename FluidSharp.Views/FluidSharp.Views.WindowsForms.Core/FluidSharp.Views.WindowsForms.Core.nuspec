@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>FluidSharp.Views.WindowsForms.Core</id>
+    <version>1.0.1-alpha</version>
+    <title>$title$</title>
+    <authors>Wouter Steenbergen</authors>
+    <owners>My Daily Bits LLC</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="file">License.txt</license>
+    <description>FluidSharp is a high performance mobile first multi-platform UI layout framework based on Skia.</description>
+    <releaseNotes>Initial release</releaseNotes>
+    <copyright>Copyright 2021 Wouter Steenbergen</copyright>
+   <dependencies>
+        <group targetFramework="netcoreapp3.1">
+            <dependency id="FluidSharp" version="1.0.1-alpha" />
+        </group>
+    </dependencies>
+    </metadata>
+    <files>
+        <!-- Cross-platform reference assemblies -->
+        <file src="License.txt"/>
+        <file src="bin\Release\netcoreapp3.1\FluidSharp.Views.WindowsForms.Core.dll" target="lib\netcoreapp3.1\FluidSharp.Views.WindowsForms.Core.dll" />
+    </files>
+
+</package>

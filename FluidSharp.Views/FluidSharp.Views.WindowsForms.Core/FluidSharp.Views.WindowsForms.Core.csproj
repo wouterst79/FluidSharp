@@ -12,6 +12,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants>TRACE;__WINDOWSFORMS__</DefineConstants>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <None Remove="License.txt" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Include="..\FluidSharp.Views.Shared\FluidWidgetView.cs" Link="FluidWidgetView.cs" />
@@ -20,11 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SkiaSharp.Views.WindowsForms" Version="2.80.2" />
+    <Content Include="License.txt" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\FluidSharp\FluidSharp.csproj" />
+    <PackageReference Include="SkiaSharp.Views.WindowsForms" Version="2.80.2" />
   </ItemGroup>
 
   <ItemGroup>

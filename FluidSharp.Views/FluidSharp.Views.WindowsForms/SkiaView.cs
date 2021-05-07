@@ -23,6 +23,16 @@ namespace FluidSharp.Views.WindowsForms
 
         SKSize GetSize() => new SKSize(Width / PlatformScale.Width, Height / PlatformScale.Height);
 
+        private bool autoScale = true;
+        public bool AutoScale
+        {
+            get => autoScale; set
+            {
+                autoScale = value;
+                if (!autoScale) PlatformScale = new SizeF(1, 1);
+            }
+        }
+
 #if !USEGL
         public bool VSync;
 #endif
@@ -52,7 +62,8 @@ namespace FluidSharp.Views.WindowsForms
 
         protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
         {
-            PlatformScale = new SizeF(factor.Width, factor.Width);
+            if (AutoScale)
+                PlatformScale = new SizeF(factor.Width, factor.Width);
             base.ScaleControl(factor, specified);
         }
 

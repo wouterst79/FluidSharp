@@ -1,4 +1,4 @@
-﻿#if DEBUG
+﻿//#if DEBUG
 using FluidSharp.Widgets;
 using SkiaSharp;
 using SkiaSharp.TextBlocks;
@@ -81,4 +81,3 @@ namespace FluidSharp.Animations
 
     }
 }
-#endif

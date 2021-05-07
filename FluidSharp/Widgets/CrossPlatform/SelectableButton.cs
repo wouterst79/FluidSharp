@@ -10,7 +10,7 @@ namespace FluidSharp.Widgets.CrossPlatform
     public class SelectableButton
     {
 
-        public static Widget Make(PlatformStyle platformStyle, VisualState visualState, object context, Widget contents, bool ischecked, SKColor selectedcolor, Func<Task> onTapped)
+        public static Widget Make(PlatformStyle platformStyle, VisualState visualState, object context, Widget contents, bool ischecked, SKColor selectedcolor, Func<Task> onTapped, ContainerLayout containerLayout = ContainerLayout.FillHorizontal)
         {
 
             var istouchtarget = visualState.TouchTarget.IsContext<TapContext>(context, false);
@@ -19,7 +19,7 @@ namespace FluidSharp.Widgets.CrossPlatform
                                   (istouchtarget ? platformStyle.FlatButtonSelectedBackgroundColor : selectedcolor)
                                   : default;
 
-            var innerwidget = new Container(ContainerLayout.FillHorizontal)
+            var innerwidget = new Container(containerLayout)
             {
                 MinimumSize = new SKSize(0, 10),
                 Children =
