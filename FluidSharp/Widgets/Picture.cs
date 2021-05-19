@@ -12,7 +12,7 @@ namespace FluidSharp.Widgets
         public static float ScreenScale;
 
         public SKImage SKImage;
-        public float Opacity;
+        public float Opacity { get; private set; }
         public bool AutoFlipRTL;
 
         public SKSize Size;
@@ -25,6 +25,8 @@ namespace FluidSharp.Widgets
             Size = new SKSize(image.Width / ScreenScale, image.Height / ScreenScale);
         }
 
+        public Picture WithOpacity(float opacity) => new Picture(SKImage, AutoFlipRTL, opacity);
+
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {
             return Size;
@@ -32,8 +34,9 @@ namespace FluidSharp.Widgets
 
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
-            Paint(layoutsurface.Canvas, rect, layoutsurface.IsRtl);
-            return rect;
+            var drawrect = rect.HorizontalAlign(Size, HorizontalAlignment.Near, layoutsurface.FlowDirection);
+            Paint(layoutsurface.Canvas, drawrect, layoutsurface.IsRtl);
+            return rect.WithHeight(Size.Height);
         }
 
         public void Paint(SKCanvas canvas, SKRect rect, bool isrtl)

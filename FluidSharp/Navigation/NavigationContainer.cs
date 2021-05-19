@@ -178,12 +178,6 @@ namespace FluidSharp.Navigation
                     return SlideBackNavigation.Make(visualState, SlideBackState, SlideBackState.GetFrame(), GetBackPanDetectorWidth(), 0, null, MakeSlideBackWidget);
                 }
 
-                //var transition = page.GetPageTransition(OnTransitionCompleted);
-                //if (transition != null)
-                //{
-                //    return transition.MakeWidget(visualState, PreviousFrame, currentframe, Pop);
-                //}
-
             }
 
             return currentframe.MakeWidget(visualState);

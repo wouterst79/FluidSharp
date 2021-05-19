@@ -3,6 +3,7 @@ using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FluidSharp.Touch
 {
@@ -10,10 +11,11 @@ namespace FluidSharp.Touch
     {
 
         private object? Context;
-        public Func<bool> EndEdit;
+        public Func<bool, Task<bool>> EndEdit;
 
-        public EditTarget() { Context = null; EndEdit = () => true; }
-        public EditTarget(object context, Func<bool> endEdit)
+        public EditTarget() { Context = null; EndEdit = (validate) => Task.FromResult(true); }
+        public EditTarget(object context) { Context = context; EndEdit = (validate) => Task.FromResult(true); }
+        public EditTarget(object context, Func<bool, Task<bool>> endEdit)
         {
             Context = context ?? throw new ArgumentNullException(nameof(context));
             EndEdit = endEdit ?? throw new ArgumentNullException(nameof(endEdit));

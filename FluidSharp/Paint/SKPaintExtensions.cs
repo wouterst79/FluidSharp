@@ -17,7 +17,7 @@ namespace FluidSharp
             byte Mix(byte c1, byte c2) => (byte)(c1 * onepct + c2 * twopct);
         }
 
-        public static SKColor WithOpacity(this SKColor color, float opacity) => opacity == 1 ? color : color.WithAlpha((byte)(opacity * color.Alpha));
+        public static SKColor WithOpacity(this SKColor color, float opacity) => opacity >= 1 ? color : color.WithAlpha((byte)(opacity * color.Alpha));
 
         public static bool IsLight(this SKColor color)
         {

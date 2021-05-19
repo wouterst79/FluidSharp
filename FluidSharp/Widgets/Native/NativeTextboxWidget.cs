@@ -22,7 +22,9 @@ namespace FluidSharp.Widgets.Native
         public bool HasFocus;
         public Keyboard Keyboard;
 
-        public NativeTextboxWidget(object context, string? text, Func<string, Task> settext, Font font, SKColor textcolor, bool hasFocus, Keyboard keyboard)
+        public ReturnTypeInfo? ReturnTypeInfo;
+
+        public NativeTextboxWidget(object context, string? text, Func<string, Task> settext, Font font, SKColor textcolor, bool hasFocus, Keyboard keyboard, ReturnTypeInfo? returnTypeInfo = null)
         {
             Context = context;
             Text = text ?? "";
@@ -31,6 +33,7 @@ namespace FluidSharp.Widgets.Native
             TextColor = textcolor;
             HasFocus = hasFocus;
             Keyboard = keyboard;
+            ReturnTypeInfo = returnTypeInfo;
             ExpandHorizontal = true;
         }
 

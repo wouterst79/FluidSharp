@@ -32,6 +32,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\FluidSharp\FluidSharp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="NativeViews\NativeTextboxImpl.cs">
       <SubType>Component</SubType>
     </Compile>

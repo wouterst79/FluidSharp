@@ -33,7 +33,7 @@ namespace FluidSharp.State
         public Task RequestRedraw()
         {
             PerformanceTracker?.Request();
-            if (OnStateChanged == null) 
+            if (OnStateChanged == null)
                 return Task.CompletedTask;
             else
                 return Task.Run(() => OnStateChanged());
@@ -81,6 +81,13 @@ namespace FluidSharp.State
         {
             get => GetOrMake("navigationtop", () => new NavigationTop());
             set => this["navigationtop"] = value;
+        }
+
+        public async Task<bool> EndEdit(bool validate)
+        {
+            if (!await EditTarget.EndEdit(validate)) return false;
+            EditTarget = new EditTarget();
+            return true;
         }
 
     }

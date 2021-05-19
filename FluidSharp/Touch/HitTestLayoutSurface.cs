@@ -7,6 +7,7 @@ using FluidSharp.Widgets;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace FluidSharp.Touch
@@ -61,17 +62,36 @@ namespace FluidSharp.Touch
             // scale
             var originalLocation = Location;
             var originalScale = Scale;
+            var originalClipRects = ClipRectStack;
 
             if (widget is Scale scale)
             {
-                Location = new SKPoint(Location.X / scale.Factor.X, Location.Y / scale.Factor.Y);
-                Scale = new SKPoint(Scale.X * scale.Factor.X, Scale.Y * scale.Factor.Y);
+
+                var fx = scale.Factor.X;
+                var fy = scale.Factor.Y;
+
+                Location = new SKPoint(Location.X / fx, Location.Y / fy);
+                Scale = new SKPoint(Scale.X * fx, Scale.Y * fy);
+
+                if (ClipPathStack != null) throw new Exception("Scaling Clip Paths not supported");
+
+                ClipRectStack = new Stack<SKRect>();
+                foreach (var cliprect in originalClipRects.Reverse())
+                    ClipRectStack.Push(new SKRect(cliprect.Left / fx, cliprect.Top / fy, cliprect.Right / fx, cliprect.Bottom / fy));
+
             }
 
             var hitlocation = Hits.Count;
 
             // paint the widget tree
             var painted = base.Paint(widget, rect);
+
+#if DEBUGHITTEST
+            if (widget is GestureDetector gd)
+            {
+                System.Diagnostics.Debug.WriteLine($"GD: {gd} {Location} ({rect}) = {painted.Contains(Location)}");
+            }
+#endif
 
             // hit testing
             if (painted.Contains(Location))
@@ -109,6 +129,7 @@ namespace FluidSharp.Touch
 #endif
 
                     var locationInWidget = new SKPoint(Location.X - rect.Left, Location.Y - rect.Top);
+                    if (hitlocation > Hits.Count) hitlocation = Hits.Count;
                     Hits.Insert(hitlocation, new HitTestHit(Device, widget, locationInWidget, rect, Scale));
 
                 }
@@ -119,6 +140,7 @@ namespace FluidSharp.Touch
             {
                 Location = originalLocation;
                 Scale = originalScale;
+                ClipRectStack = originalClipRects;
             }
 
             // hide earlier hits

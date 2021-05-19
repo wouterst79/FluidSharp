@@ -18,7 +18,7 @@ namespace FluidSharp.Widgets
 
         public float Min;
         public float Max;
-        public float Value;
+        public float? Value;
 
         public SKColor ValuePartColor;
         public SKColor OtherPartColor;
@@ -27,7 +27,7 @@ namespace FluidSharp.Widgets
         public float Width;
         public FlowDirection FlowDirection;
 
-        public Slider(float height, float min, float max, float value, SKColor valuePartColor, SKColor otherPartColor, Widget thumb)
+        public Slider(float height, float min, float max, float? value, SKColor valuePartColor, SKColor otherPartColor, Widget thumb)
         {
             Height = height;
             Min = min;
@@ -38,7 +38,7 @@ namespace FluidSharp.Widgets
             Thumb = thumb ?? throw new ArgumentNullException(nameof(Thumb));
         }
 
-        public static Widget Make(VisualState visualState, object context, float height, float min, float max, float value, Func<float, Task> onValueChanged, SKColor valuePartColor, SKColor otherPartColor, PlatformStyle platformStyle)
+        public static Widget Make(VisualState visualState, object context, float height, float min, float max, float? value, Func<float, Task> onValueChanged, SKColor valuePartColor, SKColor otherPartColor, PlatformStyle platformStyle)
         {
 
             Widget thumb;
@@ -132,30 +132,46 @@ namespace FluidSharp.Widgets
             if (canvas != null)
             {
 
-                var part = (Value - Min) / (Max - Min);
-                var w = rect.Width * (part);
-
-                var x1 = FlowDirection == FlowDirection.LeftToRight ? rect.Left : rect.Right;
-                var x2 = FlowDirection == FlowDirection.LeftToRight ? rect.Left + w : rect.Right - w;
-                var x3 = FlowDirection == FlowDirection.LeftToRight ? rect.Right : rect.Left;
-
                 var liney = rect.Top + (rect.Height - LineHeight) / 2;
 
-                // Value part
-                using (var paint = new SKPaint() { Color = ValuePartColor })
-                    canvas.DrawRect(new SKRect(x1, liney, x2, liney + LineHeight), paint);
+                if (Value is null)
+                {
 
-                // Other part
-                using (var paint = new SKPaint() { Color = OtherPartColor })
-                    canvas.DrawRect(new SKRect(x2, liney, x3, liney + LineHeight), paint);
+                    var x1 = rect.Left;
+                    var x2 = rect.Right;
 
-                var thumbsize = Thumb.Measure(layoutsurface.MeasureCache, default);
+                    // Other part
+                    using (var paint = new SKPaint() { Color = OtherPartColor })
+                        canvas.DrawRect(new SKRect(x1, liney, x2, liney + LineHeight), paint);
 
-                var thumby = rect.Top + (rect.Height - thumbsize.Height) / 2;
-                var thumbx = x2 - thumbsize.Width / 2;
+                }
+                else
+                {
 
-                var thumbrect = SKRect.Create(thumbx, thumby, thumbsize.Width, thumbsize.Height);
-                Thumb.PaintInternal(layoutsurface, thumbrect);
+                    var part = (Value.Value - Min) / (Max - Min);
+                    var w = rect.Width * (part);
+
+                    var x1 = FlowDirection == FlowDirection.LeftToRight ? rect.Left : rect.Right;
+                    var x2 = FlowDirection == FlowDirection.LeftToRight ? rect.Left + w : rect.Right - w;
+                    var x3 = FlowDirection == FlowDirection.LeftToRight ? rect.Right : rect.Left;
+
+                    // Value part
+                    using (var paint = new SKPaint() { Color = ValuePartColor })
+                        canvas.DrawRect(new SKRect(x1, liney, x2, liney + LineHeight), paint);
+
+                    // Other part
+                    using (var paint = new SKPaint() { Color = OtherPartColor })
+                        canvas.DrawRect(new SKRect(x2, liney, x3, liney + LineHeight), paint);
+
+                    var thumbsize = Thumb.Measure(layoutsurface.MeasureCache, default);
+
+                    var thumby = rect.Top + (rect.Height - thumbsize.Height) / 2;
+                    var thumbx = x2 - thumbsize.Width / 2;
+
+                    var thumbrect = SKRect.Create(thumbx, thumby, thumbsize.Width, thumbsize.Height);
+                    Thumb.PaintInternal(layoutsurface, thumbrect);
+
+                }
 
             }
 

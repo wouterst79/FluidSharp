@@ -69,6 +69,8 @@ namespace FluidSharp.Animations
         public bool Started { get; set; }
         public bool Completed => Started && Animation.Completed;
 
+        public Animation.Coordinated? AnimationIfStarted => Started ? Animation : null;
+
         public void Reset()
         {
             Started = false;

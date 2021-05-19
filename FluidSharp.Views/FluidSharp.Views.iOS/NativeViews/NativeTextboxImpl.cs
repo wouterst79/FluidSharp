@@ -14,7 +14,7 @@ using UIKit;
 
 namespace FluidSharp.Views.iOS.NativeViews
 {
-    public class NativeTextboxImpl : UITextField, INativeViewImpl//, IUITextFieldDelegate
+    public class NativeTextboxImpl : UITextField, INativeViewImpl, IUITextFieldDelegate
     {
 
         public object Context;
@@ -26,6 +26,8 @@ namespace FluidSharp.Views.iOS.NativeViews
         private Font LastFont;
         private SKColor LastTextColor;
         private Keyboard? Keyboard;
+
+        private ReturnTypeInfo ReturnTypeInfo;
 
         public NativeTextboxImpl(Func<Task> requestRedraw)
         {
@@ -56,6 +58,7 @@ namespace FluidSharp.Views.iOS.NativeViews
             OnTextChanged();
         }
 
+
         public void UpdateControl(NativeViewWidget nativeViewWidget, SKRect rect, SKRect original)
         {
             var widget = (NativeTextboxWidget)nativeViewWidget;
@@ -82,6 +85,7 @@ namespace FluidSharp.Views.iOS.NativeViews
             SetFont(widget.Font.WithTextSize(widget.Font.TextSize * rect.Width / original.Width));
             SetTextColor(widget.TextColor);
             SetKeyboard(widget.Keyboard);
+            UpdateReturnType(widget.ReturnTypeInfo);
             SetText = widget.SetText;
         }
 
@@ -133,6 +137,25 @@ namespace FluidSharp.Views.iOS.NativeViews
             ApplyKeyboard(this, keyboard);
             Keyboard = keyboard;
         }
+
+        void UpdateReturnType(ReturnTypeInfo info)
+        {
+            if (ReturnTypeInfo?.ReturnType == info?.ReturnType) return;
+            ReturnKeyType = (info?.ReturnType ?? ReturnType.Default).ToUIReturnKeyType();
+            ReturnTypeInfo = info;
+            if (info?.OnReturnPressed is null)
+                ShouldReturn = null;
+            else
+                ShouldReturn = HandleReturnType;
+        }
+
+        public virtual bool HandleReturnType(UITextField textField)
+        {
+            if (ReturnTypeInfo?.OnReturnPressed != null) ReturnTypeInfo.OnReturnPressed();
+            return true;
+        }
+
+
 
         // https://github.com/xamarin/Xamarin.Forms/blob/f35ae07a0a8471d255f7a1ebdd51499e10e0a4cb/Xamarin.Forms.Platform.iOS/Extensions/Extensions.cs
         public static void ApplyKeyboard(IUITextInputTraits textInput, Keyboard keyboard)

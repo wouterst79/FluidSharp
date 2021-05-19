@@ -22,6 +22,9 @@ namespace FluidSharp.State
         public DateTime? BoundaryHit;
         public float EndVelocity; // Pixels per second
 
+        public float? ScrollTargetStart;
+        public float? ScrollTargetEnd;
+
         public TimeSpan OverscrollDuration => TimeSpan.FromMilliseconds(350);
 
         public const float FlingingVelocity = 200; // pixels per seconds
@@ -50,6 +53,9 @@ namespace FluidSharp.State
             Pan = pan;
             LastPanEnd = null;
             BoundaryHit = null;
+
+            ScrollTargetStart = null;
+            ScrollTargetEnd = null;
 
             //System.Diagnostics.Debug.WriteLine($"setting pan: {pan} ({Scroll}) = {Scroll + Pan}");
 
@@ -86,6 +92,15 @@ namespace FluidSharp.State
 
             //System.Diagnostics.Debug.WriteLine($"minimum set: {Minimum} ({contentssize} / {size})");
 
+        }
+
+        public void SetScrollTarget(float value)
+        {
+            var (scroll, overscroll, hasactiveanimation) = GetScroll();
+            ScrollTargetStart = scroll;
+            ScrollTargetEnd = value;
+            BoundaryHit = DateTime.Now;
+            EndVelocity = 0;
         }
 
         public (float scroll, float overscroll, bool hasactiveanimations) GetScroll()
@@ -127,6 +142,22 @@ namespace FluidSharp.State
                 //System.Diagnostics.Debug.WriteLine($"time factor: {factor}, extra: {extra}, fling: {FlingingVelocity}");
                 scroll -= extra;
                 hasactiveanimations = factor < .98;
+            }
+
+            if (ScrollTargetStart.HasValue && ScrollTargetEnd.HasValue && BoundaryHit.HasValue)
+            {
+
+                var delta = ScrollTargetStart.Value - ScrollTargetEnd.Value;
+                var timespan = DateTime.Now.Subtract(BoundaryHit.Value);
+
+                var seconds = timespan.TotalMilliseconds / 1000;
+                var pct = seconds / 1.5f;
+                var factor = Easing.CubicOut.Ease(pct);
+
+                var extra = (float)(-delta * factor);
+                scroll = ScrollTargetStart.Value + extra;
+                hasactiveanimations = factor < .98;
+
             }
 
             // separate out scroll, and overscroll
@@ -179,6 +210,10 @@ namespace FluidSharp.State
                 Scroll = scroll;
                 LastPanEnd = null;
                 EndVelocity = 0;
+
+                ScrollTargetStart = null;
+                ScrollTargetEnd = null;
+
             }
 
             //System.Diagnostics.Debug.WriteLine($"Scroll: {Scroll} sc: {scroll} os:{overscroll}");

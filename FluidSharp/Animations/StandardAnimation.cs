@@ -45,11 +45,20 @@ namespace FluidSharp.Animations
             return Translate(text, fromDirection, FullWidth, textblock.Font.TextSize, 1 - pct);
         }
 
+
+        public static Widget FadeIn(this Animation animation, Widget widget, float height, Direction fromDirection = Direction.Bottom)
+        {
+            if (widget is Text text) return FadeIn(animation, text, fromDirection);
+            if (animation.Completed) return widget;
+            var pct = animation.GetValue();
+            return Translate(new Opacity(pct, widget), fromDirection, FullWidth, height, 1 - pct);
+        }
+
         public static Widget FadeIn(this Animation animation, Picture picture, Direction fromDirection = Direction.Bottom)
         {
             if (animation.Completed) return picture;
             var pct = animation.GetValue();
-            picture.Opacity = pct;
+            picture = picture.WithOpacity(pct);
             return Translate(picture, fromDirection, picture.Size.Width, picture.Size.Height, 1 - pct);
         }
 
@@ -66,16 +75,22 @@ namespace FluidSharp.Animations
             return Translate(text, toDirection, FullWidth, textblock.Font.TextSize, pct);
         }
 
+        public static Widget FlyOut(this Animation animation, Widget widget, float height, Direction toDirection = Direction.Near)
+        {
+            var pct = animation.GetValue();
+            widget = new Opacity(1 - pct, widget);
+            return new AnimatedWidget(animation, Translate(widget, toDirection, FullWidth, height, pct));
+        }
+
 
         public static Widget FlyOut(this Animation animation, Picture picture, Direction toDirection = Direction.Near)
         {
             if (animation.Completed)
             {
-                picture.Opacity = 0;
-                return picture;
+                return picture.WithOpacity(0);
             }
             var pct = animation.GetValue();
-            picture.Opacity = (1 - pct);
+            picture = picture.WithOpacity(1 - pct);
             return Translate(picture, toDirection, picture.Size.Width, picture.Size.Height, pct);
         }
 

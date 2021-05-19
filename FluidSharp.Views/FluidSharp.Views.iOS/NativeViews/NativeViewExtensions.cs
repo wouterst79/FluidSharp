@@ -1,4 +1,5 @@
-﻿using Foundation;
+﻿using FluidSharp.Widgets.Native;
+using Foundation;
 using SkiaSharp;
 using SkiaSharp.TextBlocks;
 using System;
@@ -29,5 +30,25 @@ namespace FluidSharp.Views.iOS.NativeViews
             return new UIColor(color.Red / 255f, color.Green / 255f, color.Blue / 255f, color.Alpha / 255f);
         }
 
+        internal static UIReturnKeyType ToUIReturnKeyType(this ReturnType returnType)
+        {
+            switch (returnType)
+            {
+                case ReturnType.Go:
+                    return UIReturnKeyType.Go;
+                case ReturnType.Next:
+                    return UIReturnKeyType.Next;
+                case ReturnType.Send:
+                    return UIReturnKeyType.Send;
+                case ReturnType.Search:
+                    return UIReturnKeyType.Search;
+                case ReturnType.Done:
+                    return UIReturnKeyType.Done;
+                case ReturnType.Default:
+                    return UIReturnKeyType.Default;
+                default:
+                    throw new System.NotImplementedException($"ReturnType {returnType} not supported");
+            }
+        }
     }
 }
