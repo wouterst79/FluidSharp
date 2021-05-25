@@ -17,6 +17,7 @@ namespace FluidSharp.Navigation
         public SKColor MaskColor;
         public NavigationTransitionState TransitionState;
         private Func<bool, Task> OnTransitionCompleted2;
+        public bool UseHeightTransition = true;
 
         public Task Start() => TransitionState.SetTarget(true, null);
         public Task Reverse() => TransitionState.SetTarget(false, null);
@@ -31,14 +32,21 @@ namespace FluidSharp.Navigation
 
         public Task OnTransitionCompleted(bool open) => !open ? OnTransitionCompleted2(open) : Task.CompletedTask;
 
-        public Widget MakeWidget(VisualState visualState, IWidgetSource from, IWidgetSource to, Func<Task> dismiss)
+        public Widget MakeWidget(NavigationContainer navigationContainer, VisualState visualState, IWidgetSource from, IWidgetSource to)
         {
 
             var animation = TransitionState.GetAnimation(Easing.CubicOut);
             var contents = to.MakeWidget(visualState);
-            contents = new HeightTransition(animation, contents, true);
+            if (UseHeightTransition)
+                contents = new HeightTransition(animation, contents, true);
             //if (!animation.Completed) contents = new AnimatedWidget(animation, contents);
             contents = new Opacity(animation.GetValue(), contents);
+
+            if (UseHeightTransition)
+                contents = Align.Center(contents);
+
+            if (!animation.Completed)
+                contents = new AnimatedWidget(animation, contents);
 
             return new Container(ContainerLayout.Expand,
 
@@ -46,11 +54,9 @@ namespace FluidSharp.Navigation
 
                 new HitTestStop(),
 
-                GestureDetector.TapDetector(visualState, "overlay", dismiss, Rectangle.Fill(MaskColor.WithOpacity(animation.GetValue()))),
+                GestureDetector.TapDetector(visualState, "overlay", () => navigationContainer.Pop(to), Rectangle.Fill(MaskColor.WithOpacity(animation.GetValue()))),
 
-                Align.Center(
-                    contents
-                    )
+                contents
             );
 
         }

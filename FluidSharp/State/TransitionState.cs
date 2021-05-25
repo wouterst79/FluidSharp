@@ -12,6 +12,16 @@ using System.Threading.Tasks;
 namespace FluidSharp.State
 {
 
+    public abstract class EnumTransitionState<T> : TransitionState<T> where T : Enum
+    {
+        protected EnumTransitionState(T InitialValue) : base(InitialValue)
+        {
+        }
+
+        public override int GetDirection(T from, T to) => to.CompareTo(from);
+
+    }
+
     public abstract class TransitionState<T>
     {
 

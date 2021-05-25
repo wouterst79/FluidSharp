@@ -89,8 +89,11 @@ namespace FluidSharp.Navigation
 
         }
 
-        public async Task Pop()
+        public async Task Pop(IWidgetSource current)
         {
+
+            if (CurrentFrame != current)
+                throw new Exception();
 
             if (Transition == null)
             {
@@ -162,7 +165,7 @@ namespace FluidSharp.Navigation
             {
                 if (!visualState.NavigationTop.IsContext(TransitionTarget))
                     visualState.NavigationTop = new NavigationTop(TransitionTarget!);
-                return transition.MakeWidget(visualState, CurrentFrame, TransitionTarget!, Pop);
+                return transition.MakeWidget(this, visualState, CurrentFrame, TransitionTarget!);
             }
 
             if (Stack == null) throw new Exception("No root frame supplied");

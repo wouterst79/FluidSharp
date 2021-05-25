@@ -34,7 +34,7 @@ namespace FluidSharp.Navigation
 
         public Task OnTransitionCompleted(bool open) => !open ? OnTransitionCompleted2(open) : Task.CompletedTask;
 
-        public Widget MakeWidget(VisualState visualState, IWidgetSource from, IWidgetSource to, Func<Task> dismiss)
+        public Widget MakeWidget(NavigationContainer navigationContainer, VisualState visualState, IWidgetSource from, IWidgetSource to, Func<Task> dismiss)
         {
 
             var animation = TransitionState.GetAnimation(Easing.CubicOut);

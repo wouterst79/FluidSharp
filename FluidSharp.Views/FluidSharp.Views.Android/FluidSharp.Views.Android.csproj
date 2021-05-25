@@ -86,6 +86,10 @@
       <Project>{7514a407-146a-44aa-93c9-d823502a93e1}</Project>
       <Name>SkiaSharp.TextBlocks</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\FluidSharp\FluidSharp.csproj">
+      <Project>{31b5dd46-fd96-478e-975e-c35c8a376099}</Project>
+      <Name>FluidSharp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

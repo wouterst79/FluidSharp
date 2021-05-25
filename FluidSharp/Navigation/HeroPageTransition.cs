@@ -26,7 +26,7 @@ namespace FluidSharp.Navigation
             TransitionState.TransitionDuration = TimeSpan.FromSeconds(1);
         }
 
-        public Widget MakeWidget(VisualState visualState, IWidgetSource from, IWidgetSource to, Func<Task> dismiss)
+        public Widget MakeWidget(NavigationContainer navigationContainer, VisualState visualState, IWidgetSource from, IWidgetSource to, Func<Task> dismiss)
         {
             var frame = TransitionState.GetFrame();
 
