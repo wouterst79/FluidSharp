@@ -18,6 +18,8 @@ namespace FluidSharp.Layouts
         public float TotalX => Near + Far;
         public float TotalY => Top + Bottom;
 
+        public bool IsDefault() => TotalX == 0 && TotalY == 0;
+
         public Margins(float near, float top, float far, float bottom)
         {
             Near = near;

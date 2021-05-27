@@ -40,7 +40,11 @@
       <Link>FluidWidgetView.cs</Link>
     </Compile>
     <Compile Include="NativeViewManager.cs" />
-    <Compile Include="NativeViews\NativeTextboxImpl.cs">
+    <Compile Include="NativeViews\INativeTextboxImpl.cs" />
+    <Compile Include="NativeViews\NativeMultiLineTextboxImpl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NativeViews\NativeSingleLineTextboxImpl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="NativeViews\NativeViewExtensions.cs" />

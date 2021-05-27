@@ -10,6 +10,8 @@
         Chat,
         Telephone,
         Text,
-        Url
+        Url,
+
+        MultiLine
     }
 }

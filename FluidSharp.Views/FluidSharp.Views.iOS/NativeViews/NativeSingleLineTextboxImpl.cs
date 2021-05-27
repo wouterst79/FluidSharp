@@ -14,10 +14,10 @@ using UIKit;
 
 namespace FluidSharp.Views.iOS.NativeViews
 {
-    public class NativeTextboxImpl : UITextField, INativeViewImpl, IUITextFieldDelegate
+    public class NativeSingleLineTextboxImpl : UITextField, INativeViewImpl, INativeTextboxImpl, IUITextFieldDelegate
     {
 
-        public object Context;
+        public object Context { get; set; }
 
         private Func<Task> RequestRedraw;
         private Func<string, Task> SetText;
@@ -29,7 +29,7 @@ namespace FluidSharp.Views.iOS.NativeViews
 
         private ReturnTypeInfo ReturnTypeInfo;
 
-        public NativeTextboxImpl(Func<Task> requestRedraw)
+        public NativeSingleLineTextboxImpl(Func<Task> requestRedraw)
         {
             RequestRedraw = requestRedraw;
             BorderStyle = UITextBorderStyle.None;
@@ -160,6 +160,9 @@ namespace FluidSharp.Views.iOS.NativeViews
         // https://github.com/xamarin/Xamarin.Forms/blob/f35ae07a0a8471d255f7a1ebdd51499e10e0a4cb/Xamarin.Forms.Platform.iOS/Extensions/Extensions.cs
         public static void ApplyKeyboard(IUITextInputTraits textInput, Keyboard keyboard)
         {
+
+            if (keyboard == FluidSharp.Keyboard.MultiLine) throw new NotImplementedException();
+
             textInput.AutocapitalizationType = UITextAutocapitalizationType.None;
             textInput.AutocorrectionType = UITextAutocorrectionType.No;
             textInput.SpellCheckingType = UITextSpellCheckingType.No;

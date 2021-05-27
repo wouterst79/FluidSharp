@@ -96,7 +96,7 @@ namespace FluidSharp.Touch
 #endif
 
             // hit testing
-            if (painted.Contains(Location))
+            if (HitTestIgnoreClip || painted.Contains(Location))
             {
 
                 var inclip = true;

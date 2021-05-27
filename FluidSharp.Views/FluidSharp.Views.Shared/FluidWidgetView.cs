@@ -109,12 +109,20 @@ namespace FluidSharp.Views.UWP
 
         protected void RegisterNativeViews()
         {
+#if __IOS__
+            NativeViewManager.RegisterNativeView<NativeTextboxWidget, UIView>(
+                (w, c) => ((INativeTextboxImpl)c).Context.Equals(w.Context),
+                (w) => w.Keyboard == Keyboard.MultiLine ? (UIView)
+                    new NativeMultiLineTextboxImpl(VisualState.RequestRedraw) { Context = w.Context } :
+                    new NativeSingleLineTextboxImpl(VisualState.RequestRedraw) { Context = w.Context }
+#else
             NativeViewManager.RegisterNativeView<NativeTextboxWidget, NativeTextboxImpl>(
                 (w, c) => c.Context.Equals(w.Context),
 #if __ANDROID__
                 (w) => new NativeTextboxImpl(Context, VisualState.RequestRedraw) { Context = w.Context }
 #else
                 (w) => new NativeTextboxImpl(VisualState.RequestRedraw) { Context = w.Context }
+#endif
 #endif
             );
         }

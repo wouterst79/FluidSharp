@@ -15,17 +15,17 @@ namespace FluidSharp.Widgets
 
         public Widget Near { get; set; }
         public float Spacing { get; set; }
-        public Widget Far { get; set; }
+        public Widget? Far { get; set; }
 
         public float Height { get; set; }
 
         public Margins Margin;
 
-        public SplitContainerNear(Widget near, float spacing, Widget far, float height, Margins margin)
+        public SplitContainerNear(Widget near, float spacing, Widget? far, float height, Margins margin)
         {
             Near = near ?? throw new ArgumentNullException(nameof(near));
             Spacing = spacing;
-            Far = far ?? throw new ArgumentNullException(nameof(far));
+            Far = far;
             Height = height;
             Margin = margin;
         }
@@ -43,7 +43,7 @@ namespace FluidSharp.Widgets
 
             // far
             var farwidth = childrect.Width - Spacing - nearwidth;
-            if (farwidth>0)
+            if (farwidth > 0 && Far != null)
             {
                 var farrect = childrect.HorizontalAlign(new SKSize(farwidth, childrect.Height), HorizontalAlignment.Far, layoutsurface.FlowDirection);
                 layoutsurface.Paint(Far, farrect);

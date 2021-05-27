@@ -23,6 +23,8 @@ namespace FluidSharp.Views.WindowsForms.NativeViews
         private Font LastFont;
         private SKColor LastTextColor;
 
+        private Keyboard? Keyboard;
+
         public NativeTextboxImpl(Func<Task> requestRedraw)
         {
             RequestRedraw = requestRedraw;
@@ -39,11 +41,19 @@ namespace FluidSharp.Views.WindowsForms.NativeViews
             }
             if (Focused != widget.HasFocus)
             {
-                if (widget.HasFocus && CanFocus)
-                    Focus();
+                if (widget.HasFocus)
+                {
+                    BeginInvoke(new Action(() =>
+                    {
+                        if (Focused != widget.HasFocus)
+                            if (CanFocus)
+                                Focus();
+                    }));
+                }
             }
             SetFont(widget.Font.WithTextSize(widget.Font.TextSize * rect.Width / original.Width));
             SetTextColor(widget.TextColor);
+            SetKeyboard(widget.Keyboard);
             SetText = widget.SetText;
         }
 
@@ -59,6 +69,18 @@ namespace FluidSharp.Views.WindowsForms.NativeViews
             if (LastTextColor == textColor) return;
             ForeColor = textColor.ToUWPColor();
             LastTextColor = textColor;
+        }
+
+        private void SetKeyboard(Keyboard keyboard)
+        {
+
+            if (Keyboard == keyboard) return;
+
+#if PRINTEVENTS
+            Debug.WriteLine($"setting keyboard: {keyboard}");
+#endif
+            ApplyKeyboard(keyboard);
+            Keyboard = keyboard;
         }
 
         protected override void OnTextChanged(EventArgs e)
@@ -80,6 +102,11 @@ namespace FluidSharp.Views.WindowsForms.NativeViews
                     }
                 });
             }
+        }
+
+        public void ApplyKeyboard(Keyboard keyboard)
+        {
+            Multiline = keyboard == FluidSharp.Keyboard.MultiLine;
         }
 
         public void SetVisible(bool visible) => throw new NotImplementedException();

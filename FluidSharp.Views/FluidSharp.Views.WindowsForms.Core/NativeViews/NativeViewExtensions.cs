@@ -10,7 +10,7 @@ namespace FluidSharp.Views.WindowsForms.Core.NativeViews
 
         public static UWPFont ToUWPFont(this Font font)
         {
-            return new UWPFont(font.Name, font.TextSize / 1.5f);
+            return new UWPFont(font.Name, font.TextSize / 2);
         }
 
         public static UWPColor ToUWPColor(this SKColor color)
