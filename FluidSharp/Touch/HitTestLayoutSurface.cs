@@ -23,6 +23,8 @@ namespace FluidSharp.Touch
         private Stack<SKRect> ClipRectStack = new Stack<SKRect>();
         private Stack<SKPath> ClipPathStack;
 
+        public bool HitTestIgnoreClip;
+
         public override SKRect GetLocalClipRect() => ClipRectStack.Peek();
 
         public HitTestLayoutSurface(Device device, MeasureCache measureCache, SKPoint location, VisualState visualState, SKRect cliprect) : base(device, measureCache, null, visualState)
@@ -117,6 +119,8 @@ namespace FluidSharp.Touch
                         }
                 }
 
+                if (HitTestIgnoreClip) inclip = true;
+
                 if (inclip)
                 {
 
@@ -133,6 +137,9 @@ namespace FluidSharp.Touch
                     Hits.Insert(hitlocation, new HitTestHit(Device, widget, locationInWidget, rect, Scale));
 
                 }
+
+                HitTestIgnoreClip = false;
+
             }
 
             // revert scale factor

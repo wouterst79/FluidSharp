@@ -92,8 +92,35 @@ namespace FluidSharp.Navigation
         public async Task Pop(IWidgetSource current)
         {
 
-            if (CurrentFrame != current)
-                throw new Exception();
+            var Transition = this.Transition;
+
+            if (!Stack.Contains(current))
+            {
+                if (Transition == null)
+                {
+                    // assuming already popped / ignore
+                    Debug.WriteLine($"unable to pop {current} - item not in navigation stack");
+                    return;
+                }
+                else
+                {
+                    // assuming we're reversing an un-completed transition
+                }
+            }
+            else
+            {
+                if (TransitionTarget != null && TransitionTarget != current)
+                {
+                    // trying to pop the item that's "the target of an existing pop" (IE double pop), or even lower on the stack
+                    // - fast-forward poping
+
+                    Transition = null;
+                    while (CurrentFrame != current)
+                        Stack.Pop();
+                }
+            }
+
+
 
             if (Transition == null)
             {
@@ -116,6 +143,8 @@ namespace FluidSharp.Navigation
                     if (Transition is null)
                         Transition = new PushPageTransition(true, OnTransitionCompleted);
 
+                    this.Transition = Transition;
+
                 }
 
                 TransitionTarget = Stack.Pop();
@@ -137,12 +166,13 @@ namespace FluidSharp.Navigation
             TransitionTarget = null;
         }
 
-        public async Task OnSlideBackCompleted()
+        public async Task OnSlideBackCompleted(VisualState visualState)
         {
             if (SlideBackState != null)
             {
                 if (SlideBackState.Current == false)
                 {
+                    await visualState.EndEdit(false);
                     Stack.Pop();
                     SlideBackState = null;
                 }
@@ -177,7 +207,7 @@ namespace FluidSharp.Navigation
                 var canslideback = Stack.Count > 1 && page.CanSlideBack;
                 if (canslideback)
                 {
-                    if (SlideBackState == null) SlideBackState = new SlideBackState(OnSlideBackCompleted);
+                    if (SlideBackState == null) SlideBackState = new SlideBackState(() => OnSlideBackCompleted(visualState));
                     return SlideBackNavigation.Make(visualState, SlideBackState, SlideBackState.GetFrame(), GetBackPanDetectorWidth(), 0, null, MakeSlideBackWidget);
                 }
 
