@@ -39,7 +39,7 @@ namespace FluidSharp.State
             if (current == target)
                 return new Animation(AnimationStart, CurrentDuration, min, min + delta, easing);
             else
-                return new Animation(AnimationStart, CurrentDuration, min, min + delta, easing, () => Progress(GetFrame(), null));
+                return new Animation(AnimationStart, CurrentDuration, min, min + delta, easing, () => Progress(GetFrame()));
 
         }
 

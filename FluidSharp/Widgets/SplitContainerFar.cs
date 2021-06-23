@@ -21,6 +21,13 @@ namespace FluidSharp.Widgets
 
         public Margins Margin;
 
+        public SplitContainerFar(Widget near, float spacing, Widget far)
+        {
+            Near = near ?? throw new ArgumentNullException(nameof(near));
+            Spacing = spacing;
+            Far = far ?? throw new ArgumentNullException(nameof(far));
+        }
+
         public SplitContainerFar(Widget near, float spacing, Widget far, float height, Margins margin)
         {
             Near = near ?? throw new ArgumentNullException(nameof(near));
@@ -30,11 +37,26 @@ namespace FluidSharp.Widgets
             Margin = margin;
         }
 
-        public override SKSize Measure(MeasureCache measureCache, SKSize boundaries) => new SKSize(boundaries.Width, Height);
+        public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
+        {
+            if (Height == 0)
+            {
+                var nearheight = Near.Measure(measureCache, boundaries).Height;
+                return new SKSize(boundaries.Width, nearheight);
+            }
+            return new SKSize(boundaries.Width, Height);
+        }
+
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
 
-            var childrect = Margin.Shrink(rect, layoutsurface.FlowDirection).WithHeight(Height - Margin.TotalY);
+            var height = Height;
+            if (height == 0)
+            {
+                height = Near.Measure(layoutsurface.MeasureCache, rect.Size).Height;
+            }
+
+            var childrect = Margin.Shrink(rect, layoutsurface.FlowDirection).WithHeight(height - Margin.TotalY);
             var farwidth = Far.Measure(layoutsurface.MeasureCache, childrect.Size).Width;
 
             // near
@@ -54,7 +76,7 @@ namespace FluidSharp.Widgets
             //layoutsurface.DebugRect(drawrect, SKColors.Blue.WithAlpha(128));
 #endif
 
-            return rect.WithHeight(Height);
+            return rect.WithHeight(height);
 
         }
     }

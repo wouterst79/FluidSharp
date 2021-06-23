@@ -62,6 +62,14 @@ namespace FluidSharp.Layouts
                               rect.MidY + size.Height / 2);
         }
 
+        public static SKRect TopCenter(this SKRect rect, SKSize size)
+        {
+            return new SKRect(rect.MidX - size.Width / 2,
+                              rect.Top,
+                              rect.MidX + size.Width / 2,
+                              rect.Top + size.Height);
+        }
+
         public static SKRect HorizontalAlign(this SKRect rect, SKSize size, HorizontalAlignment horizontalAlignment, FlowDirection flowDirection)
         {
             if (horizontalAlignment == HorizontalAlignment.Center)

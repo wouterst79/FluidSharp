@@ -24,6 +24,17 @@ namespace FluidSharp.Widgets
             ScaleOnPaint = scaleOnPaint;
         }
 
+        public static Widget? Make(float pct, Widget child, bool scaleOnPaint)
+        {
+            if (pct <= 0)
+                return null;
+            else if (pct >= 1)
+                return child;
+            else 
+                return new HeightTransition(new Animation(DateTime.Now.AddSeconds(-1), TimeSpan.FromSeconds(2), pct, pct), child, scaleOnPaint);
+        }
+
+
         public static Widget? Make(DateTime appearingStarted, DateTime? disappearingStarted, TimeSpan duration, Widget child, bool scaleOnPaint)
         {
 

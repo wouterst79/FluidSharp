@@ -1,4 +1,7 @@
-﻿using FluidSharp.Animations;
+﻿#if DEBUG
+//#define DEBUGCONTAINER
+#endif
+using FluidSharp.Animations;
 using FluidSharp.Layouts;
 using SkiaSharp;
 using System;
@@ -13,17 +16,30 @@ namespace FluidSharp.Widgets.Animations
         public class WidgetOrigin : Widget
         {
             public Widget Contents { get; set; }
+            public bool PaintOrigin { get; set; }
+
             public SKRect? OriginRect { get; set; }
 
-            public WidgetOrigin(Widget contents)
+            public WidgetOrigin(Widget contents, bool paintOrigin)
             {
                 Contents = contents;
+                PaintOrigin = paintOrigin;
             }
 
             public override SKSize Measure(MeasureCache measureCache, SKSize boundaries) => Contents.Measure(measureCache, boundaries);
             public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
             {
-                OriginRect = rect = Contents.PaintInternal(layoutsurface, rect);
+                if (PaintOrigin)
+                {
+                    OriginRect = rect = Contents.PaintInternal(layoutsurface, rect);
+                }
+                else
+                {
+                    OriginRect = rect = Contents.PaintInternal(new LayoutSurface(layoutsurface.Device, layoutsurface.MeasureCache, null, layoutsurface.VisualState), rect);
+#if DEBUGCONTAINER
+                    layoutsurface.DebugRect(rect, SKColors.Red);
+#endif
+                }
                 return rect;
             }
 
@@ -72,6 +88,9 @@ namespace FluidSharp.Widgets.Animations
                 var drawrect = new SKRect(rect.Left + translation.X, rect.Top + translation.Y, rect.Right + translation.X + scale.X, rect.Bottom + translation.Y + scale.Y);
 
                 var final = layoutsurface.Paint(Contents, drawrect);
+#if DEBUGCONTAINER
+                layoutsurface.DebugRect(drawrect, SKColors.Green);
+#endif
 
                 return rect.WithHeight(final.Height);
 

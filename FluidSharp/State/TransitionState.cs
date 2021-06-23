@@ -59,6 +59,7 @@ namespace FluidSharp.State
             return new TransitionFrame<T>(ratio, current, direction, next, Progress);
         }
 
+
         public virtual Animation GetAnimation(Easing easing)
         {
 
@@ -69,7 +70,7 @@ namespace FluidSharp.State
             var min = direction >= 0 ? 0 : 1;
             var delta = direction >= 0 ? 1 : -1;
 
-            return new Animation(AnimationStart, CurrentDuration, min, min + delta, easing, () => Progress(GetFrame(), null));
+            return new Animation(AnimationStart, CurrentDuration, min, min + delta, easing, () => Progress(GetFrame()));
 
         }
 
@@ -139,7 +140,9 @@ namespace FluidSharp.State
             AnimationStart = DateTime.Now.AddMilliseconds(millisecondsfromnow);
         }
 
-        public async Task Progress(TransitionFrame<T> frame, VisualState visualState)
+        public Task Progress(TransitionFrame<T> frame, VisualState visualState) => Progress(frame);
+
+        public async Task Progress(TransitionFrame<T> frame)//, VisualState visualState)
         {
             Current = frame.Next;
             if (OnCompleted != null)

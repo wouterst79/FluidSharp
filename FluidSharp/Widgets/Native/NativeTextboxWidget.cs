@@ -27,7 +27,7 @@ namespace FluidSharp.Widgets.Native
 
         public Widget? MeasureWidget;
 
-        public NativeTextboxWidget(object context, string? text, Func<string, Task> settext, Font font, SKColor textcolor, bool hasFocus, Keyboard keyboard, bool sizebytext, ReturnTypeInfo? returnTypeInfo = null)
+        public NativeTextboxWidget(object context, string? text, Func<string, Task> settext, Font font, SKColor textcolor, bool hasFocus, Keyboard keyboard, bool sizebytext = false, ReturnTypeInfo? returnTypeInfo = null)
         {
             Context = context;
             Text = text ?? "";

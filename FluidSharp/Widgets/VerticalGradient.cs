@@ -8,7 +8,7 @@ using System.Text;
 namespace FluidSharp.Widgets
 {
 
-    public class LinearGradient : Widget
+    public class VerticalGradient : Widget
     {
 
 
@@ -16,7 +16,7 @@ namespace FluidSharp.Widgets
         public SKColor Color2;
         public float Height;
 
-        public LinearGradient(SKColor color1, SKColor color2, float height)
+        public VerticalGradient(SKColor color1, SKColor color2, float height)
         {
             Color1 = color1;
             Color2 = color2;

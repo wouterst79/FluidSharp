@@ -70,7 +70,7 @@ namespace FluidSharp.Navigation
             Stack.Push(rootframe);
         }
 
-        public async Task Push(IWidgetSource Next)
+        public virtual async Task Push(IWidgetSource Next)
         {
 
             Transition = null;
@@ -89,7 +89,7 @@ namespace FluidSharp.Navigation
 
         }
 
-        public async Task Pop(IWidgetSource current)
+        public virtual async Task Pop(IWidgetSource current)
         {
 
             var Transition = this.Transition;
@@ -156,7 +156,7 @@ namespace FluidSharp.Navigation
 
         }
 
-        public async Task OnTransitionCompleted(bool open)
+        public virtual async Task OnTransitionCompleted(bool open)
         {
             if (open && TransitionTarget != null)
             {
@@ -187,7 +187,7 @@ namespace FluidSharp.Navigation
                 return PreviousFrame.MakeWidget(visualState);
         }
 
-        public Widget MakeWidget(VisualState visualState)
+        public virtual Widget MakeWidget(VisualState visualState)
         {
 
             var transition = Transition;
