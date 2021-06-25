@@ -105,6 +105,8 @@ namespace FluidSharp.Animations
     public class Animation
     {
 
+        public static Animation CompletedAnimation = new Animation(DateTime.MinValue, DefaultDuration);
+
         public static TimeSpan DefaultDuration = TimeSpan.FromMilliseconds(250);
         public static float Speed = 1f;
 
@@ -145,6 +147,8 @@ namespace FluidSharp.Animations
             Easing = easing;
             OnCompleted = onCompleted;
         }
+
+        public Animation Inverse() => new Animation(StartTime, Duration, EndValue, StartValue, Easing, OnCompleted);
 
         public Animation MakeOffset(float pct)
         {
