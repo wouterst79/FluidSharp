@@ -1,6 +1,6 @@
-﻿#if DEBUG
+﻿#define SHOWSPACING
+#if DEBUG
 //#define DEBUGCONTAINER
-#define SHOWSPACING
 #endif
 using FluidSharp.Layouts;
 using SkiaSharp;

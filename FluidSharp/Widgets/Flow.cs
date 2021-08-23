@@ -1,6 +1,4 @@
-﻿#if DEBUG
-#define DEBUGCONTAINER
-#endif
+﻿#define SHOWSPACING
 using FluidSharp.Layouts;
 using SkiaSharp;
 using SkiaSharp.TextBlocks.Enum;
@@ -90,7 +88,7 @@ namespace FluidSharp.Widgets
                 result = new SKRect(rect.Right - maxlinewidth, rect.Top, rect.Right, y);
 
 
-#if DEBUGCONTAINER
+#if SHOWSPACING
             if (layoutsurface != null)
                 layoutsurface.DebugMargin(result, Margin, SKColors.YellowGreen);
 #endif

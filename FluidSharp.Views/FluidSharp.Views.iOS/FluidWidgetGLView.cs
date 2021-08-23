@@ -1,6 +1,4 @@
-﻿#if !__IOS__
-
-using FluidSharp.Engine;
+﻿using FluidSharp.Engine;
 using FluidSharp.Interop;
 using FluidSharp.State;
 using FluidSharp.Widgets;
@@ -32,7 +30,7 @@ namespace FluidSharp.Views.UWP
 #if __ANDROID__
     public class FluidWidgetView : global::Android.Widget.RelativeLayout, IFluidWidgetView
 #else
-    public class FluidWidgetView : SkiaView, IFluidWidgetView
+    public class FluidWidgetGLView : SkiaGLView, IFluidWidgetView
 #endif
     {
 
@@ -80,9 +78,9 @@ namespace FluidSharp.Views.UWP
 
 #else
 
-        private SkiaView SkiaView => this;
+        private SkiaGLView SkiaView => this;
 
-        public FluidWidgetView()
+        public FluidWidgetGLView()
         {
 #endif
 
@@ -103,7 +101,7 @@ namespace FluidSharp.Views.UWP
 #if __ANDROID__
         public FluidWidgetView(global::Android.Content.Context context, bool CreatesOwnImplementation) : base(context)
 #else
-        protected FluidWidgetView(bool CreatesOwnImplementation)
+        protected FluidWidgetGLView(bool CreatesOwnImplementation)
 #endif
         {
             if (!CreatesOwnImplementation) throw new ArgumentOutOfRangeException(nameof(CreatesOwnImplementation));
@@ -234,4 +232,3 @@ namespace FluidSharp.Views.UWP
     }
 }
 
-#endif

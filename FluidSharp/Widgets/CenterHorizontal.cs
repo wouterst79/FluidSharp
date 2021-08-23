@@ -1,6 +1,4 @@
-﻿#if DEBUG
-#define DEBUGCONTAINER
-#endif
+﻿#define SHOWSPACING
 using FluidSharp.Layouts;
 using SkiaSharp;
 using System;
@@ -39,7 +37,7 @@ namespace FluidSharp.Widgets
             childrect = new SKRect(xm - childsize.Width / 2, childrect.Top, xm + childsize.Width / 2, childrect.Top + childsize.Height);
             layoutsurface.Paint(Child, childrect);
 
-#if DEBUGCONTAINER
+#if SHOWSPACING
             layoutsurface.DebugMargin(childrect, Margin, SKColors.YellowGreen);
 #endif
             return rect.WithHeight(childsize.Height + Margin.TotalY);

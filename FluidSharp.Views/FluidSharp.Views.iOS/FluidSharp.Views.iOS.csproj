@@ -39,6 +39,9 @@
     <Compile Include="..\FluidSharp.Views.Shared\FluidWidgetView.cs">
       <Link>FluidWidgetView.cs</Link>
     </Compile>
+    <Compile Include="FluidUICanvasViewController.cs" />
+    <Compile Include="FluidWidgetGLView.cs" />
+    <Compile Include="FluidWidgetCanvasView.cs" />
     <Compile Include="NativeViewManager.cs" />
     <Compile Include="NativeViews\INativeTextboxImpl.cs" />
     <Compile Include="NativeViews\NativeMultiLineTextboxImpl.cs">
@@ -51,18 +54,22 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\KeyboardTracker.cs" />
     <Compile Include="SkiaView.cs" />
+    <Compile Include="SkiaViews.cs" />
     <Compile Include="TouchRecognizer.cs" />
-    <Compile Include="FluidUIViewController.cs" />
+    <Compile Include="FluidUIGLViewController.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="SkiaSharp">
-      <Version>2.80.2</Version>
+      <Version>2.80.3</Version>
     </PackageReference>
     <PackageReference Include="SkiaSharp.HarfBuzz">
-      <Version>2.80.2</Version>
+      <Version>2.80.3</Version>
     </PackageReference>
     <PackageReference Include="SkiaSharp.Views">
-      <Version>2.80.2</Version>
+      <Version>2.80.3</Version>
+    </PackageReference>
+    <PackageReference Include="System.Drawing.Common">
+      <Version>5.0.2</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

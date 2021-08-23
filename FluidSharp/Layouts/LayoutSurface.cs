@@ -92,34 +92,31 @@ namespace FluidSharp
         public void DebugRect(SKRect rect, SKColor color)
         {
             if (Canvas == null) return;
-#if DEBUG
+
             using (var borderpaint = new SKPaint() { Color = color, IsStroke = true })
                 Canvas.DrawRect(rect, borderpaint);
-#endif
+
         }
 
         public void DebugGestureRect(SKRect rect, SKColor color)
         {
             if (Canvas == null) return;
-#if DEBUG
             if (VisualState.ShowTouchRegions)
                 using (var paint = new SKPaint() { Color = color })
                     Canvas.DrawRect(rect, paint);
-#endif
         }
 
         public void DebugLine(float x1, float y1, float x2, float y2, SKColor color)
         {
             if (Canvas == null) return;
-#if DEBUG
+
             using (var linepaint = new SKPaint() { Color = color, IsStroke = true })
                 Canvas.DrawLine(x1, y1, x2, y2, linepaint);
-#endif
+
         }
 
         public void DebugMargin(SKRect inner, Margins margins, SKColor color)
         {
-#if DEBUG
 
             var top = new SKRect(inner.Left, inner.Top - margins.Top, inner.Right, inner.Top);
             DebugSpacing(top, margins.Top.ToString(), color);
@@ -134,15 +131,12 @@ namespace FluidSharp
             var far = inner.HorizontalAlign(new SKSize(-margins.Far, inner.Height), HorizontalAlignment.Far, FlowDirection);
             DebugSpacing(far, margins.Far.ToString(), color);
 
-
-#endif
         }
 
         public void DebugSpacing(SKRect dest, string text, SKColor color)
         {
 
             if (Canvas == null) return;
-#if DEBUG
 
             if (!VisualState.ShowSpacing) return;
 
@@ -156,7 +150,6 @@ namespace FluidSharp
 
             using (var textpaint = new SKPaint() { Color = color, IsAntialias = true })
                 Canvas.DrawText(text, dest.MidX - 4, dest.Bottom - 2, textpaint);
-#endif
 
         }
 

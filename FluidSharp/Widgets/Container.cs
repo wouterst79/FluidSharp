@@ -1,6 +1,4 @@
-﻿#if DEBUG
-#define DEBUGCONTAINER
-#endif
+﻿#define SHOWSPACING
 
 using FluidSharp.Layouts;
 using SkiaSharp;
@@ -151,7 +149,7 @@ namespace FluidSharp.Widgets
                     if (child != null)
                         layoutsurface.Paint(child, childrect);
 
-#if DEBUGCONTAINER
+#if SHOWSPACING
             layoutsurface.DebugMargin(childrect, Margin, SKColors.YellowGreen);
             //layoutsurface.DebugRect(drawrect, SKColors.Blue.WithAlpha(128));
 #endif

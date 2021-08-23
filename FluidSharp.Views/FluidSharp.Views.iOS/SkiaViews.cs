@@ -1,6 +1,4 @@
-﻿#if false
-#define USEGL
-using FluidSharp.Touch;
+﻿using FluidSharp.Touch;
 using SkiaSharp;
 using SkiaSharp.Views.iOS;
 using System;
@@ -12,11 +10,53 @@ using UIKit;
 
 namespace FluidSharp.Views.iOS
 {
-#if USEGL
-    public class SkiaView : SKGLView, ISkiaView
-#else
-    public class SkiaView : SKCanvasView, ISkiaView
-#endif
+    public class SkiaGLView : SKGLView, ISkiaView
+    {
+
+        public float Width => (float)Bounds.Width;
+        public float Height => (float)Bounds.Height;
+
+        public event EventHandler<PaintSurfaceEventArgs> PaintViewSurface;
+        public event EventHandler<TouchActionEventArgs> Touch;
+
+        public void InvalidatePaint()
+        {
+            InvokeOnMainThread(() =>
+            {
+                SetNeedsDisplay();
+            });
+        }
+
+        public SkiaGLView()
+        {
+
+            var touchrecognizer = new TouchRecognizer(this);
+            GestureRecognizers = new UIGestureRecognizer[] { touchrecognizer };
+            touchrecognizer.Touch += Touchrecognizer_Touch;
+
+        }
+
+        protected override void OnPaintSurface(SKPaintGLSurfaceEventArgs e)
+        {
+
+            var canvas = e.Surface.Canvas;
+            // Make sure the canvas is drawn using pixel coordinates (but still high res):
+            var factor = (float)Math.Round(e.BackendRenderTarget.Width / Width * 4) / 4;
+            var platformzoom = SKMatrix.CreateScale(factor, factor);
+            canvas.Concat(ref platformzoom);
+
+            PaintViewSurface?.Invoke(this, new PaintSurfaceEventArgs(canvas, Width, Height, e.Surface, default));
+
+        }
+
+        private void Touchrecognizer_Touch(object sender, TouchActionEventArgs e)
+        {
+            Touch?.Invoke(this, e);
+        }
+
+    }
+
+    public class SkiaCanvasView : SKCanvasView, ISkiaView
     {
 
 
@@ -34,32 +74,22 @@ namespace FluidSharp.Views.iOS
             });
         }
 
-        public SkiaView()
+        public SkiaCanvasView()
         {
 
             var touchrecognizer = new TouchRecognizer(this);
             GestureRecognizers = new UIGestureRecognizer[] { touchrecognizer };
             touchrecognizer.Touch += Touchrecognizer_Touch;
 
-#if !USEGL
-            this.PaintSurface += SkiaControl_PaintSurface;
-#endif
+            PaintSurface += SkiaControl_PaintSurface;
         }
 
-#if USEGL
-        protected override void OnPaintSurface(SKPaintGLSurfaceEventArgs e)
-#else
         private void SkiaControl_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
-#endif
         {
 
             var canvas = e.Surface.Canvas;
             // Make sure the canvas is drawn using pixel coordinates (but still high res):
-#if USEGL
-            var factor = (float)Math.Round(e.BackendRenderTarget.Width / Width * 4) / 4;
-#else
             var factor = (float)Math.Round(e.Info.Width / Width * 4) / 4;
-#endif
             var platformzoom = SKMatrix.CreateScale(factor, factor);
             canvas.Concat(ref platformzoom);
 
@@ -69,7 +99,6 @@ namespace FluidSharp.Views.iOS
 
         private void Touchrecognizer_Touch(object sender, TouchActionEventArgs e)
         {
-            //System.Diagnostics.Debug.WriteLine("touch");
             Touch?.Invoke(this, e);
         }
 
@@ -98,4 +127,3 @@ namespace FluidSharp.Views.iOS
 
     }
 }
-#endif

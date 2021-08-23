@@ -28,10 +28,20 @@ namespace FluidSharp.Widgets
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries) => InnerWidget.Measure(measureCache, boundaries);
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
-            var translated = new SKRect(rect.Left + Translation.X, rect.Top + Translation.Y, rect.Right + Translation.X, rect.Bottom + Translation.Y);
-            var location = layoutsurface.Paint(InnerWidget, translated);
-            var inverse = new SKRect(location.Left - Translation.X, location.Top - Translation.Y, location.Right - Translation.X, location.Bottom - Translation.Y);
-            return inverse;
+            if (layoutsurface.IsRtl)
+            {
+                var translated = new SKRect(rect.Left - Translation.X, rect.Top + Translation.Y, rect.Right - Translation.X, rect.Bottom + Translation.Y);
+                var location = layoutsurface.Paint(InnerWidget, translated);
+                var inverse = new SKRect(location.Left + Translation.X, location.Top - Translation.Y, location.Right + Translation.X, location.Bottom - Translation.Y);
+                return inverse;
+            }
+            else
+            {
+                var translated = new SKRect(rect.Left + Translation.X, rect.Top + Translation.Y, rect.Right + Translation.X, rect.Bottom + Translation.Y);
+                var location = layoutsurface.Paint(InnerWidget, translated);
+                var inverse = new SKRect(location.Left - Translation.X, location.Top - Translation.Y, location.Right - Translation.X, location.Bottom - Translation.Y);
+                return inverse;
+            }
         }
 
     }

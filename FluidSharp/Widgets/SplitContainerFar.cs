@@ -1,6 +1,4 @@
-﻿#if DEBUG
-#define DEBUGCONTAINER
-#endif
+﻿#define SHOWSPACING
 using FluidSharp.Layouts;
 using SkiaSharp;
 using System;
@@ -71,7 +69,7 @@ namespace FluidSharp.Widgets
             var farrect = childrect.HorizontalAlign(new SKSize(farwidth, childrect.Height), HorizontalAlignment.Far, layoutsurface.FlowDirection);
             layoutsurface.Paint(Far, farrect);
 
-#if DEBUGCONTAINER
+#if SHOWSPACING
             layoutsurface.DebugMargin(childrect, Margin, SKColors.YellowGreen);
             //layoutsurface.DebugRect(drawrect, SKColors.Blue.WithAlpha(128));
 #endif

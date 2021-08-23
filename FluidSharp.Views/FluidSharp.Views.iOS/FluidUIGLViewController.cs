@@ -9,18 +9,18 @@ using UIKit;
 
 namespace FluidSharp.Views.iOS
 {
-    public class FluidUIViewController : UIViewController
+    public class FluidUIGLViewController : UIViewController
     {
 
         public readonly IWidgetSource WidgetSource;
-        private FluidWidgetView FluidWidgetView;
+        private FluidWidgetGLView FluidWidgetView;
 
         private KeyboardTracker KeyboardTracker;
         private nfloat OriginalInsetBottom;
 
         private Action<Margins> OnDeviceMarginsChanged;
 
-        public FluidUIViewController(IWidgetSource widgetSource, Action<Margins> onDeviceMarginsChanged)
+        public FluidUIGLViewController(IWidgetSource widgetSource, Action<Margins> onDeviceMarginsChanged)
         {
             WidgetSource = widgetSource;
             OnDeviceMarginsChanged = onDeviceMarginsChanged;
@@ -46,7 +46,7 @@ namespace FluidSharp.Views.iOS
 
         public override void LoadView()
         {
-            FluidWidgetView = new FluidWidgetView();
+            FluidWidgetView = new FluidWidgetGLView();
             FluidWidgetView.WidgetSource = WidgetSource;
             View = FluidWidgetView;
         }

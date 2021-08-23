@@ -1,6 +1,4 @@
-﻿#if DEBUG
-#define DEBUGCONTAINER
-#endif
+﻿#define SHOWSPACING
 using FluidSharp.Layouts;
 using SkiaSharp;
 using SkiaSharp.TextBlocks.Enum;
@@ -243,7 +241,7 @@ namespace FluidSharp.Widgets
 
                 }
 
-#if DEBUGCONTAINER
+#if SHOWSPACING
             if (Debug)
             {
 

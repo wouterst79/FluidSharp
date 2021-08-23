@@ -3,6 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
+    <Version>1.0.3-alpha</Version>
+    <Authors>Wouter Steenbergen</Authors>
+    <Company>My Daily Bits LLC</Company>
+    <Product>FluidSharp</Product>
+    <Description>FluidSharp is a high performance mobile first multi-platform UI layout framework based on Skia.</Description>
+    <Copyright>2020 Wouter Steenbergen</Copyright>
+    <PackageLicenseFile>License.txt</PackageLicenseFile>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -15,6 +22,10 @@
   
   <ItemGroup>
     <None Remove="License.txt" />
+    <None Include="License.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -28,11 +39,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SkiaSharp.Views.WindowsForms" Version="2.80.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\FluidSharp\FluidSharp.csproj" />
+    <PackageReference Include="SkiaSharp.Views.WindowsForms" Version="2.80.3" />
+    <PackageReference Include="FluidSharp" Version="1.0.3-alpha" />
   </ItemGroup>
 
   <ItemGroup>

@@ -75,7 +75,7 @@ namespace FluidSharp.Touch
                 Location = new SKPoint(Location.X / fx, Location.Y / fy);
                 Scale = new SKPoint(Scale.X * fx, Scale.Y * fy);
 
-                if (ClipPathStack != null) throw new Exception("Scaling Clip Paths not supported");
+                if (ClipPathStack != null && ClipPathStack.Count > 0) throw new Exception("Scaling Clip Paths not supported");
 
                 ClipRectStack = new Stack<SKRect>();
                 foreach (var cliprect in originalClipRects.Reverse())
