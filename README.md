@@ -33,4 +33,8 @@ nuget install FluidSharp
     
 ```
 
-See the Samples folder for more samples.
+Result:
+![Hello world.png](./Samples/Screenshots/Hello&#32;world.png)
+
+
+See the Samples folder for more code samples.
