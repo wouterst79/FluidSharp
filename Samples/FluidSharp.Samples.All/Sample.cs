@@ -7,7 +7,7 @@ using System.Text;
 
 namespace FluidSharp.Samples.All
 {
-    public abstract class Sample
+    public abstract class Sample : IWidgetSource
     {
 
         public abstract string Name { get; }

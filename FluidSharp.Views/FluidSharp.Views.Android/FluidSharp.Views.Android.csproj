@@ -61,6 +61,7 @@
     <Compile Include="SkiaView.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="FluidSharp.Views.Android.nuspec" />
     <None Include="Resources\AboutResources.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +91,10 @@
       <Project>{31b5dd46-fd96-478e-975e-c35c8a376099}</Project>
       <Name>FluidSharp</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="License.txt" />
+    <Content Include="nuget instructions.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
