@@ -1,6 +1,4 @@
-﻿#if !__IOS__ && !__ANDROID__
-
-using FluidSharp.Engine;
+﻿using FluidSharp.Engine;
 using FluidSharp.Interop;
 using FluidSharp.State;
 using FluidSharp.Widgets;
@@ -30,9 +28,9 @@ namespace FluidSharp.Views.UWP
 {
 
 #if __ANDROID__
-    public class FluidWidgetView : global::Android.Widget.RelativeLayout, IFluidWidgetView
+    public class FluidWidgetGLView : AndroidFluidWidgetView, IFluidWidgetView
 #else
-    public class FluidWidgetView : SkiaView, IFluidWidgetView
+    public class FluidWidgetGLView : SkiaGLView, IFluidWidgetView
 #endif
     {
 
@@ -56,7 +54,7 @@ namespace FluidSharp.Views.UWP
         }
         public NativeViewManager NativeViewManager;
 
-        public VisualState VisualState => Implementation.VisualState;
+        public override VisualState VisualState => Implementation.VisualState;
 
         /// <summary>
         /// Set AutoSizeHeight to true if the view should be sized by the (painted) height of the widgets.
@@ -68,21 +66,21 @@ namespace FluidSharp.Views.UWP
 
 #if __ANDROID__
 
-        private SkiaView SkiaView;
-        public SKSize PlatformScale => SkiaView.PlatformScale;
+        private SkiaGLView SkiaView;
+        public override SKSize PlatformScale => SkiaView.PlatformScale;
 
-        public FluidWidgetView(global::Android.Content.Context context) : base(context)
+        public FluidWidgetGLView(global::Android.Content.Context context) : base(context)
         {
 
-            SkiaView = new SkiaView(context);
+            SkiaView = new SkiaGLView(context);
             var fillparams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent);
             AddView(SkiaView, fillparams);
 
 #else
 
-        private SkiaView SkiaView => this;
+        private SkiaGLView SkiaView => this;
 
-        public FluidWidgetView()
+        public FluidWidgetGLView()
         {
 #endif
 
@@ -101,9 +99,9 @@ namespace FluidSharp.Views.UWP
         }
 
 #if __ANDROID__
-        public FluidWidgetView(global::Android.Content.Context context, bool CreatesOwnImplementation) : base(context)
+        public FluidWidgetGLView(global::Android.Content.Context context, bool CreatesOwnImplementation) : base(context)
 #else
-        protected FluidWidgetView(bool CreatesOwnImplementation)
+        protected FluidWidgetGLView(bool CreatesOwnImplementation)
 #endif
         {
             if (!CreatesOwnImplementation) throw new ArgumentOutOfRangeException(nameof(CreatesOwnImplementation));
@@ -222,16 +220,6 @@ namespace FluidSharp.Views.UWP
         }
 #endif
 
-#if __ANDROID__
-        public void AddOnMainThread(View childview)
-        {
-
-            ((Activity)Context).RunOnUiThread(() => AddView(childview));
-
-        }
-#endif
-
     }
 }
 
-#endif

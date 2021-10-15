@@ -21,9 +21,9 @@ namespace FluidSharp.Views.Android
     {
 
         //        public View View;
-        public FluidWidgetView ViewGroup;
+        public AndroidFluidWidgetView ViewGroup;
 
-        public NativeViewManager(FluidWidgetView viewGroup)
+        public NativeViewManager(AndroidFluidWidgetView viewGroup)
         {
             ViewGroup = viewGroup;
         }
@@ -34,7 +34,7 @@ namespace FluidSharp.Views.Android
             for (int i = 0; i < ViewGroup.ChildCount; i++)
             {
                 var child = ViewGroup.GetChildAt(i);
-                if (!(child is SkiaView))
+                if (!(child is SkiaGLView || child is SkiaCanvasView))
                     yield return child;
             }
         }
@@ -65,7 +65,7 @@ namespace FluidSharp.Views.Android
                 nativeImpl.SetBounds(targetbounds);
                 nativeImpl.UpdateControl(nativeViewWidget, rect, original);
 
-            } 
+            }
 
         }
     }

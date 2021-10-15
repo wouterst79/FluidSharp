@@ -10,7 +10,7 @@ namespace FluidSharp.Views.Android
     {
 
         public readonly IWidgetSource WidgetSource;
-        private FluidWidgetView FluidWidgetView;
+        private AndroidFluidWidgetView FluidWidgetView;
 
         //private KeyboardTracker KeyboardTracker;
         //private nfloat OriginalInsetBottom;

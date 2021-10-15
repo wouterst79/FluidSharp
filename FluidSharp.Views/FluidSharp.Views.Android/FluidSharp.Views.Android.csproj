@@ -51,6 +51,9 @@
       <Link>FluidWidgetView.cs</Link>
     </Compile>
     <Compile Include="FluidUIActivity.cs" />
+    <Compile Include="FluidWidgetCanvasView.cs" />
+    <Compile Include="FluidWidgetGLView.cs" />
+    <Compile Include="AndroidFluidWidgetView.cs" />
     <Compile Include="NativeViewManager.cs" />
     <Compile Include="NativeViews\FontExtensions.cs" />
     <Compile Include="NativeViews\KeyboardExtensions.cs" />
@@ -58,6 +61,7 @@
     <Compile Include="NativeViews\NativeViewExtensions.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SkiaViews.cs" />
     <Compile Include="SkiaView.cs" />
   </ItemGroup>
   <ItemGroup>

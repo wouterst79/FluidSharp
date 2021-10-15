@@ -1,4 +1,5 @@
-﻿#define USEGL
+﻿#if false
+#define USEGL
 using Android.App;
 using Android.Views;
 using FluidSharp.Touch;
@@ -277,3 +278,4 @@ namespace FluidSharp.Views.Android
 
     }
 }
+#endif
