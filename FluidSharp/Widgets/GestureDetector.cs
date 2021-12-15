@@ -125,7 +125,7 @@ namespace FluidSharp.Widgets
 
         public static PanGestureDetector HorizontalPanDetector(VisualState visualState, ScrollState scrollState, Widget child)
         {
-            return new HorizontalPanGestureDetector(visualState, scrollState, false, pan => scrollState.SetPan(pan.X, visualState), velocity => scrollState.EndPan(velocity, visualState), child);
+            return new HorizontalPanGestureDetector(visualState, scrollState, false, pan => scrollState.SetPan(pan.X, visualState), velocity => scrollState.EndPan(new SKPoint(velocity.Y, velocity.X), visualState), child); // endpan: swap coordinates (because of scrollState reuse)
         }
 
         public static PanGestureDetector VerticalPanDetector(VisualState visualState, ScrollState scrollState, Widget child)

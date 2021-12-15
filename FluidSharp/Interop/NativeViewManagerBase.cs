@@ -34,7 +34,7 @@ namespace FluidSharp.Interop
         {
             var nativeviewwidgettype = typeof(TNativeViewWidget);
 
-            Func<NativeViewWidget, TNativeControlBaseType, bool> castismatch = (w, b) => ismatch((TNativeViewWidget)w, (TNativeControl)b);
+            Func<NativeViewWidget, TNativeControlBaseType, bool> castismatch = (w, b) => b is TNativeControl typed && ismatch((TNativeViewWidget)w, typed);
             IsMatches[nativeviewwidgettype] = castismatch;
 
             Func<NativeViewWidget, TNativeControlBaseType> castcreate = (w) => create((TNativeViewWidget)w);
