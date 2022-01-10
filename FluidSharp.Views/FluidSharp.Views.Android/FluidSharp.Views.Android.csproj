@@ -70,13 +70,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="SkiaSharp">
-      <Version>2.80.2</Version>
+      <Version>2.80.3</Version>
     </PackageReference>
     <PackageReference Include="SkiaSharp.HarfBuzz">
-      <Version>2.80.2</Version>
+      <Version>2.80.3</Version>
     </PackageReference>
     <PackageReference Include="SkiaSharp.Views">
-      <Version>2.80.2</Version>
+      <Version>2.80.3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="28.0.0.3" />
   </ItemGroup>
@@ -87,10 +87,6 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\SkiaSharp.TextBlocks\source\SkiaSharp.TextBlocks\SkiaSharp.TextBlocks.csproj">
-      <Project>{7514a407-146a-44aa-93c9-d823502a93e1}</Project>
-      <Name>SkiaSharp.TextBlocks</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\FluidSharp\FluidSharp.csproj">
       <Project>{31b5dd46-fd96-478e-975e-c35c8a376099}</Project>
       <Name>FluidSharp</Name>

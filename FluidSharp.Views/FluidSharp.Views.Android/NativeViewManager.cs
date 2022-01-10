@@ -2,7 +2,9 @@
 #define PRINTEVENTS
 #endif
 using Android.App;
+using Android.InputMethodServices;
 using Android.Views;
+using Android.Views.InputMethods;
 using Android.Widget;
 using FluidSharp.Interop;
 using FluidSharp.Widgets.Native;
@@ -60,10 +62,10 @@ namespace FluidSharp.Views.Android
             if (control is INativeViewImpl nativeImpl)
             {
                 var scale = ViewGroup.PlatformScale;
-                var targetbounds = new SKRect((int)(rect.Left * scale.Width), (int)(rect.Top * scale.Height), (int)(rect.Width * scale.Width), (int)(rect.Height * scale.Height));
+                var targetbounds = SKRect.Create((int)(rect.Left * scale.Width), (int)(rect.Top * scale.Height), (int)(rect.Width * scale.Width), (int)(rect.Height * scale.Height));
 
                 nativeImpl.SetBounds(targetbounds);
-                nativeImpl.UpdateControl(nativeViewWidget, rect, original);
+                nativeImpl.UpdateControl(nativeViewWidget, targetbounds, original);
 
             }
 

@@ -88,7 +88,8 @@ namespace FluidSharp.Views.Forms
                 // TODO: Location On Device for Xamarin Forms (if this turns out to be needed)
                 var locationondevice = new SKPoint(e.Location.X / ScaleFactor, e.Location.Y / ScaleFactor);
                 var locationinview = new SKPoint(e.Location.X / ScaleFactor, e.Location.Y / ScaleFactor);
-                Touch?.Invoke(this, new TouchActionEventArgs(e.Id, (TouchActionType)e.ActionType, locationondevice, locationinview, e.InContact));
+                var viewsize = new SKSize((float)Width, (float)Height);
+                Touch?.Invoke(this, new TouchActionEventArgs(e.Id, (TouchActionType)e.ActionType, locationondevice, locationinview, viewsize, e.InContact));
 
             }
             catch (Exception ex)

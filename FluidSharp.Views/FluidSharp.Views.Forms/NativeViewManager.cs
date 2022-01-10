@@ -32,7 +32,7 @@ namespace FluidSharp.Views.Forms
             if (control.IsVisible != visible) control.IsVisible = visible;
         }
 
-        public override void UpdateControl(View control, NativeViewWidget nativeViewWidget, SKRect rect)
+        public override void UpdateControl(View control, NativeViewWidget nativeViewWidget, SKRect rect, SKRect original) 
         {
             var bounds = new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height);
             if (control.Bounds != bounds)

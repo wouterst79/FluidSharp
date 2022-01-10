@@ -4,10 +4,10 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Wouter Steenbergen</Authors>
-    <Version>1.0.1-alpha</Version>
+    <Version>1.1.0-alpha</Version>
     <Company>My Daily Bits LLC</Company>
     <Description>Xamarin Forms Views for FluidSharp (all platforms)</Description>
-    <Copyright>2020 Wouter Steenbergen</Copyright>
+    <Copyright>2020-2022 Wouter Steenbergen</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 

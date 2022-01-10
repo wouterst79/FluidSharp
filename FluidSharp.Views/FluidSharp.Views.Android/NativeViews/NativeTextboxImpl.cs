@@ -18,6 +18,8 @@ using Android.Content.Res;
 using Android.Runtime;
 using Android.App;
 using Android.Views.InputMethods;
+using Android.InputMethodServices;
+using Gfx = Android.Graphics;
 
 namespace FluidSharp.Views.Android.NativeViews
 {
@@ -27,13 +29,15 @@ namespace FluidSharp.Views.Android.NativeViews
 
         public bool? Visible;
         public SKRect? Rect;
-        public NativeTextboxWidget? Properties;
+        public NativeTextboxWidget Properties;
+        public float Scale;
 
-        public NativeTextboxState(bool? visible, SKRect? rect, NativeTextboxWidget properties)
+        public NativeTextboxState(bool? visible, SKRect? rect, NativeTextboxWidget properties, float scale)
         {
             Visible = visible;
             Rect = rect;
             Properties = properties;
+            Scale = scale;
         }
 
         public bool HasChanges(NativeTextboxState other)
@@ -57,6 +61,8 @@ namespace FluidSharp.Views.Android.NativeViews
                 if (Properties.Keyboard != other.Properties.Keyboard)
                     return true;
             }
+            if (Scale != other.Scale)
+                return true;
             return false;
         }
 
@@ -76,13 +82,14 @@ namespace FluidSharp.Views.Android.NativeViews
 
         private Func<Task> RequestRedraw;
         private new Func<string, Task> SetText;
-        private bool settingText;
+        public DateTime? TextReceived;
 
 
         private object RequestLock = new object();
         private NativeTextboxState? RequestedState;
         private NativeTextboxState CurrentState = new NativeTextboxState();
 
+        private int updatecounter;
 
         public NativeTextboxImpl(Context context, Func<Task> requestRedraw) : base(context)
         {
@@ -93,6 +100,9 @@ namespace FluidSharp.Views.Android.NativeViews
             FocusableInTouchMode = true;
 
             Background = null;
+
+            //var color = Gfx.Color.Red;
+            //SetBackgroundColor(color);
             //SetCursorVisible(true);
             //SetAutoSizeTextTypeWithDefaults(AutoSizeTextType.Uniform);
             //Delegate = this;
@@ -118,6 +128,7 @@ namespace FluidSharp.Views.Android.NativeViews
             OnTextChanged();
         }
 
+
         protected void OnTextChanged()
         {
             if (SetText != null)
@@ -129,15 +140,18 @@ namespace FluidSharp.Views.Android.NativeViews
                     {
                         lock (RequestLock)
                         {
-                            settingText = true;
+                            TextReceived = DateTime.Now;
+                            ++updatecounter;
                             CurrentState.Properties.Text = text;
+#if PRINTEVENTS
+                            System.Diagnostics.Debug.WriteLine($"recving text: {text}");
+#endif
                         }
                         await SetText(text);
                         await RequestRedraw();
                     }
                     finally
                     {
-                        //settingText = false;
                     }
                 });
             }
@@ -145,49 +159,56 @@ namespace FluidSharp.Views.Android.NativeViews
 
         public void SetVisible(bool visible)
         {
-            RequestState(new NativeTextboxState(visible, null, null));
+            RequestState(new NativeTextboxState(visible, null, null, CurrentState.Scale));
         }
 
         public void SetBounds(SKRect nativebounds)
         {
-            RequestState(new NativeTextboxState(null, nativebounds, null));
+            RequestState(new NativeTextboxState(null, nativebounds, null, CurrentState.Scale), true);
         }
 
         public void UpdateControl(NativeViewWidget nativeViewWidget, SKRect rect, SKRect original)
         {
             var textbox = (NativeTextboxWidget)nativeViewWidget;
-            if (!settingText)
-            {
-                RequestState(new NativeTextboxState(null, null, textbox));
-                SetText = textbox.SetText;
-            }
-            else if (this.Text == textbox.Text)
-                settingText = false;
+            var scale = rect.Width / original.Width;
+            RequestState(new NativeTextboxState(null, null, textbox, scale));
+            SetText = textbox.SetText;
         }
 
-        private void RequestState(NativeTextboxState state)
+        private bool waiting;
+        private void RequestState(NativeTextboxState state, bool wait = false)
         {
             lock (RequestLock)
             {
+                var startapply = false;
                 if (RequestedState != null)
                 {
                     RequestedState.Value.Update(state);
+                    startapply = waiting;
                 }
                 else if (state.HasChanges(CurrentState))
                 {
+                    waiting = wait;
                     RequestedState = state;
-                    ((Activity)base.Context).RunOnUiThread(ApplyState);
+                    startapply = !wait;
+                }
+                if (startapply)
+                {
+                    var count = (++updatecounter % 1000);
+                    ((Activity)base.Context).RunOnUiThread(() => ApplyState(count));
                 }
             }
         }
 
-        private void ApplyState()
+        private void ApplyState(int count)
         {
+
             lock (RequestLock)
             {
 
                 if (RequestedState is null) return;
                 var requested = RequestedState.Value;
+                RequestedState = null;
 
                 if (requested.Visible.HasValue && CurrentState.Visible != requested.Visible)
                 {
@@ -196,6 +217,7 @@ namespace FluidSharp.Views.Android.NativeViews
 #endif
                     CurrentState.Visible = requested.Visible;
                     Visibility = requested.Visible.Value ? ViewStates.Visible : ViewStates.Gone;
+                    ShowKeyboard(requested.Visible.Value);
                 }
 
                 if (requested.Rect.HasValue && CurrentState.Rect != requested.Rect)
@@ -208,7 +230,8 @@ namespace FluidSharp.Views.Android.NativeViews
                     //var parameters = new RelativeLayout.LayoutParams((int)nativebounds.Width, (int)nativebounds.Height);
                     var parameters = new RelativeLayout.LayoutParams((int)nativebounds.Width, RelativeLayout.LayoutParams.WrapContent);
                     parameters.LeftMargin = (int)nativebounds.Left;
-                    parameters.TopMargin = (int)nativebounds.Top;
+                    // v-center to give the native textbox margin some room
+                    parameters.TopMargin = (int)(nativebounds.Top - (Height - nativebounds.Height) / 2);
                     LayoutParameters = parameters;
                 }
 
@@ -220,20 +243,34 @@ namespace FluidSharp.Views.Android.NativeViews
                         CurrentState.Properties = new NativeTextboxWidget(Context, null, null, new Font(0), SKColors.Transparent, false, requested.Properties.Keyboard == Keyboard.Default ? Keyboard.Url : Keyboard.Default);
                     }
 
-                    Apply(ref CurrentState.Properties.Text, requested.Properties.Text, text =>
+                    if (TextReceived.HasValue && (Text == requested.Properties.Text || TextReceived.Value.AddSeconds(1) < DateTime.Now))
                     {
+                        TextReceived = null;
+#if PRINTEVENTS
+                        System.Diagnostics.Debug.WriteLine($"unlockg text: {requested.Properties.Text}");
+#endif
+                    }
+
+                    if (!TextReceived.HasValue && Text != requested.Properties.Text)
+                    {
+
+                        var text = requested.Properties.Text;
 #if PRINTEVENTS
                         System.Diagnostics.Debug.WriteLine($"setting text: {text}");
-                        //System.Diagnostics.Debug.WriteLine($"setting text: {text} ({CurrentState.Properties.Text} => {requested.Properties.Text})");
 #endif
                         SetText = null;
                         Text = text;
+                        SetSelection(text.Length);
                         SetText = requested.Properties.SetText;
-                    });
+
+                    }
                     Apply(ref CurrentState.Properties.Font, requested.Properties.Font, font =>
                     {
                         Typeface = font.ToTypeface();
-                        SetTextSize(ComplexUnitType.Sp, (float)font.TextSize);
+                        var unitType = ComplexUnitType.Dip;
+                        var size = font.TextSize;
+                        SetTextSize(unitType, size);
+                        //SetTextSize(ComplexUnitType.Dip, (float)font.TextSize / requested.Scale);
                     });
                     Apply(ref CurrentState.Properties.TextColor, requested.Properties.TextColor, color =>
                     {
@@ -256,6 +293,8 @@ namespace FluidSharp.Views.Android.NativeViews
                     });
                     Apply(ref CurrentState.Properties.Keyboard, requested.Properties.Keyboard, keyboard => InputType = keyboard.ToInputType());
 
+                    CurrentState.Scale = requested.Scale;
+
                     void Apply<T>(ref T current, T requested, Action<T> setvalue)
                     {
                         if (requested is null || !current.Equals(requested))
@@ -267,9 +306,19 @@ namespace FluidSharp.Views.Android.NativeViews
 
                 }
 
-                RequestedState = null;
-
             }
+        }
+
+        private void ShowKeyboard(bool show)
+        {
+
+            var inputManager = (InputMethodManager)base.Context.GetSystemService(global::Android.Content.Context.InputMethodService);
+
+            if (show)
+                inputManager.ShowSoftInput(this, ShowFlags.Implicit);
+            else
+                inputManager.HideSoftInputFromWindow(WindowToken, HideSoftInputFlags.None);
+
         }
 
     }
