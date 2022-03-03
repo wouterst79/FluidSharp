@@ -269,7 +269,7 @@ namespace FluidSharp.Animations
                 frame.StartTime = StartTime.Add(frame.FrameStart);
                 var minduration = frame.FrameEnd;
                 if (Duration < minduration) Duration = minduration;
-                Frames.Add(frame.Name, frame);
+                Frames[frame.Name] = frame;
                 return frame;
             }
 
