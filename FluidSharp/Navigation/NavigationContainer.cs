@@ -68,7 +68,10 @@ namespace FluidSharp.Navigation
         {
             Stack = new Stack<IWidgetSource>();
             Stack.Push(rootframe);
+            OnStackChanged();
         }
+
+        protected virtual void OnStackChanged() { }
 
         public virtual async Task Push(IWidgetSource Next)
         {
@@ -117,6 +120,9 @@ namespace FluidSharp.Navigation
                     Transition = null;
                     while (CurrentFrame != current)
                         Stack.Pop();
+
+                    OnStackChanged();
+
                 }
             }
 
@@ -149,6 +155,8 @@ namespace FluidSharp.Navigation
 
                 TransitionTarget = Stack.Pop();
 
+                OnStackChanged();
+
             }
 
             await Transition.Reverse();
@@ -161,6 +169,7 @@ namespace FluidSharp.Navigation
             if (open && TransitionTarget != null)
             {
                 Stack.Push(TransitionTarget);
+                OnStackChanged();
             }
             Transition = null;
             TransitionTarget = null;
@@ -175,6 +184,7 @@ namespace FluidSharp.Navigation
                     await visualState.EndEdit(false);
                     Stack.Pop();
                     SlideBackState = null;
+                    OnStackChanged();
                 }
             }
         }

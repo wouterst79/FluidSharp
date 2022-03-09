@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>FluidSharp.Views.Android</id>
-    <version>1.1.0-alpha</version>
+    <version>1.1.4-alpha</version>
     <title>$title$</title>
     <authors>Wouter Steenbergen</authors>
     <owners>My Daily Bits LLC</owners>
@@ -13,9 +13,9 @@
     <copyright>2020-2022 Wouter Steenbergen</copyright>
    <dependencies>
         <group targetFramework="MonoAndroid">
-          <dependency id="FluidSharp" version="1.1.0-alpha" />
+          <dependency id="FluidSharp" version="1.1.4-alpha" />
           <dependency id="SkiaSharp" version="2.80.2" />
-          <dependency id="SkiaSharp.TextBlocks" version="1.2.4" />
+          <dependency id="SkiaSharp.TextBlocks" version="1.2.7" />
           <dependency id="SkiaSharp.HarfBuzz" version="2.80.2" />
           <dependency id="SkiaSharp.Views" version="2.80.2" />
         </group>
