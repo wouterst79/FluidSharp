@@ -12,6 +12,8 @@ namespace FluidSharp
         float Width { get; }
         float Height { get; }
 
+        SKSize PlatformScale { get; }
+
         event EventHandler<PaintSurfaceEventArgs> PaintViewSurface;
         event EventHandler<TouchActionEventArgs> Touch;
 

@@ -73,7 +73,8 @@ namespace FluidSharp.Views.iOS
         public override void ViewSafeAreaInsetsDidChange()
         {
             var sai = View.SafeAreaInsets;
-            OnDeviceMarginsChanged(new Margins((float)sai.Left, (float)sai.Top, (float)sai.Right, (float)sai.Bottom));
+            var scale = FluidWidgetView.PlatformScale;
+            OnDeviceMarginsChanged(new Margins((float)sai.Left / scale.Width, (float)sai.Top / scale.Height, (float)sai.Right / scale.Width, (float)sai.Bottom / scale.Height));
             base.ViewSafeAreaInsetsDidChange();
         }
 

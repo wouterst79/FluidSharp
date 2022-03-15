@@ -80,10 +80,6 @@
     <None Include="FluidSharp.Views.iOS.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\SkiaSharp.TextBlocks\source\SkiaSharp.TextBlocks\SkiaSharp.TextBlocks.csproj">
-      <Project>{7514a407-146a-44aa-93c9-d823502a93e1}</Project>
-      <Name>SkiaSharp.TextBlocks</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\FluidSharp\FluidSharp.csproj">
       <Project>{24017854-5712-434B-B474-A75DD1D09A67}</Project>
       <Name>FluidSharp</Name>

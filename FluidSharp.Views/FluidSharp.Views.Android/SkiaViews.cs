@@ -1,4 +1,5 @@
 ﻿using Android.App;
+using Android.Util;
 using Android.Views;
 using FluidSharp.Touch;
 using SkiaSharp;
@@ -32,9 +33,14 @@ namespace FluidSharp.Views.Android
 
         public SkiaGLView(global::Android.Content.Context context) : base(context)
         {
-            PlatformScale = new SKSize(Resources.DisplayMetrics.Xdpi / 140, Resources.DisplayMetrics.Ydpi / 140);
+            UpdateScale();
         }
 
+        private void UpdateScale()
+        {
+            var scale = Resources.DisplayMetrics.Density * Resources.Configuration.FontScale;
+            PlatformScale = new SKSize(scale, scale);
+        }
 
         protected override void OnPaintSurface(SKPaintGLSurfaceEventArgs e)
         {
@@ -43,6 +49,7 @@ namespace FluidSharp.Views.Android
             // Make sure the canvas is drawn using pixel coordinates (but still high res):
 
             //          var factor = (float)MathF.Round(e.BackendRenderTarget.Width / w * 4) / 4;
+            UpdateScale();
             var platformzoom = SKMatrix.CreateScale(PlatformScale.Width, PlatformScale.Height);
             //var platformzoom = SKMatrix.CreateScale(factor, factor);
             canvas.Concat(ref platformzoom);
@@ -277,12 +284,16 @@ namespace FluidSharp.Views.Android
         public SkiaCanvasView(global::Android.Content.Context context) : base(context)
         {
 
-            PlatformScale = new SKSize(Resources.DisplayMetrics.Xdpi / 140, Resources.DisplayMetrics.Ydpi / 140);
-
+            UpdateScale();
 
             this.PaintSurface += SkiaControl_PaintSurface;
         }
 
+        private void UpdateScale()
+        {
+            var scale = Resources.DisplayMetrics.Density * Resources.Configuration.FontScale;
+            PlatformScale = new SKSize(scale, scale);
+        }
 
         private void SkiaControl_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
@@ -290,6 +301,7 @@ namespace FluidSharp.Views.Android
             var canvas = e.Surface.Canvas;
             // Make sure the canvas is drawn using pixel coordinates (but still high res):
 
+            UpdateScale();
 
             //            var factor = (float)MathF.Round(e.Info.Width / w * 4) / 4;
             var platformzoom = SKMatrix.CreateScale(PlatformScale.Width, PlatformScale.Height);

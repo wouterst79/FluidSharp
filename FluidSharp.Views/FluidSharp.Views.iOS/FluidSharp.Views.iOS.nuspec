@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>FluidSharp.Views.iOS</id>
-    <version>1.1.4-alpha</version>
+    <version>1.1.6-alpha</version>
     <title>$title$</title>
     <authors>Wouter Steenbergen</authors>
     <owners>My Daily Bits LLC</owners>
@@ -14,7 +14,7 @@
    <dependencies>
         <group targetFramework="Xamarin.iOS10">
             <!--Xamarin.iOS10 dependencies go here-->
-          <dependency id="FluidSharp" version="1.1.4-alpha" />
+          <dependency id="FluidSharp" version="1.1.6-alpha" />
           <dependency id="SkiaSharp" version="2.80.2" />
           <dependency id="SkiaSharp.TextBlocks" version="1.2.7" />
           <dependency id="SkiaSharp.HarfBuzz" version="2.80.2" />

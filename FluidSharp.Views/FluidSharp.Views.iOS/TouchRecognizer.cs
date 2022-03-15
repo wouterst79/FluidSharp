@@ -14,6 +14,7 @@ namespace FluidSharp.Views.iOS
     {
 
         UIView view;            // iOS UIView 
+        ISkiaView skiaView;
 
         bool capture = true;
 
@@ -28,6 +29,7 @@ namespace FluidSharp.Views.iOS
         public TouchRecognizer(UIView view)
         {
             this.view = view;
+            skiaView = (ISkiaView)view;
             viewDictionary.Add(view, this);
         }
 
@@ -135,16 +137,18 @@ namespace FluidSharp.Views.iOS
         void FireEvent(TouchRecognizer recognizer, long id, TouchActionType actionType, UITouch touch, bool isInContact)
         {
 
+            var scale = skiaView.PlatformScale;
+
             var rootview = UIApplication.SharedApplication.KeyWindow.RootViewController.View;
             var ondevice = touch.LocationInView(rootview);
-            var pointondevice = new SKPoint((float)ondevice.X, (float)ondevice.Y);
+            var pointondevice = new SKPoint((float)ondevice.X / scale.Width, (float)ondevice.Y / scale.Height);
 
-            // Convert touch location to Xamarin.Forms Point value
+            // Convert touch location
             var cgPoint = touch.LocationInView(recognizer.View);
-            var xfPoint = new SKPoint((float)cgPoint.X, (float)cgPoint.Y);
+            var xfPoint = new SKPoint((float)cgPoint.X / scale.Width, (float)cgPoint.Y / scale.Height);
 
             var viewsize = recognizer.View.Bounds.Size;
-//            var cgsize = touch.LocationInView(recognizer.View);
+            //            var cgsize = touch.LocationInView(recognizer.View);
             var size = new SKSize((float)viewsize.Width, (float)viewsize.Height);
 
 
