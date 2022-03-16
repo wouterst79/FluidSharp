@@ -109,6 +109,8 @@ namespace FluidSharp.Views.iOS
             GestureRecognizers = new UIGestureRecognizer[] { touchrecognizer };
             touchrecognizer.Touch += Touchrecognizer_Touch;
 
+            UpdateScale();
+
             PaintSurface += SkiaControl_PaintSurface;
         }
 

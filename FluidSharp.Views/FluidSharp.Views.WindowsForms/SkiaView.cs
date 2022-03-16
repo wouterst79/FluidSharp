@@ -20,7 +20,7 @@ namespace FluidSharp.Views.WindowsForms
         float ISkiaView.Width => Width / PlatformScale.Width;
         float ISkiaView.Height => Height / PlatformScale.Height;
 
-        public SizeF PlatformScale { get; set; }
+        public SKSize PlatformScale { get; set; }
 
         SKSize GetSize() => new SKSize(Width / PlatformScale.Width, Height / PlatformScale.Height);
 
@@ -30,7 +30,7 @@ namespace FluidSharp.Views.WindowsForms
             get => autoScale; set
             {
                 autoScale = value;
-                if (!autoScale) PlatformScale = new SizeF(1, 1);
+                if (!autoScale) PlatformScale = new SKSize(1, 1);
             }
         }
 
@@ -64,7 +64,7 @@ namespace FluidSharp.Views.WindowsForms
         protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
         {
             if (AutoScale)
-                PlatformScale = new SizeF(factor.Width, factor.Width);
+                PlatformScale = new SKSize(factor.Width, factor.Width);
             base.ScaleControl(factor, specified);
         }
 
