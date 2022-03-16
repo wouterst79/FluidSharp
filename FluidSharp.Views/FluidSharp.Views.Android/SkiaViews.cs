@@ -18,7 +18,8 @@ namespace FluidSharp.Views.Android
 
         float ISkiaView.Width => Width / PlatformScale.Width;
         float ISkiaView.Height => Height / PlatformScale.Height;
-        public SKSize PlatformScale;
+
+        public SKSize PlatformScale { get; set; }
 
         SKSize GetSize() => new SKSize(Width / PlatformScale.Width, Height / PlatformScale.Height);
         SKPoint ScalePoint(SKPoint point) => new SKPoint(point.X / PlatformScale.Width, point.Y / PlatformScale.Height);
@@ -268,7 +269,8 @@ namespace FluidSharp.Views.Android
 
         float ISkiaView.Width => Width / PlatformScale.Width;
         float ISkiaView.Height => Height / PlatformScale.Height;
-        public SKSize PlatformScale;
+
+        public SKSize PlatformScale { get; set; }
 
         SKSize GetSize() => new SKSize(Width / PlatformScale.Width, Height / PlatformScale.Height);
         SKPoint ScalePoint(SKPoint point) => new SKPoint(point.X / PlatformScale.Width, point.Y / PlatformScale.Height);

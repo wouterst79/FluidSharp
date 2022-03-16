@@ -19,7 +19,8 @@ namespace FluidSharp.Views.WindowsForms
 
         float ISkiaView.Width => Width / PlatformScale.Width;
         float ISkiaView.Height => Height / PlatformScale.Height;
-        public SizeF PlatformScale;
+
+        public SizeF PlatformScale { get; set; }
 
         SKSize GetSize() => new SKSize(Width / PlatformScale.Width, Height / PlatformScale.Height);
 
