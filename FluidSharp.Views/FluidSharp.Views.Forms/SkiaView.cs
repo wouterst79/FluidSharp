@@ -19,6 +19,8 @@ namespace FluidSharp.Views.Forms
         float ISkiaView.Width => (float)Width;
         float ISkiaView.Height => (float)Height;
 
+        public SKSize PlatformScale { get; } = new SKSize(1, 1);
+
         float ScaleFactor;
 
         public event EventHandler<PaintSurfaceEventArgs> PaintViewSurface;
@@ -104,6 +106,7 @@ namespace FluidSharp.Views.Forms
             base.OnSizeAllocated(width, height);
             SetLayoutBounds(canvasView, new Rectangle(0, 0, width, height));
         }
+
     }
 
 }
