@@ -62,7 +62,7 @@ namespace FluidSharp.Widgets
             }
             catch (Exception ex)
             {
-                throw new PaintException($"unable to paint text: {TextBlock.Text}", ex, new Dictionary<string, string>() { { "Text", TextBlock.Text } });
+                throw new PaintException($"unable to paint text: {TextBlock.Text}", this, ex, new Dictionary<string, string>() { { "Text", TextBlock.Text } });
             }
         }
 
@@ -74,7 +74,7 @@ namespace FluidSharp.Widgets
             }
             catch (Exception ex)
             {
-                throw new PaintException($"unable to paint text: {TextBlock.Text}", ex, new Dictionary<string, string>() { { "Text", TextBlock.Text } });
+                throw new PaintException($"unable to paint text: {TextBlock.Text}", this, ex, new Dictionary<string, string>() { { "Text", TextBlock.Text } });
             }
         }
 

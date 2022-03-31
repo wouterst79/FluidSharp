@@ -57,9 +57,13 @@ namespace FluidSharp
 
                 return result;
             }
+            catch (PaintException)
+            {
+                throw;
+            }
             catch (Exception ex)
             {
-                throw new PaintException($"Unable to paint {widget}", ex);
+                throw new PaintException($"Unable to paint {widget}", widget, ex);
             }
         }
 
