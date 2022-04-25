@@ -2,6 +2,7 @@
 using FluidSharp.Widgets;
 using SkiaSharp;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.WebSockets;
@@ -248,7 +249,7 @@ namespace FluidSharp.Animations
         public class Coordinated : Animation
         {
 
-            private Dictionary<string, Frame> Frames = new Dictionary<string, Frame>();
+            private ConcurrentDictionary<string, Frame> Frames = new ConcurrentDictionary<string, Frame>();
 
             public Coordinated(DateTime startTime, params Frame[] frames)
             {

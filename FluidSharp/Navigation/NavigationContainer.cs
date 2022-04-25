@@ -201,18 +201,19 @@ namespace FluidSharp.Navigation
         {
 
             var transition = Transition;
-            if (transition != null)
+            var transitionTarget = TransitionTarget;
+            var currentFrame = CurrentFrame;
+
+            if (transition != null && transitionTarget != null)
             {
-                if (!visualState.NavigationTop.IsContext(TransitionTarget))
-                    visualState.NavigationTop = new NavigationTop(TransitionTarget!);
-                return transition.MakeWidget(this, visualState, CurrentFrame, TransitionTarget!);
+                if (!visualState.NavigationTop.IsContext(transitionTarget))
+                    visualState.NavigationTop = new NavigationTop(transitionTarget);
+                return transition.MakeWidget(this, visualState, currentFrame, transitionTarget);
             }
 
             if (Stack == null) throw new Exception("No root frame supplied");
 
-            var currentframe = CurrentFrame;
-
-            if (currentframe is IPage page)
+            if (currentFrame is IPage page)
             {
                 var canslideback = Stack.Count > 1 && page.CanSlideBack;
                 if (canslideback)
@@ -223,7 +224,7 @@ namespace FluidSharp.Navigation
 
             }
 
-            return currentframe.MakeWidget(visualState);
+            return currentFrame.MakeWidget(visualState);
 
         }
 
