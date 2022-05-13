@@ -40,6 +40,9 @@ namespace FluidSharp.Engine
 
         public PerformanceTracker PerformanceTracker;
 
+        public Action<Exception>? OnPaintException;
+        public Action<Exception, TouchActionEventArgs>? OnTouchException;
+
         private bool animationRunning;
         private bool painting;
         private bool AnimationRunning
@@ -159,56 +162,71 @@ namespace FluidSharp.Engine
         private void View_PaintControlSurface(object sender, PaintSurfaceEventArgs e)
         {
 
-            painting = true;
-
-            PerformanceTracker.PaintStart();
-
-            MeasureCache.NativeViewManager?.PaintStarted();
-
-            var backgroundcolor = IsTransparent ? SKColors.Transparent : SKColors.White;
-            if (WidgetView is IBackgroundColorSource backgroundColorSource)
-            {
-                var bg = backgroundColorSource.GetBackgroundColor(VisualState);
-                if (bg != default) backgroundcolor = bg;
-            }
-            var canvas = e.Canvas;
-            canvas.Clear(backgroundcolor);
-
-
-            Widget widget;
             try
             {
-                widget = MakeWidget();
+
+                painting = true;
+
+                PerformanceTracker.PaintStart();
+
+                MeasureCache.NativeViewManager?.PaintStarted();
+
+                var backgroundcolor = IsTransparent ? SKColors.Transparent : SKColors.White;
+                if (WidgetView is IBackgroundColorSource backgroundColorSource)
+                {
+                    var bg = backgroundColorSource.GetBackgroundColor(VisualState);
+                    if (bg != default) backgroundcolor = bg;
+                }
+                var canvas = e.Canvas;
+                canvas.Clear(backgroundcolor);
+
+
+                Widget widget;
+                try
+                {
+                    widget = MakeWidget();
+                }
+                catch (Exception ex)
+                {
+                    throw new MakeWidgetException("unable to make widget", ex);
+                }
+
+                PerformanceTracker.WidgetsCreated();
+
+
+                if (widget != null)
+                {
+
+
+                    var width = e.Width;
+                    var height = e.Height;
+
+                    var layoutsurface = new LayoutSurface(Device, MeasureCache, canvas, VisualState);
+                    var actual = layoutsurface.Paint(widget, new SKRect(0, 0, width, height));
+
+                    if (WidgetView.AutoSizeHeight)
+                        WidgetView.SetHeight(actual.Height);
+
+                    AnimationRunning = layoutsurface.HasActiveAnimations;
+
+                    //System.Diagnostics.Debug.WriteLine($"{Name} - {layoutsurface.HasActiveAnimations}");
+
+                }
+
+                PerformanceTracker.PaintFinished();
+
+                MeasureCache.NativeViewManager?.PaintCompleted();
+
             }
             catch (Exception ex)
             {
-                throw new MakeWidgetException("unable to make widget", ex);
+                if (OnPaintException is null) throw;
+                else OnPaintException(ex);
             }
-
-            PerformanceTracker.WidgetsCreated();
-
-
-            if (widget != null)
+            finally
             {
-                var width = e.Width;
-                var height = e.Height;
-                var layoutsurface = new LayoutSurface(Device, MeasureCache, canvas, VisualState);
-                var actual = layoutsurface.Paint(widget, new SKRect(0, 0, width, height));
-
-                if (WidgetView.AutoSizeHeight)
-                    WidgetView.SetHeight(actual.Height);
-
-                AnimationRunning = layoutsurface.HasActiveAnimations;
-
-                //System.Diagnostics.Debug.WriteLine($"{Name} - {layoutsurface.HasActiveAnimations}");
-
+                painting = false;
             }
-
-            PerformanceTracker.PaintFinished();
-
-            MeasureCache.NativeViewManager?.PaintCompleted();
-
-            painting = false;
 
         }
 
@@ -247,32 +265,42 @@ namespace FluidSharp.Engine
 #if DEBUG
             //Debug.WriteLine($"TOUCH: {e.PointerId}, {e.Type}: d={e.LocationOnDevice}, v={e.LocationInView}, {e.IsInContact}");
 #endif
-
-            if (e.IsInContact && GestureArena == null)
+            try
             {
 
-                var widget = MakeWidget();
+                if (e.IsInContact && GestureArena == null)
+                {
 
-                if (widget == null)
-                    return;
+                    var widget = MakeWidget();
 
-                var width = View.Width;
-                var height = View.Height;
+                    if (widget == null)
+                        return;
 
-                var vs = new VisualState(async () => { }, null);
-                var rect = new SKRect(0, 0, width, height);
-                var hittestlayout = new HitTestLayoutSurface(Device, MeasureCache, e.LocationInView, vs, rect);
-                hittestlayout.Paint(widget, rect);
+                    var width = View.Width;
+                    var height = View.Height;
 
-                GestureArena = new GestureArena(hittestlayout.Hits, e.PointerId);
+                    var vs = new VisualState(async () => { }, null);
+                    var rect = new SKRect(0, 0, width, height);
+                    var hittestlayout = new HitTestLayoutSurface(Device, MeasureCache, e.LocationInView, vs, rect);
+                    hittestlayout.Paint(widget, rect);
+
+                    GestureArena = new GestureArena(hittestlayout.Hits, e.PointerId);
+
+                }
+
+                if (GestureArena != null)
+                {
+                    GestureArena.Touch(e.PointerId, e.Type, e.LocationOnDevice, e.LocationInView, e.ViewSize, e.IsInContact, out var iscompleted);
+                    if (iscompleted) GestureArena = null;
+                }
 
             }
-
-            if (GestureArena != null)
+            catch (Exception ex)
             {
-                GestureArena.Touch(e.PointerId, e.Type, e.LocationOnDevice, e.LocationInView, e.ViewSize, e.IsInContact, out var iscompleted);
-                if (iscompleted) GestureArena = null;
+                if (OnTouchException is null) throw;
+                else OnTouchException(ex, e);
             }
+
 
         }
 

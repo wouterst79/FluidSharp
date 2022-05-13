@@ -231,7 +231,16 @@ namespace FluidSharp.Navigation
         public SKColor GetBackgroundColor(VisualState visualState)
         {
             SKColor result = default;
-            foreach (var item in Stack)
+
+            var top = Stack.Peek();
+            if (top is IBackgroundColorSource topBackgroundColorSource)
+            {
+                result = topBackgroundColorSource.GetBackgroundColor(visualState);
+                if (result != default)
+                    return result;
+            }
+
+            foreach (var item in Stack.ToArray())
             {
                 if (item is IBackgroundColorSource backgroundColorSource)
                 {
