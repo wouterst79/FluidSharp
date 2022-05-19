@@ -90,7 +90,7 @@ namespace FluidSharp.Views.UWP
             Device.FlowDirection = Xamarin.Forms.Device.FlowDirection == Xamarin.Forms.FlowDirection.RightToLeft ? SkiaSharp.TextBlocks.Enum.FlowDirection.RightToLeft : SkiaSharp.TextBlocks.Enum.FlowDirection.LeftToRight;
 #endif
 
-            NativeViewManager = new NativeViewManager(this);
+            NativeViewManager = new NativeViewManager(this, this);
 
             Implementation = new FluidWidgetViewImplementation(SkiaView, this, Device);
 

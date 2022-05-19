@@ -10,8 +10,11 @@ namespace FluidSharp.Navigation
         public NavigationTransitionState(bool startingstate, Func<bool, Task>? onTransitionCompleted) : base(startingstate)
         {
             CurrentDuration = PushPageTransition.DefaultDuration;
+            _ = SetTarget(!startingstate, default);
             if (onTransitionCompleted != null)
+            {
                 OnCompleted = () => onTransitionCompleted(Current);
+            }
         }
 
         public override int GetDirection(bool from, bool to)

@@ -22,7 +22,7 @@ namespace FluidSharp.Widgets
         public bool IsMultiTouch;
         public Func<SKPoint, Task> OnTouchDown;
         public Func<Task> OnWin;
-        public Func<Task> OnTouchUp;
+        public Func<TimeSpan, Task> OnTouchUp;
 
         public Widget Child;
 
@@ -144,15 +144,15 @@ namespace FluidSharp.Widgets
 
         public virtual void Released(TimeSpan duration)
         {
-            Invoke(OnTouchUp);
+            if (OnTouchUp != null) Task.Run(() => OnTouchUp(duration));
         }
 
-        public virtual void Cancelled()
+        public virtual void Cancelled(TimeSpan duration)
         {
-            Invoke(OnTouchUp);
+            if (OnTouchUp != null) Task.Run(() => OnTouchUp(duration));
         }
 
-        public void Invoke(Func<Task> func)
+        public void Invoke(Func<Task>? func)
         {
             if (func != null) Task.Run(func);
         }
@@ -176,10 +176,35 @@ namespace FluidSharp.Widgets
 
             public static TimeSpan LongTapDuration = TimeSpan.FromMilliseconds(500);
 
+            public static TimeSpan DefaultTapThrottle = TimeSpan.FromMilliseconds(500);
+
+            public TimeSpan TapThrottle = DefaultTapThrottle;
+
+            private static DateTime LastTapDetected;
+            private static object? LastTapContext;
+
             public TapGestureDetector(VisualState visualState, object context, Func<Task> onTapped, Func<Task>? onLongTapped, Widget child) : base(visualState, context, child)
             {
                 OnTouchDown = async (location) => visualState.TouchTarget = new TouchTarget(new TapContext(context), location);
-                OnTouchUp = async () => visualState.TouchTarget = new TouchTarget();
+                OnTouchUp = async (duration) =>
+                {
+
+                    if (LastTapDetected.Add(TapThrottle) < DateTime.Now || !visualState.TouchTarget.IsContext(LastTapContext))
+                    {
+
+                        LastTapContext = context;
+                        LastTapDetected = DateTime.Now;
+
+                        if (duration > LongTapDuration && OnLongTapped != null)
+                            Invoke(OnLongTapped);
+                        else
+                            Invoke(OnTapped);
+
+                    }
+
+                    visualState.TouchTarget = new TouchTarget();
+
+                };
                 OnTapped = async () =>
                 {
                     try
@@ -226,14 +251,6 @@ namespace FluidSharp.Widgets
                 return (false, loose);
             }
 
-            public override void Released(TimeSpan duration)
-            {
-                base.Released(duration);
-                if (duration > LongTapDuration && OnLongTapped != null)
-                    Invoke(OnLongTapped);
-                else
-                    Invoke(OnTapped);
-            }
         }
 
         // Detectors
@@ -245,7 +262,7 @@ namespace FluidSharp.Widgets
             public TouchLocationDetector(VisualState visualState, object context, Func<SKPoint, Task> onTouch, Widget child) : base(visualState, context, child)
             {
                 OnWin = async () => visualState.TouchTarget = new TouchTarget(new TapContext(context), default);
-                OnTouchUp = async () => visualState.TouchTarget = new TouchTarget();
+                OnTouchUp = async (duration) => visualState.TouchTarget = new TouchTarget();
                 OnTouch = onTouch;
             }
 

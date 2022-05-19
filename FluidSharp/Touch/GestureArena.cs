@@ -91,6 +91,7 @@ namespace FluidSharp.Touch
                         var starttime = StartTimes.GetOrAdd(pointerId, DateTime.Now);
 
                         var haswon = Detectors.Count == 1;
+                        var duration = DateTime.Now.Subtract(Started);
                         foreach (var detector in DetectorOrder)
                             if (Detectors.TryGetValue(detector, out var hit))
                             {
@@ -112,13 +113,13 @@ namespace FluidSharp.Touch
                                             if (candidate == detector)
                                                 Detectors.TryAdd(detector, hit);
                                             else
-                                                candidate.Cancelled();
+                                                candidate.Cancelled(duration);
                                         }
                                         break;
                                     }
                                     else if (move.loose)
                                     {
-                                        detector.Cancelled();
+                                        detector.Cancelled(duration);
                                         Detectors.TryRemove(detector, out _);
                                     }
                                 }
@@ -129,12 +130,13 @@ namespace FluidSharp.Touch
                 case TouchActionType.Released:
                     {
 
+                        var duration = DateTime.Now.Subtract(Started);
                         foreach (var detector in DetectorOrder)
                             if (Detectors.TryGetValue(detector, out var hit))
                             {
                                 if (detector.IsMultiTouch || isinitialpointer || !isInContact)
                                 {
-                                    detector.Released(DateTime.Now.Subtract(Started));
+                                    detector.Released(duration);
                                     Detectors.TryRemove(detector, out _);
                                 }
                             }
@@ -146,12 +148,13 @@ namespace FluidSharp.Touch
                 case TouchActionType.Cancelled:
                     {
 
+                        var duration = DateTime.Now.Subtract(Started);
                         foreach (var detector in DetectorOrder)
                             if (Detectors.TryGetValue(detector, out var hit))
                             {
                                 if (detector.IsMultiTouch || isinitialpointer || !isInContact)
                                 {
-                                    detector.Cancelled();
+                                    detector.Cancelled(duration);
                                     Detectors.TryRemove(detector, out _);
                                 }
                             }
