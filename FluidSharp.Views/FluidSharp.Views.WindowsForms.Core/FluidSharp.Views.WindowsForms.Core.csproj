@@ -41,7 +41,7 @@
 
   <ItemGroup>
     <PackageReference Include="SkiaSharp.Views.WindowsForms" Version="2.80.3" />
-    <PackageReference Include="FluidSharp" Version="1.1.10-alpha" />
+    <PackageReference Include="FluidSharp" Version="1.1.11-alpha" />
   </ItemGroup>
 
   <ItemGroup>

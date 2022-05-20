@@ -168,8 +168,11 @@ namespace FluidSharp.Navigation
         {
             if (open && TransitionTarget != null)
             {
-                Stack.Push(TransitionTarget);
-                OnStackChanged();
+                if (!Stack.Contains(TransitionTarget))
+                {
+                    Stack.Push(TransitionTarget);
+                    OnStackChanged();
+                }
             }
             Transition = null;
             TransitionTarget = null;
