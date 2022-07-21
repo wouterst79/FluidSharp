@@ -484,412 +484,415 @@ namespace FluidSharp.Views.Android
 			public static int iconTintMode = 2130837638;
 			
 			// aapt resource value: 0x7F020088
-			public static int imageButtonStyle = 2130837640;
+			public static int ignorePixelScaling = 2130837640;
 			
 			// aapt resource value: 0x7F020089
-			public static int indeterminateProgressStyle = 2130837641;
+			public static int imageButtonStyle = 2130837641;
 			
 			// aapt resource value: 0x7F02008A
-			public static int initialActivityCount = 2130837642;
+			public static int indeterminateProgressStyle = 2130837642;
 			
 			// aapt resource value: 0x7F02008B
-			public static int isLightTheme = 2130837643;
+			public static int initialActivityCount = 2130837643;
 			
 			// aapt resource value: 0x7F02008C
-			public static int itemPadding = 2130837644;
+			public static int isLightTheme = 2130837644;
 			
 			// aapt resource value: 0x7F02008D
-			public static int keylines = 2130837645;
+			public static int itemPadding = 2130837645;
 			
 			// aapt resource value: 0x7F02008E
-			public static int lastBaselineToBottomHeight = 2130837646;
+			public static int keylines = 2130837646;
 			
 			// aapt resource value: 0x7F02008F
-			public static int layout = 2130837647;
+			public static int lastBaselineToBottomHeight = 2130837647;
 			
 			// aapt resource value: 0x7F020090
-			public static int layout_anchor = 2130837648;
+			public static int layout = 2130837648;
 			
 			// aapt resource value: 0x7F020091
-			public static int layout_anchorGravity = 2130837649;
+			public static int layout_anchor = 2130837649;
 			
 			// aapt resource value: 0x7F020092
-			public static int layout_behavior = 2130837650;
+			public static int layout_anchorGravity = 2130837650;
 			
 			// aapt resource value: 0x7F020093
-			public static int layout_dodgeInsetEdges = 2130837651;
+			public static int layout_behavior = 2130837651;
 			
 			// aapt resource value: 0x7F020094
-			public static int layout_insetEdge = 2130837652;
+			public static int layout_dodgeInsetEdges = 2130837652;
 			
 			// aapt resource value: 0x7F020095
-			public static int layout_keyline = 2130837653;
+			public static int layout_insetEdge = 2130837653;
 			
 			// aapt resource value: 0x7F020096
-			public static int lineHeight = 2130837654;
+			public static int layout_keyline = 2130837654;
 			
 			// aapt resource value: 0x7F020097
-			public static int listChoiceBackgroundIndicator = 2130837655;
+			public static int lineHeight = 2130837655;
 			
 			// aapt resource value: 0x7F020098
-			public static int listDividerAlertDialog = 2130837656;
+			public static int listChoiceBackgroundIndicator = 2130837656;
 			
 			// aapt resource value: 0x7F020099
-			public static int listItemLayout = 2130837657;
+			public static int listDividerAlertDialog = 2130837657;
 			
 			// aapt resource value: 0x7F02009A
-			public static int listLayout = 2130837658;
+			public static int listItemLayout = 2130837658;
 			
 			// aapt resource value: 0x7F02009B
-			public static int listMenuViewStyle = 2130837659;
+			public static int listLayout = 2130837659;
 			
 			// aapt resource value: 0x7F02009C
-			public static int listPopupWindowStyle = 2130837660;
+			public static int listMenuViewStyle = 2130837660;
 			
 			// aapt resource value: 0x7F02009D
-			public static int listPreferredItemHeight = 2130837661;
+			public static int listPopupWindowStyle = 2130837661;
 			
 			// aapt resource value: 0x7F02009E
-			public static int listPreferredItemHeightLarge = 2130837662;
+			public static int listPreferredItemHeight = 2130837662;
 			
 			// aapt resource value: 0x7F02009F
-			public static int listPreferredItemHeightSmall = 2130837663;
+			public static int listPreferredItemHeightLarge = 2130837663;
 			
 			// aapt resource value: 0x7F0200A0
-			public static int listPreferredItemPaddingLeft = 2130837664;
+			public static int listPreferredItemHeightSmall = 2130837664;
 			
 			// aapt resource value: 0x7F0200A1
-			public static int listPreferredItemPaddingRight = 2130837665;
+			public static int listPreferredItemPaddingLeft = 2130837665;
 			
 			// aapt resource value: 0x7F0200A2
-			public static int logo = 2130837666;
+			public static int listPreferredItemPaddingRight = 2130837666;
 			
 			// aapt resource value: 0x7F0200A3
-			public static int logoDescription = 2130837667;
+			public static int logo = 2130837667;
 			
 			// aapt resource value: 0x7F0200A4
-			public static int maxButtonHeight = 2130837668;
+			public static int logoDescription = 2130837668;
 			
 			// aapt resource value: 0x7F0200A5
-			public static int measureWithLargestChild = 2130837669;
+			public static int maxButtonHeight = 2130837669;
 			
 			// aapt resource value: 0x7F0200A6
-			public static int multiChoiceItemLayout = 2130837670;
+			public static int measureWithLargestChild = 2130837670;
 			
 			// aapt resource value: 0x7F0200A7
-			public static int navigationContentDescription = 2130837671;
+			public static int multiChoiceItemLayout = 2130837671;
 			
 			// aapt resource value: 0x7F0200A8
-			public static int navigationIcon = 2130837672;
+			public static int navigationContentDescription = 2130837672;
 			
 			// aapt resource value: 0x7F0200A9
-			public static int navigationMode = 2130837673;
+			public static int navigationIcon = 2130837673;
 			
 			// aapt resource value: 0x7F0200AA
-			public static int numericModifiers = 2130837674;
+			public static int navigationMode = 2130837674;
 			
 			// aapt resource value: 0x7F0200AB
-			public static int overlapAnchor = 2130837675;
+			public static int numericModifiers = 2130837675;
 			
 			// aapt resource value: 0x7F0200AC
-			public static int paddingBottomNoButtons = 2130837676;
+			public static int overlapAnchor = 2130837676;
 			
 			// aapt resource value: 0x7F0200AD
-			public static int paddingEnd = 2130837677;
+			public static int paddingBottomNoButtons = 2130837677;
 			
 			// aapt resource value: 0x7F0200AE
-			public static int paddingStart = 2130837678;
+			public static int paddingEnd = 2130837678;
 			
 			// aapt resource value: 0x7F0200AF
-			public static int paddingTopNoTitle = 2130837679;
+			public static int paddingStart = 2130837679;
 			
 			// aapt resource value: 0x7F0200B0
-			public static int panelBackground = 2130837680;
+			public static int paddingTopNoTitle = 2130837680;
 			
 			// aapt resource value: 0x7F0200B1
-			public static int panelMenuListTheme = 2130837681;
+			public static int panelBackground = 2130837681;
 			
 			// aapt resource value: 0x7F0200B2
-			public static int panelMenuListWidth = 2130837682;
+			public static int panelMenuListTheme = 2130837682;
 			
 			// aapt resource value: 0x7F0200B3
-			public static int popupMenuStyle = 2130837683;
+			public static int panelMenuListWidth = 2130837683;
 			
 			// aapt resource value: 0x7F0200B4
-			public static int popupTheme = 2130837684;
+			public static int popupMenuStyle = 2130837684;
 			
 			// aapt resource value: 0x7F0200B5
-			public static int popupWindowStyle = 2130837685;
+			public static int popupTheme = 2130837685;
 			
 			// aapt resource value: 0x7F0200B6
-			public static int preserveIconSpacing = 2130837686;
+			public static int popupWindowStyle = 2130837686;
 			
 			// aapt resource value: 0x7F0200B7
-			public static int progressBarPadding = 2130837687;
+			public static int preserveIconSpacing = 2130837687;
 			
 			// aapt resource value: 0x7F0200B8
-			public static int progressBarStyle = 2130837688;
+			public static int progressBarPadding = 2130837688;
 			
 			// aapt resource value: 0x7F0200B9
-			public static int queryBackground = 2130837689;
+			public static int progressBarStyle = 2130837689;
 			
 			// aapt resource value: 0x7F0200BA
-			public static int queryHint = 2130837690;
+			public static int queryBackground = 2130837690;
 			
 			// aapt resource value: 0x7F0200BB
-			public static int radioButtonStyle = 2130837691;
+			public static int queryHint = 2130837691;
 			
 			// aapt resource value: 0x7F0200BC
-			public static int ratingBarStyle = 2130837692;
+			public static int radioButtonStyle = 2130837692;
 			
 			// aapt resource value: 0x7F0200BD
-			public static int ratingBarStyleIndicator = 2130837693;
+			public static int ratingBarStyle = 2130837693;
 			
 			// aapt resource value: 0x7F0200BE
-			public static int ratingBarStyleSmall = 2130837694;
+			public static int ratingBarStyleIndicator = 2130837694;
 			
 			// aapt resource value: 0x7F0200BF
-			public static int searchHintIcon = 2130837695;
+			public static int ratingBarStyleSmall = 2130837695;
 			
 			// aapt resource value: 0x7F0200C0
-			public static int searchIcon = 2130837696;
+			public static int searchHintIcon = 2130837696;
 			
 			// aapt resource value: 0x7F0200C1
-			public static int searchViewStyle = 2130837697;
+			public static int searchIcon = 2130837697;
 			
 			// aapt resource value: 0x7F0200C2
-			public static int seekBarStyle = 2130837698;
+			public static int searchViewStyle = 2130837698;
 			
 			// aapt resource value: 0x7F0200C3
-			public static int selectableItemBackground = 2130837699;
+			public static int seekBarStyle = 2130837699;
 			
 			// aapt resource value: 0x7F0200C4
-			public static int selectableItemBackgroundBorderless = 2130837700;
+			public static int selectableItemBackground = 2130837700;
 			
 			// aapt resource value: 0x7F0200C5
-			public static int showAsAction = 2130837701;
+			public static int selectableItemBackgroundBorderless = 2130837701;
 			
 			// aapt resource value: 0x7F0200C6
-			public static int showDividers = 2130837702;
+			public static int showAsAction = 2130837702;
 			
 			// aapt resource value: 0x7F0200C7
-			public static int showText = 2130837703;
+			public static int showDividers = 2130837703;
 			
 			// aapt resource value: 0x7F0200C8
-			public static int showTitle = 2130837704;
+			public static int showText = 2130837704;
 			
 			// aapt resource value: 0x7F0200C9
-			public static int singleChoiceItemLayout = 2130837705;
+			public static int showTitle = 2130837705;
 			
 			// aapt resource value: 0x7F0200CA
-			public static int spinBars = 2130837706;
+			public static int singleChoiceItemLayout = 2130837706;
 			
 			// aapt resource value: 0x7F0200CB
-			public static int spinnerDropDownItemStyle = 2130837707;
+			public static int spinBars = 2130837707;
 			
 			// aapt resource value: 0x7F0200CC
-			public static int spinnerStyle = 2130837708;
+			public static int spinnerDropDownItemStyle = 2130837708;
 			
 			// aapt resource value: 0x7F0200CD
-			public static int splitTrack = 2130837709;
+			public static int spinnerStyle = 2130837709;
 			
 			// aapt resource value: 0x7F0200CE
-			public static int srcCompat = 2130837710;
+			public static int splitTrack = 2130837710;
 			
 			// aapt resource value: 0x7F0200CF
-			public static int state_above_anchor = 2130837711;
+			public static int srcCompat = 2130837711;
 			
 			// aapt resource value: 0x7F0200D0
-			public static int statusBarBackground = 2130837712;
+			public static int state_above_anchor = 2130837712;
 			
 			// aapt resource value: 0x7F0200D1
-			public static int subMenuArrow = 2130837713;
+			public static int statusBarBackground = 2130837713;
 			
 			// aapt resource value: 0x7F0200D2
-			public static int submitBackground = 2130837714;
+			public static int subMenuArrow = 2130837714;
 			
 			// aapt resource value: 0x7F0200D3
-			public static int subtitle = 2130837715;
+			public static int submitBackground = 2130837715;
 			
 			// aapt resource value: 0x7F0200D4
-			public static int subtitleTextAppearance = 2130837716;
+			public static int subtitle = 2130837716;
 			
 			// aapt resource value: 0x7F0200D5
-			public static int subtitleTextColor = 2130837717;
+			public static int subtitleTextAppearance = 2130837717;
 			
 			// aapt resource value: 0x7F0200D6
-			public static int subtitleTextStyle = 2130837718;
+			public static int subtitleTextColor = 2130837718;
 			
 			// aapt resource value: 0x7F0200D7
-			public static int suggestionRowLayout = 2130837719;
+			public static int subtitleTextStyle = 2130837719;
 			
 			// aapt resource value: 0x7F0200D8
-			public static int switchMinWidth = 2130837720;
+			public static int suggestionRowLayout = 2130837720;
 			
 			// aapt resource value: 0x7F0200D9
-			public static int switchPadding = 2130837721;
+			public static int switchMinWidth = 2130837721;
 			
 			// aapt resource value: 0x7F0200DA
-			public static int switchStyle = 2130837722;
+			public static int switchPadding = 2130837722;
 			
 			// aapt resource value: 0x7F0200DB
-			public static int switchTextAppearance = 2130837723;
+			public static int switchStyle = 2130837723;
 			
 			// aapt resource value: 0x7F0200DC
-			public static int textAllCaps = 2130837724;
+			public static int switchTextAppearance = 2130837724;
 			
 			// aapt resource value: 0x7F0200DD
-			public static int textAppearanceLargePopupMenu = 2130837725;
+			public static int textAllCaps = 2130837725;
 			
 			// aapt resource value: 0x7F0200DE
-			public static int textAppearanceListItem = 2130837726;
+			public static int textAppearanceLargePopupMenu = 2130837726;
 			
 			// aapt resource value: 0x7F0200DF
-			public static int textAppearanceListItemSecondary = 2130837727;
+			public static int textAppearanceListItem = 2130837727;
 			
 			// aapt resource value: 0x7F0200E0
-			public static int textAppearanceListItemSmall = 2130837728;
+			public static int textAppearanceListItemSecondary = 2130837728;
 			
 			// aapt resource value: 0x7F0200E1
-			public static int textAppearancePopupMenuHeader = 2130837729;
+			public static int textAppearanceListItemSmall = 2130837729;
 			
 			// aapt resource value: 0x7F0200E2
-			public static int textAppearanceSearchResultSubtitle = 2130837730;
+			public static int textAppearancePopupMenuHeader = 2130837730;
 			
 			// aapt resource value: 0x7F0200E3
-			public static int textAppearanceSearchResultTitle = 2130837731;
+			public static int textAppearanceSearchResultSubtitle = 2130837731;
 			
 			// aapt resource value: 0x7F0200E4
-			public static int textAppearanceSmallPopupMenu = 2130837732;
+			public static int textAppearanceSearchResultTitle = 2130837732;
 			
 			// aapt resource value: 0x7F0200E5
-			public static int textColorAlertDialogListItem = 2130837733;
+			public static int textAppearanceSmallPopupMenu = 2130837733;
 			
 			// aapt resource value: 0x7F0200E6
-			public static int textColorSearchUrl = 2130837734;
+			public static int textColorAlertDialogListItem = 2130837734;
 			
 			// aapt resource value: 0x7F0200E7
-			public static int theme = 2130837735;
+			public static int textColorSearchUrl = 2130837735;
 			
 			// aapt resource value: 0x7F0200E8
-			public static int thickness = 2130837736;
+			public static int theme = 2130837736;
 			
 			// aapt resource value: 0x7F0200E9
-			public static int thumbTextPadding = 2130837737;
+			public static int thickness = 2130837737;
 			
 			// aapt resource value: 0x7F0200EA
-			public static int thumbTint = 2130837738;
+			public static int thumbTextPadding = 2130837738;
 			
 			// aapt resource value: 0x7F0200EB
-			public static int thumbTintMode = 2130837739;
+			public static int thumbTint = 2130837739;
 			
 			// aapt resource value: 0x7F0200EC
-			public static int tickMark = 2130837740;
+			public static int thumbTintMode = 2130837740;
 			
 			// aapt resource value: 0x7F0200ED
-			public static int tickMarkTint = 2130837741;
+			public static int tickMark = 2130837741;
 			
 			// aapt resource value: 0x7F0200EE
-			public static int tickMarkTintMode = 2130837742;
+			public static int tickMarkTint = 2130837742;
 			
 			// aapt resource value: 0x7F0200EF
-			public static int tint = 2130837743;
+			public static int tickMarkTintMode = 2130837743;
 			
 			// aapt resource value: 0x7F0200F0
-			public static int tintMode = 2130837744;
+			public static int tint = 2130837744;
 			
 			// aapt resource value: 0x7F0200F1
-			public static int title = 2130837745;
+			public static int tintMode = 2130837745;
 			
 			// aapt resource value: 0x7F0200F2
-			public static int titleMargin = 2130837746;
+			public static int title = 2130837746;
 			
 			// aapt resource value: 0x7F0200F3
-			public static int titleMarginBottom = 2130837747;
+			public static int titleMargin = 2130837747;
 			
 			// aapt resource value: 0x7F0200F4
-			public static int titleMarginEnd = 2130837748;
-			
-			// aapt resource value: 0x7F0200F7
-			public static int titleMargins = 2130837751;
+			public static int titleMarginBottom = 2130837748;
 			
 			// aapt resource value: 0x7F0200F5
-			public static int titleMarginStart = 2130837749;
-			
-			// aapt resource value: 0x7F0200F6
-			public static int titleMarginTop = 2130837750;
+			public static int titleMarginEnd = 2130837749;
 			
 			// aapt resource value: 0x7F0200F8
-			public static int titleTextAppearance = 2130837752;
+			public static int titleMargins = 2130837752;
+			
+			// aapt resource value: 0x7F0200F6
+			public static int titleMarginStart = 2130837750;
+			
+			// aapt resource value: 0x7F0200F7
+			public static int titleMarginTop = 2130837751;
 			
 			// aapt resource value: 0x7F0200F9
-			public static int titleTextColor = 2130837753;
+			public static int titleTextAppearance = 2130837753;
 			
 			// aapt resource value: 0x7F0200FA
-			public static int titleTextStyle = 2130837754;
+			public static int titleTextColor = 2130837754;
 			
 			// aapt resource value: 0x7F0200FB
-			public static int toolbarNavigationButtonStyle = 2130837755;
+			public static int titleTextStyle = 2130837755;
 			
 			// aapt resource value: 0x7F0200FC
-			public static int toolbarStyle = 2130837756;
+			public static int toolbarNavigationButtonStyle = 2130837756;
 			
 			// aapt resource value: 0x7F0200FD
-			public static int tooltipForegroundColor = 2130837757;
+			public static int toolbarStyle = 2130837757;
 			
 			// aapt resource value: 0x7F0200FE
-			public static int tooltipFrameBackground = 2130837758;
+			public static int tooltipForegroundColor = 2130837758;
 			
 			// aapt resource value: 0x7F0200FF
-			public static int tooltipText = 2130837759;
+			public static int tooltipFrameBackground = 2130837759;
 			
 			// aapt resource value: 0x7F020100
-			public static int track = 2130837760;
+			public static int tooltipText = 2130837760;
 			
 			// aapt resource value: 0x7F020101
-			public static int trackTint = 2130837761;
+			public static int track = 2130837761;
 			
 			// aapt resource value: 0x7F020102
-			public static int trackTintMode = 2130837762;
+			public static int trackTint = 2130837762;
 			
 			// aapt resource value: 0x7F020103
-			public static int ttcIndex = 2130837763;
+			public static int trackTintMode = 2130837763;
 			
 			// aapt resource value: 0x7F020104
-			public static int viewInflaterClass = 2130837764;
+			public static int ttcIndex = 2130837764;
 			
 			// aapt resource value: 0x7F020105
-			public static int voiceIcon = 2130837765;
+			public static int viewInflaterClass = 2130837765;
 			
 			// aapt resource value: 0x7F020106
-			public static int windowActionBar = 2130837766;
+			public static int voiceIcon = 2130837766;
 			
 			// aapt resource value: 0x7F020107
-			public static int windowActionBarOverlay = 2130837767;
+			public static int windowActionBar = 2130837767;
 			
 			// aapt resource value: 0x7F020108
-			public static int windowActionModeOverlay = 2130837768;
+			public static int windowActionBarOverlay = 2130837768;
 			
 			// aapt resource value: 0x7F020109
-			public static int windowFixedHeightMajor = 2130837769;
+			public static int windowActionModeOverlay = 2130837769;
 			
 			// aapt resource value: 0x7F02010A
-			public static int windowFixedHeightMinor = 2130837770;
+			public static int windowFixedHeightMajor = 2130837770;
 			
 			// aapt resource value: 0x7F02010B
-			public static int windowFixedWidthMajor = 2130837771;
+			public static int windowFixedHeightMinor = 2130837771;
 			
 			// aapt resource value: 0x7F02010C
-			public static int windowFixedWidthMinor = 2130837772;
+			public static int windowFixedWidthMajor = 2130837772;
 			
 			// aapt resource value: 0x7F02010D
-			public static int windowMinWidthMajor = 2130837773;
+			public static int windowFixedWidthMinor = 2130837773;
 			
 			// aapt resource value: 0x7F02010E
-			public static int windowMinWidthMinor = 2130837774;
+			public static int windowMinWidthMajor = 2130837774;
 			
 			// aapt resource value: 0x7F02010F
-			public static int windowNoTitle = 2130837775;
+			public static int windowMinWidthMinor = 2130837775;
+			
+			// aapt resource value: 0x7F020110
+			public static int windowNoTitle = 2130837776;
 			
 			static Attribute()
 			{
@@ -3613,7 +3616,7 @@ namespace FluidSharp.Views.Android
 		public partial class Styleable
 		{
 			
-			// aapt resource value: { 0x7F020031,0x7F020032,0x7F020033,0x7F020057,0x7F020058,0x7F020059,0x7F02005A,0x7F02005B,0x7F02005C,0x7F02005F,0x7F020064,0x7F020065,0x7F020070,0x7F020080,0x7F020081,0x7F020082,0x7F020083,0x7F020084,0x7F020089,0x7F02008C,0x7F0200A2,0x7F0200A9,0x7F0200B4,0x7F0200B7,0x7F0200B8,0x7F0200D3,0x7F0200D6,0x7F0200F1,0x7F0200FA }
+			// aapt resource value: { 0x7F020031,0x7F020032,0x7F020033,0x7F020057,0x7F020058,0x7F020059,0x7F02005A,0x7F02005B,0x7F02005C,0x7F02005F,0x7F020064,0x7F020065,0x7F020070,0x7F020080,0x7F020081,0x7F020082,0x7F020083,0x7F020084,0x7F02008A,0x7F02008D,0x7F0200A3,0x7F0200AA,0x7F0200B5,0x7F0200B8,0x7F0200B9,0x7F0200D4,0x7F0200D7,0x7F0200F2,0x7F0200FB }
 			public static int[] ActionBar = new int[] {
 					2130837553,
 					2130837554,
@@ -3633,17 +3636,17 @@ namespace FluidSharp.Views.Android
 					2130837634,
 					2130837635,
 					2130837636,
-					2130837641,
-					2130837644,
-					2130837666,
-					2130837673,
-					2130837684,
-					2130837687,
+					2130837642,
+					2130837645,
+					2130837667,
+					2130837674,
+					2130837685,
 					2130837688,
-					2130837715,
-					2130837718,
-					2130837745,
-					2130837754};
+					2130837689,
+					2130837716,
+					2130837719,
+					2130837746,
+					2130837755};
 			
 			// aapt resource value: { 0x10100B3 }
 			public static int[] ActionBarLayout = new int[] {
@@ -3750,14 +3753,14 @@ namespace FluidSharp.Views.Android
 			public static int[] ActionMenuView = new int[] {
 					-1};
 			
-			// aapt resource value: { 0x7F020031,0x7F020032,0x7F020047,0x7F020080,0x7F0200D6,0x7F0200FA }
+			// aapt resource value: { 0x7F020031,0x7F020032,0x7F020047,0x7F020080,0x7F0200D7,0x7F0200FB }
 			public static int[] ActionMode = new int[] {
 					2130837553,
 					2130837554,
 					2130837575,
 					2130837632,
-					2130837718,
-					2130837754};
+					2130837719,
+					2130837755};
 			
 			// aapt resource value: 0
 			public static int ActionMode_background = 0;
@@ -3777,10 +3780,10 @@ namespace FluidSharp.Views.Android
 			// aapt resource value: 5
 			public static int ActionMode_titleTextStyle = 5;
 			
-			// aapt resource value: { 0x7F020071,0x7F02008A }
+			// aapt resource value: { 0x7F020071,0x7F02008B }
 			public static int[] ActivityChooserView = new int[] {
 					2130837617,
-					2130837642};
+					2130837643};
 			
 			// aapt resource value: 0
 			public static int ActivityChooserView_expandActivityOverflowButtonDrawable = 0;
@@ -3788,16 +3791,16 @@ namespace FluidSharp.Views.Android
 			// aapt resource value: 1
 			public static int ActivityChooserView_initialActivityCount = 1;
 			
-			// aapt resource value: { 0x10100F2,0x7F02003E,0x7F02003F,0x7F020099,0x7F02009A,0x7F0200A6,0x7F0200C8,0x7F0200C9 }
+			// aapt resource value: { 0x10100F2,0x7F02003E,0x7F02003F,0x7F02009A,0x7F02009B,0x7F0200A7,0x7F0200C9,0x7F0200CA }
 			public static int[] AlertDialog = new int[] {
 					16842994,
 					2130837566,
 					2130837567,
-					2130837657,
 					2130837658,
-					2130837670,
-					2130837704,
-					2130837705};
+					2130837659,
+					2130837671,
+					2130837705,
+					2130837706};
 			
 			// aapt resource value: 0
 			public static int AlertDialog_android_layout = 0;
@@ -3880,12 +3883,12 @@ namespace FluidSharp.Views.Android
 			// aapt resource value: 1
 			public static int AnimatedStateListDrawableTransition_android_toId = 1;
 			
-			// aapt resource value: { 0x1010119,0x7F0200CE,0x7F0200EF,0x7F0200F0 }
+			// aapt resource value: { 0x1010119,0x7F0200CF,0x7F0200F0,0x7F0200F1 }
 			public static int[] AppCompatImageView = new int[] {
 					16843033,
-					2130837710,
-					2130837743,
-					2130837744};
+					2130837711,
+					2130837744,
+					2130837745};
 			
 			// aapt resource value: 0
 			public static int AppCompatImageView_android_src = 0;
@@ -3899,12 +3902,12 @@ namespace FluidSharp.Views.Android
 			// aapt resource value: 3
 			public static int AppCompatImageView_tintMode = 3;
 			
-			// aapt resource value: { 0x1010142,0x7F0200EC,0x7F0200ED,0x7F0200EE }
+			// aapt resource value: { 0x1010142,0x7F0200ED,0x7F0200EE,0x7F0200EF }
 			public static int[] AppCompatSeekBar = new int[] {
 					16843074,
-					2130837740,
 					2130837741,
-					2130837742};
+					2130837742,
+					2130837743};
 			
 			// aapt resource value: 0
 			public static int AppCompatSeekBar_android_thumb = 0;
@@ -3949,7 +3952,7 @@ namespace FluidSharp.Views.Android
 			// aapt resource value: 0
 			public static int AppCompatTextHelper_android_textAppearance = 0;
 			
-			// aapt resource value: { 0x1010034,0x7F02002C,0x7F02002D,0x7F02002E,0x7F02002F,0x7F020030,0x7F020072,0x7F020074,0x7F02008E,0x7F020096,0x7F0200DC }
+			// aapt resource value: { 0x1010034,0x7F02002C,0x7F02002D,0x7F02002E,0x7F02002F,0x7F020030,0x7F020072,0x7F020074,0x7F02008F,0x7F020097,0x7F0200DD }
 			public static int[] AppCompatTextView = new int[] {
 					16842804,
 					2130837548,
@@ -3959,9 +3962,9 @@ namespace FluidSharp.Views.Android
 					2130837552,
 					2130837618,
 					2130837620,
-					2130837646,
-					2130837654,
-					2130837724};
+					2130837647,
+					2130837655,
+					2130837725};
 			
 			// aapt resource value: 0
 			public static int AppCompatTextView_android_textAppearance = 0;
@@ -3996,7 +3999,7 @@ namespace FluidSharp.Views.Android
 			// aapt resource value: 10
 			public static int AppCompatTextView_textAllCaps = 10;
 			
-			// aapt resource value: { 0x1010057,0x10100AE,0x7F020000,0x7F020001,0x7F020002,0x7F020003,0x7F020004,0x7F020005,0x7F020006,0x7F020007,0x7F020008,0x7F020009,0x7F02000A,0x7F02000B,0x7F02000C,0x7F02000E,0x7F02000F,0x7F020010,0x7F020011,0x7F020012,0x7F020013,0x7F020014,0x7F020015,0x7F020016,0x7F020017,0x7F020018,0x7F020019,0x7F02001A,0x7F02001B,0x7F02001C,0x7F02001D,0x7F02001E,0x7F020021,0x7F020022,0x7F020023,0x7F020024,0x7F020025,0x7F02002B,0x7F020037,0x7F020038,0x7F020039,0x7F02003A,0x7F02003B,0x7F02003C,0x7F020040,0x7F020041,0x7F020044,0x7F020045,0x7F02004B,0x7F02004C,0x7F02004D,0x7F02004E,0x7F02004F,0x7F020050,0x7F020051,0x7F020052,0x7F020053,0x7F020054,0x7F02005D,0x7F020061,0x7F020062,0x7F020063,0x7F020066,0x7F020068,0x7F02006B,0x7F02006C,0x7F02006D,0x7F02006E,0x7F02006F,0x7F020082,0x7F020088,0x7F020097,0x7F020098,0x7F02009B,0x7F02009C,0x7F02009D,0x7F02009E,0x7F02009F,0x7F0200A0,0x7F0200A1,0x7F0200B0,0x7F0200B1,0x7F0200B2,0x7F0200B3,0x7F0200B5,0x7F0200BB,0x7F0200BC,0x7F0200BD,0x7F0200BE,0x7F0200C1,0x7F0200C2,0x7F0200C3,0x7F0200C4,0x7F0200CB,0x7F0200CC,0x7F0200DA,0x7F0200DD,0x7F0200DE,0x7F0200DF,0x7F0200E0,0x7F0200E1,0x7F0200E2,0x7F0200E3,0x7F0200E4,0x7F0200E5,0x7F0200E6,0x7F0200FB,0x7F0200FC,0x7F0200FD,0x7F0200FE,0x7F020104,0x7F020106,0x7F020107,0x7F020108,0x7F020109,0x7F02010A,0x7F02010B,0x7F02010C,0x7F02010D,0x7F02010E,0x7F02010F }
+			// aapt resource value: { 0x1010057,0x10100AE,0x7F020000,0x7F020001,0x7F020002,0x7F020003,0x7F020004,0x7F020005,0x7F020006,0x7F020007,0x7F020008,0x7F020009,0x7F02000A,0x7F02000B,0x7F02000C,0x7F02000E,0x7F02000F,0x7F020010,0x7F020011,0x7F020012,0x7F020013,0x7F020014,0x7F020015,0x7F020016,0x7F020017,0x7F020018,0x7F020019,0x7F02001A,0x7F02001B,0x7F02001C,0x7F02001D,0x7F02001E,0x7F020021,0x7F020022,0x7F020023,0x7F020024,0x7F020025,0x7F02002B,0x7F020037,0x7F020038,0x7F020039,0x7F02003A,0x7F02003B,0x7F02003C,0x7F020040,0x7F020041,0x7F020044,0x7F020045,0x7F02004B,0x7F02004C,0x7F02004D,0x7F02004E,0x7F02004F,0x7F020050,0x7F020051,0x7F020052,0x7F020053,0x7F020054,0x7F02005D,0x7F020061,0x7F020062,0x7F020063,0x7F020066,0x7F020068,0x7F02006B,0x7F02006C,0x7F02006D,0x7F02006E,0x7F02006F,0x7F020082,0x7F020089,0x7F020098,0x7F020099,0x7F02009C,0x7F02009D,0x7F02009E,0x7F02009F,0x7F0200A0,0x7F0200A1,0x7F0200A2,0x7F0200B1,0x7F0200B2,0x7F0200B3,0x7F0200B4,0x7F0200B6,0x7F0200BC,0x7F0200BD,0x7F0200BE,0x7F0200BF,0x7F0200C2,0x7F0200C3,0x7F0200C4,0x7F0200C5,0x7F0200CC,0x7F0200CD,0x7F0200DB,0x7F0200DE,0x7F0200DF,0x7F0200E0,0x7F0200E1,0x7F0200E2,0x7F0200E3,0x7F0200E4,0x7F0200E5,0x7F0200E6,0x7F0200E7,0x7F0200FC,0x7F0200FD,0x7F0200FE,0x7F0200FF,0x7F020105,0x7F020107,0x7F020108,0x7F020109,0x7F02010A,0x7F02010B,0x7F02010C,0x7F02010D,0x7F02010E,0x7F02010F,0x7F020110 }
 			public static int[] AppCompatTheme = new int[] {
 					16842839,
 					16842926,
@@ -4068,33 +4071,32 @@ namespace FluidSharp.Views.Android
 					2130837614,
 					2130837615,
 					2130837634,
-					2130837640,
-					2130837655,
+					2130837641,
 					2130837656,
-					2130837659,
+					2130837657,
 					2130837660,
 					2130837661,
 					2130837662,
 					2130837663,
 					2130837664,
 					2130837665,
-					2130837680,
+					2130837666,
 					2130837681,
 					2130837682,
 					2130837683,
-					2130837685,
-					2130837691,
+					2130837684,
+					2130837686,
 					2130837692,
 					2130837693,
 					2130837694,
-					2130837697,
+					2130837695,
 					2130837698,
 					2130837699,
 					2130837700,
-					2130837707,
+					2130837701,
 					2130837708,
-					2130837722,
-					2130837725,
+					2130837709,
+					2130837723,
 					2130837726,
 					2130837727,
 					2130837728,
@@ -4104,12 +4106,12 @@ namespace FluidSharp.Views.Android
 					2130837732,
 					2130837733,
 					2130837734,
-					2130837755,
+					2130837735,
 					2130837756,
 					2130837757,
 					2130837758,
-					2130837764,
-					2130837766,
+					2130837759,
+					2130837765,
 					2130837767,
 					2130837768,
 					2130837769,
@@ -4118,7 +4120,8 @@ namespace FluidSharp.Views.Android
 					2130837772,
 					2130837773,
 					2130837774,
-					2130837775};
+					2130837775,
+					2130837776};
 			
 			// aapt resource value: 2
 			public static int AppCompatTheme_actionBarDivider = 2;
@@ -4520,23 +4523,23 @@ namespace FluidSharp.Views.Android
 			// aapt resource value: 2
 			public static int CompoundButton_buttonTintMode = 2;
 			
-			// aapt resource value: { 0x7F02008D,0x7F0200D0 }
+			// aapt resource value: { 0x7F02008E,0x7F0200D1 }
 			public static int[] CoordinatorLayout = new int[] {
-					2130837645,
-					2130837712};
+					2130837646,
+					2130837713};
 			
 			// aapt resource value: 0
 			public static int CoordinatorLayout_keylines = 0;
 			
-			// aapt resource value: { 0x10100B3,0x7F020090,0x7F020091,0x7F020092,0x7F020093,0x7F020094,0x7F020095 }
+			// aapt resource value: { 0x10100B3,0x7F020091,0x7F020092,0x7F020093,0x7F020094,0x7F020095,0x7F020096 }
 			public static int[] CoordinatorLayout_Layout = new int[] {
 					16842931,
-					2130837648,
 					2130837649,
 					2130837650,
 					2130837651,
 					2130837652,
-					2130837653};
+					2130837653,
+					2130837654};
 			
 			// aapt resource value: 0
 			public static int CoordinatorLayout_Layout_android_layout_gravity = 0;
@@ -4562,7 +4565,7 @@ namespace FluidSharp.Views.Android
 			// aapt resource value: 1
 			public static int CoordinatorLayout_statusBarBackground = 1;
 			
-			// aapt resource value: { 0x7F020029,0x7F02002A,0x7F020036,0x7F02004A,0x7F020069,0x7F02007E,0x7F0200CA,0x7F0200E8 }
+			// aapt resource value: { 0x7F020029,0x7F02002A,0x7F020036,0x7F02004A,0x7F020069,0x7F02007E,0x7F0200CB,0x7F0200E9 }
 			public static int[] DrawerArrowToggle = new int[] {
 					2130837545,
 					2130837546,
@@ -4570,8 +4573,8 @@ namespace FluidSharp.Views.Android
 					2130837578,
 					2130837609,
 					2130837630,
-					2130837706,
-					2130837736};
+					2130837707,
+					2130837737};
 			
 			// aapt resource value: 0
 			public static int DrawerArrowToggle_arrowHeadLength = 0;
@@ -4606,7 +4609,7 @@ namespace FluidSharp.Views.Android
 					2130837625,
 					2130837626};
 			
-			// aapt resource value: { 0x1010532,0x1010533,0x101053F,0x101056F,0x1010570,0x7F020073,0x7F02007B,0x7F02007C,0x7F02007D,0x7F020103 }
+			// aapt resource value: { 0x1010532,0x1010533,0x101053F,0x101056F,0x1010570,0x7F020073,0x7F02007B,0x7F02007C,0x7F02007D,0x7F020104 }
 			public static int[] FontFamilyFont = new int[] {
 					16844082,
 					16844083,
@@ -4617,7 +4620,7 @@ namespace FluidSharp.Views.Android
 					2130837627,
 					2130837628,
 					2130837629,
-					2130837763};
+					2130837764};
 			
 			// aapt resource value: 0
 			public static int FontFamilyFont_android_font = 0;
@@ -4729,7 +4732,7 @@ namespace FluidSharp.Views.Android
 			// aapt resource value: 2
 			public static int GradientColor_android_type = 2;
 			
-			// aapt resource value: { 0x10100AF,0x10100C4,0x1010126,0x1010127,0x1010128,0x7F020065,0x7F020067,0x7F0200A5,0x7F0200C6 }
+			// aapt resource value: { 0x10100AF,0x10100C4,0x1010126,0x1010127,0x1010128,0x7F020065,0x7F020067,0x7F0200A6,0x7F0200C7 }
 			public static int[] LinearLayoutCompat = new int[] {
 					16842927,
 					16842948,
@@ -4738,8 +4741,8 @@ namespace FluidSharp.Views.Android
 					16843048,
 					2130837605,
 					2130837607,
-					2130837669,
-					2130837702};
+					2130837670,
+					2130837703};
 			
 			// aapt resource value: 2
 			public static int LinearLayoutCompat_android_baselineAligned = 2;
@@ -4825,7 +4828,7 @@ namespace FluidSharp.Views.Android
 			// aapt resource value: 2
 			public static int MenuGroup_android_visible = 2;
 			
-			// aapt resource value: { 0x1010002,0x101000E,0x10100D0,0x1010106,0x1010194,0x10101DE,0x10101DF,0x10101E1,0x10101E2,0x10101E3,0x10101E4,0x10101E5,0x101026F,0x7F02000D,0x7F02001F,0x7F020020,0x7F020028,0x7F020056,0x7F020085,0x7F020086,0x7F0200AA,0x7F0200C5,0x7F0200FF }
+			// aapt resource value: { 0x1010002,0x101000E,0x10100D0,0x1010106,0x1010194,0x10101DE,0x10101DF,0x10101E1,0x10101E2,0x10101E3,0x10101E4,0x10101E5,0x101026F,0x7F02000D,0x7F02001F,0x7F020020,0x7F020028,0x7F020056,0x7F020085,0x7F020086,0x7F0200AB,0x7F0200C6,0x7F020100 }
 			public static int[] MenuItem = new int[] {
 					16842754,
 					16842766,
@@ -4847,9 +4850,9 @@ namespace FluidSharp.Views.Android
 					2130837590,
 					2130837637,
 					2130837638,
-					2130837674,
-					2130837701,
-					2130837759};
+					2130837675,
+					2130837702,
+					2130837760};
 			
 			// aapt resource value: 13
 			public static int MenuItem_actionLayout = 13;
@@ -4920,7 +4923,7 @@ namespace FluidSharp.Views.Android
 			// aapt resource value: 22
 			public static int MenuItem_tooltipText = 22;
 			
-			// aapt resource value: { 0x10100AE,0x101012C,0x101012D,0x101012E,0x101012F,0x1010130,0x1010131,0x7F0200B6,0x7F0200D1 }
+			// aapt resource value: { 0x10100AE,0x101012C,0x101012D,0x101012E,0x101012F,0x1010130,0x1010131,0x7F0200B7,0x7F0200D2 }
 			public static int[] MenuView = new int[] {
 					16842926,
 					16843052,
@@ -4929,8 +4932,8 @@ namespace FluidSharp.Views.Android
 					16843055,
 					16843056,
 					16843057,
-					2130837686,
-					2130837713};
+					2130837687,
+					2130837714};
 			
 			// aapt resource value: 4
 			public static int MenuView_android_headerBackground = 4;
@@ -4959,15 +4962,15 @@ namespace FluidSharp.Views.Android
 			// aapt resource value: 8
 			public static int MenuView_subMenuArrow = 8;
 			
-			// aapt resource value: { 0x1010176,0x10102C9,0x7F0200AB }
+			// aapt resource value: { 0x1010176,0x10102C9,0x7F0200AC }
 			public static int[] PopupWindow = new int[] {
 					16843126,
 					16843465,
-					2130837675};
+					2130837676};
 			
-			// aapt resource value: { 0x7F0200CF }
+			// aapt resource value: { 0x7F0200D0 }
 			public static int[] PopupWindowBackgroundState = new int[] {
-					2130837711};
+					2130837712};
 			
 			// aapt resource value: 0
 			public static int PopupWindowBackgroundState_state_above_anchor = 0;
@@ -4981,10 +4984,10 @@ namespace FluidSharp.Views.Android
 			// aapt resource value: 2
 			public static int PopupWindow_overlapAnchor = 2;
 			
-			// aapt resource value: { 0x7F0200AC,0x7F0200AF }
+			// aapt resource value: { 0x7F0200AD,0x7F0200B0 }
 			public static int[] RecycleListView = new int[] {
-					2130837676,
-					2130837679};
+					2130837677,
+					2130837680};
 			
 			// aapt resource value: 0
 			public static int RecycleListView_paddingBottomNoButtons = 0;
@@ -4992,7 +4995,7 @@ namespace FluidSharp.Views.Android
 			// aapt resource value: 1
 			public static int RecycleListView_paddingTopNoTitle = 1;
 			
-			// aapt resource value: { 0x10100DA,0x101011F,0x1010220,0x1010264,0x7F020046,0x7F020055,0x7F020060,0x7F02007F,0x7F020087,0x7F02008F,0x7F0200B9,0x7F0200BA,0x7F0200BF,0x7F0200C0,0x7F0200D2,0x7F0200D7,0x7F020105 }
+			// aapt resource value: { 0x10100DA,0x101011F,0x1010220,0x1010264,0x7F020046,0x7F020055,0x7F020060,0x7F02007F,0x7F020087,0x7F020090,0x7F0200BA,0x7F0200BB,0x7F0200C0,0x7F0200C1,0x7F0200D3,0x7F0200D8,0x7F020106 }
 			public static int[] SearchView = new int[] {
 					16842970,
 					16843039,
@@ -5003,14 +5006,14 @@ namespace FluidSharp.Views.Android
 					2130837600,
 					2130837631,
 					2130837639,
-					2130837647,
-					2130837689,
+					2130837648,
 					2130837690,
-					2130837695,
+					2130837691,
 					2130837696,
-					2130837714,
-					2130837719,
-					2130837765};
+					2130837697,
+					2130837715,
+					2130837720,
+					2130837766};
 			
 			// aapt resource value: 0
 			public static int SearchView_android_focusable = 0;
@@ -5063,13 +5066,20 @@ namespace FluidSharp.Views.Android
 			// aapt resource value: 16
 			public static int SearchView_voiceIcon = 16;
 			
-			// aapt resource value: { 0x10100B2,0x1010176,0x101017B,0x1010262,0x7F0200B4 }
+			// aapt resource value: { 0x7F020088 }
+			public static int[] SKCanvasView = new int[] {
+					2130837640};
+			
+			// aapt resource value: 0
+			public static int SKCanvasView_ignorePixelScaling = 0;
+			
+			// aapt resource value: { 0x10100B2,0x1010176,0x101017B,0x1010262,0x7F0200B5 }
 			public static int[] Spinner = new int[] {
 					16842930,
 					16843126,
 					16843131,
 					16843362,
-					2130837684};
+					2130837685};
 			
 			// aapt resource value: 3
 			public static int Spinner_android_dropDownWidth = 3;
@@ -5120,22 +5130,22 @@ namespace FluidSharp.Views.Android
 			// aapt resource value: 1
 			public static int StateListDrawable_android_visible = 1;
 			
-			// aapt resource value: { 0x1010124,0x1010125,0x1010142,0x7F0200C7,0x7F0200CD,0x7F0200D8,0x7F0200D9,0x7F0200DB,0x7F0200E9,0x7F0200EA,0x7F0200EB,0x7F020100,0x7F020101,0x7F020102 }
+			// aapt resource value: { 0x1010124,0x1010125,0x1010142,0x7F0200C8,0x7F0200CE,0x7F0200D9,0x7F0200DA,0x7F0200DC,0x7F0200EA,0x7F0200EB,0x7F0200EC,0x7F020101,0x7F020102,0x7F020103 }
 			public static int[] SwitchCompat = new int[] {
 					16843044,
 					16843045,
 					16843074,
-					2130837703,
-					2130837709,
-					2130837720,
+					2130837704,
+					2130837710,
 					2130837721,
-					2130837723,
-					2130837737,
+					2130837722,
+					2130837724,
 					2130837738,
 					2130837739,
-					2130837760,
+					2130837740,
 					2130837761,
-					2130837762};
+					2130837762,
+					2130837763};
 			
 			// aapt resource value: 1
 			public static int SwitchCompat_android_textOff = 1;
@@ -5179,7 +5189,7 @@ namespace FluidSharp.Views.Android
 			// aapt resource value: 13
 			public static int SwitchCompat_trackTintMode = 13;
 			
-			// aapt resource value: { 0x1010095,0x1010096,0x1010097,0x1010098,0x101009A,0x101009B,0x1010161,0x1010162,0x1010163,0x1010164,0x10103AC,0x7F020074,0x7F0200DC }
+			// aapt resource value: { 0x1010095,0x1010096,0x1010097,0x1010098,0x101009A,0x101009B,0x1010161,0x1010162,0x1010163,0x1010164,0x10103AC,0x7F020074,0x7F0200DD }
 			public static int[] TextAppearance = new int[] {
 					16842901,
 					16842902,
@@ -5193,7 +5203,7 @@ namespace FluidSharp.Views.Android
 					16843108,
 					16843692,
 					2130837620,
-					2130837724};
+					2130837725};
 			
 			// aapt resource value: 10
 			public static int TextAppearance_android_fontFamily = 10;
@@ -5234,7 +5244,7 @@ namespace FluidSharp.Views.Android
 			// aapt resource value: 12
 			public static int TextAppearance_textAllCaps = 12;
 			
-			// aapt resource value: { 0x10100AF,0x1010140,0x7F02003D,0x7F020048,0x7F020049,0x7F020057,0x7F020058,0x7F020059,0x7F02005A,0x7F02005B,0x7F02005C,0x7F0200A2,0x7F0200A3,0x7F0200A4,0x7F0200A7,0x7F0200A8,0x7F0200B4,0x7F0200D3,0x7F0200D4,0x7F0200D5,0x7F0200F1,0x7F0200F2,0x7F0200F3,0x7F0200F4,0x7F0200F5,0x7F0200F6,0x7F0200F7,0x7F0200F8,0x7F0200F9 }
+			// aapt resource value: { 0x10100AF,0x1010140,0x7F02003D,0x7F020048,0x7F020049,0x7F020057,0x7F020058,0x7F020059,0x7F02005A,0x7F02005B,0x7F02005C,0x7F0200A3,0x7F0200A4,0x7F0200A5,0x7F0200A8,0x7F0200A9,0x7F0200B5,0x7F0200D4,0x7F0200D5,0x7F0200D6,0x7F0200F2,0x7F0200F3,0x7F0200F4,0x7F0200F5,0x7F0200F6,0x7F0200F7,0x7F0200F8,0x7F0200F9,0x7F0200FA }
 			public static int[] Toolbar = new int[] {
 					16842927,
 					16843072,
@@ -5247,16 +5257,15 @@ namespace FluidSharp.Views.Android
 					2130837594,
 					2130837595,
 					2130837596,
-					2130837666,
 					2130837667,
 					2130837668,
-					2130837671,
+					2130837669,
 					2130837672,
-					2130837684,
-					2130837715,
+					2130837673,
+					2130837685,
 					2130837716,
 					2130837717,
-					2130837745,
+					2130837718,
 					2130837746,
 					2130837747,
 					2130837748,
@@ -5264,7 +5273,8 @@ namespace FluidSharp.Views.Android
 					2130837750,
 					2130837751,
 					2130837752,
-					2130837753};
+					2130837753,
+					2130837754};
 			
 			// aapt resource value: 0
 			public static int Toolbar_android_gravity = 0;
@@ -5353,13 +5363,13 @@ namespace FluidSharp.Views.Android
 			// aapt resource value: 28
 			public static int Toolbar_titleTextColor = 28;
 			
-			// aapt resource value: { 0x1010000,0x10100DA,0x7F0200AD,0x7F0200AE,0x7F0200E7 }
+			// aapt resource value: { 0x1010000,0x10100DA,0x7F0200AE,0x7F0200AF,0x7F0200E8 }
 			public static int[] View = new int[] {
 					16842752,
 					16842970,
-					2130837677,
 					2130837678,
-					2130837735};
+					2130837679,
+					2130837736};
 			
 			// aapt resource value: { 0x10100D4,0x7F020034,0x7F020035 }
 			public static int[] ViewBackgroundHelper = new int[] {

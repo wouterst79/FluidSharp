@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <Version>1.1.6-alpha</Version>
+    <Version>1.2.0-alpha</Version>
     <Authors>Wouter Steenbergen</Authors>
     <Company>My Daily Bits LLC</Company>
     <Product>FluidSharp</Product>
@@ -40,8 +40,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SkiaSharp.Views.WindowsForms" Version="2.80.3" />
-    <PackageReference Include="FluidSharp" Version="1.1.11-alpha" />
+    <PackageReference Include="SkiaSharp.Views.WindowsForms" Version="2.88.0" />
+    <PackageReference Include="FluidSharp" Version="1.1.12-alpha" />
   </ItemGroup>
 
   <ItemGroup>
