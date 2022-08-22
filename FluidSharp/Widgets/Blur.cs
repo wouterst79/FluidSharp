@@ -1,4 +1,5 @@
 ﻿using FluidSharp.Layouts;
+using FluidSharp.Paint;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -39,8 +40,7 @@ namespace FluidSharp.Widgets
                 layoutsurface.SetCanvas(originalcanvas);
 
                 using (var filter = SKImageFilter.CreateBlur(Sigma, Sigma))
-                using (var paint = new SKPaint() { Color = SKColors.Red, ImageFilter = filter })
-                    originalcanvas.DrawPicture(recorded, paint);
+                    originalcanvas.DrawPicture(recorded, PaintCache.GetBackgroundPaint(SKColors.Red, true, () => filter));
 
                 return result;
 

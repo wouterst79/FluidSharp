@@ -1,4 +1,5 @@
 ﻿using FluidSharp.Layouts;
+using FluidSharp.Paint;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -43,15 +44,14 @@ namespace FluidSharp.Widgets
                 if (layoutsurface.Canvas != null)
                 {
                     if (BackgroundColor != null && BackgroundColor.Alpha != 0)
-                        using (var paint = new SKPaint() { Color = BackgroundColor, IsAntialias = true })
-                        {
-                            if (ImageFilter != null) paint.ImageFilter = ImageFilter();
-                            layoutsurface.Canvas.DrawRoundRect(rrect, paint);
-                        }
+                    {
+                        layoutsurface.Canvas.DrawRoundRect(rrect, PaintCache.GetBackgroundPaint(BackgroundColor, true, ImageFilter));
+                    }
 
                     if (BorderColor != null && BorderColor.Alpha != 0)
-                        using (var paint = new SKPaint() { Color = BorderColor, IsStroke = true, IsAntialias = true })
-                            layoutsurface.Canvas.DrawRoundRect(rrect, paint);
+                    {
+                        layoutsurface.Canvas.DrawRoundRect(rrect, PaintCache.GetBorderPaint(BorderColor, true, 1));
+                    }
                 }
 
                 if (ClippedContents != null)

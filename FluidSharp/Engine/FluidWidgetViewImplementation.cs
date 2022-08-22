@@ -38,7 +38,7 @@ namespace FluidSharp.Engine
 
         public bool IsTransparent;
 
-        public PerformanceTracker PerformanceTracker;
+        public IPerformanceTracker PerformanceTracker => VisualState.PerformanceTracker;
 
         public Action<Exception>? OnPaintException;
         public Action<Exception, TouchActionEventArgs>? OnTouchException;
@@ -75,8 +75,7 @@ namespace FluidSharp.Engine
 
             View = skiaView;
             WidgetView = widgetView;
-            PerformanceTracker = new PerformanceTracker();
-            VisualState = new VisualState(async () => View.InvalidatePaint(), PerformanceTracker);
+            VisualState = new VisualState(async () => View.InvalidatePaint(), new NoopPerformanceTracker());
 
             MeasureCache = new MeasureCache(Device, View.InvalidatePaint, WidgetView.GetNativeViewManager());
 
@@ -93,7 +92,6 @@ namespace FluidSharp.Engine
             View = skiaView;
             WidgetView = widgetView;
             VisualState = visualState;
-            PerformanceTracker = visualState.PerformanceTracker;
 
             MeasureCache = new MeasureCache(Device, View.InvalidatePaint, WidgetView.GetNativeViewManager());
 

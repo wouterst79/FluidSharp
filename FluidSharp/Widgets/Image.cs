@@ -72,16 +72,9 @@ namespace FluidSharp.Widgets
             {
 
             }
-            else if (opacity >= 1)
-            {
-                using (var paint = new SKPaint() { FilterQuality = SKFilterQuality.High })
-                    layoutsurface.Canvas.DrawImage(image, paintrect, paint);
-            }
             else
             {
-                using (var paint = new SKPaint() { FilterQuality = SKFilterQuality.High, Color = SKColors.White.WithOpacity(opacity) })
-                    layoutsurface.Canvas.DrawImage(image, paintrect, paint);
-
+                layoutsurface.Canvas.DrawImage(image, paintrect, PaintCache.GetImagePaint(opacity));
             }
 
             return dest;

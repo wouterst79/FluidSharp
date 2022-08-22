@@ -1,4 +1,5 @@
 ﻿using FluidSharp.Layouts;
+using FluidSharp.Paint;
 using FluidSharp.State;
 using FluidSharp.Widgets.CrossPlatform;
 using SkiaSharp;
@@ -97,15 +98,9 @@ namespace FluidSharp.Widgets
 
                     // solid rrect
                     if (!Enabled)
-                        using (var paint = new SKPaint() { Color = DisabledColor.WithAlpha(64) })
-                            canvas.DrawRoundRect(rrect, paint);
+                        canvas.DrawRoundRect(rrect, PaintCache.GetBackgroundPaint(DisabledColor.WithAlpha(64)));
 
-                    using (var paint = new SKPaint() { Color = StrokeColor, IsAntialias = true })
-                    {
-                        paint.IsStroke = true;
-                        paint.StrokeWidth = BorderWidth;
-                        canvas.DrawRoundRect(rrect, paint);
-                    }
+                    canvas.DrawRoundRect(rrect, PaintCache.GetBorderPaint(StrokeColor, BorderWidth));
 
                 }
                 else
@@ -114,8 +109,7 @@ namespace FluidSharp.Widgets
                     // checked, mixed
 
                     // solid rrect
-                    using (var paint = new SKPaint() { Color = rrectcolor, IsAntialias = true })
-                        canvas.DrawRoundRect(rrect, paint);
+                    canvas.DrawRoundRect(rrect, PaintCache.GetBackgroundPaint(rrectcolor));
 
                     var path = State == CheckedState.Checked ? GetCheckPath() : GetMixedPath();
 
@@ -126,16 +120,15 @@ namespace FluidSharp.Widgets
                         //drawpath.Transform(SKMatrix.MakeScale(rect.Width / bounds.Width, rect.Height / bounds.Height));
                         drawpath.Transform(SKMatrix.MakeTranslation(rect.MidX - ShapeSize / 2, rect.MidY - ShapeSize / 2));
 
-                        using (var paint = new SKPaint() { Color = SKColors.White, IsStroke = true, StrokeWidth = StrokeWidth, IsAntialias = true })
-                            canvas.DrawPath(drawpath, paint);
+                        canvas.DrawPath(drawpath, PaintCache.GetBorderPaint(SKColors.White, StrokeWidth));
+
                     }
 
                 }
 
                 if (Selected)
                 {
-                    using (var paint = new SKPaint() { Color = SelectedColor })
-                        canvas.DrawRoundRect(rrect, paint);
+                    canvas.DrawRoundRect(rrect, PaintCache.GetBackgroundPaint(SelectedColor));
                 }
 
             }

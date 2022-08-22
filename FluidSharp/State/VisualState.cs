@@ -16,14 +16,14 @@ namespace FluidSharp.State
 
         private ConcurrentDictionary<object, object> values = new ConcurrentDictionary<object, object>();
 
-        public PerformanceTracker PerformanceTracker;
+        public IPerformanceTracker PerformanceTracker;
 
         private Func<Task> OnStateChanged;
 
         public bool ShowTouchRegions;
         public bool ShowSpacing;
 
-        public VisualState(Func<Task> onStateChanged, PerformanceTracker performanceTracker)
+        public VisualState(Func<Task> onStateChanged, IPerformanceTracker performanceTracker)
         {
             OnStateChanged = onStateChanged;
             PerformanceTracker = performanceTracker;

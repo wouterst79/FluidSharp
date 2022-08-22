@@ -3,6 +3,7 @@
 #endif
 using FluidSharp.Engine;
 using FluidSharp.Layouts;
+using FluidSharp.Paint;
 using FluidSharp.State;
 using FluidSharp.Widgets;
 using SkiaSharp;
@@ -20,8 +21,9 @@ namespace FluidSharp
         public Device Device;
         public MeasureCache MeasureCache;
         public SKCanvas Canvas { get; private set; }
-        public virtual SKRect GetLocalClipRect() => Canvas.LocalClipBounds;
+        public virtual SKRect GetLocalClipRect() => Canvas?.LocalClipBounds ?? new SKRect();
         public VisualState VisualState;
+        public bool AutoClip = true;
 
         public FlowDirection FlowDirection => Device.FlowDirection;
         public bool IsRtl => FlowDirection == FlowDirection.RightToLeft;
@@ -45,7 +47,24 @@ namespace FluidSharp
 
             try
             {
+
+                var canvas = Canvas;
+                if (canvas != null && AutoClip)
+                {
+                    if (rect.Bottom < 0 || rect.Top > GetLocalClipRect().Bottom)
+                    {
+                        // optimization: don't draw widgets if they are outside of clip rectangle. this appears to happen automatically for iOS, but not for Android
+                        SetCanvas(null!);
+                    }
+                }
+
                 var result = widget.PaintInternal(this, rect);
+
+                if (Canvas != canvas)
+                {
+                    // restore canvas
+                    SetCanvas(canvas!);
+                }
 
 #if DEBUGCONTAINER
             DebugRect(rect, SKColors.Gray.WithAlpha(64));
@@ -96,48 +115,41 @@ namespace FluidSharp
         public void DebugRect(SKRect rect, SKColor color)
         {
             if (Canvas == null) return;
-
-            using (var borderpaint = new SKPaint() { Color = color, IsStroke = true })
-                Canvas.DrawRect(rect, borderpaint);
-
+            Canvas.DrawRect(rect, PaintCache.GetBorderPaint(color, 1));
         }
 
         public void DebugGestureRect(SKRect rect, SKColor color)
         {
             if (Canvas == null) return;
             if (VisualState.ShowTouchRegions)
-                using (var paint = new SKPaint() { Color = color })
-                    Canvas.DrawRect(rect, paint);
+                Canvas.DrawRect(rect, PaintCache.GetBackgroundPaint(color));
         }
 
         public void DebugLine(float x1, float y1, float x2, float y2, SKColor color)
         {
             if (Canvas == null) return;
-
-            using (var linepaint = new SKPaint() { Color = color, IsStroke = true })
-                Canvas.DrawLine(x1, y1, x2, y2, linepaint);
-
+            Canvas.DrawLine(x1, y1, x2, y2, PaintCache.GetBorderPaint(color, 1));
         }
 
         public void DebugMargin(SKRect inner, Margins margins, SKColor color)
         {
 
             var top = new SKRect(inner.Left, inner.Top - margins.Top, inner.Right, inner.Top);
-            DebugSpacing(top, margins.Top.ToString(), color);
+            DebugSpacing(top, margins.Top, color);
 
             var bottom = new SKRect(inner.Left, inner.Bottom, inner.Right, inner.Bottom + margins.Bottom);
-            DebugSpacing(bottom, margins.Bottom.ToString(), color);
+            DebugSpacing(bottom, margins.Bottom, color);
             //var left = inner.HorizontalAlign(new SKSize(margins.Near, inner.Height), flowDirection)
 
             var near = inner.HorizontalAlign(new SKSize(-margins.Near, inner.Height), HorizontalAlignment.Near, FlowDirection);
-            DebugSpacing(near, margins.Near.ToString(), color);
+            DebugSpacing(near, margins.Near, color);
 
             var far = inner.HorizontalAlign(new SKSize(-margins.Far, inner.Height), HorizontalAlignment.Far, FlowDirection);
-            DebugSpacing(far, margins.Far.ToString(), color);
+            DebugSpacing(far, margins.Far, color);
 
         }
 
-        public void DebugSpacing(SKRect dest, string text, SKColor color)
+        public void DebugSpacing(SKRect dest, float text, SKColor color)
         {
 
             if (Canvas == null) return;
@@ -146,14 +158,28 @@ namespace FluidSharp
 
             if (dest.Width == 0 || dest.Height == 0) return;
 
-            using (var paint = new SKPaint() { Color = color.WithAlpha(32) })
-                Canvas.DrawRect(dest, paint);
+            Canvas.DrawRect(dest, PaintCache.GetBackgroundPaint(color.WithAlpha(32)));
 
-            using (var paint = new SKPaint() { Color = color.WithAlpha(64), IsStroke = true })
-                Canvas.DrawRect(dest, paint);
+            Canvas.DrawRect(dest, PaintCache.GetBorderPaint(color.WithAlpha(64), 1));
 
-            using (var textpaint = new SKPaint() { Color = color, IsAntialias = true })
-                Canvas.DrawText(text, dest.MidX - 4, dest.Bottom - 2, textpaint);
+            Canvas.DrawText(text.ToString(), dest.MidX - 4, dest.Bottom - 2, PaintCache.GetBackgroundPaint(color));
+
+        }
+
+        public void DebugSpacing(SKRect dest, Func<string> text, SKColor color)
+        {
+
+            if (Canvas == null) return;
+
+            if (!VisualState.ShowSpacing) return;
+
+            if (dest.Width == 0 || dest.Height == 0) return;
+
+            Canvas.DrawRect(dest, PaintCache.GetBackgroundPaint(color.WithAlpha(32)));
+
+            Canvas.DrawRect(dest, PaintCache.GetBorderPaint(color.WithAlpha(64), 1));
+
+            Canvas.DrawText(text(), dest.MidX - 4, dest.Bottom - 2, PaintCache.GetBackgroundPaint(color));
 
         }
 

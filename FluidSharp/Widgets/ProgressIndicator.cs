@@ -1,4 +1,5 @@
 ﻿using FluidSharp.Layouts;
+using FluidSharp.Paint;
 using FluidSharp.State;
 using FluidSharp.Widgets.CrossPlatform;
 using SkiaSharp;
@@ -57,13 +58,11 @@ namespace FluidSharp.Widgets
 
                 // Value part
                 if (part > 0)
-                    using (var paint = new SKPaint() { Color = ValuePartColor })
-                        canvas.DrawRoundRect(new SKRect(x1, liney, x2, liney + LineHeight), halflineheight, halflineheight, paint);
+                    canvas.DrawRoundRect(new SKRect(x1, liney, x2, liney + LineHeight), halflineheight, halflineheight, PaintCache.GetBackgroundPaint(ValuePartColor));
 
                 // Other part
                 if (part < 1)
-                    using (var paint = new SKPaint() { Color = OtherPartColor })
-                        canvas.DrawRoundRect(new SKRect(x2, liney, x3, liney + LineHeight), halflineheight, halflineheight, paint);
+                    canvas.DrawRoundRect(new SKRect(x2, liney, x3, liney + LineHeight), halflineheight, halflineheight, PaintCache.GetBackgroundPaint(OtherPartColor));
 
             }
 

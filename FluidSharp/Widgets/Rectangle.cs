@@ -1,4 +1,5 @@
 ﻿using FluidSharp.Layouts;
+using FluidSharp.Paint;
 using SkiaSharp;
 using SkiaSharp.TextBlocks.Enum;
 using System;
@@ -24,6 +25,7 @@ namespace FluidSharp.Widgets
         public float StrokeWidth;
 
         public Func<SKImageFilter>? ImageFilter;
+
 
         private Rectangle(bool fillHorizontal, bool fillVertical, SKColor backgroundcolor, SKColor bordercolor, Margins margin, SKSize minimumSize, bool antialias, float strokewidth)
         {
@@ -97,17 +99,15 @@ namespace FluidSharp.Widgets
             {
 
                 if (BackgroundColor != null && BackgroundColor.Alpha != 0)
-                    using (var paint = new SKPaint() { Color = BackgroundColor, IsAntialias = Antialias })
-                    {
-                        if (ImageFilter != null) paint.ImageFilter = ImageFilter();
-                        layoutsurface.Canvas.DrawRect(drawrect, paint);
-                    }
+                {
+
+                    layoutsurface.Canvas.DrawRect(drawrect, PaintCache.GetBackgroundPaint(BackgroundColor, Antialias, ImageFilter));
+                }
 
                 if (BorderColor != null && BorderColor.Alpha != 0)
-                    using (var paint = new SKPaint() { Color = BorderColor, IsAntialias = Antialias, IsStroke = true, StrokeWidth = StrokeWidth, FilterQuality = SKFilterQuality.High })
-                    {
-                        layoutsurface.Canvas.DrawRect(drawrect, paint);
-                    }
+                {
+                    layoutsurface.Canvas.DrawRect(drawrect, PaintCache.GetBorderPaint(BorderColor, Antialias, StrokeWidth));
+                }
 
             }
 

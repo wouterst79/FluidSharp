@@ -1,4 +1,5 @@
 ﻿using FluidSharp.Layouts;
+using FluidSharp.Paint;
 using FluidSharp.State;
 using FluidSharp.Widgets.CrossPlatform;
 using SkiaSharp;
@@ -56,7 +57,7 @@ namespace FluidSharp.Widgets
                         }
                     };
                 }
-                else 
+                else
                     thumb = new Circle(15, valuePartColor, SKColors.Transparent);
             }
             else
@@ -141,8 +142,7 @@ namespace FluidSharp.Widgets
                     var x2 = rect.Right;
 
                     // Other part
-                    using (var paint = new SKPaint() { Color = OtherPartColor })
-                        canvas.DrawRect(new SKRect(x1, liney, x2, liney + LineHeight), paint);
+                    canvas.DrawRect(new SKRect(x1, liney, x2, liney + LineHeight), PaintCache.GetBackgroundPaint(OtherPartColor));
 
                 }
                 else
@@ -156,12 +156,10 @@ namespace FluidSharp.Widgets
                     var x3 = FlowDirection == FlowDirection.LeftToRight ? rect.Right : rect.Left;
 
                     // Value part
-                    using (var paint = new SKPaint() { Color = ValuePartColor })
-                        canvas.DrawRect(new SKRect(x1, liney, x2, liney + LineHeight), paint);
+                    canvas.DrawRect(new SKRect(x1, liney, x2, liney + LineHeight), PaintCache.GetBackgroundPaint(ValuePartColor));
 
                     // Other part
-                    using (var paint = new SKPaint() { Color = OtherPartColor })
-                        canvas.DrawRect(new SKRect(x2, liney, x3, liney + LineHeight), paint);
+                    canvas.DrawRect(new SKRect(x2, liney, x3, liney + LineHeight), PaintCache.GetBackgroundPaint(OtherPartColor));
 
                     var thumbsize = Thumb.Measure(layoutsurface.MeasureCache, default);
 

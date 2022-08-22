@@ -14,8 +14,8 @@ namespace FluidSharp.Widgets.Animations
 
         public Animation.Coordinated Animation;
 
-        private static TimeSpan DefaultDelta = TimeSpan.FromMilliseconds(100);
-        private static TimeSpan DefaultDuration = FluidSharp.Animations.Animation.DefaultDuration;
+        public static TimeSpan DefaultDelta = TimeSpan.FromMilliseconds(100);
+        public static TimeSpan DefaultDuration = FluidSharp.Animations.Animation.DefaultDuration;
 
         private TimeSpan Delta;
         private TimeSpan Duration;

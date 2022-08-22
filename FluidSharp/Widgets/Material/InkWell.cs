@@ -1,5 +1,6 @@
 ﻿using FluidSharp.Animations;
 using FluidSharp.Layouts;
+using FluidSharp.Paint;
 using FluidSharp.State;
 using SkiaSharp;
 using System;
@@ -67,19 +68,16 @@ namespace FluidSharp.Widgets.Material
 
                     var sizefactor = Animation.GetValue();
 
-                    using (var paint = new SKPaint() { Color = InkWellColor, IsAntialias = true })
-                    {
-                        var taplocation = touchtarget.LocationOnWidget;
-                        var center = new SKPoint(childrect.Left + taplocation.X, childrect.Top + taplocation.Y);
+                    var taplocation = touchtarget.LocationOnWidget;
+                    var center = new SKPoint(childrect.Left + taplocation.X, childrect.Top + taplocation.Y);
 
-                        var maxw = Math.Max(taplocation.X, childrect.Width - taplocation.X);
-                        var maxh = Math.Max(taplocation.Y, childrect.Height - taplocation.Y);
+                    var maxw = Math.Max(taplocation.X, childrect.Width - taplocation.X);
+                    var maxh = Math.Max(taplocation.Y, childrect.Height - taplocation.Y);
 
-                        var longsize = new SKPoint(maxw, maxh).Length;
+                    var longsize = new SKPoint(maxw, maxh).Length;
 
-                        var radius = longsize * sizefactor;
-                        layoutsurface.Canvas.DrawCircle(center, radius, paint);
-                    }
+                    var radius = longsize * sizefactor;
+                    layoutsurface.Canvas.DrawCircle(center, radius, PaintCache.GetBackgroundPaint(InkWellColor));
 
                     layoutsurface.ResetRectClip();
 

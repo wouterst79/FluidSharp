@@ -1,4 +1,5 @@
 ﻿using FluidSharp.Layouts;
+using FluidSharp.Paint;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -53,7 +54,7 @@ namespace FluidSharp.Widgets.Debugging
 
                 var fps = Math.Round(count * 1000 / duration);
 
-                using (var framepaint = new SKPaint() { Color = SKColors.Red })
+                var framepaint = PaintCache.GetBackgroundPaint(SKColors.Red);
                 {
                     canvas.DrawRect(0, 0, (++framecount % 60), 10, framepaint);
                     canvas.DrawRect(0, 10, (float)fps, 10, framepaint);
@@ -84,11 +85,9 @@ namespace FluidSharp.Widgets.Debugging
                 }
 
                 // draw text
-                using (var textpaint = new SKPaint() { Color = SKColors.White, TextSize = 14 })
-                {
-                    var text = $"{fps} / {framecount}";
-                    canvas.DrawText(text, 0, 20, textpaint);
-                }
+                var textpaint = PaintCache.GetTextPaint(SKColors.White, 14);
+                var text = $"{fps} / {framecount}";
+                canvas.DrawText(text, 0, 20, textpaint);
 
             }
 

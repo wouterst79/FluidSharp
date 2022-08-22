@@ -1,4 +1,5 @@
 ﻿using FluidSharp.Layouts;
+using FluidSharp.Paint;
 using FluidSharp.State;
 using SkiaSharp;
 using System;
@@ -111,10 +112,7 @@ namespace FluidSharp.Widgets
                     var color = backgroundColorSource.GetBackgroundColor(layoutsurface.VisualState);
                     if (color != default)
                     {
-                        using(var paint = new SKPaint() { Color = color })
-                        {
-                            layoutsurface.Canvas.DrawRect(rect, paint);
-                        }
+                        layoutsurface.Canvas.DrawRect(rect, PaintCache.GetBackgroundPaint(color));
                     }
                 }
             }

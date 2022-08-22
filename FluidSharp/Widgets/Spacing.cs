@@ -35,7 +35,7 @@ namespace FluidSharp.Widgets
             var dest = new SKRect(x, y, x + Size.Width, y + Size.Height);
 
 #if SHOWSPACING
-            layoutsurface.DebugSpacing(dest, $"{Size.Width}x{Size.Height}", SKColors.Blue);
+            layoutsurface.DebugSpacing(dest, () => $"{Size.Width}x{Size.Height}", SKColors.Blue);
 #endif
 
             return dest;

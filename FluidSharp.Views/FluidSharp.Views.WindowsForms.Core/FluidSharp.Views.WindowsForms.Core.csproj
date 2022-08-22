@@ -1,53 +1,53 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-  
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UseWindowsForms>true</UseWindowsForms>
-    <Version>1.2.0-alpha</Version>
-    <Authors>Wouter Steenbergen</Authors>
-    <Company>My Daily Bits LLC</Company>
-    <Product>FluidSharp</Product>
-    <Description>FluidSharp is a high performance mobile first multi-platform UI layout framework based on Skia.</Description>
-    <Copyright>2020-2022 Wouter Steenbergen</Copyright>
-    <PackageLicenseFile>License.txt</PackageLicenseFile>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-  </PropertyGroup>
-  
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;__WINDOWSFORMS__</DefineConstants>
-  </PropertyGroup>
-  
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>TRACE;__WINDOWSFORMS__</DefineConstants>
-  </PropertyGroup>
-  
-  <ItemGroup>
-    <None Remove="License.txt" />
-    <None Include="License.txt">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
 
-  <ItemGroup>
-    <Compile Include="..\FluidSharp.Views.Shared\FluidWidgetView.cs" Link="FluidWidgetView.cs" />
-    <Compile Include="..\FluidSharp.Views.WindowsForms\NativeViewManager.cs" Link="NativeViewManager.cs" />
-    <Compile Include="..\FluidSharp.Views.WindowsForms\SkiaView.cs" Link="SkiaView.cs" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<UseWindowsForms>true</UseWindowsForms>
+		<Version>1.2.0-alpha</Version>
+		<Authors>Wouter Steenbergen</Authors>
+		<Company>My Daily Bits LLC</Company>
+		<Product>FluidSharp</Product>
+		<Description>FluidSharp is a high performance mobile first multi-platform UI layout framework based on Skia.</Description>
+		<Copyright>2020-2022 Wouter Steenbergen</Copyright>
+		<PackageLicenseFile>License.txt</PackageLicenseFile>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Content Include="License.txt" />
-  </ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DefineConstants>TRACE;__WINDOWSFORMS__</DefineConstants>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="SkiaSharp.Views.WindowsForms" Version="2.88.0" />
-    <PackageReference Include="FluidSharp" Version="1.1.12-alpha" />
-  </ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DefineConstants>TRACE;__WINDOWSFORMS__</DefineConstants>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Update="NativeViews\NativeTextboxImpl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="License.txt" />
+		<None Include="License.txt">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Include="..\FluidSharp.Views.Shared\FluidWidgetView.cs" Link="FluidWidgetView.cs" />
+		<Compile Include="..\FluidSharp.Views.WindowsForms\NativeViewManager.cs" Link="NativeViewManager.cs" />
+		<Compile Include="..\FluidSharp.Views.WindowsForms\SkiaView.cs" Link="SkiaView.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="License.txt" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="SkiaSharp.Views.WindowsForms" Version="2.88.0" />
+		<PackageReference Include="FluidSharp" Version="1.2.0-alpha" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="NativeViews\NativeTextboxImpl.cs">
+			<SubType>Component</SubType>
+		</Compile>
+	</ItemGroup>
 
 </Project>

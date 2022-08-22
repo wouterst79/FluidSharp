@@ -7,16 +7,40 @@ using System.Threading.Tasks;
 namespace FluidSharp.Engine
 {
 
-    public class PerformanceTracker
+    public interface IPerformanceTracker
     {
+        void AnimationFinished();
+        void ForceRestart();
+        List<FrameInfo> GetFrames();
+        double GetTime();
+        void PaintFinished();
+        void PaintStart();
+        void Request();
+        void WidgetsCreated();
+    }
 
-        public struct FrameInfo
-        {
-            public double requested;
-            public double paintstart;
-            public double widgetscreated;
-            public double paintfinished;
-        }
+    public struct FrameInfo
+    {
+        public double requested;
+        public double paintstart;
+        public double widgetscreated;
+        public double paintfinished;
+    }
+
+    public class NoopPerformanceTracker:IPerformanceTracker
+    {
+        public void AnimationFinished() { }
+        public void ForceRestart() { }
+        public List<FrameInfo> GetFrames() => new List<FrameInfo>();
+        public double GetTime() => 0;
+        public void PaintFinished() { }
+        public void PaintStart() { }
+        public void Request() { }
+        public void WidgetsCreated() { }
+    }
+
+    public class SimplePerformanceTracker : IPerformanceTracker
+    {
 
         private FrameInfo CurrentFrame;
         private List<FrameInfo> Frames = new List<FrameInfo>();
@@ -29,7 +53,7 @@ namespace FluidSharp.Engine
         private const int MaxMSPerFrameWarning = 1000 / 60;
         private const int MaxMSPerFrameError = 1000 / 10;
 
-        public Func<FrameInfo, string, Task> OnPerformanceProblem = async (frame, message) => System.Diagnostics.Debug.WriteLine($"PERFORMANCE: {message}");
+        public Func<FrameInfo, string, Task> OnPerformanceProblem = async (frame, message) => Debug.WriteLine($"PERFORMANCE: {message}");
 
         // timing
         public double GetTime()
@@ -60,6 +84,16 @@ namespace FluidSharp.Engine
         public void AnimationFinished()
         {
             Restart = true;
+        }
+
+        public void ForceRestart()
+        {
+            Debug.WriteLine("restarting");
+            stopwatch = null; 
+            Frames.Clear();
+            Restart = false;
+            CurrentFrame = new FrameInfo();
+            Frames.Add(CurrentFrame);
         }
 
         public List<FrameInfo> GetFrames() => Frames;

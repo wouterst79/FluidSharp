@@ -1,4 +1,5 @@
 ﻿using FluidSharp.Layouts;
+using FluidSharp.Paint;
 using SkiaSharp;
 using SkiaSharp.TextBlocks.Enum;
 using System;
@@ -66,17 +67,14 @@ namespace FluidSharp.Widgets
             {
 
                 if (BackgroundColor != null && BackgroundColor.Alpha != 0)
-                    using (var paint = new SKPaint() { Color = BackgroundColor, IsAntialias = Antialias })
-                    {
-                        if (ImageFilter != null) paint.ImageFilter = ImageFilter();
-                        layoutsurface.Canvas.DrawCircle(point, radius, paint);
-                    }
+                {
+                    layoutsurface.Canvas.DrawCircle(point, radius, PaintCache.GetBackgroundPaint(BackgroundColor, Antialias, ImageFilter));
+                }
 
                 if (BorderColor != null && BorderColor.Alpha != 0)
-                    using (var paint = new SKPaint() { Color = BorderColor, IsAntialias = Antialias, IsStroke = true, FilterQuality = SKFilterQuality.High })
-                    {
-                        layoutsurface.Canvas.DrawCircle(point, radius, paint);
-                    }
+                {
+                    layoutsurface.Canvas.DrawCircle(point, radius, PaintCache.GetBorderPaint(BorderColor, Antialias, 1));
+                }
 
             }
 

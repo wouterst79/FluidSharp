@@ -235,6 +235,8 @@ namespace FluidSharp.Navigation
         {
             SKColor result = default;
 
+            if (Stack.Count == 0) return default;
+
             var top = Stack.Peek();
             if (top is IBackgroundColorSource topBackgroundColorSource)
             {

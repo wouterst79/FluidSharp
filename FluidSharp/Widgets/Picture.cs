@@ -1,4 +1,5 @@
 ﻿using FluidSharp.Layouts;
+using FluidSharp.Paint;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -54,8 +55,7 @@ namespace FluidSharp.Widgets
                     rect = new SKRect(-rect.Right, rect.Top, -rect.Left, rect.Bottom);
                 }
 
-                using (var paint = new SKPaint() { Color = SKColors.Black.WithOpacity(Opacity), FilterQuality = SKFilterQuality.High })
-                    canvas.DrawImage(SKImage, rect, paint);
+                canvas.DrawImage(SKImage, rect, PaintCache.GetImagePaint(Opacity));
 
                 if (flip)
                     canvas.Restore();

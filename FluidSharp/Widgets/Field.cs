@@ -1,4 +1,5 @@
 ﻿using FluidSharp.Layouts;
+using FluidSharp.Paint;
 using FluidSharp.Widgets.CrossPlatform;
 using SkiaSharp;
 using System;
@@ -61,18 +62,15 @@ namespace FluidSharp.Widgets
                         if (Material)
                         {
 
-                            using (var paint = new SKPaint() { Color = SKColors.Gray.WithAlpha(32), IsAntialias = true })
-                                layoutsurface.Canvas.DrawRoundRect(rrect, paint);
+                            layoutsurface.Canvas.DrawRoundRect(rrect, PaintCache.GetBackgroundPaint(SKColors.Gray.WithAlpha(32)));
 
-                            using (var paint = new SKPaint() { Color = SKColors.Gray })
-                                layoutsurface.Canvas.DrawRect(new SKRect(actual.Left, actual.Bottom - 2, actual.Right, actual.Bottom), paint);
+                            layoutsurface.Canvas.DrawRect(new SKRect(actual.Left, actual.Bottom - 2, actual.Right, actual.Bottom), PaintCache.GetBackgroundPaint(SKColors.Gray));
 
                         }
                         else
                         {
 
-                            using (var paint = new SKPaint() { Color = BorderColor, IsStroke = true, IsAntialias = true })
-                                layoutsurface.Canvas.DrawRoundRect(rrect, paint);
+                            layoutsurface.Canvas.DrawRoundRect(rrect, PaintCache.GetBorderPaint(BorderColor, 1));
 
                         }
 

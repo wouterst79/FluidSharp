@@ -1,4 +1,5 @@
 ﻿using FluidSharp.Layouts;
+using FluidSharp.Paint;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace FluidSharp.Widgets
         {
             if (Contents == null) return rect;
 
-            if (layoutsurface.Canvas == null) 
+            if (layoutsurface.Canvas == null)
                 return layoutsurface.Paint(Contents, rect);
 
 #if DEBUG
@@ -32,7 +33,8 @@ namespace FluidSharp.Widgets
 
             if (Factor == 0)
             {
-                return rect;
+                var height = Measure(layoutsurface.MeasureCache, rect.Size).Height;
+                return rect.WithHeight(height);
             }
 
             if (Factor < 1)
@@ -51,8 +53,7 @@ namespace FluidSharp.Widgets
 
                     layoutsurface.SetCanvas(originalcanvas);
 
-                    using (var paint = new SKPaint() { Color = SKColors.White.WithOpacity(Factor) })
-                        originalcanvas.DrawPicture(recorded, paint);
+                    originalcanvas.DrawPicture(recorded, PaintCache.GetOpacityPaint(Factor));
 
                     return result;
 

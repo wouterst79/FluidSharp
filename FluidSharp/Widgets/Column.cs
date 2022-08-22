@@ -49,7 +49,9 @@ namespace FluidSharp.Widgets
 
             var any = false;
             if (Children != null)
+            {
                 foreach (var child in Children)
+                {
                     if (child is Spacing s)
                     {
                         if (any)
@@ -64,6 +66,8 @@ namespace FluidSharp.Widgets
                         h += childsize.Height + Spacing;
                         any = true;
                     }
+                }
+            }
 
             if (any)
                 h -= Spacing;
@@ -106,7 +110,7 @@ namespace FluidSharp.Widgets
                             y = y - Spacing;
 
 #if SHOWSPACING
-                        layoutsurface.DebugSpacing(new SKRect(l, y, r, y + s.Size.Height), s.Size.Height.ToString(), SKColors.Blue);
+                        layoutsurface.DebugSpacing(new SKRect(l, y, r, y + s.Size.Height), s.Size.Height, SKColors.Blue);
 #endif
 
                         y += s.Size.Height;
@@ -139,7 +143,7 @@ namespace FluidSharp.Widgets
 #if SHOWSPACING
                             var idx = Children.IndexOf(child);
                             if (!(Children[idx + 1] is Spacing))
-                                layoutsurface.DebugSpacing(new SKRect(l, y, r, y + Spacing), Spacing.ToString(), SpacingColor);
+                                layoutsurface.DebugSpacing(new SKRect(l, y, r, y + Spacing), Spacing, SpacingColor);
 #endif
 
                             y += Spacing;

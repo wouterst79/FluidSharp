@@ -1,4 +1,5 @@
 ﻿using FluidSharp.Layouts;
+using FluidSharp.Paint;
 using SkiaSharp;
 using SkiaSharp.TextBlocks;
 using System;
@@ -34,10 +35,9 @@ namespace FluidSharp.Widgets
             y -= (Margins.Bottom + radius);
 
             if (Color != null && Color.Alpha != 0)
-                using (var paint = new SKPaint() { Color = Color, IsAntialias = Antialias })
-                {
-                    canvas.DrawCircle(x, y, radius, paint);
-                }
+            {
+                canvas.DrawCircle(x, y, radius, PaintCache.GetBackgroundPaint(Color, Antialias));
+            }
 
         }
 

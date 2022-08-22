@@ -1,4 +1,5 @@
 ﻿using FluidSharp.Layouts;
+using FluidSharp.Paint;
 using SkiaSharp;
 using SkiaSharp.TextBlocks.Enum;
 using System;
@@ -46,10 +47,7 @@ namespace FluidSharp.Widgets
                         new SKColor[] { FarColor, NearColor },
                         new float[] { 1, 0 },
                         SKShaderTileMode.Clamp))
-                    using (var colorpaint = new SKPaint() { Shader = gradient })
-                    {
-                        layoutsurface.Canvas.DrawRect(drawrect, colorpaint);
-                    }
+                        layoutsurface.Canvas.DrawRect(drawrect, PaintCache.GetShaderPaint(gradient));
 
                 }
                 else
@@ -62,10 +60,7 @@ namespace FluidSharp.Widgets
                         new SKColor[] { NearColor, FarColor },
                         new float[] { 0, 1 },
                         SKShaderTileMode.Clamp))
-                    using (var colorpaint = new SKPaint() { Shader = gradient })
-                    {
-                        layoutsurface.Canvas.DrawRect(drawrect, colorpaint);
-                    }
+                        layoutsurface.Canvas.DrawRect(drawrect, PaintCache.GetShaderPaint(gradient));
 
                 }
 
