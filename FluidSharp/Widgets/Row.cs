@@ -2,6 +2,7 @@
 //#define DEBUGCONTAINER
 #endif
 using FluidSharp.Layouts;
+using FluidSharp.Widgets.Members;
 using SkiaSharp;
 using SkiaSharp.TextBlocks.Enum;
 using System;
@@ -20,10 +21,20 @@ namespace FluidSharp.Widgets
         public bool ExpandHorizontal = false;
         public VerticalAlignment VerticalChildAlignment = VerticalAlignment.Top;
 
-        public List<Widget?> Children = new List<Widget?>();
+        public FixableList<Widget?> Children;
 
-        public Row(float spacing, VerticalAlignment verticalChildAlignment, params Widget?[] widgets) { Spacing = spacing; VerticalChildAlignment = verticalChildAlignment; Children.AddRange(widgets); }
-        public Row(float spacing, params Widget?[] widgets) { Spacing = spacing; Children.AddRange(widgets); }
+        public Row(float spacing, VerticalAlignment verticalChildAlignment, params Widget?[] widgets)
+        {
+            Spacing = spacing;
+            VerticalChildAlignment = verticalChildAlignment;
+            Children = new FixableList<Widget?>(widgets);
+        }
+
+        public Row(float spacing, params Widget?[] widgets)
+        {
+            Spacing = spacing;
+            Children = new FixableList<Widget?>(widgets);
+        }
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {
@@ -112,6 +123,8 @@ namespace FluidSharp.Widgets
         private (float width, float height, List<(Widget widget, SKSize measure)>) LayoutChildren(MeasureCache measureCache, SKSize boundaries)
         {
 
+            Children.IsFixed = true;
+
             var measures = new List<(Widget widget, SKSize size)>();
 
             var w = 0f;
@@ -122,7 +135,8 @@ namespace FluidSharp.Widgets
                     if (child != null)
                     {
 
-                        var measure = child.Measure(measureCache, boundaries);
+                        var available = ExpandHorizontal ? new SKSize(boundaries.Width - w, boundaries.Height) : boundaries;
+                        var measure = child.Measure(measureCache, available);
                         w = w + measure.Width + Spacing;
                         if (h < measure.Height) h = measure.Height;
                         measures.Add((child, measure));

@@ -1,6 +1,7 @@
 ﻿#define SHOWSPACING
 
 using FluidSharp.Layouts;
+using FluidSharp.Widgets.Members;
 using SkiaSharp;
 using SkiaSharp.TextBlocks.Enum;
 using System;
@@ -44,7 +45,7 @@ namespace FluidSharp.Widgets
         public bool ExpandHorizontal;
         public bool ExpandVertical;
 
-        public List<Widget?> Children = new List<Widget?>();
+        public FixableList<Widget?> Children;
 
 
         public Container(ContainerLayout layout)
@@ -56,21 +57,24 @@ namespace FluidSharp.Widgets
             FillHorizontal = layout == ContainerLayout.Fill || layout == ContainerLayout.FillHorizontal || ExpandHorizontal;
             FillVertical = layout == ContainerLayout.Fill || ExpandVertical;
 
+            Children = new FixableList<Widget?>();
         }
 
         public Container(ContainerLayout layout, params Widget?[] children) : this(layout)
         {
-            Children = new List<Widget?>(children);
+            Children = new FixableList<Widget?>(children);
         }
 
         public Container(ContainerLayout layout, Margins margins, params Widget?[] children) : this(layout)
         {
             Margin = margins;
-            Children = new List<Widget?>(children);
+            Children = new FixableList<Widget?>(children);
         }
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {
+
+            Children.IsFixed = true;
 
             if (ExpandHorizontal && ExpandVertical)
                 return boundaries;
@@ -107,6 +111,8 @@ namespace FluidSharp.Widgets
 
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
+
+            Children.IsFixed = true;
 
             var size = Measure(layoutsurface.MeasureCache, new SKSize(rect.Width, rect.Height));
 

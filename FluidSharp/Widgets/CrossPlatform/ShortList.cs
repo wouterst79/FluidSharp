@@ -1,4 +1,5 @@
 ﻿using FluidSharp.State;
+using FluidSharp.Widgets.Members;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace FluidSharp.Widgets.CrossPlatform
                     Children = items.Select(
                         item => SelectableButton.Make(platformStyle, visualState, item,
                                         makeItemWidget(item), isItemSelected(item), selectedColor, () => onItemSelected(item))
-                    ).ToList()
+                    ).ToFixableList()
                 }
             )
             { ClipContents = true };
@@ -35,7 +36,7 @@ namespace FluidSharp.Widgets.CrossPlatform
                     Children = items.Select(
                         item => SelectableButton.Make(platformStyle, visualState, item,
                                         makeItemWidget(item), isItemSelected(item), selectedColor, () => onItemSelected(item))
-                    ).ToList()
+                    ).ToFixableList()
                 };
             if (header != null) column.Children.Insert(0, header);
             if (footer != null) column.Children.Add(footer);

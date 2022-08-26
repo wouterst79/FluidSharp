@@ -3,6 +3,7 @@
 //#define DEBUGCONTAINER
 #endif
 using FluidSharp.Layouts;
+using FluidSharp.Widgets.Members;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -27,13 +28,24 @@ namespace FluidSharp.Widgets
         public bool ExpandHorizontal = true;
         public HorizontalAlignment HorizontalAlignment = HorizontalAlignment.Near;
 
-        public List<Widget?> Children = new List<Widget?>();
+        public FixableList<Widget?> Children;
 
-        public Column(float spacing, HorizontalAlignment horizontalAlignment = HorizontalAlignment.Near) { Spacing = spacing; HorizontalAlignment = horizontalAlignment; }
-        public Column(float spacing, params Widget?[] widgets) { Spacing = spacing; Children.AddRange(widgets); }
+        public Column(float spacing, HorizontalAlignment horizontalAlignment = HorizontalAlignment.Near)
+        {
+            Spacing = spacing;
+            HorizontalAlignment = horizontalAlignment;
+            Children = new FixableList<Widget?>();
+        }
+        public Column(float spacing, params Widget?[] widgets)
+        {
+            Spacing = spacing;
+            Children = new FixableList<Widget?>(widgets);
+        }
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {
+
+            Children.IsFixed = true;
 
             boundaries = Margin.Shrink(boundaries);
 
@@ -81,6 +93,8 @@ namespace FluidSharp.Widgets
 
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
+
+            Children.IsFixed = true;
 
             rect = Margin.Shrink(rect, layoutsurface.FlowDirection);
 
