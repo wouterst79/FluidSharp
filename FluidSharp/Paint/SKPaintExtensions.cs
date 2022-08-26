@@ -6,10 +6,10 @@ using System.Text;
 namespace FluidSharp
 {
 
-    public class SKPaint
-    {
-        private SKPaint() { }
-    }
+    //public class SKPaint
+    //{
+    //    private SKPaint() { }
+    //}
 
     public static class SKPaintExtensions
     {

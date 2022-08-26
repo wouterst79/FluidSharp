@@ -13,7 +13,7 @@ namespace FluidSharp.Views.iOS
     {
 
         public readonly IWidgetSource WidgetSource;
-        private FluidWidgetGLView FluidWidgetView;
+        public FluidWidgetGLView FluidWidgetView;
 
         private KeyboardTracker KeyboardTracker;
         private nfloat OriginalInsetBottom;

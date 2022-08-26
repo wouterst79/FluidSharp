@@ -68,7 +68,8 @@ namespace FluidSharp.Widgets
 
                 if (BackgroundColor != null && BackgroundColor.Alpha != 0)
                 {
-                    layoutsurface.Canvas.DrawCircle(point, radius, PaintCache.GetBackgroundPaint(BackgroundColor, Antialias, ImageFilter));
+                    var paint = PaintCache.GetBackgroundPaint(BackgroundColor, Antialias, ImageFilter);
+                    layoutsurface.Canvas.DrawCircle(point, radius, paint);
                 }
 
                 if (BorderColor != null && BorderColor.Alpha != 0)

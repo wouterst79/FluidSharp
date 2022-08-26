@@ -4,20 +4,19 @@ using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using SKPaint1 = SkiaSharp.SKPaint;
 
 namespace FluidSharp.Widgets.Debugging
 {
     public class PerformanceChart : Widget
     {
 
-        SKPaint1 paint1 = new SKPaint1() { Color = SKColors.Green };
-        SKPaint1 paint2 = new SKPaint1() { Color = SKColors.Blue };
-        SKPaint1 paint3 = new SKPaint1() { Color = SKColors.Red };
-        //SKPaint1 scrollpaint = new SKPaint1() { Color = SKColors.Purple };
+        SKPaint paint1 = new SKPaint() { Color = SKColors.Green };
+        SKPaint paint2 = new SKPaint() { Color = SKColors.Blue };
+        SKPaint paint3 = new SKPaint() { Color = SKColors.Red };
+        //SKPaint scrollpaint = new SKPaint() { Color = SKColors.Purple };
 
-        SKPaint1 textpaint = new SKPaint1() { Color = SKColors.White, TextSize = 14 };
-        SKPaint1 goalpaint = new SKPaint1() { Color = SKColors.Gray };
+        SKPaint textpaint = new SKPaint() { Color = SKColors.White, TextSize = 14 };
+        SKPaint goalpaint = new SKPaint() { Color = SKColors.Gray };
 
 
         private PerformanceChart() { }

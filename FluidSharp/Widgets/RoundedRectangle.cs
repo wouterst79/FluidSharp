@@ -45,7 +45,8 @@ namespace FluidSharp.Widgets
                 {
                     if (BackgroundColor != null && BackgroundColor.Alpha != 0)
                     {
-                        layoutsurface.Canvas.DrawRoundRect(rrect, PaintCache.GetBackgroundPaint(BackgroundColor, true, ImageFilter));
+                        var paint = PaintCache.GetBackgroundPaint(BackgroundColor, true, ImageFilter);
+                        layoutsurface.Canvas.DrawRoundRect(rrect, paint);
                     }
 
                     if (BorderColor != null && BorderColor.Alpha != 0)

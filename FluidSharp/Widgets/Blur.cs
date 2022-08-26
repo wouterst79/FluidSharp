@@ -40,7 +40,10 @@ namespace FluidSharp.Widgets
                 layoutsurface.SetCanvas(originalcanvas);
 
                 using (var filter = SKImageFilter.CreateBlur(Sigma, Sigma))
-                    originalcanvas.DrawPicture(recorded, PaintCache.GetBackgroundPaint(SKColors.Red, true, () => filter));
+                {
+                    var paint = PaintCache.GetBackgroundPaint(SKColors.Red, true, () => filter);
+                    originalcanvas.DrawPicture(recorded, paint);
+                }
 
                 return result;
 

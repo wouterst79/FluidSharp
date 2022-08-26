@@ -2,125 +2,136 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using SKPaint1 = SkiaSharp.SKPaint;
 
 namespace FluidSharp.Paint
 {
     public static class PaintCache
     {
 
-        private static SKPaint1? backgroundPaintT;
-        private static SKPaint1? backgroundPaintF;
-        public static SKPaint1 GetBackgroundPaint(SKColor backgroundColor)
+        private static SKPaint? backgroundPaintT;
+        private static SKPaint? backgroundPaintF;
+        public static SKPaint GetBackgroundPaint(SKColor backgroundColor)
         {
-            var paint = backgroundPaintT ??= new SKPaint1() { IsAntialias = true };
+            var paint = backgroundPaintT ??= new SKPaint() { IsAntialias = true };
             paint.Color = backgroundColor;
             return paint;
         }
 
-        public static SKPaint1 GetBackgroundPaint(SKColor backgroundColor, bool antiAlias)
+        public static SKPaint GetBackgroundPaint(SKColor backgroundColor, bool antiAlias)
         {
             var paint = antiAlias ?
-                                        backgroundPaintT ??= new SKPaint1() { IsAntialias = true } :
-                                        backgroundPaintF ??= new SKPaint1();
+                                        backgroundPaintT ??= new SKPaint() { IsAntialias = true } :
+                                        backgroundPaintF ??= new SKPaint();
             paint.Color = backgroundColor;
             return paint;
         }
 
-        private static SKPaint1? imageFilterPaint;
-        public static SKPaint1 GetBackgroundPaint(SKColor backgroundColor, bool antialias, Func<SKImageFilter>? imageFilter)
+        private static SKPaint? imageFilterPaint;
+        public static SKPaint GetBackgroundPaint(SKColor backgroundColor, bool antialias, Func<SKImageFilter>? imageFilter)
         {
             if (imageFilter is null)
             {
                 var paint = antialias ?
-                                            backgroundPaintT ??= new SKPaint1() { IsAntialias = true } :
-                                            backgroundPaintF ??= new SKPaint1();
+                                            backgroundPaintT ??= new SKPaint() { IsAntialias = true } :
+                                            backgroundPaintF ??= new SKPaint();
                 paint.Color = backgroundColor;
                 return paint;
             }
             else
             {
-                var paint = imageFilterPaint ??= new SKPaint1();
+                var paint = imageFilterPaint ??= new SKPaint();
                 paint.Color = backgroundColor;
                 paint.IsAntialias = antialias;
+                paint.ImageFilter = imageFilter();
                 return paint;
             }
         }
 
-        private static SKPaint1? borderPaintT;
-        private static SKPaint1? borderPaintF;
-        //public static SKPaint1 GetBorderPaint(SKColor borderColor)
+        private static SKPaint? borderPaintT;
+        private static SKPaint? borderPaintF;
+        //public static SKPaint GetBorderPaint(SKColor borderColor)
         //{
-        //    var borderPaint = borderPaintT ??= new SKPaint1() { IsAntialias = true };
+        //    var borderPaint = borderPaintT ??= new SKPaint() { IsAntialias = true };
         //    borderPaint.Color = borderColor;
         //    return borderPaint;
         //}
 
-        public static SKPaint1 GetBorderPaint(SKColor borderColor, float strokeWidth)
+        public static SKPaint GetBorderPaint(SKColor borderColor, float strokeWidth)
         {
-            var paint = borderPaintT ??= new SKPaint1() { IsAntialias = true };
+            var paint = borderPaintT ??= new SKPaint() { IsAntialias = true, IsStroke = true };
             paint.Color = borderColor;
             paint.StrokeWidth = strokeWidth;
             return paint;
         }
 
-        public static SKPaint1 GetBorderPaint(SKColor borderColor, bool antiAlias, float strokeWidth)
+        public static SKPaint GetBorderPaint(SKColor borderColor, bool antiAlias, float strokeWidth)
         {
             var paint = antiAlias ?
-                                        borderPaintT ??= new SKPaint1() { IsAntialias = true } :
-                                        borderPaintF ??= new SKPaint1();
+                                        borderPaintT ??= new SKPaint() { IsAntialias = true, IsStroke = true } :
+                                        borderPaintF ??= new SKPaint() { IsStroke = true };
             paint.Color = borderColor;
             paint.StrokeWidth = strokeWidth;
             return paint;
         }
 
 
-        private static SKPaint1? textPaint;
-        public static SKPaint1 GetTextPaint(SKColor color, float textSize)
+        private static SKPaint? strokeCapPaint;
+        public static SKPaint GetStrokeCapPaint(SKColor color, bool antiAlias, float strokeWidth, SKStrokeCap strokeCap)
         {
-            var paint = textPaint ??= new SKPaint1();
+            var paint = strokeCapPaint ??= new SKPaint() { IsStroke = true };
+            paint.Color = color;
+            paint.IsAntialias = antiAlias;
+            paint.StrokeWidth = strokeWidth;
+            paint.StrokeCap = strokeCap;
+            return paint;
+        }
+
+        private static SKPaint? textPaint;
+        public static SKPaint GetTextPaint(SKColor color, float textSize)
+        {
+            var paint = textPaint ??= new SKPaint();
             paint.Color = color;
             paint.TextSize = textSize;
             return paint;
         }
 
-        private static SKPaint1? shaderPaint;
-        public static SKPaint1 GetShaderPaint(SKShader shader)
+        private static SKPaint? shaderPaint;
+        public static SKPaint GetShaderPaint(SKShader shader)
         {
-            var paint = shaderPaint ??= new SKPaint1();
+            var paint = shaderPaint ??= new SKPaint();
             paint.Shader = shader;
             return paint;
         }
 
-        private static SKPaint1? imagePaint;
-        private static SKPaint1? imageOpacityPaint;
+        private static SKPaint? imagePaint;
+        private static SKPaint? imageOpacityPaint;
 
-        public static SKPaint1 GetImagePaint()
+        public static SKPaint GetImagePaint()
         {
-            var paint = imagePaint ??= new SKPaint1() { FilterQuality = SKFilterQuality.High };
+            var paint = imagePaint ??= new SKPaint() { FilterQuality = SKFilterQuality.High };
             return paint;
         }
 
-        public static SKPaint1 GetImagePaint(float opacity)
+        public static SKPaint GetImagePaint(float opacity)
         {
             if (opacity >= 1)
             {
-                var paint = imagePaint ??= new SKPaint1() { FilterQuality = SKFilterQuality.High };
+                var paint = imagePaint ??= new SKPaint() { FilterQuality = SKFilterQuality.High };
                 return paint;
             }
             else
             {
-                var paint = imageOpacityPaint ??= new SKPaint1() { FilterQuality = SKFilterQuality.High };
+                var paint = imageOpacityPaint ??= new SKPaint() { FilterQuality = SKFilterQuality.High };
                 paint.Color = SKColors.White.WithOpacity(opacity);
                 return paint;
             }
         }
 
 
-        private static SKPaint1? opacityPaint;
-        public static SKPaint1 GetOpacityPaint(float opacity)
+        private static SKPaint? opacityPaint;
+        public static SKPaint GetOpacityPaint(float opacity)
         {
-            var paint = opacityPaint ??= new SKPaint1();
+            var paint = opacityPaint ??= new SKPaint();
             paint.Color = SKColors.White.WithOpacity(opacity);
             return paint;
         }

@@ -100,8 +100,8 @@ namespace FluidSharp.Widgets
 
                 if (BackgroundColor != null && BackgroundColor.Alpha != 0)
                 {
-
-                    layoutsurface.Canvas.DrawRect(drawrect, PaintCache.GetBackgroundPaint(BackgroundColor, Antialias, ImageFilter));
+                    var paint = PaintCache.GetBackgroundPaint(BackgroundColor, Antialias, ImageFilter);
+                    layoutsurface.Canvas.DrawRect(drawrect, paint);
                 }
 
                 if (BorderColor != null && BorderColor.Alpha != 0)
