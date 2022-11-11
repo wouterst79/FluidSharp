@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net6.0-android;net6.0-ios</TargetFrameworks>
+		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+		<!-- <TargetFrameworks>$(TargetFrameworks);net6.0-tizen</TargetFrameworks> -->
+		<!-- <UseMaui>true</UseMaui> -->
+		<SingleProject>true</SingleProject>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+	</PropertyGroup>
+
+	<!-- Android -->
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'android'">
+		<Compile Remove="**\Android\**\*.cs" />
+		<None Include="**\Android\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+	</ItemGroup>
+
+	<!-- iOS -->
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'ios'">
+		<Compile Remove="**\iOS\**\*.cs" />
+		<None Include="**\iOS\**\*.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Platforms\Android\Resources\drawable\**" />
+	  <EmbeddedResource Remove="Platforms\Android\Resources\drawable\**" />
+	  <MauiCss Remove="Platforms\Android\Resources\drawable\**" />
+	  <MauiXaml Remove="Platforms\Android\Resources\drawable\**" />
+	  <None Remove="Platforms\Android\Resources\drawable\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Platforms\iOS\License.txt" />
+	  <None Remove="Platforms\iOS\nuget instructions.txt" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\FluidSharp\FluidSharp.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="SkiaSharp" Version="2.88.3" />
+	  <PackageReference Include="SkiaSharp.HarfBuzz" Version="2.88.3" />
+		<PackageReference Include="SkiaSharp.Views" Version="2.88.3" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'" />
+		<PackageReference Include="SkiaSharp.Views" Version="2.88.3" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'" />
+	</ItemGroup>
+
+</Project>
