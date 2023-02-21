@@ -132,11 +132,17 @@ namespace FluidSharp.Engine
         #endregion
 
 
+        Scale? DefaultScaleScale;
         private Widget MakeWidget()
         {
             var controlwidget = WidgetView.MakeWidget(VisualState);
             if (Device.DefaultScale != 1)
-                controlwidget = new Scale(Device.DefaultScale, controlwidget);
+            {
+                if (DefaultScaleScale is null) DefaultScaleScale = new Scale(Device.DefaultScale, controlwidget);
+                if (DefaultScaleScale.Factor.X != Device.DefaultScale) DefaultScaleScale.Factor = new SKPoint(Device.DefaultScale, Device.DefaultScale);
+                DefaultScaleScale.Child = controlwidget;
+                controlwidget = DefaultScaleScale;
+            }
 
 #if PAINTFPS || PAINTPERF
 

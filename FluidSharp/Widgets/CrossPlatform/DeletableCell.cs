@@ -68,7 +68,7 @@ namespace FluidSharp.Widgets.CrossPlatform
             {
                 Columns =
                 {
-                    new LayoutSize.Absolute(100),
+                    LayoutSize.Absolute(100),
                 },
                 Cells =
                 {

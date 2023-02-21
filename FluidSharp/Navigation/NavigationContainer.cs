@@ -45,6 +45,7 @@ namespace FluidSharp.Navigation
 
         // slide back
         public CarouselState<bool>? SlideBackState;
+        //        public StatefulSlideTransition SlideBackTransition;
 
         // current frame
         private IWidgetSource CurrentFrame => Stack.Peek();
@@ -222,6 +223,11 @@ namespace FluidSharp.Navigation
                 if (canslideback)
                 {
                     if (SlideBackState == null) SlideBackState = new SlideBackState(() => OnSlideBackCompleted(visualState));
+                    //if (SlideBackTransition is null || SlideBackTransition.State != SlideBackState)
+                    //{
+                    //    SlideBackTransition = new StatefulSlideTransition(visualState, SlideBackState, MakeSlideBackWidget, PushPageTransition.PushOverlap);
+                    //}
+                    //return SlideBackTransition;//
                     return SlideBackNavigation.Make(visualState, SlideBackState, SlideBackState.GetFrame(), GetBackPanDetectorWidth(), 0, null, MakeSlideBackWidget);
                 }
 

@@ -15,7 +15,7 @@ namespace FluidSharp.Widgets.Animations
         public Animation? Animation { get; set; }
         public Opacity? Opacity { get; set; }
 
-        public FadeInElement(Widget contents)
+        private FadeInElement(Widget contents)
         {
             Opacity = new Opacity(1, contents);
         }
@@ -32,6 +32,13 @@ namespace FluidSharp.Widgets.Animations
             }
             return layoutsurface.Paint(Opacity, rect);
         }
+
+        public static Widget Make(Widget contents)
+        {
+            return contents;
+            //return new FadeInElement(contents);
+        }
+
     }
 
 

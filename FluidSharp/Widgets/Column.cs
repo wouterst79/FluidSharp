@@ -36,7 +36,20 @@ namespace FluidSharp.Widgets
             HorizontalAlignment = horizontalAlignment;
             Children = new FixableList<Widget?>();
         }
+        public Column(float spacing, HorizontalAlignment horizontalAlignment, IEnumerable<Widget?> widgets)
+        {
+            Spacing = spacing;
+            HorizontalAlignment = horizontalAlignment;
+            Children = new FixableList<Widget?>(widgets);
+        }
+
         public Column(float spacing, params Widget?[] widgets)
+        {
+            Spacing = spacing;
+            Children = new FixableList<Widget?>(widgets);
+        }
+
+        public Column(float spacing, IEnumerable<Widget?> widgets)
         {
             Spacing = spacing;
             Children = new FixableList<Widget?>(widgets);

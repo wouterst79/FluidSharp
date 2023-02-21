@@ -15,9 +15,23 @@ namespace FluidSharp.Widgets
 
         public SKSize Size;
 
+        private static Dictionary<float, Spacing> SquareCache = new Dictionary<float, Spacing>();
+        private static Dictionary<(float width, float height), Spacing> RectCache = new Dictionary<(float width, float height), Spacing>();
 
-        public Spacing(float size) => Size = new SKSize(size, size);
-        public Spacing(float width, float height) => Size = new SKSize(width, height);
+        private Spacing(float size) => Size = new SKSize(size, size);
+        private Spacing(float width, float height) => Size = new SKSize(width, height);
+
+        public static Spacing Make(float size)
+        {
+            if (!SquareCache.TryGetValue(size, out var result)) SquareCache[size] = result = new Spacing(size);
+            return result;
+        }
+
+        public static Spacing Make(float width, float height)
+        {
+            if (!RectCache.TryGetValue((width, height), out var result)) RectCache[(width, height)] = result = new Spacing(width, height);
+            return result;
+        }
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {

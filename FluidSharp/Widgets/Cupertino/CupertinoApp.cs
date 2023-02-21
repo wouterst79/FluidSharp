@@ -17,8 +17,8 @@ namespace FluidSharp.Widgets.Cupertino
             {
                 Rows =
                 {
-                    new LayoutSize.Absolute(30),
-                    new LayoutSize.Remaining()
+                    LayoutSize.Absolute(30),
+                    LayoutSize.Remaining
                 },
                 Cells =
                 {

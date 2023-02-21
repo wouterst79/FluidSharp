@@ -11,6 +11,9 @@ namespace FluidSharp.Widgets
     public abstract class Widget
     {
 
+
+        public static Action<Widget>? WidgetAllocated;
+
 #if DEBUG
         public string DebugTag;
 #endif
@@ -18,6 +21,12 @@ namespace FluidSharp.Widgets
         public abstract SKSize Measure(MeasureCache measureCache, SKSize boundaries);
 
         public abstract SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect);
+
+
+        public Widget()
+        {
+            WidgetAllocated?.Invoke(this);
+        }
 
     }
 }

@@ -35,6 +35,15 @@ namespace FluidSharp.Widgets
         }
 
 
+        //public static OptionBar Make<T>(ref OptionBar? current, VisualState visualState, PlatformStyle platformStyle, object context, IEnumerable<T> options, Func<T, bool> isSelected, Func<T, Task> setValue, Func<T, SKColor, Widget> makeButton)
+        //{
+        //    if(current is null)
+        //    {
+        //        current = Make(visualState, platformStyle, context, options, isSelected, setValue, makeButton);
+        //    }
+        //    return current;
+        //}
+
         public static OptionBar Make<T>(VisualState visualState, PlatformStyle platformStyle, object context, IEnumerable<T> options, Func<T, bool> isSelected, Func<T, Task> setValue, Func<T, SKColor, Widget> makeButton)
         {
             if (platformStyle == PlatformStyle.Cupertino)
@@ -45,7 +54,7 @@ namespace FluidSharp.Widgets
                 var buttonBackground = new RoundedRectangle(8, SKColors.White, default) { ImageFilter = platformStyle.DropShadowImageFilterSmall };
 
                 Func<T, Widget> makeButton2 = (v) =>
-                        GestureDetector.TapDetector(visualState, context, () => setValue(v), null, 
+                        GestureDetector.TapDetector(visualState, context, () => setValue(v), null,
                             new Container(ContainerLayout.Fill,
                                 Align.Center(
                                     makeButton(v, SKColors.Black)
@@ -62,7 +71,7 @@ namespace FluidSharp.Widgets
                 Widget background = null;
                 SKSize padding = default;
                 Widget separator = null;
-                
+
                 var themecolor = SKColors.DarkBlue;
 
                 var buttonBackground = Align.Bottom(Rectangle.Horizontal(2, themecolor));

@@ -34,7 +34,7 @@ namespace FluidSharp.Widgets
             foreach (var widget in widgets)
                 if (widget != null)
                     cells.Add(new LayoutCell(cells.Count, 0, widget));
-            return new Layout() { Cells = cells, Rows = { new LayoutSize.Fit() } };
+            return new Layout() { Cells = cells, Rows = { LayoutSize.Fit } };
         }
 
         public static Layout Row(Margins margins, float spacing, params Widget[] widgets)
@@ -43,7 +43,7 @@ namespace FluidSharp.Widgets
             foreach (var widget in widgets)
                 if (widget != null)
                     cells.Add(new LayoutCell(cells.Count, 0, widget));
-            return new Layout() { Margin = margins, ColumnSpacing = spacing, Cells = cells, Rows = { new LayoutSize.Fit() } };
+            return new Layout() { Margin = margins, ColumnSpacing = spacing, Cells = cells, Rows = { LayoutSize.Fit } };
         }
 
         public static Layout Row(Margins margins, Widget separator, float spacing, params Widget[] widgets)
@@ -55,16 +55,16 @@ namespace FluidSharp.Widgets
             {
                 if (wasnotnull)
                 {
-                    columns.Add(new LayoutSize.Absolute(spacing));
+                    columns.Add(LayoutSize.Absolute(spacing));
                     cells.Add(new LayoutCell(cells.Count, 0, separator));
                 }
                 if (wasnotnull = (widget != null))
                 {
-                    columns.Add(new LayoutSize.Remaining());
+                    columns.Add(LayoutSize.Remaining);
                     cells.Add(new LayoutCell(cells.Count, 0, widget));
                 }
             }
-            return new Layout() { Margin = margins, ColumnSpacing = spacing, Cells = cells, Columns = columns, Rows = { new LayoutSize.Fit() } };
+            return new Layout() { Margin = margins, ColumnSpacing = spacing, Cells = cells, Columns = columns, Rows = { LayoutSize.Fit } };
         }
 
 #if DEBUG
@@ -76,8 +76,8 @@ namespace FluidSharp.Widgets
 
             var abs = new Layout()
             {
-                Rows = { new LayoutSize.Absolute(50) },
-                Columns = { new LayoutSize.Absolute(50) },
+                Rows = { LayoutSize.Absolute(50) },
+                Columns = { LayoutSize.Absolute(50) },
                 Cells = { new LayoutCell(0, 0, Rectangle.Fill(SKColors.Black)) }
             };
             var abssize = abs.Measure(null, boundaries);
@@ -88,8 +88,8 @@ namespace FluidSharp.Widgets
             var rel = new Layout()
             {
                 Margin = new Margins(10),
-                Rows = { new LayoutSize.Remaining() },
-                Columns = { new LayoutSize.Remaining() },
+                Rows = { LayoutSize.Remaining },
+                Columns = { LayoutSize.Remaining },
                 Cells = { new LayoutCell(0, 0, Rectangle.Fill(SKColors.Black)) }
             };
             var relsize = rel.Measure(null, boundaries);
@@ -300,11 +300,11 @@ namespace FluidSharp.Widgets
 
                     var columns = cell.Column + cell.ColumnSpan;
                     while (Columns.Count < columns)
-                        Columns.Add(new LayoutSize.Remaining());
+                        Columns.Add(LayoutSize.Remaining);
 
                     var rows = cell.Row + cell.RowSpan;
                     while (Rows.Count < rows)
-                        Rows.Add(new LayoutSize.Remaining());
+                        Rows.Add(LayoutSize.Remaining);
 
                 }
 
@@ -322,10 +322,10 @@ namespace FluidSharp.Widgets
 
             foreach (var size in sizes)
             {
-                if (size is LayoutSize.Available sp) available += sp.Part;
-                if (size is LayoutSize.Absolute ss) absolute += ss.Size;
-                if (size is LayoutSize.Remaining sr) remaining += sr.Weight;
-                if (size is LayoutSize.Fit) fit = true;
+                if (size is LayoutSize.Available_Impl sp) available += sp.Part;
+                if (size is LayoutSize.Absolute_Impl ss) absolute += ss.Size;
+                if (size is LayoutSize.Remaining_Impl sr) remaining += sr.Weight;
+                if (size is LayoutSize.Fit_Impl) fit = true;
             }
 
             if (available > 1)
@@ -376,21 +376,21 @@ namespace FluidSharp.Widgets
             for (int i = 0; i < sizes.Count; i++)
             {
                 var size = sizes[i];
-                if (size is LayoutSize.Available sp)
+                if (size is LayoutSize.Available_Impl sp)
                 {
                     var s = sp.Part * available;
                     result[i] = s;
                     remaining -= s;
                 }
-                else if (size is LayoutSize.Absolute ss)
+                else if (size is LayoutSize.Absolute_Impl ss)
                 {
                     var s = ss.Size;
                     result[i] = s;
                     remaining -= s;
                 }
-                else if (size is LayoutSize.Remaining sr)
+                else if (size is LayoutSize.Remaining_Impl sr)
                     totalrelativeweight += sr.Weight;
-                else if (size is LayoutSize.Fit sf)
+                else if (size is LayoutSize.Fit_Impl sf)
                 {
                     if (columns == null) throw new Exception("fit is not yet supported for columns");
                     var s = GetRowSize(measureCache, i, columns, remaining, sf.MinSize);
@@ -406,7 +406,7 @@ namespace FluidSharp.Widgets
                 for (int i = 0; i < sizes.Count; i++)
                 {
                     var size = sizes[i];
-                    if (size is LayoutSize.Remaining tr)
+                    if (size is LayoutSize.Remaining_Impl tr)
                     {
                         result[i] = tr.Weight * remaining / totalrelativeweight;
                     }
