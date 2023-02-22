@@ -15,7 +15,8 @@ namespace FluidSharp.Widgets
         public static Action<Widget>? WidgetAllocated;
 
 #if DEBUG
-        public string DebugTag;
+        public string? DebugTag;
+        public bool IsNew = true;
 #endif
 
         public abstract SKSize Measure(MeasureCache measureCache, SKSize boundaries);

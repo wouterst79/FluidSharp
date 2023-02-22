@@ -47,7 +47,10 @@ namespace FluidSharp.Widgets
 
             var top = scroll;
 
-            //System.Diagnostics.Debug.WriteLine($"top {top}, over {overscroll}");
+            //if(top > 0)
+            //{
+            //    System.Diagnostics.Debug.WriteLine($"top {top}, over {overscroll}");
+            //}
 
             if (ClipContents)
             {

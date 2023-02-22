@@ -1,75 +1,43 @@
-﻿using System;
+﻿using FluidSharp.Layouts;
+using SkiaSharp;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace FluidSharp.Widgets.Caching
 {
-
-    public class CachedWidget
+    public class CachedWidget<TValue> : Widget
     {
 
-        private object Parameters = nullobj;
+        private Func<TValue> GetValue;
+        private Func<TValue, Widget> MakeWidget;
+
+        private TValue LastValue;
         private Widget? Widget;
 
-        private static object nullobj = new object();
-
-        public Widget Get<T>(T p1, Func<Widget> make)
+        private Widget GetWidget()
         {
-            if (!TryGet(p1, out var result)) Set(p1, result = make());
-            return result;
-        }
-
-        public Widget Get<T, U>(T p1, U p2, Func<Widget> make)
-        {
-            if (!TryGet(p1, p2, out var result)) Set(p1, p2, result = make());
-            return result;
-        }
-
-        public Widget Get<T, U, V>(T p1, U p2, V p3, Func<Widget> make)
-        {
-            if (!TryGet(p1, p2, p3, out var result)) Set(p1, p2, p3, result = make());
-            return result;
-        }
-
-        public Widget Get<T, U, V, W>(T p1, U p2, V p3, W p4, Func<Widget> make)
-        {
-            if (!TryGet(p1, p2, p3, p4, out var result)) Set(p1, p2, p3, p4, result = make());
-            return result;
-        }
-
-        public bool TryGet<T>(T p1, [MaybeNullWhen(false)] out Widget widget) => TryGetImpl(p1 ?? nullobj, out widget);
-        public void Set<T>(T p1, Widget widget) => SetImpl(p1 ?? nullobj, widget);
-
-        public bool TryGet<T, U>(T p1, U p2, [MaybeNullWhen(false)] out Widget widget) => TryGetImpl((p1, p2), out widget);
-        public void Set<T, U>(T p1, U p2, Widget widget) => SetImpl((p1, p2), widget);
-
-        public bool TryGet<T, U, V>(T p1, U p2, V p3, [MaybeNullWhen(false)] out Widget widget) => TryGetImpl((p1, p2, p3), out widget);
-        public void Set<T, U, V>(T p1, U p2, V p3, Widget widget) => SetImpl((p1, p2, p3), widget);
-
-        public bool TryGet<T, U, V, W>(T p1, U p2, V p3, W p4, [MaybeNullWhen(false)] out Widget widget) => TryGetImpl((p1, p2, p3, p4), out widget);
-        public void Set<T, U, V, W>(T p1, U p2, V p3, W p4, Widget widget) => SetImpl((p1, p2, p3, p4), widget);
-
-        private bool TryGetImpl(object parameters, [MaybeNullWhen(false)] out Widget widget)
-        {
-            if (Widget != null && Parameters.Equals(parameters))
+            var value = GetValue();
+#if DEBUG
+            if (value == null) throw new ArgumentOutOfRangeException("value");
+#endif
+            if (Widget is null || !value.Equals(LastValue))
             {
-                widget = Widget;
-                return true;
+                Widget = MakeWidget(value);
             }
-            else
-            {
-                widget = default;
-                return false;
-            }
+            return Widget;
         }
 
-        private void SetImpl(object parameters, Widget widget)
+        public CachedWidget(Func<TValue> getValue, Func<TValue, Widget> makeWidget)
         {
-            Parameters = parameters;
-            Widget = widget;
+            GetValue = getValue ?? throw new ArgumentNullException(nameof(getValue));
+            MakeWidget = makeWidget ?? throw new ArgumentNullException(nameof(makeWidget));
+            LastValue = getValue();
+            Widget = MakeWidget(LastValue);
         }
+
+        public override SKSize Measure(MeasureCache measureCache, SKSize boundaries) => GetWidget().Measure(measureCache, boundaries);
+        public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect) => layoutsurface.Paint(GetWidget(), rect);
 
     }
-
 }

@@ -1,4 +1,5 @@
 ﻿#if DEBUG
+#define DEBUGNEW
 //#define DEBUGCONTAINER
 #endif
 using FluidSharp.Engine;
@@ -66,6 +67,13 @@ namespace FluidSharp
                     SetCanvas(canvas!);
                 }
 
+#if DEBUGNEW
+                if (widget.IsNew)
+                {
+                    widget.IsNew = false;
+                    DebugNewRect(rect, SKColors.Blue.WithAlpha(32));
+                }
+#endif
 #if DEBUGCONTAINER
             DebugRect(rect, SKColors.Gray.WithAlpha(64));
 #endif
@@ -116,6 +124,12 @@ namespace FluidSharp
         {
             if (Canvas == null) return;
             Canvas.DrawRect(rect, PaintCache.GetBorderPaint(color, 1));
+        }
+
+        public void DebugNewRect(SKRect rect, SKColor color)
+        {
+            if (Canvas == null) return;
+            Canvas.DrawRect(rect, PaintCache.GetBackgroundPaint(color));
         }
 
         public void DebugGestureRect(SKRect rect, SKColor color)

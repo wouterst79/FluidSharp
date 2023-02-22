@@ -34,7 +34,7 @@ namespace FluidSharp.Widgets
 
         }
 
-        CachedWidget Transition = new CachedWidget();
+        WidgetCache Transition = new WidgetCache();
         private Widget MakeWidget(VisualState visualState)
         {
             var frame = State.GetFrame();

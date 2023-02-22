@@ -283,9 +283,9 @@ namespace FluidSharp.Engine
                     var width = View.Width;
                     var height = View.Height;
 
-                    var vs = new VisualState(async () => { }, null);
+                    //var vs = new VisualState(VisualState.RequestRedraw, null);
                     var rect = new SKRect(0, 0, width, height);
-                    var hittestlayout = new HitTestLayoutSurface(Device, MeasureCache, e.LocationInView, vs, rect);
+                    var hittestlayout = new HitTestLayoutSurface(Device, MeasureCache, e.LocationInView, VisualState, rect);
                     hittestlayout.Paint(widget, rect);
 
                     GestureArena = new GestureArena(hittestlayout.Hits, e.PointerId);

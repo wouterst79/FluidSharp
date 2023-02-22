@@ -33,6 +33,9 @@ namespace FluidSharp.State
         public Task RequestRedraw()
         {
             PerformanceTracker?.Request();
+#if DEBUG
+            //_ = OnStateChanged();
+#endif
             if (OnStateChanged == null)
                 return Task.CompletedTask;
             else

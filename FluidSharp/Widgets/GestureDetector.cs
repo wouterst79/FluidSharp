@@ -466,7 +466,12 @@ namespace FluidSharp.Widgets
             {
                 base.Released(duration);
                 if (OnPanEnd != null)
-                    Task.Run(() => OnPanEnd(Velocity));
+                {
+                    var velocity = Velocity;
+                    Task.Run(() => OnPanEnd(velocity));
+                }
+                LastVelocityMovement.StartTime = default;
+                Velocity = new SKPoint();
             }
         }
 
