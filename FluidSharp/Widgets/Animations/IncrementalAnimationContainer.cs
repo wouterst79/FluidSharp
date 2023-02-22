@@ -4,6 +4,7 @@ using FluidSharp.State;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace FluidSharp.Widgets.Animations
@@ -54,7 +55,7 @@ namespace FluidSharp.Widgets.Animations
         TimeSpan? Delta;
         TimeSpan? Duration;
 
-        public IncrementalAnimationContainer(VisualState visualState, object context, Widget contents, TimeSpan? delta = default, TimeSpan? duration = default)
+        private IncrementalAnimationContainer(VisualState visualState, object context, Widget contents, TimeSpan? delta = default, TimeSpan? duration = default)
         {
             if (visualState.NavigationTop.IsContext(context))
             {
@@ -64,6 +65,19 @@ namespace FluidSharp.Widgets.Animations
             Contents = contents ?? throw new ArgumentNullException(nameof(contents));
             Delta = delta;
             Duration = duration;
+        }
+
+        public static Widget Make(VisualState visualState, object context, Widget contents, TimeSpan? delta = default, TimeSpan? duration = default, Animation? animation = null)
+        {
+            return contents; // note: set animation if re-activating
+            // ncrementalAnimationContainer.Make(visualState, this,
+            //printer.PrintScreen(
+            //                    background,
+            //                    null
+            //                   , true
+            //                   , PullToRefresh
+            //                   ))
+            //{ Animation = DiaryScreenState.InAnimation }
         }
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries) => Contents.Measure(measureCache, boundaries);
