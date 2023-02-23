@@ -1,5 +1,8 @@
-﻿using FluidSharp.State;
-using FluidSharp.Widgets.Material;
+﻿using FluidSharp;
+using FluidSharp.Layouts;
+using FluidSharp.State;
+using FluidSharp.Widgets;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,41 +10,40 @@ using System.Threading.Tasks;
 
 namespace FluidSharp.Widgets.CrossPlatform
 {
-    public class Button
+    public class Button : Widget
     {
 
-        public static Widget Make(PlatformStyle platformStyle, VisualState visualState, object context, Func<Task> onTapped, bool enabled, Widget child)
+        private Widget NotTouchedState { get; set; }
+        private Widget TouchedState { get; set; }
+
+        private object Context;
+
+        public Button(VisualState visualState, SKColor selectedBackgroundColor, object context, Func<Task> onTapped, Widget child)
+            : this(visualState, selectedBackgroundColor, context, onTapped, null, child)
         {
-            if (!enabled) return child;
-            return Make(platformStyle, visualState, context, onTapped, child);
         }
 
-        public static Widget Make(PlatformStyle platformStyle, VisualState visualState, object context, Func<Task> onTapped, Widget child)
+        public Button(VisualState visualState, SKColor selectedBackgroundColor, object context, Func<Task> onTapped, Func<Task>? onLongTapped, Widget child)
         {
-            if (child == null) return null;
 
-            if (platformStyle == PlatformStyle.Material)
-                return new InkWell(ContainerLayout.FillHorizontal, visualState, context, platformStyle.InkWellColor, onTapped, child);
+            Context = context;
 
-            //if (platformStyle == PlatformStyle.Cupertino)
-            return FlatButton.FillHorizontal(visualState, context, platformStyle.FlatButtonSelectedBackgroundColor, onTapped, child);
+            NotTouchedState = GestureDetector.TapDetector(visualState, context, onTapped, onLongTapped, child);
 
-            //if (platformStyle == PlatformStyle.UWP)
-            //return FlatButton.FillHorizontal(visualState, context, platformStyle.FlatButtonSelectedBackgroundColor, onTapped, child);
-
-            //throw new ArgumentOutOfRangeException();
-        }
-
-        public static Widget MakeWithLongTapped(PlatformStyle platformStyle, VisualState visualState, object context, Func<Task> onTapped, Func<Task>? onLongTapped, Widget child)
-        {
-            if (child == null) return null;
-
-            if (platformStyle == PlatformStyle.Material)
-                return new InkWell(ContainerLayout.FillHorizontal, visualState, context, platformStyle.InkWellColor, onTapped, onLongTapped, child);
-
-            return FlatButton.FillHorizontal(visualState, context, platformStyle.FlatButtonSelectedBackgroundColor, onTapped, child, onLongTapped);
+            var fill = Rectangle.Fill(selectedBackgroundColor);
+            TouchedState = GestureDetector.TapDetector(visualState, context, onTapped, onLongTapped,
+                                        new Container(ContainerLayout.Fill, child, fill));
 
         }
 
+        public override SKSize Measure(MeasureCache measureCache, SKSize boundaries) => NotTouchedState.Measure(measureCache, boundaries);
+
+        public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
+        {
+            if (layoutsurface.VisualState.TouchTarget.IsContext<TapContext>(Context, false))
+                return layoutsurface.Paint(TouchedState, rect);
+            else
+                return layoutsurface.Paint(NotTouchedState, rect);
+        }
     }
 }

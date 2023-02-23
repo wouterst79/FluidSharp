@@ -74,7 +74,7 @@ namespace FluidSharp.Widgets.CrossPlatform
                 {
                     new LayoutCell(0,0, Rectangle.Fill(SKColors.Red)),
                     new LayoutCell(0,0,
-                            Button.Make(platformStyle, visualState, new ChildContext(context, "delete"), onDelete,
+                            CrossButton.Make(platformStyle, visualState, new ChildContext(context, "delete"), onDelete,
                                 Align.Center(new Text(new Font(14), SKColors.White, deletetext))
                             )
                         ),

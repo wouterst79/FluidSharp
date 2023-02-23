@@ -9,7 +9,7 @@ using System.Text;
 namespace FluidSharp.Widgets
 {
 
-    public class Rectangle : Widget
+    public partial class Rectangle : Widget
     {
 
 

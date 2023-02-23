@@ -70,9 +70,10 @@ namespace FluidSharp.Widgets
             {
                 if (!enabled) return Task.CompletedTask;
                 if (state == CheckedState.Checked)
-                    return onSetState(CheckedState.Unchecked);
+                    checkbox.State = CheckedState.Unchecked;
                 else
-                    return onSetState(CheckedState.Checked);
+                    checkbox.State = CheckedState.Checked;
+                return onSetState(checkbox.State);
             }, contents);
         }
 

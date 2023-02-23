@@ -11,29 +11,36 @@ namespace FluidSharp.Widgets
     public class AnimatedWidget : Widget
     {
 
-        public Animation Animation;
+        public IAnimation Animation;
 
-        public Widget? Child;
+        public Widget? Contents;
 
-        public AnimatedWidget(Animation animation, Widget? child)
+        public Action<float>? UpdateContents;
+
+        public AnimatedWidget(IAnimation animation, Widget? contents)
         {
             Animation = animation;
-            Child = child;
+            Contents = contents;
         }
 
-        public AnimatedWidget(Animation animation, Func<float, Widget?> makechild)
+        public AnimatedWidget(IAnimation animation, Widget? contents, Action<float> updateContents)
         {
             Animation = animation;
-            var value = animation.GetValue();
-            Child = makechild(value);
+            Contents = contents;
+            UpdateContents = updateContents;
         }
 
-        public override SKSize Measure(MeasureCache measureCache, SKSize boundaries) => Child?.Measure(measureCache, boundaries) ?? new SKSize();
+
+        public override SKSize Measure(MeasureCache measureCache, SKSize boundaries) => Contents?.Measure(measureCache, boundaries) ?? new SKSize();
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
+            if (UpdateContents != null)
+            {
+                UpdateContents(Animation.GetValue());
+            }
             // don't do it here, because this class may be inherited
             //if (!Animation.Completed) layoutsurface.SetHasActiveAnimations();
-            return Child == null ? rect : layoutsurface.Paint(Child, rect);
+            return Contents == null ? rect : layoutsurface.Paint(Contents, rect);
         }
     }
 }

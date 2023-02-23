@@ -19,7 +19,7 @@ namespace FluidSharp.Widgets.CrossPlatform
                 {
                     Separator = platformStyle.Separator,
                     Children = items.Select(
-                        item => SelectableButton.Make(platformStyle, visualState, item,
+                        item => SelectableButtonWidget.Make(platformStyle, visualState, item,
                                         makeItemWidget(item), isItemSelected(item), selectedColor, () => onItemSelected(item))
                     ).ToFixableList()
                 }
@@ -34,7 +34,7 @@ namespace FluidSharp.Widgets.CrossPlatform
                 {
                     Separator = platformStyle.Separator,
                     Children = items.Select(
-                        item => SelectableButton.Make(platformStyle, visualState, item,
+                        item => SelectableButtonWidget.Make(platformStyle, visualState, item,
                                         makeItemWidget(item), isItemSelected(item), selectedColor, () => onItemSelected(item))
                     ).ToFixableList()
                 };

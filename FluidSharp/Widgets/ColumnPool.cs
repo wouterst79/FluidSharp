@@ -32,7 +32,7 @@ namespace FluidSharp.Widgets
         private ConcurrentBag<FixableList<Widget?>> BuildPool = new ConcurrentBag<FixableList<Widget?>>();
         private ConcurrentQueue<FixableList<Widget?>> PaintList = new ConcurrentQueue<FixableList<Widget?>>();
 
-        private FixableList<Widget?> EmptyList = new FixableList<Widget?>();
+        private FixableList<Widget?> BackupList = new FixableList<Widget?>();
 
         public ColumnPool(float spacing = 0, HorizontalAlignment horizontalAlignment = HorizontalAlignment.Near)
         {
@@ -66,12 +66,14 @@ namespace FluidSharp.Widgets
         private FixableList<Widget?> GetPaintList()
         {
 #if DEBUG
-            if (!IsBuilt) throw new Exception("Column2 was never completed");
+            if (!IsBuilt) throw new Exception("ColumnPpol was never completed");
 #endif
-            FixableList<Widget?>? lastlist = null;
+            var backup = BackupList;
+
+            var lastlist = backup;
             while (PaintList.TryDequeue(out var list))
             {
-                if (lastlist != null)
+                if (lastlist != backup)
                 {
                     lastlist.IsFixed = false;
                     lastlist.Clear();
@@ -80,8 +82,7 @@ namespace FluidSharp.Widgets
                 lastlist = list;
             }
 
-            if (lastlist is null)
-                return EmptyList;
+            BackupList = lastlist;
 
             lastlist.IsFixed = true;
             return lastlist;

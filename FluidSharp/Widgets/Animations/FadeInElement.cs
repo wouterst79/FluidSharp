@@ -12,13 +12,20 @@ namespace FluidSharp.Widgets.Animations
 
         //public Widget? Contents;
 
-        public Animation? Animation { get; set; }
-        public Opacity? Opacity { get; set; }
+        public IAnimation? Animation { get; set; }
+        public Opacity Opacity { get; set; }
 
         private FadeInElement(Widget contents)
         {
             Opacity = new Opacity(1, contents);
         }
+
+        public FadeInElement(IAnimation animation, Widget contents)
+        {
+            Animation = animation;
+            Opacity = new Opacity(animation.GetValue(), contents);
+        }
+
 
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries) => Opacity.Measure(measureCache, boundaries);

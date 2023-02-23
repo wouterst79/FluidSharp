@@ -129,7 +129,8 @@ namespace FluidSharp
         public void DebugNewRect(SKRect rect, SKColor color)
         {
             if (Canvas == null) return;
-            Canvas.DrawRect(rect, PaintCache.GetBackgroundPaint(color));
+            if (VisualState.ShowNewWidgets)
+                Canvas.DrawRect(rect, PaintCache.GetBackgroundPaint(color));
         }
 
         public void DebugGestureRect(SKRect rect, SKColor color)

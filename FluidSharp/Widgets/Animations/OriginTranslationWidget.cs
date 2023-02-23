@@ -46,13 +46,13 @@ namespace FluidSharp.Widgets.Animations
         }
 
         public WidgetOrigin Origin { get; set; }
-        public Animation Animation { get; set; }
+        public IAnimation Animation { get; set; }
         public Widget Contents { get; set; }
 
         public Easing? EasingX { get; set; }
         public Easing? EasingY { get; set; }
 
-        public OriginTranslationWidget(WidgetOrigin origin, Animation animation, Widget contents, Easing? easingX = null, Easing? easingY = null)
+        public OriginTranslationWidget(WidgetOrigin origin, IAnimation animation, Widget contents, Easing? easingX = null, Easing? easingY = null)
         {
             Origin = origin ?? throw new ArgumentNullException(nameof(origin));
             Animation = animation ?? throw new ArgumentNullException(nameof(animation));
@@ -72,36 +72,36 @@ namespace FluidSharp.Widgets.Animations
 
             layoutsurface.SetHasActiveAnimations();
 
-            if (true || Animation.Started)
-            {
+            //if (true || Animation.Started)
+            //{
 
-                var value = 1 - Animation.GetValue();
-                //var pct = 1 - Animation.GetValue();
-                //var pctx = 1 - Easing.SinIn.Ease(value);
-                //var pcty = 1 - Easing.SinInOut.Ease(value);
-                var pctx = (EasingX is null ? value : EasingX.Ease(value));
-                var pcty = (EasingY is null ? value : EasingY.Ease(value));
+            var value = 1 - Animation.GetValue();
+            //var pct = 1 - Animation.GetValue();
+            //var pctx = 1 - Easing.SinIn.Ease(value);
+            //var pcty = 1 - Easing.SinInOut.Ease(value);
+            var pctx = (EasingX is null ? value : EasingX.Ease(value));
+            var pcty = (EasingY is null ? value : EasingY.Ease(value));
 
-                // relative to rect (destination)
-                var translation = new SKPoint((origin.Left - rect.Left) * pctx, (origin.Top - rect.Top) * pcty);
-                var scale = new SKPoint((origin.Width - rect.Width) * pctx, (origin.Width - rect.Width) * pcty);
-                var drawrect = new SKRect(rect.Left + translation.X, rect.Top + translation.Y, rect.Right + translation.X + scale.X, rect.Bottom + translation.Y + scale.Y);
+            // relative to rect (destination)
+            var translation = new SKPoint((origin.Left - rect.Left) * pctx, (origin.Top - rect.Top) * pcty);
+            var scale = new SKPoint((origin.Width - rect.Width) * pctx, (origin.Width - rect.Width) * pcty);
+            var drawrect = new SKRect(rect.Left + translation.X, rect.Top + translation.Y, rect.Right + translation.X + scale.X, rect.Bottom + translation.Y + scale.Y);
 
-                var final = layoutsurface.Paint(Contents, drawrect);
+            var final = layoutsurface.Paint(Contents, drawrect);
 #if DEBUGCONTAINER
                 layoutsurface.DebugRect(drawrect, SKColors.Green);
 #endif
 
-                return rect.WithHeight(final.Height);
+            return rect.WithHeight(final.Height);
 
-            }
-            else
-            {
+            //}
+            //else
+            //{
 
-                var childsize = Contents.Measure(layoutsurface.MeasureCache, rect.Size);
-                return rect.WithHeight(childsize.Height);
+            //    var childsize = Contents.Measure(layoutsurface.MeasureCache, rect.Size);
+            //    return rect.WithHeight(childsize.Height);
 
-            }
+            //}
 
         }
     }

@@ -17,7 +17,7 @@ namespace FluidSharp.Widgets
         public static Widget Make<T>(PlatformStyle platformStyle, VisualState visualState, object context, IList<T> items, float itemHeight, Func<T, Task> onItemSelected, Func<T, Widget> makeItemWidget, bool clipcontents)
         {
 
-            Func<T, Widget> makebutton = (item) => Button.Make(platformStyle, visualState, item, () => onItemSelected(item), makeItemWidget(item));
+            Func<T, Widget> makebutton = (item) => CrossButton.Make(platformStyle, visualState, item, () => onItemSelected(item), makeItemWidget(item));
 
             return new Scrollable(visualState, context, platformStyle.DefaultOverscrollBehavior,
                 new LongListContents<T>(items, itemHeight, onItemSelected, makebutton)

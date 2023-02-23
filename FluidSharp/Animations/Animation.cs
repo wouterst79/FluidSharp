@@ -3,7 +3,6 @@ using FluidSharp.Widgets;
 using SkiaSharp;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.WebSockets;
 using System.Text;
@@ -12,98 +11,9 @@ using System.Threading.Tasks;
 namespace FluidSharp.Animations
 {
 
-    public class Frame : Animation
-    {
-
-        // Frame
-        public string Name { get; set; }
-        public TimeSpan FrameStart { get; set; }
-        public TimeSpan FrameEnd => FrameStart + Duration;
-
-        public TimeSpan GetDurationPct(float pct) => FrameStart + Duration * pct;
-
-        public Frame(string name, float durationMS, Easing? easing = null)
-            : this(Speed, name, TimeSpan.Zero, TimeSpan.FromMilliseconds(durationMS), easing)
-        { }
-
-        public Frame(string name, float startMS, float durationMS, Easing? easing = null)
-            : this(Speed, name, TimeSpan.FromMilliseconds(startMS), TimeSpan.FromMilliseconds(durationMS), easing)
-        { }
-
-        public Frame(string name, TimeSpan start, TimeSpan duration, Easing? easing = null)
-            : this(Speed, name, start, duration, easing)
-        {
-        }
-
-        private Frame(float speed, string name, TimeSpan start, TimeSpan duration, Easing? easing = null)
-        {
-            Name = name ?? throw new ArgumentNullException(nameof(name));
-            FrameStart = start * speed;
-            Duration = duration * speed;
-            Easing = easing;
-        }
-
-        public Frame Reverse()
-        {
-            StartValue = 1; EndValue = 0;
-            return this;
-        }
-
-        public Frame SetStartEnd(float start, float end)
-        {
-            StartValue = start;
-            EndValue = end;
-            return this;
-        }
-
-    }
-
-    public class State
-    {
-
-        public string Name { get; set; }
-
-        public Animation.Coordinated Animation = new Animation.Coordinated(DateTime.Now);
-
-        public State(string name) => Name = name;
-
-        public bool Started { get; set; }
-        public bool Completed => Started && Animation.Completed;
-
-        public Animation.Coordinated? AnimationIfStarted => Started ? Animation : null;
-
-        public void Reset()
-        {
-            Started = false;
-        }
-
-    }
-
-    public class StateAnimation : Animation
-    {
-
-        public List<State> States { get; set; } = new List<State>();
-
-        public State? CurrentState { get; private set; }
-
-        public State Add(State state)
-        {
-            States.Add(state);
-            return state;
-        }
-
-        public void StartState(State state)
-        {
-            state.Animation.Start();
-            CurrentState = state;
-            state.Started = true;
-        }
-
-    }
 
 
-
-    public class Animation
+    public class Animation : IAnimation
     {
 
         public static Animation CompletedAnimation = new Animation(DateTime.MinValue, DefaultDuration);

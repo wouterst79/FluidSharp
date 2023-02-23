@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FluidSharp.Widgets.CrossPlatform
 {
-    public class SelectableButton
+    public class SelectableButtonWidget
     {
 
         public static Widget Make(PlatformStyle platformStyle, VisualState visualState, object context, Widget contents, bool ischecked, SKColor selectedcolor, Func<Task> onTapped, ContainerLayout containerLayout = ContainerLayout.FillHorizontal)

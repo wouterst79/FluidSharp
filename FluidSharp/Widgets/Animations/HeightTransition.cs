@@ -74,7 +74,7 @@ namespace FluidSharp.Widgets
 
             var cliprect = new SKRect(rect.Left, rect.Top, rect.Right, rect.Top + height);
 
-            if (Child != null)
+            if (Contents != null)
             {
 
                 //if (pct != 1)
@@ -86,7 +86,7 @@ namespace FluidSharp.Widgets
 
                 // paint contents
                 var childrect = new SKRect(rect.Left, rect.Top - hidden, rect.Right, rect.Top + height);
-                layoutsurface.Paint(Child, childrect);
+                layoutsurface.Paint(Contents, childrect);
 
                 // reset clip
                 layoutsurface.ResetRectClip();

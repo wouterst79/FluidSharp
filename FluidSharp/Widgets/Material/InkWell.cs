@@ -32,7 +32,7 @@ namespace FluidSharp.Widgets.Material
 
                 var started = visualState.TouchTarget.Started;
                 Animation = new Animation(started, Animation.DefaultDuration, .3f, 1);
-                innerwidget = new AnimatedWidget(Animation, (s) => innerwidget);
+                innerwidget = new AnimatedWidget(Animation, innerwidget);
 
             }
 
