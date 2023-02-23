@@ -49,7 +49,7 @@ namespace FluidSharp.Widgets
 
                     var result = layoutsurface.Paint(Contents, rect);
 
-                    var recorded = recorder.EndRecordingAsDrawable().Snapshot();
+                    var recorded = recorder.EndRecording();//.Snapshot();
 
                     layoutsurface.SetCanvas(originalcanvas);
 

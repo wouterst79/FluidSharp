@@ -54,7 +54,10 @@ namespace FluidSharp.State
                     return value;
                 }, (i2, o) =>
                 {
-                    ischanged = value != o;
+                    if (!(value is null))
+                        ischanged = !value.Equals(o);
+                    else
+                        ischanged = value != o;
                     return value;
                 });
                 if (ischanged && OnStateChanged != null)

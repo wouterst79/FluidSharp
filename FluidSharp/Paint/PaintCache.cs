@@ -103,8 +103,15 @@ namespace FluidSharp.Paint
             return paint;
         }
 
+        private static SKPaint? backgroundPaint;
         private static SKPaint? imagePaint;
         private static SKPaint? imageOpacityPaint;
+
+        public static SKPaint GetBackgroundPaint()
+        {
+            var paint = backgroundPaint ??= new SKPaint() { FilterQuality = SKFilterQuality.Low };
+            return paint;
+        }
 
         public static SKPaint GetImagePaint()
         {
