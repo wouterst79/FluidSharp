@@ -3,6 +3,7 @@ using FluidSharp.Layouts;
 using FluidSharp.State;
 using FluidSharp.Touch;
 using FluidSharp.Widgets;
+using FluidSharp.Widgets.Animations;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,7 @@ namespace FluidSharp.Navigation
             if (UseHeightTransition)
                 contents = new HeightTransition(animation, contents, true);
             //if (!animation.Completed) contents = new AnimatedWidget(animation, contents);
-            contents = new Opacity(animation.GetValue(), contents);
+            contents = new FadeInElement(animation, contents);
 
             if (UseHeightTransition)
                 contents = Align.Center(contents);

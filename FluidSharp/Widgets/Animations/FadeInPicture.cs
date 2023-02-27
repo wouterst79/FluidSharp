@@ -7,44 +7,28 @@ using System.Text;
 
 namespace FluidSharp.Widgets.Animations
 {
-    public class FadeInElement : Widget
+    public class FadeInPicture : Widget
     {
 
-        //public Widget? Contents;
+        public IAnimation Animation { get; set; }
+        public Picture Picture { get; set; }
 
-        public IAnimation? Animation { get; set; }
-        public Opacity Opacity { get; set; }
-
-        private FadeInElement(Widget contents)
-        {
-            Opacity = new Opacity(1, contents);
-        }
-
-        public FadeInElement(IAnimation animation, Widget contents)
+        public FadeInPicture(IAnimation animation, Picture picture)
         {
             Animation = animation;
             var startingOpacity = animation.GetValue();
-            Opacity = new Opacity(startingOpacity, contents);
+            Picture = picture.WithOpacity(startingOpacity);
         }
 
 
 
-        public override SKSize Measure(MeasureCache measureCache, SKSize boundaries) => Opacity.Measure(measureCache, boundaries);
+        public override SKSize Measure(MeasureCache measureCache, SKSize boundaries) => Picture.Measure(measureCache, boundaries);
         public override SKRect PaintInternal(LayoutSurface layoutsurface, SKRect rect)
         {
-            if (Animation != null)
-            {
-                Opacity.Factor = Animation.GetValue();
-                if (!Animation.Completed)
-                    layoutsurface.SetHasActiveAnimations();
-            }
-            return layoutsurface.Paint(Opacity, rect);
-        }
-
-        public static Widget Make(Widget contents)
-        {
-            return contents;
-            //return new FadeInElement(contents);
+            Picture.Opacity = Animation.GetValue();
+            if (!Animation.Completed)
+                layoutsurface.SetHasActiveAnimations();
+            return layoutsurface.Paint(Picture, rect);
         }
 
     }

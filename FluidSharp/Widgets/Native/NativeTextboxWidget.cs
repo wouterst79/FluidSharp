@@ -16,6 +16,7 @@ namespace FluidSharp.Widgets.Native
 
         public string Text;
         public Func<string, Task> SetText;
+        private Func<string, Task> SetTextImpl;
 
         public Font Font;
         public SKColor TextColor;
@@ -31,7 +32,8 @@ namespace FluidSharp.Widgets.Native
         {
             Context = context;
             Text = text ?? "";
-            SetText = settext;
+            SetTextImpl = settext;
+            SetText = SetTextFunc;
             Font = font;
             TextColor = textcolor;
             HasFocus = hasFocus;
@@ -41,6 +43,12 @@ namespace FluidSharp.Widgets.Native
                 MeasureWidget = new Text(font, default, Text + "W");
             //else
               //  ExpandHorizontal = true;
+        }
+
+        public Task SetTextFunc(string text)
+        {
+            Text = text;
+            return SetTextImpl(text);
         }
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)

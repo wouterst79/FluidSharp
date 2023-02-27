@@ -47,6 +47,19 @@ namespace FluidSharp.Widgets
 
         public FixableList<Widget?> Children;
 
+        //public ContainerLayout GetContainerLayout()
+        //{
+
+        //    if (ExpandHorizontal)
+        //        return ExpandVertical ? ContainerLayout.Expand : ContainerLayout.ExpandHorizontal;
+
+        //    else if (FillHorizontal)
+        //        return FillVertical ? ContainerLayout.Fill : ContainerLayout.FillHorizontal;
+
+        //    else
+        //        return ContainerLayout.Wrap;
+
+        //}
 
         public Container(ContainerLayout layout)
         {

@@ -13,21 +13,39 @@ namespace FluidSharp.Widgets
         public static float ScreenScale;
 
         public SKImage SKImage;
-        public float Opacity { get; private set; }
+        private float opacity;
+        public float Opacity
+        {
+            get => opacity; set
+            {
+#if DEBUG
+                if (!OwnsOpacity) throw new Exception("can't set opacity on default pictures");
+#endif
+                opacity = value;
+            }
+        }
         public bool AutoFlipRTL;
 
         public SKSize Size;
+
+        private bool OwnsOpacity;
 
         public Picture(SKImage image, bool autoFlipRtl = true, float opacity = 1f)
         {
             SKImage = image;
             AutoFlipRTL = autoFlipRtl;
-            Opacity = opacity;
+            this.opacity = opacity;
             Size = new SKSize(image.Width / ScreenScale, image.Height / ScreenScale);
         }
 
 #if DEBUG
-        public Picture WithOpacity(float opacity) => new Picture(SKImage, AutoFlipRTL, opacity);
+        public Picture WithOpacity(float opacity)
+        {
+#if DEBUG
+            if (OwnsOpacity) throw new Exception("this widget already owns opacity");
+#endif
+            return new Picture(SKImage, AutoFlipRTL, opacity) { OwnsOpacity = true };
+        }
 #endif
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)

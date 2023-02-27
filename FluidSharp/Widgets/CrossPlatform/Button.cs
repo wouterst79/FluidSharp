@@ -2,9 +2,11 @@
 using FluidSharp.Layouts;
 using FluidSharp.State;
 using FluidSharp.Widgets;
+using FluidSharp.Widgets.Stateful;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,9 +32,20 @@ namespace FluidSharp.Widgets.CrossPlatform
 
             NotTouchedState = GestureDetector.TapDetector(visualState, context, onTapped, onLongTapped, child);
 
+#if DEBUG
+            if (child is Container c1 && !c1.FillHorizontal)
+                Debug.WriteLine("CHILD NOT FILL");
+#endif
+
+            var layout = child is Container c && c.FillVertical ? ContainerLayout.Fill : ContainerLayout.FillHorizontal;
+            // ? c.GetContainerLayout() : ContainerLayout.Fill;
+            if (child is Center || child is Align) layout = ContainerLayout.Fill;
+            if (child is TwoStateWidget) layout = ContainerLayout.Fill;
+
+
             var fill = Rectangle.Fill(selectedBackgroundColor);
             TouchedState = GestureDetector.TapDetector(visualState, context, onTapped, onLongTapped,
-                                        new Container(ContainerLayout.Fill, child, fill));
+                                        new Container(layout, child, fill));
 
         }
 

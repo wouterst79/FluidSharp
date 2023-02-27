@@ -40,7 +40,7 @@ namespace FluidSharp.Navigation
             var animation = TransitionState.GetAnimation(Easing.CubicOut);
             var popup = to.MakeWidget(visualState);
             popup = new HeightTransition(animation, popup, false);
-            popup = new Opacity(animation.GetValue(), popup);
+            popup = new FadeInElement(animation, popup);
 
             return new Container(ContainerLayout.Expand, 
 
