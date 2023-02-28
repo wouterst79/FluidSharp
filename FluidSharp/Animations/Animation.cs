@@ -89,22 +89,24 @@ namespace FluidSharp.Animations
             return value;
         }
 
-        public static Widget Wrap<T>(Animation? animation, Func<Animation, T, Widget> wrap, T contents)
+        public static Widget Wrap<T>(Func<Animation?> animation, Func<Animation, T, Widget> wrap, T contents)
             where T : Widget
         {
-            if (animation == null) return contents;
-            return wrap(animation, contents);
+            return new DynamicAnimatedWidget<T>(animation, wrap, contents);
+            //if (animation == null) return contents;
+            //return wrap(animation, contents);
         }
 
-        public static Widget Wrap<T>(Animation? animation1, Func<Animation, T, Widget> wrap1, Animation? animation2, Func<Animation, T, Widget> wrap2, T contents)
+        public static Widget Wrap<T>(Func<Animation?> animation1, Func<Animation, T, Widget> wrap1, Func<Animation?> animation2, Func<Animation, T, Widget> wrap2, T contents)
             where T : Widget
         {
-            if (animation1 != null)
-                return wrap1(animation1, contents);
-            else if (animation2 != null)
-                return wrap2(animation2, contents);
-            else
-                return contents;
+            return new DynamicAnimatedWidget<T>(animation1, wrap1, animation2, wrap2, contents);
+            //if (animation1 != null)
+            //    return wrap1(animation1, contents);
+            //else if (animation2 != null)
+            //    return wrap2(animation2, contents);
+            //else
+            //    return contents;
         }
 
         #region Stagger calculation
@@ -220,7 +222,10 @@ namespace FluidSharp.Animations
             {
                 StartTime = DateTime.Now;
                 foreach (var frame in Frames.Values)
+                {
                     frame.StartTime = StartTime.Add(frame.FrameStart);
+                    Debug.WriteLine(frame.Completed);
+                }
             }
 
             public override void Stop()

@@ -16,24 +16,28 @@ namespace FluidSharp.Widgets
         {
         }
 
-        public static Widget? Make(Animation? appearingStarted, Animation? disappearingStarted, Widget child)
+        public static Widget? Make(Func<Animation?> appearingStarted, Func<Animation?> disappearingStarted, Widget contents)
         {
-
+            return new DynamicAnimatedWidget<Widget>(
+                        disappearingStarted, (d, c) => new SlideUpAnimation(d.StartTime, d.Duration, 1, 0, c),
+                        appearingStarted, (a, c) => new SlideUpAnimation(a.StartTime, a.Duration, 0, 1, c)
+                        , contents);
+#if false
             if (disappearingStarted != null)
             {
                 if (disappearingStarted.Completed)
                     return null;
                 else
-                    return new SlideUpAnimation(disappearingStarted.StartTime, disappearingStarted.Duration, 1, 0, child);
+                    return new SlideUpAnimation(disappearingStarted.StartTime, disappearingStarted.Duration, 1, 0, contents);
             }
             else
             {
                 if (appearingStarted == null || appearingStarted.Completed)
-                    return child;
+                    return contents;
                 else
-                    return new SlideUpAnimation(appearingStarted.StartTime, appearingStarted.Duration, 0, 1, child);
+                    return new SlideUpAnimation(appearingStarted.StartTime, appearingStarted.Duration, 0, 1, contents);
             }
-
+#endif
         }
 
         public static Widget? Make(DateTime appearingStarted, DateTime? disappearingStarted, TimeSpan duration, Widget child)

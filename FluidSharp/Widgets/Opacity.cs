@@ -49,11 +49,15 @@ namespace FluidSharp.Widgets
 
                     var result = layoutsurface.Paint(Contents, rect);
 
-                    var recorded = recorder.EndRecording();//.Snapshot();
-
                     layoutsurface.SetCanvas(originalcanvas);
+                    using (var recorded = recorder.EndRecording()) //.Snapshot();
+                    {
+                        originalcanvas.DrawPicture(recorded, PaintCache.GetOpacityPaint(Factor));
+                    }
 
-                    originalcanvas.DrawPicture(recorded, PaintCache.GetOpacityPaint(Factor));
+#if DEBUG
+                    layoutsurface.DebugNewRect(rect, SKColors.Yellow.WithAlpha(32));
+#endif
 
                     return result;
 

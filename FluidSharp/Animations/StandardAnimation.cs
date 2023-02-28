@@ -44,11 +44,11 @@ namespace FluidSharp.Animations
 
         public static Widget FadeIn(this Animation animation, Text text, Direction fromDirection = Direction.Bottom)
         {
-            if (animation.Completed) return text;
             var textblock = text.TextBlock;
+            var color = text.TextBlock.Color;
             return Translate(text, fromDirection, FullWidth, textblock.Font.TextSize, animation.Inverse(), pct =>
             {
-                textblock.Color = textblock.Color.WithOpacity(1 - pct);
+                textblock.Color = color.WithOpacity(1 - pct);
             });
         }
 
@@ -56,13 +56,11 @@ namespace FluidSharp.Animations
         public static Widget FadeIn(this Animation animation, Widget widget, float height, Direction fromDirection = Direction.Bottom)
         {
             if (widget is Text text) return FadeIn(animation, text, fromDirection);
-            if (animation.Completed) return widget;
             return Translate(new FadeInElement(animation, widget), fromDirection, FullWidth, height, animation.Inverse());
         }
 
         public static Widget FadeIn(this Animation animation, Picture picture, Direction fromDirection = Direction.Bottom)
         {
-            if (animation.Completed) return picture;
             picture = picture.WithOpacity(1);
             return Translate(picture, fromDirection, picture.Size.Width, picture.Size.Height, animation.Inverse(), (pct) =>
             {
@@ -72,15 +70,11 @@ namespace FluidSharp.Animations
 
         public static Widget FlyOut(this Animation animation, Text text, Direction toDirection = Direction.Near)
         {
-            if (animation.Completed)
-            {
-                text.TextBlock.Color = SKColors.Transparent;
-                return text;
-            }
             var textblock = text.TextBlock;
+            var color = text.TextBlock.Color;
             return Translate(text, toDirection, FullWidth, textblock.Font.TextSize, animation, pct =>
             {
-                textblock.Color = textblock.Color.WithOpacity(1 - pct);
+                textblock.Color = color.WithOpacity(1 - pct);
             });
         }
 
@@ -93,10 +87,6 @@ namespace FluidSharp.Animations
 
         public static Widget FlyOut(this Animation animation, Picture picture, Direction toDirection = Direction.Near)
         {
-            if (animation.Completed)
-            {
-                return picture.WithOpacity(0);
-            }
             picture = picture.WithOpacity(1);
             return Translate(picture, toDirection, picture.Size.Width, picture.Size.Height, animation, (pct) =>
             {
