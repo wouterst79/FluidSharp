@@ -38,7 +38,6 @@ namespace FluidSharp.Widgets
             Size = new SKSize(image.Width / ScreenScale, image.Height / ScreenScale);
         }
 
-#if DEBUG
         public Picture WithOpacity(float opacity)
         {
 #if DEBUG
@@ -46,7 +45,6 @@ namespace FluidSharp.Widgets
 #endif
             return new Picture(SKImage, AutoFlipRTL, opacity) { OwnsOpacity = true };
         }
-#endif
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {

@@ -40,9 +40,7 @@ namespace FluidSharp.Widgets
             var frame = State.GetFrame();
             return Transition.Get(frame, () =>
             {
-#if DEBUG
                 return SlideTransition.MakeWidget(visualState, frame, 0, PushPageTransition.PushOverlap, null, MakeValueWidget);
-#endif
             });
         }
 
