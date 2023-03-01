@@ -34,6 +34,8 @@ namespace FluidSharp.Widgets
 
         private FixableList<Widget?> BackupList = new FixableList<Widget?>();
 
+        public DateTime LastBuilt;
+
         public ColumnPool(float spacing = 0, HorizontalAlignment horizontalAlignment = HorizontalAlignment.Near)
         {
             Spacing = spacing;
@@ -60,6 +62,7 @@ namespace FluidSharp.Widgets
                 Console.WriteLine("Fixed");
             }
 #endif
+            LastBuilt = DateTime.Now;
             PaintList.Enqueue(contents);
         }
 

@@ -23,6 +23,7 @@ namespace FluidSharp.State
         public bool ShowTouchRegions;
         public bool ShowSpacing;
         public bool ShowNewWidgets;
+        public static bool ShowRecordedWidgets;
 
         public VisualState(Func<Task> onStateChanged, IPerformanceTracker performanceTracker)
         {

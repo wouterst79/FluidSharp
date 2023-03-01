@@ -19,7 +19,7 @@ namespace FluidSharp.Widgets
         private static Dictionary<(float width, float height), Spacing> RectCache = new Dictionary<(float width, float height), Spacing>();
 
         private Spacing(float size) => Size = new SKSize(size, size);
-        private Spacing(float width, float height) => Size = new SKSize(width, height);
+        protected Spacing(float width, float height) => Size = new SKSize(width, height);
 
         public static Spacing Make(float size)
         {

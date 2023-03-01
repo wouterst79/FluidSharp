@@ -133,6 +133,13 @@ namespace FluidSharp
                 Canvas.DrawRect(rect, PaintCache.GetBackgroundPaint(color));
         }
 
+        public static void DebugRecordedRect(SKCanvas Canvas, SKRect rect, SKColor color)
+        {
+            if (Canvas == null) return;
+            if (VisualState.ShowRecordedWidgets)
+                Canvas.DrawRect(rect, PaintCache.GetBackgroundPaint(color));
+        }
+
         public void DebugGestureRect(SKRect rect, SKColor color)
         {
             if (Canvas == null) return;

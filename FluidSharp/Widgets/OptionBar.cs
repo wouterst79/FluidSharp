@@ -1,7 +1,9 @@
-﻿using FluidSharp.Layouts;
+﻿using Fizzler;
+using FluidSharp.Layouts;
 using FluidSharp.State;
 using FluidSharp.Widgets.CrossPlatform;
 using FluidSharp.Widgets.Material;
+using FluidSharp.Widgets.Stateful;
 using SkiaSharp;
 using SkiaSharp.TextBlocks.Enum;
 using System;
@@ -53,8 +55,12 @@ namespace FluidSharp.Widgets
                 var separator = Rectangle.Vertical(2, SKColors.Gray.WithAlpha(128), new Margins(0, 5));
                 var buttonBackground = new RoundedRectangle(8, SKColors.White, default) { ImageFilter = platformStyle.DropShadowImageFilterSmall };
 
-                Func<T, Widget> makeButton2 = (v) =>
-                        GestureDetector.TapDetector(visualState, context, () => setValue(v), null,
+                Func<T, Action, Widget> makeButton2 = (v, a) =>
+                        GestureDetector.TapDetector(visualState, context, () =>
+                        {
+                            a();
+                            return setValue(v);
+                        }, null,
                             new Container(ContainerLayout.Fill,
                                 Align.Center(
                                     makeButton(v, SKColors.Black)
@@ -75,18 +81,23 @@ namespace FluidSharp.Widgets
                 var themecolor = SKColors.DarkBlue;
 
                 var buttonBackground = Align.Bottom(Rectangle.Horizontal(2, themecolor));
-                Func<T, Widget> makeButton2 = (v) =>
+                Func<T, Action, Widget> makeButton2 = (v, a) =>
                         {
 
                             var selected = isSelected(v);
 
-                            return new InkWell(ContainerLayout.Wrap, visualState, v, platformStyle.InkWellColor, () => setValue(v),
+                            return new InkWell(ContainerLayout.Wrap, visualState, v, platformStyle.InkWellColor, () =>
+                            {
+                                a();
+                                return setValue(v);
+                            },
                                 new Container(ContainerLayout.Fill)
                                 {
                                     Children =
                                     {
                                         Align.Center(
-                                            makeButton(v, selected ? themecolor : SKColors.Black)
+                                            new TwoStateWidget(() => isSelected(v), selected =>
+                                            makeButton(v, selected ? themecolor : SKColors.Black))
                                             , new SKSize(10, 6)
                                         ),
                                         selected ? Rectangle.Fill(themecolor.WithAlpha(32)) : null,
@@ -99,15 +110,17 @@ namespace FluidSharp.Widgets
             }
         }
 
-        public static OptionBar Make<T>(VisualState visualState, object context, Widget background, SKSize padding, Widget separator, Widget buttonBackground, IEnumerable<T> options, Func<T, bool> isSelected, Func<T, Widget> makeButton)
+        public static OptionBar Make<T>(VisualState visualState, object context, Widget background, SKSize padding, Widget separator, Widget buttonBackground, IEnumerable<T> options, Func<T, bool> isSelected, Func<T, Action, Widget> makeButton)
         {
 
             var buttons = new List<Widget>();
-            int selected = 0;
+            var optionBarState = visualState.GetOrMake(context, () => new OptionBarState(0));
+            var selected = 0;
             foreach (var option in options)
             {
 
-                var button = makeButton(option);
+                var i = buttons.Count;
+                var button = makeButton(option, () => optionBarState.SetCurrent(i));
 
                 if (isSelected(option))
                     selected = buttons.Count;
@@ -115,8 +128,7 @@ namespace FluidSharp.Widgets
                 buttons.Add(button);
             }
 
-            var optionBarState = visualState.GetOrMake(context, () => new OptionBarState(selected));
-            optionBarState.SetCurrent(selected);
+            optionBarState.Current = selected;
 
             return new OptionBar(context, background, padding, separator, buttonBackground, buttons, optionBarState);
 

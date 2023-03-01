@@ -56,7 +56,7 @@ namespace FluidSharp.Widgets
                     }
 
 #if DEBUG
-                    layoutsurface.DebugNewRect(rect, SKColors.Yellow.WithAlpha(32));
+                    LayoutSurface.DebugRecordedRect(layoutsurface.Canvas, rect, SKColors.Yellow.WithAlpha(32));
 #endif
 
                     return result;
