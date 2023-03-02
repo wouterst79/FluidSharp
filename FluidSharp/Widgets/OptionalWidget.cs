@@ -32,18 +32,5 @@ namespace FluidSharp.Widgets
             return IsVisible() ? layoutsurface.Paint(Contents, rect) : rect.WithHeight(0);
         }
 
-
-
-        //public static Widget Make(PlatformStyle platformStyle, VisualState visualState, object context, Func<Task> onTapped, Widget contents)
-        //{
-        //    var id = context is string ? context : context.GetType().Name;
-        //    return new StatefulButton(visualState, platformStyle.FlatButtonSelectedBackgroundColor, context, onTapped, contents);
-        //}
-
-        //public static Widget MakeButton(PlatformStyle platformStyle, VisualState visualState, object context, Func<Task> onTapped, Func<bool> isSelected, Func<bool, Widget> makecontents)
-        //{
-        //    return Make(platformStyle, visualState, context, onTapped, new SelectableWidget(isSelected, makecontents));
-        //}
-
     }
 }

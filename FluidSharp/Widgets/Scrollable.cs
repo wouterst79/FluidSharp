@@ -13,7 +13,7 @@ namespace FluidSharp.Widgets
 
         public ScrollState ScrollState;
         public OverscrollBehavior Overscroll;
-        public Widget ChildTree;
+        private GestureDetector ChildTree;
 
         public bool ClipContents = false;
         public Margins ClipMargins;
@@ -28,6 +28,8 @@ namespace FluidSharp.Widgets
             Overscroll = overscrollBehavior;
             ChildTree = GestureDetector.VerticalPanDetector(visualState, ScrollState, child);
         }
+
+        public Widget Contents { get => ChildTree.Child; set => ChildTree.Child = value; }
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries)
         {

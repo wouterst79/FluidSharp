@@ -26,7 +26,7 @@ namespace FluidSharp.Paint
             if (widget is Scrollable scrollable)
             {
                 var height = rect.Height;
-                var childsize = scrollable.ChildTree.Measure(MeasureCache, rect.Size);
+                var childsize = scrollable.Contents.Measure(MeasureCache, rect.Size);
                 Scrollables.Add((scrollable, childsize.Height - height));
             }
             return base.Paint(widget, rect);
