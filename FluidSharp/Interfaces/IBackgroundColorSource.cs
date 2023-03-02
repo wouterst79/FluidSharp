@@ -13,6 +13,6 @@ namespace FluidSharp
     /// </summary>
     public interface IBackgroundColorSource
     {
-        SKColor GetBackgroundColor(VisualState visualState);
+        SKColor BackgroundColor { get; }
     }
 }

@@ -167,12 +167,15 @@ namespace FluidSharp.Views.UWP
 #endif
         }
 
-        public virtual SKColor GetBackgroundColor(VisualState visualState)
-        {
-            if (widgetSource is IBackgroundColorSource backgroundColorSource) return backgroundColorSource.GetBackgroundColor(visualState);
-            return default;
-        }
 
+        public SKColor BackgroundColor
+        {
+            get
+            {
+                if (widgetSource is IBackgroundColorSource backgroundColorSource) return backgroundColorSource.BackgroundColor;
+                return default;
+            }
+        }
 
 #if __FORMS__
 

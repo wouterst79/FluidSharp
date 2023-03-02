@@ -234,30 +234,35 @@ namespace FluidSharp.Navigation
 
         }
 
-        public SKColor GetBackgroundColor(VisualState visualState)
+        public SKColor BackgroundColor
         {
-            SKColor result = default;
-
-            if (Stack.Count == 0) return default;
-
-            var top = Stack.Peek();
-            if (top is IBackgroundColorSource topBackgroundColorSource)
+            get
             {
-                result = topBackgroundColorSource.GetBackgroundColor(visualState);
-                if (result != default)
-                    return result;
-            }
 
-            foreach (var item in Stack.ToArray())
-            {
-                if (item is IBackgroundColorSource backgroundColorSource)
+                SKColor result = default;
+
+                if (Stack.Count == 0) return default;
+
+                var top = Stack.Peek();
+                if (top is IBackgroundColorSource topBackgroundColorSource)
                 {
-                    result = backgroundColorSource.GetBackgroundColor(visualState);
+                    result = topBackgroundColorSource.BackgroundColor;
                     if (result != default)
                         return result;
                 }
+
+                foreach (var item in Stack.ToArray())
+                {
+                    if (item is IBackgroundColorSource backgroundColorSource)
+                    {
+                        result = backgroundColorSource.BackgroundColor;
+                        if (result != default)
+                            return result;
+                    }
+                }
+                return result;
             }
-            return result;
         }
+
     }
 }

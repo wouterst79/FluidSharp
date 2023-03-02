@@ -178,7 +178,7 @@ namespace FluidSharp.Engine
                 var backgroundcolor = IsTransparent ? SKColors.Transparent : SKColors.White;
                 if (WidgetView is IBackgroundColorSource backgroundColorSource)
                 {
-                    var bg = backgroundColorSource.GetBackgroundColor(VisualState);
+                    var bg = backgroundColorSource.BackgroundColor;
                     if (bg != default) backgroundcolor = bg;
                 }
                 var canvas = e.Canvas;

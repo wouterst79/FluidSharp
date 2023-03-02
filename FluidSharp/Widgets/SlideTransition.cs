@@ -109,7 +109,7 @@ namespace FluidSharp.Widgets
                 if (layoutsurface.Canvas == null) return;
                 if (widget is IBackgroundColorSource backgroundColorSource)
                 {
-                    var color = backgroundColorSource.GetBackgroundColor(layoutsurface.VisualState);
+                    var color = backgroundColorSource.BackgroundColor;
                     if (color != default)
                     {
                         layoutsurface.Canvas.DrawRect(rect, PaintCache.GetBackgroundPaint(color));

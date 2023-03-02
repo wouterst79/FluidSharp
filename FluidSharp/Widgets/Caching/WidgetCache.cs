@@ -14,6 +14,8 @@ namespace FluidSharp.Widgets.Caching
 
         private static object nullobj = new object();
 
+        public void Reset() => Widget = null;
+
         public Widget Get<T>(T p1, Func<Widget> make)
         {
             if (!TryGet(p1, out var result)) Set(p1, result = make());
