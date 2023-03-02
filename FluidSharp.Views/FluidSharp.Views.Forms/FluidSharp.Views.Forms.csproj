@@ -7,7 +7,7 @@
     <Version>1.2.0-alpha</Version>
     <Company>My Daily Bits LLC</Company>
     <Description>Xamarin Forms Views for FluidSharp (all platforms)</Description>
-    <Copyright>2020-2022 Wouter Steenbergen</Copyright>
+    <Copyright>2022-2023 Wouter Steenbergen</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 

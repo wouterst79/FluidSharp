@@ -10,7 +10,7 @@
     <license type="file">License.txt</license>
     <description>FluidSharp is a high performance mobile first multi-platform UI layout framework based on Skia.</description>
     <releaseNotes>Initial release</releaseNotes>
-    <copyright>2020-2022 Wouter Steenbergen</copyright>
+    <copyright>2022-2023 Wouter Steenbergen</copyright>
    <dependencies>
         <group targetFramework="Xamarin.iOS10">
             <!--Xamarin.iOS10 dependencies go here-->
