@@ -23,7 +23,7 @@ namespace FluidSharp.Widgets
         Func<VisualState, bool, Widget> MakeValueWidget;
         private PanGestureDetector PanDetector;
 
-        public StatefulSlideTransition(VisualState visualState, CarouselState<bool> state, float pandetectorwidth, Func<VisualState, bool, Widget> makeValueWidget) 
+        public StatefulSlideTransition(VisualState visualState, CarouselState<bool> state, float pandetectorwidth, Func<VisualState, bool, Widget> makeValueWidget)
         {
             State = state ?? throw new ArgumentNullException(nameof(state));
             PanDetectorWidth = pandetectorwidth;
@@ -34,14 +34,14 @@ namespace FluidSharp.Widgets
 
         }
 
-        WidgetCache Transition = new WidgetCache();
+        //WidgetCache Transition = new WidgetCache();
         private Widget MakeWidget(VisualState visualState)
         {
             var frame = State.GetFrame();
-            return Transition.Get(frame, () =>
-            {
-                return SlideTransition.MakeWidget(visualState, frame, 0, PushPageTransition.PushOverlap, null, MakeValueWidget);
-            });
+            //return Transition.Get(frame.Ratio, () =>
+            //{
+            return SlideTransition.MakeWidget(visualState, frame, 0, PushPageTransition.PushOverlap, null, MakeValueWidget);
+            //});
         }
 
         public override SKSize Measure(MeasureCache measureCache, SKSize boundaries) => PanDetector.Child.Measure(measureCache,

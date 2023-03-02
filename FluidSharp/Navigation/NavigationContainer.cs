@@ -223,8 +223,7 @@ namespace FluidSharp.Navigation
                 if (canslideback)
                 {
                     if (SlideBackState == null) SlideBackState = new SlideBackState(() => OnSlideBackCompleted(visualState));
-                    if (SlideBackTransition is null) SlideBackTransition = new StatefulSlideTransition(visualState, SlideBackState, GetBackPanDetectorWidth(), MakeSlideBackWidget);
-                    SlideBackTransition.State = SlideBackState;
+                    if (SlideBackTransition is null || SlideBackTransition.State != SlideBackState) SlideBackTransition = new StatefulSlideTransition(visualState, SlideBackState, GetBackPanDetectorWidth(), MakeSlideBackWidget);
                     return SlideBackTransition;
                 }
 
