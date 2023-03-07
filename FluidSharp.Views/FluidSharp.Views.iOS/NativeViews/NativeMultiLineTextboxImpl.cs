@@ -29,6 +29,7 @@ namespace FluidSharp.Views.iOS.NativeViews
         private Keyboard? Keyboard;
 
         private ReturnTypeInfo ReturnTypeInfo;
+        private bool WasHidden = true;
 
         public NativeMultiLineTextboxImpl(Func<Task> requestRedraw)
         {
@@ -80,11 +81,17 @@ namespace FluidSharp.Views.iOS.NativeViews
 #if PRINTEVENTS
                     Debug.WriteLine($"setting first responder");
 #endif
-                    BecomeFirstResponder();
+                    if (WasHidden && !Hidden)
+                    {
+                        BecomeFirstResponder();
+                        WasHidden = false;
+                    }
                     //SetNeedsFocusUpdate();
                     //UpdateFocusIfNeeded();
                 }
             }
+            if (Hidden) WasHidden = true;
+
             SetFont(widget.Font.WithTextSize(widget.Font.TextSize * rect.Width / original.Width));
             SetTextColor(widget.TextColor);
             SetKeyboard(widget.Keyboard);
@@ -167,69 +174,11 @@ namespace FluidSharp.Views.iOS.NativeViews
 
             if (keyboard != FluidSharp.Keyboard.MultiLine) throw new NotImplementedException();
 
-            textInput.AutocapitalizationType = UITextAutocapitalizationType.None;
-            textInput.AutocorrectionType = UITextAutocorrectionType.No;
-            textInput.SpellCheckingType = UITextSpellCheckingType.No;
+            textInput.AutocapitalizationType = UITextAutocapitalizationType.Sentences;
+            textInput.AutocorrectionType = UITextAutocorrectionType.Default;
+            textInput.SpellCheckingType = UITextSpellCheckingType.Default;
             textInput.KeyboardType = UIKeyboardType.Default;
 
-            if (keyboard == FluidSharp.Keyboard.Default)
-            {
-                textInput.AutocapitalizationType = UITextAutocapitalizationType.Sentences;
-                textInput.AutocorrectionType = UITextAutocorrectionType.Default;
-                textInput.SpellCheckingType = UITextSpellCheckingType.Default;
-            }
-            else if (keyboard == FluidSharp.Keyboard.Name)
-            {
-                textInput.AutocapitalizationType = UITextAutocapitalizationType.Words;
-            }
-            else if (keyboard == FluidSharp.Keyboard.Chat)
-            {
-                textInput.AutocapitalizationType = UITextAutocapitalizationType.Sentences;
-                textInput.AutocorrectionType = UITextAutocorrectionType.Yes;
-            }
-            else if (keyboard == FluidSharp.Keyboard.Email)
-                textInput.KeyboardType = UIKeyboardType.EmailAddress;
-            else if (keyboard == FluidSharp.Keyboard.Numeric)
-                textInput.KeyboardType = UIKeyboardType.DecimalPad;
-            else if (keyboard == FluidSharp.Keyboard.Telephone)
-                textInput.KeyboardType = UIKeyboardType.PhonePad;
-            else if (keyboard == FluidSharp.Keyboard.Text)
-            {
-                textInput.AutocapitalizationType = UITextAutocapitalizationType.Sentences;
-                textInput.AutocorrectionType = UITextAutocorrectionType.Yes;
-                textInput.SpellCheckingType = UITextSpellCheckingType.Yes;
-            }
-            else if (keyboard == FluidSharp.Keyboard.Url)
-                textInput.KeyboardType = UIKeyboardType.Url;
-            //else if (keyboard is CustomKeyboard)
-            //{
-            //    var custom = (CustomKeyboard)keyboard;
-
-            //    var capitalizedSentenceEnabled = (custom.Flags & KeyboardFlags.CapitalizeSentence) == KeyboardFlags.CapitalizeSentence;
-            //    var capitalizedWordsEnabled = (custom.Flags & KeyboardFlags.CapitalizeWord) == KeyboardFlags.CapitalizeWord;
-            //    var capitalizedCharacterEnabled = (custom.Flags & KeyboardFlags.CapitalizeCharacter) == KeyboardFlags.CapitalizeCharacter;
-            //    var capitalizedNone = (custom.Flags & KeyboardFlags.None) == KeyboardFlags.None;
-
-            //    var spellcheckEnabled = (custom.Flags & KeyboardFlags.Spellcheck) == KeyboardFlags.Spellcheck;
-            //    var suggestionsEnabled = (custom.Flags & KeyboardFlags.Suggestions) == KeyboardFlags.Suggestions;
-
-
-            //    UITextAutocapitalizationType capSettings = UITextAutocapitalizationType.None;
-
-            //    // Sentence being first ensures that the behavior of ALL is backwards compatible
-            //    if (capitalizedSentenceEnabled)
-            //        capSettings = UITextAutocapitalizationType.Sentences;
-            //    else if (capitalizedWordsEnabled)
-            //        capSettings = UITextAutocapitalizationType.Words;
-            //    else if (capitalizedCharacterEnabled)
-            //        capSettings = UITextAutocapitalizationType.AllCharacters;
-            //    else if (capitalizedNone)
-            //        capSettings = UITextAutocapitalizationType.None;
-
-            //    textInput.AutocapitalizationType = capSettings;
-            //    textInput.AutocorrectionType = suggestionsEnabled ? UITextAutocorrectionType.Yes : UITextAutocorrectionType.No;
-            //    textInput.SpellCheckingType = spellcheckEnabled ? UITextSpellCheckingType.Yes : UITextSpellCheckingType.No;
-            //}
         }
 
         public void SetVisible(bool visible) => throw new NotImplementedException();

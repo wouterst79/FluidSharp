@@ -220,6 +220,12 @@ namespace FluidSharp.Views.Android.NativeViews
                     ShowKeyboard(requested.Visible.Value);
                 }
 
+                var currentParams = LayoutParameters as RelativeLayout.LayoutParams;
+                if (currentParams != null && CurrentState.Rect != null)
+                {
+                    CurrentState.Rect = SKRect.Create(currentParams.LeftMargin, currentParams.TopMargin, currentParams.Width, CurrentState.Rect.Value.Height);
+                }
+
                 if (requested.Rect.HasValue && CurrentState.Rect != requested.Rect)
                 {
 #if PRINTEVENTS
