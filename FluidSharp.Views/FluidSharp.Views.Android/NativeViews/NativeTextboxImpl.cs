@@ -297,7 +297,11 @@ namespace FluidSharp.Views.Android.NativeViews
                             }
                         }
                     });
-                    Apply(ref CurrentState.Properties.Keyboard, requested.Properties.Keyboard, keyboard => InputType = keyboard.ToInputType());
+                    Apply(ref CurrentState.Properties.Keyboard, requested.Properties.Keyboard, keyboard =>
+                    {
+                        InputType = keyboard.ToInputType();
+                        if (keyboard == Keyboard.Numeric) KeyListener = new DecimalKeyListener();
+                    });
 
                     CurrentState.Scale = requested.Scale;
 
