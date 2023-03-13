@@ -57,6 +57,8 @@ namespace FluidSharp.Views.Android.NativeViews
                 result = InputTypes.ClassPhone;
             else if (self == Keyboard.Text)
                 result = InputTypes.ClassText | InputTypes.TextFlagCapSentences;
+            else if (self == Keyboard.MultiLine)
+                result = InputTypes.ClassText | InputTypes.TextFlagCapSentences | InputTypes.TextFlagMultiLine;
             else if (self == Keyboard.Url)
                 result = InputTypes.ClassText | InputTypes.TextVariationUri;
             //else if (self is CustomKeyboard)
