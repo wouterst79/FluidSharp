@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,7 +9,7 @@ namespace FluidSharp.Layouts
     {
 
 
-        private static Dictionary<float, LayoutSize> AvailableLayouts = new Dictionary<float, LayoutSize>();
+        private static ConcurrentDictionary<float, LayoutSize> AvailableLayouts = new ConcurrentDictionary<float, LayoutSize>();
         public static LayoutSize Available(float part)
         {
             if (!AvailableLayouts.TryGetValue(part, out var layoutSize))
@@ -16,7 +17,7 @@ namespace FluidSharp.Layouts
             return layoutSize;
         }
 
-        private static Dictionary<float, LayoutSize> AbsoluteLayouts = new Dictionary<float, LayoutSize>();
+        private static ConcurrentDictionary<float, LayoutSize> AbsoluteLayouts = new ConcurrentDictionary<float, LayoutSize>();
         public static LayoutSize Absolute(float size)
         {
             if (!AbsoluteLayouts.TryGetValue(size, out var layoutSize))
@@ -26,7 +27,7 @@ namespace FluidSharp.Layouts
 
         public static LayoutSize Remaining = new Remaining_Impl(1);
 
-        private static Dictionary<float, LayoutSize> RemainingLayouts = new Dictionary<float, LayoutSize>();
+        private static ConcurrentDictionary<float, LayoutSize> RemainingLayouts = new ConcurrentDictionary<float, LayoutSize>();
         public static LayoutSize RemainingWithWeight(float weight = 1)
         {
             if (!RemainingLayouts.TryGetValue(weight, out var layoutSize))

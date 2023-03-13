@@ -5,6 +5,7 @@ using FluidSharp.Layouts;
 using SkiaSharp;
 using SkiaSharp.TextBlocks.Enum;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 
@@ -15,8 +16,8 @@ namespace FluidSharp.Widgets
 
         public SKSize Size;
 
-        private static Dictionary<float, Spacing> SquareCache = new Dictionary<float, Spacing>();
-        private static Dictionary<(float width, float height), Spacing> RectCache = new Dictionary<(float width, float height), Spacing>();
+        private static ConcurrentDictionary<float, Spacing> SquareCache = new ConcurrentDictionary<float, Spacing>();
+        private static ConcurrentDictionary<(float width, float height), Spacing> RectCache = new ConcurrentDictionary<(float width, float height), Spacing>();
 
         private Spacing(float size) => Size = new SKSize(size, size);
         protected Spacing(float width, float height) => Size = new SKSize(width, height);
