@@ -20,6 +20,8 @@ using Android.App;
 using Android.Views.InputMethods;
 using Android.InputMethodServices;
 using Gfx = Android.Graphics;
+using Android.Text.Method;
+using Java.Lang;
 
 namespace FluidSharp.Views.Android.NativeViews
 {
@@ -300,7 +302,21 @@ namespace FluidSharp.Views.Android.NativeViews
                     Apply(ref CurrentState.Properties.Keyboard, requested.Properties.Keyboard, keyboard =>
                     {
                         InputType = keyboard.ToInputType();
-                        if (keyboard == Keyboard.Numeric) KeyListener = new DecimalKeyListener();
+                        if (keyboard == Keyboard.Numeric)
+                        {
+                            try
+                            {
+                                try
+                                {
+                                    KeyListener = new DecimalKeyListener();
+                                }
+                                catch (IncompatibleClassChangeError)
+                                {
+                                    KeyListener = DigitsKeyListener.GetInstance("1234567890,.");
+                                }
+                            }
+                            catch { }
+                        }
                     });
 
                     CurrentState.Scale = requested.Scale;
