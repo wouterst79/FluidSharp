@@ -24,6 +24,7 @@ namespace FluidSharp.Widgets.Caching
             if (Widget is null || !value.Equals(LastValue))
             {
                 Widget = MakeWidget(value);
+                LastValue = value;
             }
             return Widget;
         }
