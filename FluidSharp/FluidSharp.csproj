@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\fj\v8\Source\Platforms\V7\IncludedComponents\SkiaSharp.TextBlocks\SkiaSharp.TextBlocks.csproj" />
+    <ProjectReference Include="..\..\..\SkiaSharp.TextBlocks\source\SkiaSharp.TextBlocks\SkiaSharp.TextBlocks.csproj" />
   </ItemGroup>
 
 </Project>
