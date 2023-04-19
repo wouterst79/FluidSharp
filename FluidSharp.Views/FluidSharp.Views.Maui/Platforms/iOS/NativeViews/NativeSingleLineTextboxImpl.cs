@@ -29,6 +29,8 @@ namespace FluidSharp.Views.iOS.NativeViews
 
         private ReturnTypeInfo ReturnTypeInfo;
 
+        private bool WasHidden = true;
+
         public NativeSingleLineTextboxImpl(Func<Task> requestRedraw)
         {
             RequestRedraw = requestRedraw;
@@ -77,11 +79,17 @@ namespace FluidSharp.Views.iOS.NativeViews
 #if PRINTEVENTS
                     Debug.WriteLine($"setting first responder");
 #endif
-                    BecomeFirstResponder();
+                    if (WasHidden && !Hidden)
+                    {
+                        BecomeFirstResponder();
+                        WasHidden = false;
+                    }
                     //SetNeedsFocusUpdate();
                     //UpdateFocusIfNeeded();
                 }
             }
+            if (Hidden) WasHidden = true;
+
             SetFont(widget.Font.WithTextSize(widget.Font.TextSize * rect.Width / original.Width));
             SetTextColor(widget.TextColor);
             SetKeyboard(widget.Keyboard);
@@ -200,7 +208,6 @@ namespace FluidSharp.Views.iOS.NativeViews
             }
             else if (keyboard == FluidSharp.Keyboard.Url)
                 textInput.SetKeyboardType(UIKeyboardType.Url);
-
             //else if (keyboard is CustomKeyboard)
             //{
             //    var custom = (CustomKeyboard)keyboard;

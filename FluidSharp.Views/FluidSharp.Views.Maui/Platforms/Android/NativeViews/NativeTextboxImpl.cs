@@ -6,6 +6,7 @@ using SkiaSharp;
 using SkiaSharp.TextBlocks;
 using System;
 using System.Collections.Generic;
+//using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,8 @@ using Android.App;
 using Android.Views.InputMethods;
 using Android.InputMethodServices;
 using Gfx = Android.Graphics;
+using Android.Text.Method;
+using Java.Lang;
 
 namespace FluidSharp.Views.Android.NativeViews
 {
@@ -219,6 +222,12 @@ namespace FluidSharp.Views.Android.NativeViews
                     ShowKeyboard(requested.Visible.Value);
                 }
 
+                var currentParams = LayoutParameters as RelativeLayout.LayoutParams;
+                if (currentParams != null && CurrentState.Rect != null)
+                {
+                    CurrentState.Rect = SKRect.Create(currentParams.LeftMargin, currentParams.TopMargin, currentParams.Width, CurrentState.Rect.Value.Height);
+                }
+
                 if (requested.Rect.HasValue && CurrentState.Rect != requested.Rect)
                 {
 #if PRINTEVENTS
@@ -290,7 +299,25 @@ namespace FluidSharp.Views.Android.NativeViews
                             }
                         }
                     });
-                    Apply(ref CurrentState.Properties.Keyboard, requested.Properties.Keyboard, keyboard => InputType = keyboard.ToInputType());
+                    Apply(ref CurrentState.Properties.Keyboard, requested.Properties.Keyboard, keyboard =>
+                    {
+                        InputType = keyboard.ToInputType();
+                        if (keyboard == Keyboard.Numeric)
+                        {
+                            try
+                            {
+                                try
+                                {
+                                    KeyListener = new DecimalKeyListener();
+                                }
+                                catch (IncompatibleClassChangeError)
+                                {
+                                    KeyListener = DigitsKeyListener.GetInstance("1234567890,.");
+                                }
+                            }
+                            catch { }
+                        }
+                    });
 
                     CurrentState.Scale = requested.Scale;
 

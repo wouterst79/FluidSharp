@@ -1,93 +1,125 @@
 using Android.Text;
+using Android.Text.Method;
+using System.Runtime.InteropServices;
 
 namespace FluidSharp.Views.Android.NativeViews
 {
 
-	// https://github.com/xamarin/Xamarin.Forms/blob/caab66bcf9614aca0c0805d560a34e176d196e17/Xamarin.Forms.Platform.Android/Renderers/KeyboardExtensions.cs
-	public static class KeyboardExtensions
-	{
-		public static InputTypes ToInputType(this Keyboard self)
-		{
-			var result = new InputTypes();
 
-			// ClassText:																						!autocaps, spellcheck, suggestions 
-			// TextFlagNoSuggestions:																			!autocaps, !spellcheck, !suggestions
-			// InputTypes.ClassText | InputTypes.TextFlagCapSentences											 autocaps,	spellcheck,  suggestions
-			// InputTypes.ClassText | InputTypes.TextFlagCapSentences | InputTypes.TextFlagNoSuggestions;		 autocaps, !spellcheck, !suggestions
+    ////see https://stackoverflow.com/questions/52059006/decimal-separator-key-not-visible-when-digitskeylistener-is-set
+    //public class SignedDecimalKeyListener : DigitsKeyListener
+    //{
 
-			if (self == Keyboard.Default)
-				result = InputTypes.ClassText | InputTypes.TextVariationNormal;
-			else if (self == Keyboard.Chat)
-				result = InputTypes.ClassText | InputTypes.TextFlagCapSentences | InputTypes.TextFlagNoSuggestions;
-			else if (self == Keyboard.Email)
-				result = InputTypes.ClassText | InputTypes.TextVariationEmailAddress;
-			else if (self == Keyboard.Numeric)
-				result = InputTypes.ClassNumber | InputTypes.NumberFlagDecimal | InputTypes.NumberFlagSigned;
-			else if (self == Keyboard.Telephone)
-				result = InputTypes.ClassPhone;
-			else if (self == Keyboard.Text)
-				result = InputTypes.ClassText | InputTypes.TextFlagCapSentences;
-			else if (self == Keyboard.Url)
-				result = InputTypes.ClassText | InputTypes.TextVariationUri;
-			//else if (self is CustomKeyboard)
-			//{
-			//	var custom = (CustomKeyboard)self;
-			//	var capitalizedSentenceEnabled = (custom.Flags & KeyboardFlags.CapitalizeSentence) == KeyboardFlags.CapitalizeSentence;
-			//	var capitalizedWordsEnabled = (custom.Flags & KeyboardFlags.CapitalizeWord) == KeyboardFlags.CapitalizeWord;
-			//	var capitalizedCharacterEnabled = (custom.Flags & KeyboardFlags.CapitalizeCharacter) == KeyboardFlags.CapitalizeCharacter;
+    //	char[] accepted = "0123456789.,".ToCharArray();
+    //    public SignedDecimalKeyListener() : base(Java.Util.Locale.Default, true, true) { }
 
-			//	var spellcheckEnabled = (custom.Flags & KeyboardFlags.Spellcheck) == KeyboardFlags.Spellcheck;
-			//	var suggestionsEnabled = (custom.Flags & KeyboardFlags.Suggestions) == KeyboardFlags.Suggestions;
+    //    public override InputTypes InputType => InputTypes.ClassNumber | InputTypes.NumberFlagDecimal | InputTypes.NumberFlagSigned;
+    //    protected override char[] GetAcceptedChars() => accepted;
 
-			//	if (!capitalizedSentenceEnabled && !spellcheckEnabled && !suggestionsEnabled)
-			//		result = InputTypes.ClassText | InputTypes.TextFlagNoSuggestions;
+    //}
 
-			//	if (!capitalizedSentenceEnabled && !spellcheckEnabled && suggestionsEnabled)
-			//	{
-			//		// Due to the nature of android, TextFlagAutoCorrect includes Spellcheck
-			//		Log.Warning(null, "On Android, KeyboardFlags.Suggestions enables KeyboardFlags.Spellcheck as well due to a platform limitation.");
-			//		result = InputTypes.ClassText | InputTypes.TextFlagAutoCorrect;
-			//	}
+    //see https://stackoverflow.com/questions/52059006/decimal-separator-key-not-visible-when-digitskeylistener-is-set
+    //and https://stackoverflow.com/questions/68622329/xamarin-forms-how-to-only-allow-numbers-and-dots
+    public class DecimalKeyListener : DigitsKeyListener
+    {
 
-			//	if (!capitalizedSentenceEnabled && spellcheckEnabled && !suggestionsEnabled)
-			//		result = InputTypes.ClassText | InputTypes.TextFlagAutoComplete;
+        char[] accepted = "0123456789.,".ToCharArray();
 
-			//	if (!capitalizedSentenceEnabled && spellcheckEnabled && suggestionsEnabled)
-			//		result = InputTypes.ClassText | InputTypes.TextFlagAutoCorrect;
+        public DecimalKeyListener() : base(Java.Util.Locale.Default, false, true) { }
 
-			//	if (capitalizedSentenceEnabled && !spellcheckEnabled && !suggestionsEnabled)
-			//		result = InputTypes.ClassText | InputTypes.TextFlagCapSentences | InputTypes.TextFlagNoSuggestions;
+        public override InputTypes InputType => InputTypes.ClassNumber | InputTypes.NumberFlagDecimal;
+        protected override char[] GetAcceptedChars() => accepted;
 
-			//	if (capitalizedSentenceEnabled && !spellcheckEnabled && suggestionsEnabled)
-			//	{
-			//		// Due to the nature of android, TextFlagAutoCorrect includes Spellcheck
-			//		Log.Warning(null, "On Android, KeyboardFlags.Suggestions enables KeyboardFlags.Spellcheck as well due to a platform limitation.");
-			//		result = InputTypes.ClassText | InputTypes.TextFlagCapSentences | InputTypes.TextFlagAutoCorrect;
-			//	}
+    }
 
-			//	if (capitalizedSentenceEnabled && spellcheckEnabled && !suggestionsEnabled)
-			//		result = InputTypes.ClassText | InputTypes.TextFlagCapSentences | InputTypes.TextFlagAutoComplete;
 
-			//	if (capitalizedSentenceEnabled && spellcheckEnabled && suggestionsEnabled)
-			//		result = InputTypes.ClassText | InputTypes.TextFlagCapSentences | InputTypes.TextFlagAutoCorrect;
+    // https://github.com/xamarin/Xamarin.Forms/blob/caab66bcf9614aca0c0805d560a34e176d196e17/Xamarin.Forms.Platform.Android/Renderers/KeyboardExtensions.cs
+    public static class KeyboardExtensions
+    {
+        public static InputTypes ToInputType(this Keyboard self)
+        {
+            var result = new InputTypes();
 
-			//	// All existed before these settings. This ensures these changes are backwards compatible
-			//	// without this check TextFlagCapCharacters would win
-			//	if (custom.Flags != KeyboardFlags.All)
-			//	{
-			//		if (capitalizedWordsEnabled)
-			//			result = result | InputTypes.TextFlagCapWords;
+            // ClassText:																						!autocaps, spellcheck, suggestions 
+            // TextFlagNoSuggestions:																			!autocaps, !spellcheck, !suggestions
+            // InputTypes.ClassText | InputTypes.TextFlagCapSentences											 autocaps,	spellcheck,  suggestions
+            // InputTypes.ClassText | InputTypes.TextFlagCapSentences | InputTypes.TextFlagNoSuggestions;		 autocaps, !spellcheck, !suggestions
 
-			//		if (capitalizedCharacterEnabled)
-			//			result = result | InputTypes.TextFlagCapCharacters;
-			//	}
-			//}
-			else
-			{
-				// Should never happens
-				result = InputTypes.TextVariationNormal;
-			}
-			return result;
-		}
-	}
+            if (self == Keyboard.Default)
+                result = InputTypes.ClassText | InputTypes.TextVariationNormal;
+            else if (self == Keyboard.Chat)
+                result = InputTypes.ClassText | InputTypes.TextFlagCapSentences | InputTypes.TextFlagNoSuggestions;
+            else if (self == Keyboard.Email)
+                result = InputTypes.ClassText | InputTypes.TextVariationEmailAddress;
+            else if (self == Keyboard.Numeric)
+                result = InputTypes.ClassNumber | InputTypes.NumberFlagDecimal | InputTypes.NumberFlagSigned;
+            else if (self == Keyboard.Telephone)
+                result = InputTypes.ClassPhone;
+            else if (self == Keyboard.Text)
+                result = InputTypes.ClassText | InputTypes.TextFlagCapSentences;
+            else if (self == Keyboard.MultiLine)
+                result = InputTypes.ClassText | InputTypes.TextFlagCapSentences | InputTypes.TextFlagMultiLine;
+            else if (self == Keyboard.Url)
+                result = InputTypes.ClassText | InputTypes.TextVariationUri;
+            //else if (self is CustomKeyboard)
+            //{
+            //	var custom = (CustomKeyboard)self;
+            //	var capitalizedSentenceEnabled = (custom.Flags & KeyboardFlags.CapitalizeSentence) == KeyboardFlags.CapitalizeSentence;
+            //	var capitalizedWordsEnabled = (custom.Flags & KeyboardFlags.CapitalizeWord) == KeyboardFlags.CapitalizeWord;
+            //	var capitalizedCharacterEnabled = (custom.Flags & KeyboardFlags.CapitalizeCharacter) == KeyboardFlags.CapitalizeCharacter;
+
+            //	var spellcheckEnabled = (custom.Flags & KeyboardFlags.Spellcheck) == KeyboardFlags.Spellcheck;
+            //	var suggestionsEnabled = (custom.Flags & KeyboardFlags.Suggestions) == KeyboardFlags.Suggestions;
+
+            //	if (!capitalizedSentenceEnabled && !spellcheckEnabled && !suggestionsEnabled)
+            //		result = InputTypes.ClassText | InputTypes.TextFlagNoSuggestions;
+
+            //	if (!capitalizedSentenceEnabled && !spellcheckEnabled && suggestionsEnabled)
+            //	{
+            //		// Due to the nature of android, TextFlagAutoCorrect includes Spellcheck
+            //		Log.Warning(null, "On Android, KeyboardFlags.Suggestions enables KeyboardFlags.Spellcheck as well due to a platform limitation.");
+            //		result = InputTypes.ClassText | InputTypes.TextFlagAutoCorrect;
+            //	}
+
+            //	if (!capitalizedSentenceEnabled && spellcheckEnabled && !suggestionsEnabled)
+            //		result = InputTypes.ClassText | InputTypes.TextFlagAutoComplete;
+
+            //	if (!capitalizedSentenceEnabled && spellcheckEnabled && suggestionsEnabled)
+            //		result = InputTypes.ClassText | InputTypes.TextFlagAutoCorrect;
+
+            //	if (capitalizedSentenceEnabled && !spellcheckEnabled && !suggestionsEnabled)
+            //		result = InputTypes.ClassText | InputTypes.TextFlagCapSentences | InputTypes.TextFlagNoSuggestions;
+
+            //	if (capitalizedSentenceEnabled && !spellcheckEnabled && suggestionsEnabled)
+            //	{
+            //		// Due to the nature of android, TextFlagAutoCorrect includes Spellcheck
+            //		Log.Warning(null, "On Android, KeyboardFlags.Suggestions enables KeyboardFlags.Spellcheck as well due to a platform limitation.");
+            //		result = InputTypes.ClassText | InputTypes.TextFlagCapSentences | InputTypes.TextFlagAutoCorrect;
+            //	}
+
+            //	if (capitalizedSentenceEnabled && spellcheckEnabled && !suggestionsEnabled)
+            //		result = InputTypes.ClassText | InputTypes.TextFlagCapSentences | InputTypes.TextFlagAutoComplete;
+
+            //	if (capitalizedSentenceEnabled && spellcheckEnabled && suggestionsEnabled)
+            //		result = InputTypes.ClassText | InputTypes.TextFlagCapSentences | InputTypes.TextFlagAutoCorrect;
+
+            //	// All existed before these settings. This ensures these changes are backwards compatible
+            //	// without this check TextFlagCapCharacters would win
+            //	if (custom.Flags != KeyboardFlags.All)
+            //	{
+            //		if (capitalizedWordsEnabled)
+            //			result = result | InputTypes.TextFlagCapWords;
+
+            //		if (capitalizedCharacterEnabled)
+            //			result = result | InputTypes.TextFlagCapCharacters;
+            //	}
+            //}
+            else
+            {
+                // Should never happens
+                result = InputTypes.TextVariationNormal;
+            }
+            return result;
+        }
+    }
 }
