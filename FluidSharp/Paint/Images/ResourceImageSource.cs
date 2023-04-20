@@ -1,5 +1,4 @@
 ﻿using SkiaSharp;
-using Svg.Skia;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -42,18 +41,8 @@ namespace FluidSharp.Paint.Images
 
             using (var stream = Assembly.GetManifestResourceStream(fullname))
             {
-                if (fullname.EndsWith(".svg"))
-                {
-                    var svg = new SKSvg();
-                    var picture = svg.Load(stream);
-                    var rect = svg.Picture.CullRect;
-                    return SKImage.FromPicture(svg.Picture, rect.Size.ToSizeI());
-                }
-                else
-                {
-                    var image = SKImage.FromBitmap(SKBitmap.Decode(stream));
-                    return image;
-                }
+                var image = SKImage.FromBitmap(SKBitmap.Decode(stream));
+                return image;
             }
 
         }

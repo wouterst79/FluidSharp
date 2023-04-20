@@ -9,7 +9,6 @@ using FluidSharp.State;
 using FluidSharp.Widgets;
 using SkiaSharp;
 using SkiaSharp.TextBlocks.Enum;
-using Svg;
 using System;
 using System.Collections.Generic;
 using System.Text;

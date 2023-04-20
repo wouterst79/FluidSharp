@@ -1,5 +1,4 @@
-﻿using Fizzler;
-using FluidSharp.Layouts;
+﻿using FluidSharp.Layouts;
 using FluidSharp.State;
 using FluidSharp.Widgets.CrossPlatform;
 using FluidSharp.Widgets.Material;
