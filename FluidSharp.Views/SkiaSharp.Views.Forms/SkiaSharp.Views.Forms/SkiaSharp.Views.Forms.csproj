@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0-ios;net6.0-android</TargetFrameworks>
+    <AssemblyName>SkiaSharp.Views.Forms</AssemblyName>
+    <RootNamespace>SkiaSharp.Views.Forms</RootNamespace>
+    <SignAssembly>false</SignAssembly>
+    <PackagingGroup>SkiaSharp.Views.Forms</PackagingGroup>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="SkiaSharp" Version="2.88.3" />
+		<PackageReference Include="Xamarin.Forms" Version="5.0.0.2578" />
+	</ItemGroup>
+
+	<ItemGroup>
+    <Compile Include="..\SkiaSharp.Views.Forms.Shared\**\*.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+</Project>

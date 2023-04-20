@@ -87,14 +87,14 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\FluidSharp\FluidSharp.csproj">
-      <Project>{31b5dd46-fd96-478e-975e-c35c8a376099}</Project>
-      <Name>FluidSharp</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="License.txt" />
     <None Include="nuget instructions.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\wouterst79\FluidSharp\source\FluidSharp\FluidSharp.csproj">
+      <Project>{b66db923-4233-4746-9b68-d1f5ea571e32}</Project>
+      <Name>FluidSharp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
