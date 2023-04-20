@@ -10,11 +10,14 @@
 
 	<ItemGroup>
 		<PackageReference Include="SkiaSharp" Version="2.88.3" />
-		<PackageReference Include="Xamarin.Forms" Version="5.0.0.2578" />
 	</ItemGroup>
 
 	<ItemGroup>
     <Compile Include="..\SkiaSharp.Views.Forms.Shared\**\*.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\..\..\..\fj\v8\Source\Platforms\V7\IncludedComponents\Xamarin.Forms\Xamarin.Forms.Core\Xamarin.Forms.Core.csproj" />
+	</ItemGroup>
 
 </Project>

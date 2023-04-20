@@ -22,11 +22,11 @@
 
 	<ItemGroup>
 		<PackageReference Include="SkiaSharp.Views" Version="2.88.3" />
-		<PackageReference Include="Xamarin.Forms" Version="5.0.0.2578" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\..\..\..\..\wouterst79\FluidSharp\source\FluidSharp\FluidSharp.csproj" />
+		<ProjectReference Include="..\..\..\..\..\fj\v8\Source\Platforms\V7\IncludedComponents\Xamarin.Forms\Xamarin.Forms.Core\Xamarin.Forms.Core.csproj" />
 		<ProjectReference Include="..\SkiaSharp.Views.Forms\SkiaSharp.Views.Forms\SkiaSharp.Views.Forms.csproj" />
 	</ItemGroup>
 
