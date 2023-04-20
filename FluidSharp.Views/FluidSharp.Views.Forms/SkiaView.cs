@@ -1,12 +1,15 @@
 ﻿using FluidSharp;
 using FluidSharp.Touch;
 using SkiaSharp;
-using SkiaSharp.Views.Forms;
+using SkiaSharp.Views.Maui.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Maui.Controls;
 using System.Text;
-using Xamarin.Forms;
+using SkiaSharp.Views.Maui;
+using Microsoft.Maui;
+using Microsoft.Maui.Graphics;
 
 namespace FluidSharp.Views.Forms
 {
@@ -32,7 +35,7 @@ namespace FluidSharp.Views.Forms
 
         public void InvalidatePaint()
         {
-            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+            Microsoft.Maui.Controls.Device.BeginInvokeOnMainThread(() =>
                 canvasView.InvalidateSurface()
             );
         }
@@ -50,7 +53,7 @@ namespace FluidSharp.Views.Forms
 
         }
 
-        public IEnumerable<View> GetViews() => Children.Where(c => c != canvasView);
+        public IEnumerable<View> GetViews() => Children.Where(c => c != canvasView).Cast<View>();
 
         private void CanvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
@@ -104,7 +107,7 @@ namespace FluidSharp.Views.Forms
         protected override void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
-            SetLayoutBounds(canvasView, new Rectangle(0, 0, width, height));
+            SetLayoutBounds((IView)canvasView, new Rect(0, 0, width, height));
         }
 
     }

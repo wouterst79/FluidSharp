@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>net6.0-android;net6.0-ios</TargetFrameworks>
 <!--		<TargetFramework>net6.0-android</TargetFramework> -->
+		<UseMaui>true</UseMaui>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>Wouter Steenbergen</Authors>
 		<Version>1.3.1-alpha</Version>
@@ -22,12 +23,11 @@
 
 	<ItemGroup>
 		<PackageReference Include="SkiaSharp.Views" Version="2.88.3" />
-		<PackageReference Include="Xamarin.Forms" Version="5.0.0.2578" />
+		<PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="2.88.3" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\..\..\..\..\wouterst79\FluidSharp\source\FluidSharp\FluidSharp.csproj" />
-		<ProjectReference Include="..\SkiaSharp.Views.Forms\SkiaSharp.Views.Forms\SkiaSharp.Views.Forms.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

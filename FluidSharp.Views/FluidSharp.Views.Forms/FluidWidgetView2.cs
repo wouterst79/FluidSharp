@@ -7,6 +7,9 @@ using SkiaSharp;
 using System;
 
 using FluidSharp.Views.Forms.NativeViews;
+using Microsoft.Maui;
+using Microsoft.Maui.Graphics;
+
 namespace FluidSharp.Views.Forms
 {
 
@@ -51,7 +54,7 @@ namespace FluidSharp.Views.Forms
 
             Device = new Device();
 
-            Device.FlowDirection = Xamarin.Forms.Device.FlowDirection == Xamarin.Forms.FlowDirection.RightToLeft ? SkiaSharp.TextBlocks.Enum.FlowDirection.RightToLeft : SkiaSharp.TextBlocks.Enum.FlowDirection.LeftToRight;
+            Device.FlowDirection = Microsoft.Maui.Controls.Device.FlowDirection == FlowDirection.RightToLeft ? SkiaSharp.TextBlocks.Enum.FlowDirection.RightToLeft : SkiaSharp.TextBlocks.Enum.FlowDirection.LeftToRight;
 
             NativeViewManager = new NativeViewManager(this);
 
@@ -127,11 +130,11 @@ namespace FluidSharp.Views.Forms
                 Implementation.Dispose();
         }
 
-        protected override Xamarin.Forms.SizeRequest OnMeasure(double widthConstraint, double heightConstraint)
+        protected override SizeRequest OnMeasure(double widthConstraint, double heightConstraint) 
         {
 
             if (Width == LastPaintWidth && LastHeightRequest > -1)
-                return new Xamarin.Forms.SizeRequest(new Xamarin.Forms.Size(LastPaintWidth, LastHeightRequest));
+                return new SizeRequest(new Size(LastPaintWidth, LastHeightRequest));
 
             var request = Implementation.Measure(new SKSize((float)widthConstraint, (float)heightConstraint));
             System.Diagnostics.Debug.WriteLine($"LinkTileView Measured: {request} ({widthConstraint}, {heightConstraint}) ");
@@ -139,7 +142,7 @@ namespace FluidSharp.Views.Forms
             if (float.IsInfinity(request.Width) || float.IsInfinity(request.Height))
                 return base.OnMeasure(widthConstraint, heightConstraint);
 
-            return new Xamarin.Forms.SizeRequest(new Xamarin.Forms.Size(request.Width, request.Height));
+            return new SizeRequest(new Size(request.Width, request.Height));
 
         }
 

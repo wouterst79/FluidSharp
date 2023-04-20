@@ -1,9 +1,10 @@
 ﻿using SkiaSharp;
-using SkiaSharp.Views.Forms;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Xamarin.Forms;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Graphics;
+using SkiaSharp.Views.Maui;
 
 namespace FluidSharp.Views.Forms
 {

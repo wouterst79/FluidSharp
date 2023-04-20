@@ -6,7 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Forms;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.Shapes;
+using Microsoft.Maui.Graphics;
+
 
 namespace FluidSharp.Views.Forms
 {
@@ -34,7 +37,8 @@ namespace FluidSharp.Views.Forms
 
         public override void UpdateControl(View control, NativeViewWidget nativeViewWidget, SKRect rect, SKRect original) 
         {
-            var bounds = new Rectangle(rect.Left, rect.Top, rect.Width, rect.Height);
+            
+            var bounds = new Rect(rect.Left, rect.Top, rect.Width, rect.Height);
             if (control.Bounds != bounds)
             {
                 AbsoluteLayout.SetLayoutBounds(control, bounds);
