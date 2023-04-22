@@ -1,0 +1,25 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
+  <PropertyGroup>
+    <TargetFramework>net6.0-ios</TargetFramework>
+    <RootNamespace>SkiaSharp.Views.Forms</RootNamespace>
+    <AssemblyName>SkiaSharp.Views.Forms</AssemblyName>
+    <SignAssembly>false</SignAssembly>
+    <PackagingGroup>SkiaSharp.Views.Forms</PackagingGroup>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="SkiaSharp" Version="2.88.3" />
+		<PackageReference Include="SkiaSharp.Views" Version="2.88.3" />
+		<PackageReference Include="Xamarin.Forms" Version="5.0.0.2578" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\SkiaSharp.Views.Forms.Shared\**\*.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="..\SkiaSharp.Views.Forms.Native.Shared\**\*.cs" Link="%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\fj\v8\Source\Platforms\V7\IncludedComponents\Xamarin.Forms\Xamarin.Forms.Platform.iOS\Xamarin.Forms.Platform.iOS.csproj" />
+  </ItemGroup>
+
+</Project>
