@@ -8,7 +8,7 @@
     <Description>FluidSharp is a high performance mobile first multi-platform UI layout framework based on Skia.</Description>
     <Copyright>2020-2023 Wouter Steenbergen</Copyright>
     <PackageLicenseExpression></PackageLicenseExpression>
-    <Version>1.3.3-alpha</Version>
+    <Version>1.4.0-alpha</Version>
 		<Nullable>enable</Nullable>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>License.txt</PackageLicenseFile>

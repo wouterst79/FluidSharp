@@ -9,6 +9,15 @@
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Authors>Wouter Steenbergen</Authors>
+		<Version>1.4.0-alpha</Version>
+		<Company>My Daily Bits LLC</Company>
+		<Description>Xamarin Views for FluidSharp (net6.0)</Description>
+		<Copyright>2022-2023 Wouter Steenbergen</Copyright>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+
 	</PropertyGroup>
 
 	<!-- Android -->
