@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0-windows</TargetFramework>
 		<UseWindowsForms>true</UseWindowsForms>
-		<Version>1.3.1-alpha</Version>
+		<Version>1.4.0-alpha</Version>
 		<Authors>Wouter Steenbergen</Authors>
 		<Company>My Daily Bits LLC</Company>
 		<Product>FluidSharp</Product>
@@ -40,6 +40,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="SkiaSharp" Version="2.88.3" />
+		<PackageReference Include="SkiaSharp.HarfBuzz" Version="2.88.3" />
 		<PackageReference Include="SkiaSharp.Views.WindowsForms" Version="2.88.3" />
 	</ItemGroup>
 
