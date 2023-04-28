@@ -37,6 +37,7 @@ namespace FluidSharp.Views.iOS.NativeViews
             //BorderStyle = UITextBorderStyle.None;
 
             Bounds = new CoreGraphics.CGRect(0, 0, 24, 24);
+            BackgroundColor = UIColor.Clear;
             //Delegate = this;
 
             this.Changed += NativeTextboxImpl_EditingChanged;
@@ -115,16 +116,19 @@ namespace FluidSharp.Views.iOS.NativeViews
 
         protected void OnTextChanged()
         {
-            if (SetText != null)
+            var setText = SetText;
+            if (setText != null)
             {
                 var text = Text;
+                var requestRedraw = RequestRedraw;
+
                 Task.Run(async () =>
                 {
                     try
                     {
                         settingText = true;
-                        await SetText(text);
-                        await RequestRedraw();
+                        await setText(text);
+                        await requestRedraw?.Invoke();
                     }
                     finally
                     {
