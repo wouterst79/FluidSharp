@@ -144,18 +144,20 @@ namespace FluidSharp.State
                 hasactiveanimations = factor < .98;
             }
 
-            if (ScrollTargetStart.HasValue && ScrollTargetEnd.HasValue && BoundaryHit.HasValue)
+            var scrollTargetStart = ScrollTargetStart;
+            var scrollTargetEnd = ScrollTargetEnd;
+            if (scrollTargetStart.HasValue && scrollTargetEnd.HasValue && boundaryHit.HasValue)
             {
 
-                var delta = ScrollTargetStart.Value - ScrollTargetEnd.Value;
-                var timespan = DateTime.Now.Subtract(BoundaryHit.Value);
+                var delta = scrollTargetStart.Value - scrollTargetEnd.Value;
+                var timespan = DateTime.Now.Subtract(boundaryHit.Value);
 
                 var seconds = timespan.TotalMilliseconds / 1000;
                 var pct = seconds / 1.5f;
                 var factor = Easing.CubicOut.Ease(pct);
 
                 var extra = (float)(-delta * factor);
-                scroll = ScrollTargetStart.Value + extra;
+                scroll = scrollTargetStart.Value + extra;
                 hasactiveanimations = factor < .98;
 
             }

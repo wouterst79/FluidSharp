@@ -49,7 +49,7 @@ namespace FluidSharp.Navigation
 
         // current frame
         private IWidgetSource CurrentFrame => Stack.Peek();
-        private IWidgetSource PreviousFrame => Stack.Take(2).Last();
+        private IWidgetSource PreviousFrame { get { try { return Stack.Take(2).Last(); } catch { return Stack.Take(2).Last(); } } }
 
 
         protected abstract float GetBackPanDetectorWidth();
