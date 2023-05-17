@@ -62,7 +62,7 @@ namespace FluidSharp.Widgets
                 Console.WriteLine("Fixed");
             }
 #endif
-            LastBuilt = DateTime.Now;
+            LastBuilt = DateTime.UtcNow;
             PaintList.Enqueue(contents);
         }
 

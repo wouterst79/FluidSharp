@@ -16,7 +16,7 @@ namespace FluidSharp.Navigation
         public NavigationTop(object context)
         {
             Context = context;
-            Started = DateTime.Now;
+            Started = DateTime.UtcNow;
         }
 
         public bool IsContext(object context)

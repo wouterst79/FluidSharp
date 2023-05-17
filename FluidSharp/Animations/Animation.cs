@@ -41,12 +41,12 @@ namespace FluidSharp.Animations
 
         public virtual void Start()
         {
-            StartTime = DateTime.Now;
+            StartTime = DateTime.UtcNow;
         }
 
         public virtual void Stop()
         {
-            StartTime = DateTime.Now.Add(-Duration * 2);
+            StartTime = DateTime.UtcNow.Add(-Duration * 2);
         }
 
         public Animation(DateTime startTime, TimeSpan duration, float start = 0, float end = 1, Easing? easing = null, Func<Task>? onCompleted = null)
@@ -68,7 +68,7 @@ namespace FluidSharp.Animations
 
         private double GetPctComplete()
         {
-            var pct = DateTime.Now.Subtract(StartTime).TotalMilliseconds / Duration.TotalMilliseconds;
+            var pct = DateTime.UtcNow.Subtract(StartTime).TotalMilliseconds / Duration.TotalMilliseconds;
             if (pct < 0) pct = 0;
             if (pct >= 1)
             {
@@ -220,7 +220,7 @@ namespace FluidSharp.Animations
 
             public override void Start()
             {
-                StartTime = DateTime.Now;
+                StartTime = DateTime.UtcNow;
                 foreach (var frame in Frames.Values)
                 {
                     frame.StartTime = StartTime.Add(frame.FrameStart);
@@ -230,7 +230,7 @@ namespace FluidSharp.Animations
 
             public override void Stop()
             {
-                StartTime = DateTime.Now.AddHours(-1);
+                StartTime = DateTime.UtcNow.AddHours(-1);
                 foreach (var frame in Frames.Values)
                     frame.StartTime = StartTime;
             }
@@ -238,7 +238,7 @@ namespace FluidSharp.Animations
             public void MoveTo(string name, bool allowmoveback)
             {
                 var framestart = Frames[name].FrameStart;
-                var time = DateTime.Now.Add(-framestart);
+                var time = DateTime.UtcNow.Add(-framestart);
                 if (!allowmoveback && time > StartTime) return;
 
                 StartTime = time;

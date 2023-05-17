@@ -18,7 +18,7 @@ namespace FluidSharp.Touch
         public TouchTarget(object context, SKPoint locationOnWidget)
         {
             Context = context;
-            Started = DateTime.Now;
+            Started = DateTime.UtcNow;
             LocationOnWidget = locationOnWidget;
         }
 

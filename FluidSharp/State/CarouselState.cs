@@ -120,7 +120,7 @@ namespace FluidSharp.State
                 var target = Target;
                 var started = AnimationStart;
 
-                var ratio = (float)(DateTime.Now.Subtract(started).TotalMilliseconds / TransitionDuration.TotalMilliseconds);
+                var ratio = (float)(DateTime.UtcNow.Subtract(started).TotalMilliseconds / TransitionDuration.TotalMilliseconds);
                 if (ratio > 1) ratio = 1;
 
                 var direction = GetDirection(current, target);
@@ -181,7 +181,7 @@ namespace FluidSharp.State
 
         protected void SetAnimationStart(double millisecondsfromnow, bool isReverse)
         {
-            AnimationStart = DateTime.Now.AddMilliseconds(millisecondsfromnow);
+            AnimationStart = DateTime.UtcNow.AddMilliseconds(millisecondsfromnow);
             IsReverse = isReverse;
         }
 

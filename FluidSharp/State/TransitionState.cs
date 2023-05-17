@@ -80,7 +80,7 @@ namespace FluidSharp.State
             var target = Target;
             var started = AnimationStart;
 
-            var ratio = (float)(DateTime.Now.Subtract(started).TotalMilliseconds / CurrentDuration.TotalMilliseconds);
+            var ratio = (float)(DateTime.UtcNow.Subtract(started).TotalMilliseconds / CurrentDuration.TotalMilliseconds);
             if (ratio > 1) ratio = 1;
 
             var direction = GetDirection(current, target);
@@ -137,7 +137,7 @@ namespace FluidSharp.State
 
         protected void SetAnimationStart(double millisecondsfromnow)
         {
-            AnimationStart = DateTime.Now.AddMilliseconds(millisecondsfromnow);
+            AnimationStart = DateTime.UtcNow.AddMilliseconds(millisecondsfromnow);
         }
 
         public Task Progress(TransitionFrame<T> frame, VisualState visualState) => Progress(frame);

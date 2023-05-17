@@ -13,7 +13,7 @@ namespace FluidSharp.State
         private LastTapped(object context)
         {
             Context = context;
-            Tapped = DateTime.Now;
+            Tapped = DateTime.UtcNow;
         }
 
         public static void SetContext(VisualState visualState, object context)

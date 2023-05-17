@@ -14,7 +14,7 @@ namespace FluidSharp.Touch
     public class GestureArena
     {
 
-        public DateTime Started = DateTime.Now;
+        public DateTime Started = DateTime.UtcNow;
         public long InitialPointerId;
 
         public List<GestureDetector> DetectorOrder = new List<GestureDetector>();
@@ -61,7 +61,7 @@ namespace FluidSharp.Touch
         public void Touch(long pointerId, TouchActionType type, SKPoint locationOnDevice, SKPoint locationInView, SKSize viewSize, bool isInContact, out bool isCompleted)
         {
 
-            var time = DateTime.Now;
+            var time = DateTime.UtcNow;
             var isinitialpointer = pointerId == InitialPointerId;
 
             switch (type)
@@ -88,10 +88,10 @@ namespace FluidSharp.Touch
 
                         var startlocationOnDevice = StartLocationsOnDevice.GetOrAdd(pointerId, locationOnDevice);
                         var startlocationInView = StartLocationsInView.GetOrAdd(pointerId, locationInView);
-                        var starttime = StartTimes.GetOrAdd(pointerId, DateTime.Now);
+                        var starttime = StartTimes.GetOrAdd(pointerId, DateTime.UtcNow);
 
                         var haswon = Detectors.Count == 1;
-                        var duration = DateTime.Now.Subtract(Started);
+                        var duration = DateTime.UtcNow.Subtract(Started);
                         foreach (var detector in DetectorOrder)
                             if (Detectors.TryGetValue(detector, out var hit))
                             {
@@ -130,7 +130,7 @@ namespace FluidSharp.Touch
                 case TouchActionType.Released:
                     {
 
-                        var duration = DateTime.Now.Subtract(Started);
+                        var duration = DateTime.UtcNow.Subtract(Started);
                         foreach (var detector in DetectorOrder)
                             if (Detectors.TryGetValue(detector, out var hit))
                             {
@@ -148,7 +148,7 @@ namespace FluidSharp.Touch
                 case TouchActionType.Cancelled:
                     {
 
-                        var duration = DateTime.Now.Subtract(Started);
+                        var duration = DateTime.UtcNow.Subtract(Started);
                         foreach (var detector in DetectorOrder)
                             if (Detectors.TryGetValue(detector, out var hit))
                             {

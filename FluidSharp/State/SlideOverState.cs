@@ -30,10 +30,10 @@ namespace FluidSharp.State
         // State accessors
         public bool IsContext(object context) => TypedContext.ContextEqual(Context, context);
 
-        public bool IsClosing => CloseStarted.HasValue && CloseStarted.Value.Add(Duration) > DateTime.Now;
+        public bool IsClosing => CloseStarted.HasValue && CloseStarted.Value.Add(Duration) > DateTime.UtcNow;
         public bool IsClosed => !OpenStarted.HasValue && !IsClosing;
 
-        public bool IsOpening => !CloseStarted.HasValue && OpenStarted.HasValue && OpenStarted.Value.Add(Duration) > DateTime.Now;
+        public bool IsOpening => !CloseStarted.HasValue && OpenStarted.HasValue && OpenStarted.Value.Add(Duration) > DateTime.UtcNow;
         public bool IsOpen => OpenStarted.HasValue && !CloseStarted.HasValue && !IsOpening;
 
 
@@ -68,7 +68,7 @@ namespace FluidSharp.State
                 if (state.IsOpen)
                 {
                     // start closing other context
-                    state.CloseStarted = DateTime.Now;
+                    state.CloseStarted = DateTime.UtcNow;
                     state.OpenStarted = null;
                     return visualState.RequestRedraw();
                 }
@@ -95,13 +95,13 @@ namespace FluidSharp.State
                 var closed = 1 - state.GetOpenRatio().ratio; //  ie "90% closed"
                 var completed = Easing.CubicOutInverse.Ease(closed); // ie how much time would be passed to get 90% closed (ie 2/3 of duration)
                 var ms = state.Duration.TotalMilliseconds;
-                state.OpenStarted = DateTime.Now.AddMilliseconds((completed - 1) * ms);
+                state.OpenStarted = DateTime.UtcNow.AddMilliseconds((completed - 1) * ms);
                 state.CloseStarted = null;
             }
             else
             {
                 // start opening
-                state.OpenStarted = DateTime.Now;
+                state.OpenStarted = DateTime.UtcNow;
                 state.CloseStarted = null;
             }
 
@@ -127,13 +127,13 @@ namespace FluidSharp.State
                 var completed = Easing.CubicIn.Ease(open); //  ie how much time would be passed to get 90% closed (ie 2/3 of duration)
                 var ms = state.Duration.TotalMilliseconds;
                 state.OpenStarted = null;
-                state.CloseStarted = DateTime.Now.AddMilliseconds((completed - 1) * ms);
+                state.CloseStarted = DateTime.UtcNow.AddMilliseconds((completed - 1) * ms);
             }
             else
             {
                 // start closing
                 state.OpenStarted = null;
-                state.CloseStarted = DateTime.Now;
+                state.CloseStarted = DateTime.UtcNow;
             }
 
             return visualState.RequestRedraw();
@@ -149,13 +149,13 @@ namespace FluidSharp.State
 
             if (CloseStarted.HasValue)
             {
-                var delta = (float)(DateTime.Now.Subtract(CloseStarted.Value).TotalMilliseconds / Duration.TotalMilliseconds);
+                var delta = (float)(DateTime.UtcNow.Subtract(CloseStarted.Value).TotalMilliseconds / Duration.TotalMilliseconds);
                 if (delta > 1) delta = 1; else isanimating = true;
                 return (1 - Easing.CubicOut.Ease(delta), isanimating);
             }
             else if (OpenStarted.HasValue)
             {
-                var delta = (float)(DateTime.Now.Subtract(OpenStarted.Value).TotalMilliseconds / Duration.TotalMilliseconds);
+                var delta = (float)(DateTime.UtcNow.Subtract(OpenStarted.Value).TotalMilliseconds / Duration.TotalMilliseconds);
                 if (delta > 1) delta = 1; else isanimating = true;
                 return (Easing.CubicOut.Ease(delta), isanimating);
             }

@@ -7,7 +7,7 @@ namespace FluidSharp.Animations
 
         public string Name { get; set; }
 
-        public Animation.Coordinated Animation = new Animation.Coordinated(DateTime.Now);
+        public Animation.Coordinated Animation = new Animation.Coordinated(DateTime.UtcNow);
 
         public State(string name) => Name = name;
 

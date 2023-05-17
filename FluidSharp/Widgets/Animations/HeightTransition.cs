@@ -31,7 +31,7 @@ namespace FluidSharp.Widgets
             else if (pct >= 1)
                 return child;
             else 
-                return new HeightTransition(new Animation(DateTime.Now.AddSeconds(-1), TimeSpan.FromSeconds(2), pct, pct), child, scaleOnPaint);
+                return new HeightTransition(new Animation(DateTime.UtcNow.AddSeconds(-1), TimeSpan.FromSeconds(2), pct, pct), child, scaleOnPaint);
         }
 
 
@@ -40,14 +40,14 @@ namespace FluidSharp.Widgets
 
             if (disappearingStarted.HasValue)
             {
-                if (disappearingStarted.Value + duration < DateTime.Now)
+                if (disappearingStarted.Value + duration < DateTime.UtcNow)
                     return null;
                 else
                     return new HeightTransition(disappearingStarted.Value, duration, 1, 0, child, scaleOnPaint);
             }
             else
             {
-                if (appearingStarted + duration < DateTime.Now)
+                if (appearingStarted + duration < DateTime.UtcNow)
                     return child;
                 else
                     return new HeightTransition(appearingStarted, duration, 0, 1, child, scaleOnPaint);

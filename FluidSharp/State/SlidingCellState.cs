@@ -41,7 +41,7 @@ namespace FluidSharp.State
                 if (!touchTarget.IsContext(Context)) 
                 {
                     // touching another widget, while thisone is open. close it now
-                    CloseStarted = DateTime.Now;
+                    CloseStarted = DateTime.UtcNow;
                 }
             }
         }
@@ -66,14 +66,14 @@ namespace FluidSharp.State
 
             if (CloseStarted.HasValue)
             {
-                var delta = (float)(DateTime.Now.Subtract(CloseStarted.Value).TotalMilliseconds / SlidingCell.DefaultDuration.TotalMilliseconds);
+                var delta = (float)(DateTime.UtcNow.Subtract(CloseStarted.Value).TotalMilliseconds / SlidingCell.DefaultDuration.TotalMilliseconds);
                 if (delta > 1) delta = 1; else isanimating = true;
                 delta = 1 - Easing.CubicOut.Ease(delta);
                 Open = pan * delta;
             }
             else if (OpenStarted.HasValue)
             {
-                var delta = (float)(DateTime.Now.Subtract(OpenStarted.Value).TotalMilliseconds / SlidingCell.DefaultDuration.TotalMilliseconds);
+                var delta = (float)(DateTime.UtcNow.Subtract(OpenStarted.Value).TotalMilliseconds / SlidingCell.DefaultDuration.TotalMilliseconds);
                 if (delta > 1) delta = 1; else isanimating = true;
                 delta = Easing.CubicOut.Ease(delta);
                 if (pan > 0)
@@ -121,7 +121,7 @@ namespace FluidSharp.State
             else if (OpenStarted.HasValue && !CloseStarted.HasValue)
             {
                 // start closing the other on
-                CloseStarted = DateTime.Now;
+                CloseStarted = DateTime.UtcNow;
             }
             else if (CloseStarted.HasValue)
             {
@@ -150,22 +150,22 @@ namespace FluidSharp.State
             {
                 if (pan > 0)
                 {
-                    if (velocity.X > 0) OpenStarted = DateTime.Now; else CloseStarted = DateTime.Now;
+                    if (velocity.X > 0) OpenStarted = DateTime.UtcNow; else CloseStarted = DateTime.UtcNow;
                 }
                 else
                 {
-                    if (velocity.X < 0) OpenStarted = DateTime.Now; else CloseStarted = DateTime.Now;
+                    if (velocity.X < 0) OpenStarted = DateTime.UtcNow; else CloseStarted = DateTime.UtcNow;
                 }
             }
             else
             {
                 if (pan > 0)
                 {
-                    if (pan > OpenThreshold) OpenStarted = DateTime.Now; else CloseStarted = DateTime.Now;
+                    if (pan > OpenThreshold) OpenStarted = DateTime.UtcNow; else CloseStarted = DateTime.UtcNow;
                 }
                 else
                 {
-                    if (pan < -OpenThreshold) OpenStarted = DateTime.Now; else CloseStarted = DateTime.Now;
+                    if (pan < -OpenThreshold) OpenStarted = DateTime.UtcNow; else CloseStarted = DateTime.UtcNow;
                 }
             }
 

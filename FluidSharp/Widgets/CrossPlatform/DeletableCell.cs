@@ -45,7 +45,7 @@ namespace FluidSharp.Widgets.CrossPlatform
         {
 
             var lasttapped = LastTapped.ForContext(visualState, context);
-            if (lasttapped.HasValue && lasttapped.Value.Add(Animation.DefaultDuration) > DateTime.Now)
+            if (lasttapped.HasValue && lasttapped.Value.Add(Animation.DefaultDuration) > DateTime.UtcNow)
             {
                 child = new Container(ContainerLayout.FillHorizontal)
                 {

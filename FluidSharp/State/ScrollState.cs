@@ -70,7 +70,7 @@ namespace FluidSharp.State
             {
                 Scroll = Scroll + Pan.Value;
                 Pan = null;
-                LastPanEnd = DateTime.Now;
+                LastPanEnd = DateTime.UtcNow;
                 BoundaryHit = null;
                 EndVelocity = velocity.Y;
             }
@@ -99,7 +99,7 @@ namespace FluidSharp.State
             var (scroll, overscroll, hasactiveanimation) = GetScroll();
             ScrollTargetStart = scroll;
             ScrollTargetEnd = value;
-            BoundaryHit = DateTime.Now;
+            BoundaryHit = DateTime.UtcNow;
             EndVelocity = 0;
         }
 
@@ -134,7 +134,7 @@ namespace FluidSharp.State
             var hasactiveanimations = false;
             if (lastPanEnd.HasValue && Math.Abs(EndVelocity) > FlingingVelocity)
             {
-                var timespan = DateTime.Now.Subtract(lastPanEnd.Value);
+                var timespan = DateTime.UtcNow.Subtract(lastPanEnd.Value);
                 var seconds = timespan.TotalMilliseconds / 1000;
                 var factor = 1 - Math.Exp(-1.5 * seconds);
                 //var extra = (float)(-EndVelocity / 2 * factor);
@@ -150,7 +150,7 @@ namespace FluidSharp.State
             {
 
                 var delta = scrollTargetStart.Value - scrollTargetEnd.Value;
-                var timespan = DateTime.Now.Subtract(boundaryHit.Value);
+                var timespan = DateTime.UtcNow.Subtract(boundaryHit.Value);
 
                 var seconds = timespan.TotalMilliseconds / 1000;
                 var pct = seconds / 1.5f;
@@ -179,14 +179,14 @@ namespace FluidSharp.State
 
             // start overscroll bounce
             if (overscroll != 0 && lastPanEnd.HasValue && !boundaryHit.HasValue)
-                BoundaryHit = boundaryHit = DateTime.Now;
+                BoundaryHit = boundaryHit = DateTime.UtcNow;
 
             //System.Diagnostics.Debug.WriteLine($"Scroll: {Scroll} sc: {scroll} os:{overscroll}");
 
             if (boundaryHit.HasValue)
             {
 
-                var dt = 1 - (DateTime.Now.Subtract(boundaryHit.Value).TotalMilliseconds / OverscrollDuration.TotalMilliseconds);
+                var dt = 1 - (DateTime.UtcNow.Subtract(boundaryHit.Value).TotalMilliseconds / OverscrollDuration.TotalMilliseconds);
                 dt = Easing.CubicIn.Ease(dt);
                 if (dt < 0) dt = 0;
 

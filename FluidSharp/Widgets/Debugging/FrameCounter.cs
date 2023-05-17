@@ -38,7 +38,7 @@ namespace FluidSharp.Widgets.Debugging
                     stopwatch.Start();
                 }
 
-                var now = DateTime.Now;
+                var now = DateTime.UtcNow;
                 tracker.AddLast(now);
                 tracker2.AddLast(stopwatch.ElapsedMilliseconds);
 

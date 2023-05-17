@@ -142,7 +142,7 @@ namespace FluidSharp.Views.Android.NativeViews
                     {
                         lock (RequestLock)
                         {
-                            TextReceived = DateTime.Now;
+                            TextReceived = DateTime.UtcNow;
                             ++updatecounter;
                             CurrentState.Properties.Text = text;
 #if PRINTEVENTS
@@ -251,7 +251,7 @@ namespace FluidSharp.Views.Android.NativeViews
                         CurrentState.Properties = new NativeTextboxWidget(Context, null, null, new Font(0), SKColors.Transparent, false, requested.Properties.Keyboard == Keyboard.Default ? Keyboard.Url : Keyboard.Default);
                     }
 
-                    if (TextReceived.HasValue && (Text == requested.Properties.Text || TextReceived.Value.AddSeconds(1) < DateTime.Now))
+                    if (TextReceived.HasValue && (Text == requested.Properties.Text || TextReceived.Value.AddSeconds(1) < DateTime.UtcNow))
                     {
                         TextReceived = null;
 #if PRINTEVENTS

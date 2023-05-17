@@ -192,11 +192,11 @@ namespace FluidSharp.Widgets
                     if (!cancelled)
                     {
 
-                        if (LastTapDetected.Add(TapThrottle) < DateTime.Now || !visualState.TouchTarget.IsContext(LastTapContext))
+                        if (LastTapDetected.Add(TapThrottle) < DateTime.UtcNow || !visualState.TouchTarget.IsContext(LastTapContext))
                         {
 
                             LastTapContext = context;
-                            LastTapDetected = DateTime.Now;
+                            LastTapDetected = DateTime.UtcNow;
 
                             if (duration > LongTapDuration && OnLongTapped != null)
                                 Invoke(OnLongTapped);

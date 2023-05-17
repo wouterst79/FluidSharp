@@ -45,14 +45,14 @@ namespace FluidSharp.Widgets
 
             if (disappearingStarted.HasValue)
             {
-                if (disappearingStarted.Value + duration < DateTime.Now)
+                if (disappearingStarted.Value + duration < DateTime.UtcNow)
                     return null;
                 else
                     return new SlideUpAnimation(disappearingStarted.Value, duration, 1, 0, child);
             }
             else
             {
-                if (appearingStarted + duration < DateTime.Now)
+                if (appearingStarted + duration < DateTime.UtcNow)
                     return child;
                 else
                     return new SlideUpAnimation(appearingStarted, duration, 0, 1, child);

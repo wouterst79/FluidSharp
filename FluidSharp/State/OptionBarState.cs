@@ -29,7 +29,7 @@ namespace FluidSharp.State
             if (Current == value) return;
             AtScrollStart = Current;
             Current = value;
-            ScrollStart = DateTime.Now;
+            ScrollStart = DateTime.UtcNow;
         }
 
         public (float scroll, bool isanimating) GetScroll()
@@ -37,7 +37,7 @@ namespace FluidSharp.State
 
             if (ScrollStart.HasValue)
             {
-                var d = (float)(DateTime.Now.Subtract(ScrollStart.Value).TotalMilliseconds / ScrollDuration.TotalMilliseconds);
+                var d = (float)(DateTime.UtcNow.Subtract(ScrollStart.Value).TotalMilliseconds / ScrollDuration.TotalMilliseconds);
 
                 if (d > 1) 
                     return (Current, false);
