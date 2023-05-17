@@ -51,7 +51,7 @@ namespace FluidSharp.Video.Recorder
             CancellationTokenSource = new CancellationTokenSource();
 
             var framelen = TimeSpan.FromMilliseconds(MSBetweenFrame);
-            var tframe = DateTime.Now;
+            var tframe = DateTime.UtcNow;
 
             var frameid = 0;
             using (var outfile = MediaBuilder.CreateContainer(fullfilename).WithVideo(settings).Create())
@@ -62,7 +62,7 @@ namespace FluidSharp.Video.Recorder
                     DrawFrame(outfile, makeWidget, framesize, scale);
 
                     tframe = tframe.Add(framelen);
-                    var twait = tframe.Subtract(DateTime.Now);
+                    var twait = tframe.Subtract(DateTime.UtcNow);
                     if (twait.TotalMilliseconds > 0)
                     {
                         System.Diagnostics.Debug.WriteLine($"waiting {twait.TotalMilliseconds} ms");
