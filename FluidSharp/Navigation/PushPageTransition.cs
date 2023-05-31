@@ -29,7 +29,11 @@ namespace FluidSharp.Navigation
         public Widget MakeWidget(NavigationContainer navigationContainer, VisualState visualState, IWidgetSource from, IWidgetSource to)
         {
             var frame = TransitionState.GetFrame();
-            return SlideTransition.MakeWidget(visualState, frame, PushOverlap, (vs, istarget) => !istarget ? from.MakeWidget(vs) : to.MakeWidget(vs));
+            return SlideTransition.MakeWidget(visualState, frame, PushOverlap, (vs, istarget) =>
+            {
+                var widgetsource = (istarget ? to : from) ?? to ?? from;
+                return widgetsource.MakeWidget(vs);
+            });
         }
 
 
