@@ -1,4 +1,5 @@
-﻿using FluidSharp.State;
+﻿using FluidSharp.Animations;
+using FluidSharp.State;
 using FluidSharp.Widgets;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace FluidSharp.Navigation
         public Func<bool, Task> OnTransitionCompleted;
 
         public static TimeSpan DefaultDuration = TimeSpan.FromMilliseconds(250);
+        public static Easing? DefaultEasing = null;
 
         public Task Start() => TransitionState.SetTarget(true, null);
         public Task Reverse() => TransitionState.SetTarget(false, null);
@@ -23,7 +25,7 @@ namespace FluidSharp.Navigation
         public PushPageTransition(bool start, Func<bool, Task> onTransitionCompleted)
         {
             OnTransitionCompleted = onTransitionCompleted;
-            TransitionState = new NavigationTransitionState(start, OnTransitionCompleted);
+            TransitionState = new NavigationTransitionState(start, OnTransitionCompleted) { Easing = DefaultEasing };
         }
 
         public Widget MakeWidget(NavigationContainer navigationContainer, VisualState visualState, IWidgetSource from, IWidgetSource to)

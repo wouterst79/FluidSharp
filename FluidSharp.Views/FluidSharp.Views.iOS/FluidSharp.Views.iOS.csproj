@@ -1,86 +1,54 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{24D3EC6D-A502-48DD-813E-39ADCEFED92B}</ProjectGuid>
-    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TemplateGuid>{a52b8a63-bc84-4b47-910d-692533484892}</TemplateGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>FluidSharp.Views.iOS</RootNamespace>
-    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>FluidSharp.Views.iOS</AssemblyName>
-    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+		<TargetFramework>net8.0-ios</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="Xamarin.iOS" />
+    <None Remove="FluidSharp.Views.iOS.1.0.1-alpha.nupkg" />
+    <None Remove="FluidSharp.Views.iOS.1.0.3-alpha.nupkg" />
+    <None Remove="FluidSharp.Views.iOS.1.0.4-alpha.nupkg" />
+    <None Remove="FluidSharp.Views.iOS.1.0.7-alpha.nupkg" />
+    <None Remove="FluidSharp.Views.iOS.1.0.8-alpha.nupkg" />
+    <None Remove="FluidSharp.Views.iOS.1.0.9-alpha.nupkg" />
+    <None Remove="FluidSharp.Views.iOS.1.1.0-alpha.nupkg" />
+    <None Remove="FluidSharp.Views.iOS.1.1.11-alpha.nupkg" />
+    <None Remove="FluidSharp.Views.iOS.1.1.4-alpha.nupkg" />
+    <None Remove="FluidSharp.Views.iOS.1.1.6-alpha.nupkg" />
+    <None Remove="FluidSharp.Views.iOS.1.1.7-alpha.nupkg" />
+    <None Remove="FluidSharp.Views.iOS.1.1.8-alpha.nupkg" />
+    <None Remove="FluidSharp.Views.iOS.1.2.0-alpha.nupkg" />
+    <None Remove="FluidSharp.Views.iOS.1.2.3-alpha.nupkg" />
+    <None Remove="FluidSharp.Views.iOS.1.3.1-alpha.nupkg" />
+    <None Remove="FluidSharp.Views.iOS.1.3.2-alpha.nupkg" />
+    <None Remove="FluidSharp.Views.iOS.1.3.3-alpha.nupkg" />
   </ItemGroup>
+
   <ItemGroup>
     <Compile Include="..\FluidSharp.Views.Shared\FluidWidgetView.cs">
       <Link>FluidWidgetView.cs</Link>
     </Compile>
-    <Compile Include="FluidUICanvasViewController.cs" />
-    <Compile Include="FluidWidgetGLView.cs" />
-    <Compile Include="FluidWidgetCanvasView.cs" />
-    <Compile Include="NativeViewManager.cs" />
-    <Compile Include="NativeViews\INativeTextboxImpl.cs" />
-    <Compile Include="NativeViews\NativeMultiLineTextboxImpl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="NativeViews\NativeSingleLineTextboxImpl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="NativeViews\NativeViewExtensions.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\KeyboardTracker.cs" />
-    <Compile Include="SkiaView.cs" />
-    <Compile Include="SkiaViews.cs" />
-    <Compile Include="TouchRecognizer.cs" />
-    <Compile Include="FluidUIGLViewController.cs" />
   </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="SkiaSharp">
-      <Version>2.88.3</Version>
+      <Version>2.88.8</Version>
     </PackageReference>
     <PackageReference Include="SkiaSharp.HarfBuzz">
-      <Version>2.88.3</Version>
+      <Version>2.88.8</Version>
     </PackageReference>
     <PackageReference Include="SkiaSharp.Views">
-      <Version>2.88.3</Version>
+      <Version>2.88.8</Version>
     </PackageReference>
   </ItemGroup>
+
   <ItemGroup>
     <Content Include="License.txt" />
     <Content Include="nuget instructions.txt" />
   </ItemGroup>
+
   <ItemGroup>
     <None Include="FluidSharp.Views.iOS.nuspec" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\FluidSharp\FluidSharp.csproj">
-      <Project>{24017854-5712-434B-B474-A75DD1D09A67}</Project>
-      <Name>FluidSharp</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+
 </Project>

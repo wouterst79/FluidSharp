@@ -26,7 +26,12 @@ namespace FluidSharp.Views.Android
         public void AddOnMainThread(View childview)
         {
 
-            ((Activity)Context).RunOnUiThread(() => AddView(childview));
+            ((Activity)Context).RunOnUiThread(() =>
+            {
+                if (childview.Parent != null)
+                    ((ViewGroup)childview.Parent).RemoveView(childview);
+                AddView(childview);
+            });
 
         }
 

@@ -29,6 +29,8 @@ namespace FluidSharp.State
         public T Target { get; protected set; }
         public DateTime AnimationStart;
 
+        public Easing? Easing;
+
         public TimeSpan TransitionDuration = TimeSpan.FromMilliseconds(250);
         protected TimeSpan CurrentDuration;
 
@@ -52,6 +54,7 @@ namespace FluidSharp.State
             var current = Current;
 
             var ratio = frame.ratio;
+            if (Easing != null) ratio = Easing.Ease(ratio);
             var direction = frame.direction;
 
             var next = Target;

@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net7.0-android;net7.0-ios</TargetFrameworks>
+		<TargetFrameworks>net8.0-android;net8.0-ios</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
+		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
 		<!-- <UseMaui>true</UseMaui> -->
 		<SingleProject>true</SingleProject>
 
@@ -12,9 +12,9 @@
 
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>Wouter Steenbergen</Authors>
-		<Version>1.4.1-alpha</Version>
+		<Version>2.0.1-alpha</Version>
 		<Company>My Daily Bits LLC</Company>
-		<Description>Xamarin Views for FluidSharp (net7.0)</Description>
+		<Description>Xamarin Views for FluidSharp (net8.0)</Description>
 		<Copyright>2022-2023 Wouter Steenbergen</Copyright>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 
@@ -50,10 +50,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="SkiaSharp" Version="2.88.3" />
-	  <PackageReference Include="SkiaSharp.HarfBuzz" Version="2.88.3" />
-		<PackageReference Include="SkiaSharp.Views" Version="2.88.3" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'" />
-		<PackageReference Include="SkiaSharp.Views" Version="2.88.3" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'" />
+	  <PackageReference Include="SkiaSharp" Version="2.88.8" />
+	  <PackageReference Include="SkiaSharp.HarfBuzz" Version="2.88.8" />
+		<PackageReference Include="SkiaSharp.Views" Version="2.88.8" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'" />
+		<PackageReference Include="SkiaSharp.Views" Version="2.88.8" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'" />
 	</ItemGroup>
 
 </Project>

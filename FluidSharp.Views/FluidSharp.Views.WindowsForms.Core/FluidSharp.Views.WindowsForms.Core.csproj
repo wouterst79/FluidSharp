@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0-windows</TargetFramework>
+		<TargetFramework>net8.0-windows</TargetFramework>
 		<UseWindowsForms>true</UseWindowsForms>
 		<Version>1.4.0-alpha</Version>
 		<Authors>Wouter Steenbergen</Authors>
@@ -40,9 +40,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="SkiaSharp" Version="2.88.3" />
-		<PackageReference Include="SkiaSharp.HarfBuzz" Version="2.88.3" />
-		<PackageReference Include="SkiaSharp.Views.WindowsForms" Version="2.88.3" />
+		<PackageReference Include="SkiaSharp" Version="2.88.8" />
+		<PackageReference Include="SkiaSharp.HarfBuzz" Version="2.88.8" />
+		<PackageReference Include="SkiaSharp.Views.WindowsForms" Version="2.88.8" />
 	</ItemGroup>
 
 	<ItemGroup>
