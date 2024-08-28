@@ -36,7 +36,11 @@ namespace FluidSharp.Views.iOS
             return new SKSize((float)control.Bounds.Width / scale.Width, (float)control.Bounds.Height / scale.Height);
         }
 
-        public override void RegisterNewControl(UIView newControl) => View.Add(newControl);
+        public override void RegisterNewControl(UIView newControl)
+        {
+            if (View.Subviews.Contains(newControl)) return;
+            View.Add(newControl);
+        }
 
         public override void SetControlVisible(UIView control, bool visible)
         {

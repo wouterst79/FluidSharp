@@ -15,7 +15,7 @@
 		<Version>2.0.1-alpha</Version>
 		<Company>My Daily Bits LLC</Company>
 		<Description>Xamarin Views for FluidSharp (net8.0)</Description>
-		<Copyright>2022-2023 Wouter Steenbergen</Copyright>
+		<Copyright>2022-2024 Wouter Steenbergen</Copyright>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 
 	</PropertyGroup>

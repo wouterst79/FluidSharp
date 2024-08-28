@@ -1,4 +1,4 @@
-﻿   Copyright 2022 - Wouter Steenbergen
+﻿   Copyright 2022 - 2024 - Wouter Steenbergen
 
    Licensed for evaluation ("internal development") only. 
    Not licenced to be distributed as part of a commercially available product.

@@ -6,7 +6,7 @@
     <Authors>Wouter Steenbergen</Authors>
     <Company>My Daily Bits LLC</Company>
     <Description>FluidSharp is a high performance mobile first multi-platform UI layout framework based on Skia.</Description>
-    <Copyright>2020-2023 Wouter Steenbergen</Copyright>
+    <Copyright>2020-2024 Wouter Steenbergen</Copyright>
     <PackageLicenseExpression></PackageLicenseExpression>
     <Version>2.0.1-alpha</Version>
 		<Nullable>enable</Nullable>

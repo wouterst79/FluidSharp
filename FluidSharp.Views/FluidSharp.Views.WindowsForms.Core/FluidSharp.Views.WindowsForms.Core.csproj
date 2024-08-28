@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>net8.0-windows</TargetFramework>
 		<UseWindowsForms>true</UseWindowsForms>
-		<Version>1.4.0-alpha</Version>
+		<Version>2.0.1-alpha</Version>
 		<Authors>Wouter Steenbergen</Authors>
 		<Company>My Daily Bits LLC</Company>
 		<Product>FluidSharp</Product>

@@ -28,6 +28,7 @@ namespace FluidSharp.Views.Android
 
             ((Activity)Context).RunOnUiThread(() =>
             {
+                if (childview.Parent == this) return;
                 if (childview.Parent != null)
                     ((ViewGroup)childview.Parent).RemoveView(childview);
                 AddView(childview);
