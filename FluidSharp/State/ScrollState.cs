@@ -66,9 +66,10 @@ namespace FluidSharp.State
         public async Task EndPan(SKPoint velocity, VisualState visualState)
         {
 
-            if (Pan.HasValue)
+            var pan = Pan;
+            if (pan.HasValue)
             {
-                Scroll = Scroll + Pan.Value;
+                Scroll = Scroll + pan.Value;
                 Pan = null;
                 LastPanEnd = DateTime.UtcNow;
                 BoundaryHit = null;

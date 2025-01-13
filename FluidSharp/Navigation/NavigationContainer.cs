@@ -179,14 +179,14 @@ namespace FluidSharp.Navigation
             TransitionTarget = null;
         }
 
-        public async Task OnSlideBackCompleted(VisualState visualState)
+        public virtual async Task OnSlideBackCompleted(VisualState visualState)
         {
             if (SlideBackState != null)
             {
                 if (SlideBackState.Current == false)
                 {
                     await visualState.EndEdit(false);
-                    Stack.Pop();
+                    Stack.TryPop(out _);
                     SlideBackState = null;
                     OnStackChanged();
                 }

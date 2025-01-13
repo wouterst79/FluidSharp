@@ -133,7 +133,8 @@ namespace FluidSharp.Views.Android.NativeViews
 
         protected void OnTextChanged()
         {
-            if (SetText != null)
+            var setText = SetText;
+            if (setText != null)
             {
                 var text = Text;
                 Task.Run(async () =>
@@ -149,7 +150,7 @@ namespace FluidSharp.Views.Android.NativeViews
                             System.Diagnostics.Debug.WriteLine($"recving text: {text}");
 #endif
                         }
-                        await SetText(text);
+                        await setText(text);
                         await RequestRedraw();
                     }
                     finally
