@@ -8,6 +8,8 @@ namespace FluidSharp.Paint
     public static class PaintCache
     {
 
+        public static SKSamplingOptions ImageSamplingOptions = new SKSamplingOptions(SKCubicResampler.Mitchell);
+
         private static SKPaint? backgroundPaintT;
         private static SKPaint? backgroundPaintF;
         public static SKPaint GetBackgroundPaint(SKColor backgroundColor)
@@ -110,20 +112,20 @@ namespace FluidSharp.Paint
 
         public static SKPaint GetBackgroundPaint()
         {
-            var paint = backgroundPaint ??= new SKPaint() { FilterQuality = SKFilterQuality.Low };
+            var paint = backgroundPaint ??= new SKPaint();
             return paint;
         }
 
         public static SKPaint GetBackgroundPaint(float opacity)
         {
-            var paint = backgroundOpacityPaint ??= new SKPaint() { FilterQuality = SKFilterQuality.Low };
+            var paint = backgroundOpacityPaint ??= new SKPaint();
             paint.Color = SKColors.White.WithOpacity(opacity);
             return paint;
         }
 
         public static SKPaint GetImagePaint()
         {
-            var paint = imagePaint ??= new SKPaint() { FilterQuality = SKFilterQuality.High };
+            var paint = imagePaint ??= new SKPaint();
             return paint;
         }
 
@@ -131,12 +133,12 @@ namespace FluidSharp.Paint
         {
             if (opacity >= 1)
             {
-                var paint = imagePaint ??= new SKPaint() { FilterQuality = SKFilterQuality.High };
+                var paint = imagePaint ??= new SKPaint();
                 return paint;
             }
             else
             {
-                var paint = imageOpacityPaint ??= new SKPaint() { FilterQuality = SKFilterQuality.High };
+                var paint = imageOpacityPaint ??= new SKPaint();
                 paint.Color = SKColors.White.WithOpacity(opacity);
                 return paint;
             }

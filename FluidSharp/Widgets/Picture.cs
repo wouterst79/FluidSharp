@@ -73,7 +73,7 @@ namespace FluidSharp.Widgets
                     rect = new SKRect(-rect.Right, rect.Top, -rect.Left, rect.Bottom);
                 }
 
-                canvas.DrawImage(SKImage, rect, PaintCache.GetImagePaint(Opacity));
+                canvas.DrawImage(SKImage, rect, PaintCache.ImageSamplingOptions, PaintCache.GetImagePaint(Opacity));
 
                 if (flip)
                     canvas.Restore();

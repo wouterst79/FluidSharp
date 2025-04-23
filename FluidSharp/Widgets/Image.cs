@@ -74,7 +74,7 @@ namespace FluidSharp.Widgets
             }
             else
             {
-                layoutsurface.Canvas.DrawImage(image, paintrect, PaintCache.GetImagePaint(opacity));
+                layoutsurface.Canvas.DrawImage(image, paintrect, PaintCache.ImageSamplingOptions, PaintCache.GetImagePaint(opacity));
             }
 
             return dest;
