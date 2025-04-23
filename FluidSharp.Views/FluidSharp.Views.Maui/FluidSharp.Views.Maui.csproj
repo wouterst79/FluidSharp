@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0-android;net8.0-ios</TargetFrameworks>
+
+		<TargetFrameworks>net9.0-android;net9.0-ios</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
 		<!-- <UseMaui>true</UseMaui> -->
@@ -12,11 +13,14 @@
 
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Authors>Wouter Steenbergen</Authors>
-		<Version>2.0.1-alpha</Version>
 		<Company>My Daily Bits LLC</Company>
-		<Description>Xamarin Views for FluidSharp (net8.0)</Description>
-		<Copyright>2022-2024 Wouter Steenbergen</Copyright>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Description>Maui Views for FluidSharp (net9.0)</Description>
+		<Copyright>2020-2025 Wouter Steenbergen</Copyright>
+		<PackageLicenseExpression></PackageLicenseExpression>
+		<Version>3.0.0-alpha</Version>
+		<Nullable>enable</Nullable>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<PackageLicenseFile>License.txt</PackageLicenseFile>
 
 	</PropertyGroup>
 
@@ -41,19 +45,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Platforms\iOS\License.txt" />
-	  <None Remove="Platforms\iOS\nuget instructions.txt" />
+		<PackageReference Include="SkiaSharp" Version="3.116.1" />
+		<PackageReference Include="SkiaSharp.HarfBuzz" Version="3.116.1" />
+		<PackageReference Include="SkiaSharp.Views" Version="3.116.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="License.txt" Pack="true" PackagePath=""/>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\FluidSharp\FluidSharp.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <PackageReference Include="SkiaSharp" Version="2.88.8" />
-	  <PackageReference Include="SkiaSharp.HarfBuzz" Version="2.88.8" />
-		<PackageReference Include="SkiaSharp.Views" Version="2.88.8" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'" />
-		<PackageReference Include="SkiaSharp.Views" Version="2.88.8" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'" />
 	</ItemGroup>
 
 </Project>
