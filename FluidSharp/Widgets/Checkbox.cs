@@ -119,7 +119,7 @@ namespace FluidSharp.Widgets
                     {
 
                         //drawpath.Transform(SKMatrix.MakeScale(rect.Width / bounds.Width, rect.Height / bounds.Height));
-                        drawpath.Transform(SKMatrix.MakeTranslation(rect.MidX - ShapeSize / 2, rect.MidY - ShapeSize / 2));
+                        drawpath.Transform(SKMatrix.CreateTranslation(rect.MidX - ShapeSize / 2, rect.MidY - ShapeSize / 2));
 
                         canvas.DrawPath(drawpath, PaintCache.GetBorderPaint(SKColors.White, StrokeWidth));
 

@@ -39,12 +39,18 @@ namespace FluidSharp.Views.UWP
         /// <summary>
         /// The source of widgets, either overwrite MakeWidget, or set the WidgetSource to implement a custom view
         /// </summary>
+#if WINDOWS
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+#endif
         public IWidgetSource WidgetSource { get => widgetSource; set { widgetSource = value; SkiaView.InvalidatePaint(); } }
         private IWidgetSource widgetSource;
 
         public Device Device;
 
         private FluidWidgetViewImplementation implementation;
+#if WINDOWS
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+#endif
         public FluidWidgetViewImplementation Implementation
         {
             get => implementation;
@@ -62,6 +68,9 @@ namespace FluidSharp.Views.UWP
         /// Set AutoSizeHeight to true if the view should be sized by the (painted) height of the widgets.
         /// The default is false.
         /// </summary>
+#if WINDOWS
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Visible)]
+#endif
         public bool AutoSizeHeight { get; set; }
         private float LastPaintWidth = -1;
         private float LastHeightRequest = -1;

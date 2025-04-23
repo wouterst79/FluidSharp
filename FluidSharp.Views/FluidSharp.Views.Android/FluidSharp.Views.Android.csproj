@@ -1,12 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-		<TargetFramework>net8.0-android</TargetFramework>
+		<TargetFramework>net9.0-android</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>FluidSharp.Views.Android</RootNamespace>
     <AssemblyName>FluidSharp.Views.Android</AssemblyName>
     <AndroidUseAapt2>true</AndroidUseAapt2>
-  </PropertyGroup>
+
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Authors>Wouter Steenbergen</Authors>
+		<Company>My Daily Bits LLC</Company>
+		<Description>Droid Views for FluidSharp (net9.0)</Description>
+		<Copyright>2020-2025 Wouter Steenbergen</Copyright>
+		<PackageLicenseExpression></PackageLicenseExpression>
+		<Version>3.0.0-alpha</Version>
+		<Nullable>enable</Nullable>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<PackageLicenseFile>License.txt</PackageLicenseFile>
+
+	</PropertyGroup>
 
   <ItemGroup>
     <None Remove="FluidSharp.Views.Android.1.0.4-alpha.nupkg" />
@@ -35,17 +47,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SkiaSharp">
-      <Version>2.88.8</Version>
-    </PackageReference>
-    <PackageReference Include="SkiaSharp.HarfBuzz">
-      <Version>2.88.8</Version>
-    </PackageReference>
+		<PackageReference Include="SkiaSharp" Version="3.116.1" />
+		<PackageReference Include="SkiaSharp.HarfBuzz" Version="3.116.1" />
+		<PackageReference Include="SkiaSharp.Views" Version="3.116.1" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <None Include="License.txt" Pack="true" PackagePath=""/>
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="License.txt" />
-    <None Include="nuget instructions.txt" />
+    <ProjectReference Include="..\..\FluidSharp\FluidSharp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

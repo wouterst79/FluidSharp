@@ -6,6 +6,7 @@ using SkiaSharp.Views.Desktop;
 using System.Drawing;
 using OpenTK;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace FluidSharp.Views.WindowsForms
 {
@@ -20,11 +21,13 @@ namespace FluidSharp.Views.WindowsForms
         float ISkiaView.Width => Width / PlatformScale.Width;
         float ISkiaView.Height => Height / PlatformScale.Height;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public SKSize PlatformScale { get; set; }
 
         SKSize GetSize() => new SKSize(Width / PlatformScale.Width, Height / PlatformScale.Height);
 
         private bool autoScale = true;
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public bool AutoScale
         {
             get => autoScale; set
@@ -76,7 +79,7 @@ namespace FluidSharp.Views.WindowsForms
             var canvas = e.Surface.Canvas;
             // Make sure the canvas is drawn using pixel coordinates (but still high res):
             //var factor = (float)MathF.Round(e.BackendRenderTarget.Width / Width * 4) / 4;
-            var platformzoom = SKMatrix.MakeScale(PlatformScale.Width, PlatformScale.Height);
+            var platformzoom = SKMatrix.CreateScale(PlatformScale.Width, PlatformScale.Height);
             canvas.Concat(ref platformzoom);
 
             PaintViewSurface?.Invoke(this, new PaintSurfaceEventArgs(e.Surface.Canvas, Width / PlatformScale.Width, Height / PlatformScale.Height, e.Surface, default));
@@ -89,7 +92,7 @@ namespace FluidSharp.Views.WindowsForms
             var canvas = e.Surface.Canvas;
             // Make sure the canvas is drawn using pixel coordinates (but still high res):
             //var factor = (float)MathF.Round(e.Info.Width / Width * 4) / 4;
-            var platformzoom = SKMatrix.MakeScale(PlatformScale.Width, PlatformScale.Height);
+            var platformzoom = SKMatrix.CreateScale(PlatformScale.Width, PlatformScale.Height);
             canvas.Concat(ref platformzoom);
 
             PaintViewSurface?.Invoke(this, new PaintSurfaceEventArgs(e.Surface.Canvas, Width / PlatformScale.Width, Height / PlatformScale.Height, e.Surface, e.Info));

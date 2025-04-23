@@ -1,8 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-		<TargetFramework>net8.0-ios</TargetFramework>
-  </PropertyGroup>
+		<TargetFramework>net9.0-ios</TargetFramework>
+
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Authors>Wouter Steenbergen</Authors>
+		<Company>My Daily Bits LLC</Company>
+		<Description>iOS Views for FluidSharp (net9.0)</Description>
+		<Copyright>2020-2025 Wouter Steenbergen</Copyright>
+		<PackageLicenseExpression></PackageLicenseExpression>
+		<Version>3.0.0-alpha</Version>
+		<Nullable>enable</Nullable>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<PackageLicenseFile>License.txt</PackageLicenseFile>
+
+	</PropertyGroup>
 
   <ItemGroup>
     <None Remove="FluidSharp.Views.iOS.1.0.1-alpha.nupkg" />
@@ -31,24 +43,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SkiaSharp">
-      <Version>2.88.8</Version>
-    </PackageReference>
-    <PackageReference Include="SkiaSharp.HarfBuzz">
-      <Version>2.88.8</Version>
-    </PackageReference>
-    <PackageReference Include="SkiaSharp.Views">
-      <Version>2.88.8</Version>
-    </PackageReference>
-  </ItemGroup>
+		<PackageReference Include="SkiaSharp" Version="3.116.1" />
+		<PackageReference Include="SkiaSharp.HarfBuzz" Version="3.116.1" />
+		<PackageReference Include="SkiaSharp.Views" Version="3.116.1" />
+	</ItemGroup>
 
   <ItemGroup>
-    <Content Include="License.txt" />
-    <Content Include="nuget instructions.txt" />
-  </ItemGroup>
+		<None Include="License.txt" Pack="true" PackagePath=""/>
+	</ItemGroup>
 
-  <ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\FluidSharp\FluidSharp.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
     <None Include="FluidSharp.Views.iOS.nuspec" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

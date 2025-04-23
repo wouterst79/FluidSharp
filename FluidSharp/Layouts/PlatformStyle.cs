@@ -49,8 +49,8 @@ namespace FluidSharp.Widgets.CrossPlatform
             Separator = Rectangle.Horizontal(1, SeparatorGrey);
             OptionalSeparator = null;
             InsideListSeparator = null;// Rectangle.Horizontal(1, SeparatorGrey);
-            DropShadowImageFilterSmall = () => SKImageFilter.CreateDropShadow(0, 2.5f, 2, 2, InkWellColor, SKDropShadowImageFilterShadowMode.DrawShadowAndForeground);
-            DropShadowImageFilterLarge = () => SKImageFilter.CreateDropShadow(0, 5, 4, 4, InkWellColor, SKDropShadowImageFilterShadowMode.DrawShadowAndForeground);
+            DropShadowImageFilterSmall = () => SKImageFilter.CreateDropShadow(0, 2.5f, 2, 2, InkWellColor);
+            DropShadowImageFilterLarge = () => SKImageFilter.CreateDropShadow(0, 5, 4, 4, InkWellColor);
         }
 
         public static PlatformStyle Material = new PlatformStyle("Material")

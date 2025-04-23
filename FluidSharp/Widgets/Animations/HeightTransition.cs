@@ -23,7 +23,6 @@ namespace FluidSharp.Widgets
         {
             ScaleOnPaint = scaleOnPaint;
         }
-
         public static Widget? Make(float pct, Widget child, bool scaleOnPaint)
         {
             if (pct <= 0)

@@ -45,7 +45,7 @@ namespace FluidSharp.Views.iOS
 
             foreach (var touch in touches.Cast<UITouch>())
             {
-                var id = touch.Handle.ToInt64();
+                var id = Convert.ToInt64(touch.Handle);
                 FireEvent(this, id, TouchActionType.Pressed, touch, true);
 
                 if (!idToTouchDictionary.ContainsKey(id))
@@ -59,7 +59,7 @@ namespace FluidSharp.Views.iOS
 
             foreach (var touch in touches.Cast<UITouch>())
             {
-                var id = touch.Handle.ToInt64();
+                var id = Convert.ToInt64(touch.Handle);
 
                 if (capture)
                     FireEvent(this, id, TouchActionType.Moved, touch, true);
@@ -79,7 +79,7 @@ namespace FluidSharp.Views.iOS
 
             foreach (var touch in touches.Cast<UITouch>())
             {
-                var id = touch.Handle.ToInt64();
+                var id = Convert.ToInt64(touch.Handle);
 
                 if (capture)
                     FireEvent(this, id, TouchActionType.Released, touch, false);
@@ -100,7 +100,7 @@ namespace FluidSharp.Views.iOS
 
             foreach (var touch in touches.Cast<UITouch>())
             {
-                var id = touch.Handle.ToInt64();
+                var id = Convert.ToInt64(touch.Handle);
 
                 if (capture)
                     FireEvent(this, id, TouchActionType.Cancelled, touch, false);
@@ -112,7 +112,7 @@ namespace FluidSharp.Views.iOS
 
         void CheckForBoundaryHop(UITouch touch)
         {
-            var id = touch.Handle.ToInt64();
+            var id = Convert.ToInt64(touch.Handle);
 
             // TODO: Might require converting to a List for multiple hits
             TouchRecognizer recognizerHit = null;
